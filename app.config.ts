@@ -54,11 +54,11 @@ export default (): ExpoConfig => ({
       backgroundColor: '#171C23',
     },
     package: 'com.joaofleao.oscartracker',
-    googleServicesFile: process.env.GOOGLE_SERVICES_ANDROID,
+    googleServicesFile: process.env.GOOGLE_SERVICES_ANDROID || './google-services.json',
   },
 
   ios: {
-    googleServicesFile: process.env.GOOGLE_SERVICES_IOS,
+    googleServicesFile: process.env.GOOGLE_SERVICES_IOS || './GoogleService-Info.plist',
     supportsTablet: true,
     bundleIdentifier: 'com.joaofleao.oscartracker',
     bitcode: false,
