@@ -1,4 +1,4 @@
-import enUS from '@i18n/locales/en_US.json'
+import enUS from '@translations/locales/en_US.json'
 
 const resources = {
   ...enUS,

@@ -7,13 +7,15 @@
     "baseUrl": ".",
     "paths": {
       "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@screens/*": ["./src/screens/*"],
-      "@i18n/*": ["./src/i18n/*"],
+      "@translations/*": ["./src/translations/*"],
       "@providers/*": ["./src/providers/*"],
       "@components/*": ["./src/components/*"],
       "@router/*": ["./src/router/*"],
       "@assets/*": ["./src/assets/*"],
       "@router": ["./src/router"],
+      "@services/*": ["./src/services/*"],
       "@package.json": ["./package.json"]
     },
     "jsx": "react-jsx"
