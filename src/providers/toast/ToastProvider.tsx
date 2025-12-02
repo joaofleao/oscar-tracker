@@ -3,7 +3,7 @@ import { Animated, Dimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import ToastContext, { type ToastContextType } from './ToastContext'
-import { useLoading } from '@features/loading'
+import { useLoading } from '@providers/loading'
 
 const ToastProvider = ({ children }: { children?: React.ReactNode }): JSX.Element => {
   const loading = useLoading()

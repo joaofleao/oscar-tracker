@@ -2,7 +2,7 @@ import React from 'react'
 import { Pressable, PressableProps } from 'react-native'
 
 import useStyles from './styles'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 export interface Props extends PressableProps {
   icon: JSX.Element

@@ -3,8 +3,8 @@ import firestore from '@react-native-firebase/firestore'
 
 import BallotsContext, { type BallotsContextType } from './BallotsContext'
 import { BallotType, BetsType, WishesType } from './types'
-import { useEdition } from '@features/edition'
-import { useUser } from '@features/user'
+import { useEdition } from '@providers/edition'
+import { useUser } from '@providers/user'
 import { print } from '@utils/functions'
 
 const BallotsProvider = ({ children }: { children?: React.ReactNode }): JSX.Element => {

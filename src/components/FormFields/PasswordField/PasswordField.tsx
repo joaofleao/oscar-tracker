@@ -5,7 +5,7 @@ import useStyles from './styles'
 import Button from '@components/Button'
 import TextField, { TextFieldProps } from '@components/FormFields/TextField'
 import Icon from '@components/Icon'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 export interface PasswordFieldProps extends TextFieldProps {
   type?: 'password' | 'confirmPassword' | 'plain'

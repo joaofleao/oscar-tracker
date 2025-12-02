@@ -12,7 +12,7 @@ import {
 
 import useStyles from './styles'
 import Loading from '@components/Loading'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 import usePressableAnimation from '@hooks/usePressableAnimation'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)

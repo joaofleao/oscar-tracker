@@ -2,7 +2,7 @@ import { Modal, Text, View } from 'react-native'
 
 import useStyles from './styles'
 import Loading from '@components/Loading'
-import { useLoading } from '@features/loading'
+import { useLoading } from '@providers/loading'
 
 const LoadingModal = (): JSX.Element => {
   const loading = useLoading()

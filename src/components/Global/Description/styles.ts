@@ -1,6 +1,6 @@
 import { StyleSheet, TextStyle } from 'react-native'
 
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   description: TextStyle

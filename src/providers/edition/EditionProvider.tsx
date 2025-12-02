@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import firestore, { Timestamp } from '@react-native-firebase/firestore'
 
 import EditionContext, { type EditionContextType } from './EditionContext'
-import { useUser } from '@features/user'
+import { useUser } from '@providers/user'
 import useAsyncStorage from '@hooks/useAsyncStorage'
 import type { BasicMovieType, EditionType, Nomination, PersonType } from '@types'
 import { print } from '@utils/functions'

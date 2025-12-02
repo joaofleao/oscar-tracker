@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore'
 
 import WatchedMoviesContext, { type WatchedMoviesContextType } from './WatchedMoviesContext'
-import { useEdition } from '@features/edition'
-import { useUser } from '@features/user'
+import { useEdition } from '@providers/edition'
+import { useUser } from '@providers/user'
 import { WatchedMovieType } from '@types'
 import { print } from '@utils/functions'
 

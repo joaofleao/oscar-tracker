@@ -5,7 +5,7 @@ import useStyles from './styles'
 import Button from '@components/Button'
 import Global from '@components/Global'
 import Modal from '@components/Modal'
-import { useAnnouncements } from '@features/announcements'
+import { useAnnouncements } from '@providers/announcements'
 import packageJson from '@package.json'
 
 const NewVersionModal = (): JSX.Element => {

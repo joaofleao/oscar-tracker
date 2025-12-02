@@ -2,8 +2,8 @@ import { FlatList } from 'react-native'
 
 import NominationCaroussel from './NominationCaroussel'
 import Global from '@components/Global'
-import { useCategories } from '@features/categories'
-import { useEdition } from '@features/edition'
+import { useCategories } from '@providers/categories'
+import { useEdition } from '@providers/edition'
 import type { HomeProps } from '@types'
 
 const Home = ({ navigation: _ }: HomeProps): JSX.Element => {

@@ -14,7 +14,7 @@ import useStyles from './styles'
 import Label from '@components/form/Label'
 import Global from '@components/Global'
 import Icon from '@components/Icon'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 export type SelectItem<T> = {
   name: string

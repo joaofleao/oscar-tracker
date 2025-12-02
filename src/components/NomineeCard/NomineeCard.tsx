@@ -2,8 +2,8 @@ import { Text, TouchableOpacity, type TouchableOpacityProps, View } from 'react-
 
 import useStyles from './styles'
 import Poster from '@components/Poster'
-import { useUser } from '@features/user'
-import { useWatchedMovies } from '@features/watchedMovies'
+import { useUser } from '@providers/user'
+import { useWatchedMovies } from '@providers/watchedMovies'
 import { getImage } from '@services/tmdb/api'
 
 export interface NomineeCardProps extends TouchableOpacityProps {

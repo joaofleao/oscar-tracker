@@ -2,7 +2,7 @@ import { Dimensions, TextStyle } from 'react-native'
 import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   container: ViewStyle

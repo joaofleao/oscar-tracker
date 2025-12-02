@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 
 import useStyles from './styles'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 import usePressableAnimation from '@hooks/usePressableAnimation'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)

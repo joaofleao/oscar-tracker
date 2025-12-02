@@ -8,7 +8,7 @@ import TextField from '@components/FormFields/TextField'
 import Global from '@components/Global'
 import Header from '@components/Header'
 import Icon from '@components/Icon'
-import { useAuth } from '@features/auth'
+import { useAuth } from '@providers/auth'
 import type { SignUpProps } from '@types'
 import routes from '@utils/routes'
 

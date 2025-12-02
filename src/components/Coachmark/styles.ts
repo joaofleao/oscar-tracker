@@ -1,7 +1,7 @@
 import { TextStyle, ViewStyle } from 'react-native'
 
 import { CoachmarkProps } from './types'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 type StylesProps = {
   visible: CoachmarkProps['visible']

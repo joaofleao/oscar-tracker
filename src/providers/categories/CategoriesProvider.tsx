@@ -2,7 +2,7 @@ import React from 'react'
 import firestore from '@react-native-firebase/firestore'
 
 import CategoriesContext, { type CategoriesContextType } from './CategoriesContext'
-import { useEdition } from '@features/edition'
+import { useEdition } from '@providers/edition'
 import useAsyncStorage from '@hooks/useAsyncStorage'
 import { db } from '@services/firebase'
 import { CategoryType } from '@types'

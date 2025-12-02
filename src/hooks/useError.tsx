@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-import { useToast } from '@features/toast'
+import { useToast } from '@providers/toast'
 
 interface useErrorType {
   showFirebaseError: (error: FirebaseAuthTypes.NativeFirebaseAuthError) => void

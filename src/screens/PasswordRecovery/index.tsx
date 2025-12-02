@@ -7,7 +7,7 @@ import EmailField, { emailValidation } from '@components/FormFields/EmailField'
 import Global from '@components/Global'
 import Header from '@components/Header'
 import Icon from '@components/Icon'
-import { useAuth } from '@features/auth'
+import { useAuth } from '@providers/auth'
 import { type PasswordRecoveryProps } from '@types'
 import routes from '@utils/routes'
 

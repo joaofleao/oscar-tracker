@@ -3,7 +3,7 @@ import React from 'react'
 import useStyles from './styles'
 import Button from '@components/Button'
 import Modal from '@components/Modal'
-import { useApp } from '@features/app'
+import { useApp } from '@providers/app'
 
 const NetworkModal = (): JSX.Element => {
   const app = useApp()

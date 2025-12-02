@@ -2,7 +2,7 @@ import { Image, Text, View } from 'react-native'
 
 import useStyles from './styles'
 import Icon from '@components/Icon'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 export interface PosterProps {
   image: string

@@ -8,7 +8,7 @@ import Global from '@components/Global'
 import Header from '@components/Header'
 import Icon from '@components/Icon'
 import ProgressBar from '@components/ProgressBar'
-import { useUser } from '@features/user'
+import { useUser } from '@providers/user'
 import type { PreferencesProps } from '@types'
 import routes from '@utils/routes'
 

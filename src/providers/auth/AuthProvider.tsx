@@ -4,8 +4,8 @@ import firestore from '@react-native-firebase/firestore'
 
 import useError from '../../hooks/useError'
 import AuthContext, { type AuthContextType } from './AuthContext'
-import { useToast } from '@features/toast'
-import { useUser } from '@features/user'
+import { useToast } from '@providers/toast'
+import { useUser } from '@providers/user'
 import { UserType } from '@types'
 
 const AuthProvider = ({ children }: { children?: JSX.Element }): JSX.Element => {

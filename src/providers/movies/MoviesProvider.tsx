@@ -1,7 +1,7 @@
 import React from 'react'
 
 import MoviesContext, { type MoviesContextType } from './MoviesContext'
-import { useUser } from '@features/user'
+import { useUser } from '@providers/user'
 import * as tmdb from '@services/tmdb/api'
 import type { CastType, MovieType, ProvidersType } from '@types'
 import { print } from '@utils/functions'

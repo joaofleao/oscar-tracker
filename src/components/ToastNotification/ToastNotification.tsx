@@ -2,8 +2,8 @@ import { Animated, Text, View } from 'react-native'
 
 import useStyles from './styles'
 import Icon from '@components/Icon'
-import { useTheme } from '@features/theme'
-import { useToast } from '@features/toast'
+import { useTheme } from '@providers/theme'
+import { useToast } from '@providers/toast'
 
 const ToastNotification = (): JSX.Element => {
   const { title, description, type, position } = useToast()

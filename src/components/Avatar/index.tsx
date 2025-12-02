@@ -3,8 +3,8 @@ import { Animated, Image, Pressable, PressableProps } from 'react-native'
 import useStyles from './styles'
 import Button from '@components/Button'
 import Icon from '@components/Icon'
-// import Skeleton from '@features/Skeleton'
-// import useSkeleton from '@features/Skeleton/useSkeleton'
+// import Skeleton from '@providers/Skeleton'
+// import useSkeleton from '@providers/Skeleton/useSkeleton'
 import usePressableAnimation from '@hooks/usePressableAnimation'
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
