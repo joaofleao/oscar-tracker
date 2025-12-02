@@ -7,8 +7,10 @@ node_modules/
 .expo/
 dist/
 web-build/
+expo-env.d.ts
 
 # Native
+.kotlin/
 *.orig.*
 *.jks
 *.p8
@@ -29,14 +31,11 @@ yarn-error.*
 *.pem
 
 # local env files
-.env
+.env*.local
 
 # typescript
 *.tsbuildinfo
 
-
-oscar-c3c39-c6b15d36cfd0.json
-GoogleService-Info.plist
-google-services.json
-android
 ios
+android
+temporary
