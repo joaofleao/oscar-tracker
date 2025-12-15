@@ -1,9 +1,9 @@
 import React from 'react'
-import firestore from '@react-native-firebase/firestore'
 
+// import firestore from '@react-native-firebase/firestore'
 import CategoriesContext, { type CategoriesContextType } from './CategoriesContext'
-import { useEdition } from '@providers/edition'
 import useAsyncStorage from '@hooks/useAsyncStorage'
+import { useEdition } from '@providers/edition'
 import { db } from '@services/firebase'
 import { CategoryType } from '@types'
 import { print } from '@utils/functions'
@@ -25,7 +25,8 @@ const CategoriesProvider = ({ children }: { children?: React.ReactNode }): JSX.E
 
   const fetchCategories: CategoriesContextType['fetchCategories'] = async () => {
     print('Firebase', 'Categories fetched', 'yellow')
-    const categoriesCollection = await firestore().collection('categories').get()
+    const categoriesCollection = []
+    // await firestore().collection('categories').get()
 
     const map: CategoriesContextType['categories_map'] = {}
 

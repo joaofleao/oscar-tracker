@@ -44,15 +44,15 @@ const semantics = {
 
   accent: {
     base: {
-      default: color(primitives.brand[95], 1),
-      pressed: color(primitives.brand[85], 1),
+      default: color(primitives.brand[60], 1),
+      pressed: color(primitives.brand[65], 1),
     },
     foreground: {
-      default: color(primitives.brand[5], 1),
-      light: color(primitives.brand[30], 1),
+      default: color(primitives.neutral[5], 1),
+      light: color(primitives.neutral[30], 1),
     },
     stroke: {
-      default: color(primitives.brand[80], 1),
+      default: color(primitives.brand[10], 1),
     },
   },
 

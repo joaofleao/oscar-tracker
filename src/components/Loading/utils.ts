@@ -1,9 +1,9 @@
-import { AnimationObject } from 'lottie-react-native'
+// import { AnimationObject } from 'lottie-react-native'
 
 import { circle, confetti, dots, movie } from '@assets/animations'
 import type { ThemeType } from '@types'
 
-export const getAnimation = (animation: string): AnimationObject => {
+export const getAnimation = (animation: string) => {
   if (animation === 'movie') return movie
   if (animation === 'circle') return circle
   if (animation === 'confetti') return confetti

@@ -1,120 +1,37 @@
-import React, { Ref } from 'react'
-import {
-  Animated,
-  GestureResponderEvent,
-  Pressable,
-  type PressableProps,
-  StyleProp,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React from 'react'
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 
 import useStyles from './styles'
-import Loading from '@components/Loading'
+import { ButtonProps } from './types'
+import { IconProps } from '@components/icon/types'
+import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
-import usePressableAnimation from '@hooks/usePressableAnimation'
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
-
-export interface ButtonProps extends PressableProps {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'outlined' | 'text'
-  loading?: boolean
-  label?: string
-  width?: 'fit' | 'fixed' | 'full' | 'fill'
-  size?: 'default' | 'action'
-  icon?: JSX.Element
-  customRef?: Ref<View>
-  style?: StyleProp<ViewStyle>
-}
-const defaultValue: ButtonProps = {
-  width: 'fit',
-  variant: 'primary',
-  loading: false,
-  size: 'default',
-}
-
-const Button = (props: ButtonProps): JSX.Element => {
-  const {
-    label,
-    customRef,
-    width,
-    variant,
-    disabled,
-    loading,
-    style: customStyle,
-    icon,
-    size,
-    onPressIn,
-    onPressOut,
-    ...rest
-  } = {
-    ...defaultValue,
-    ...props,
-  }
-
+const Button = ({ variant: variantProp = 'container', title, icon, style, loading = false, ...props }: ButtonProps): React.ReactElement => {
+  const isGhost = variantProp === 'ghost'
+  const variant = isGhost ? 'container' : variantProp
+  const styles = useStyles({ variant })
   const theme = useTheme()
-  const styles = useStyles({ variant, size, icon: Boolean(icon), width, loading })
-
-  const { animationPressIn, animationPressOut, opacity, scale } = usePressableAnimation({
-    disabled,
-  })
-
-  const handlePressIn = (event: GestureResponderEvent): void => {
-    animationPressIn()
-    onPressIn?.(event)
-  }
-
-  const handlePressOut = (event: GestureResponderEvent): void => {
-    animationPressOut()
-    onPressOut?.(event)
-  }
-
-  const renderIcon =
-    icon &&
-    React.cloneElement(icon, {
-      color: props.variant === 'primary' ? theme.colors.text.inverse : theme.colors.primary.default,
-      width: 18,
-      height: 18,
-      variant,
-    })
-
-  const renderLabel = label && (
-    <Text
-      style={styles.label}
-      numberOfLines={1}
-      disabled={disabled}
-    >
-      {label}
-    </Text>
-  )
-
-  const renderLoading = (
-    <Loading
-      disabled={disabled}
-      animation={'circle'}
-      size={24}
-      type={variant === 'primary' ? 'secondary' : 'primary'}
-    />
-  )
 
   return (
-    <>
-      <AnimatedPressable
-        ref={customRef}
-        disabled={disabled}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        style={[styles.root, { transform: [{ scale }], opacity }, customStyle]}
-        {...rest}
-      >
-        <View style={styles.loadingContent}>{renderLoading}</View>
-        <View style={styles.content}>
-          {renderIcon}
-          {renderLabel}
-        </View>
-      </AnimatedPressable>
-    </>
+    <TouchableOpacity
+      style={[styles.root, isGhost && styles.ghost, style]}
+      {...props}
+    >
+      <View style={[styles.content, loading && styles.hide]}>
+        <Typography color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}>{title}</Typography>
+
+        {icon &&
+          React.cloneElement<IconProps>(icon, {
+            color: theme.semantics[variant].foreground.default,
+            size: 16,
+          })}
+      </View>
+
+      <View style={[styles.loading, !loading && styles.hide]}>
+        <ActivityIndicator color={theme.semantics[variant].foreground.default} />
+      </View>
+    </TouchableOpacity>
   )
 }
 

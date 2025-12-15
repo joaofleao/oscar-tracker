@@ -3,6 +3,10 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 export type StackProps = {
   home: undefined
+  movies: undefined
+  nominations: undefined
+  auth: undefined
+
   sign_in: undefined
   sign_up: undefined
 
@@ -11,9 +15,6 @@ export type StackProps = {
   }
 
   preferences: undefined
-
-  watch_list: undefined
-  nominations: undefined
 
   profile: undefined
   settings: undefined

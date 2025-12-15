@@ -1,7 +1,7 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 
-import { useTheme } from '@providers/theme'
 import useScreenInsets from '@hooks/useScreenInsets'
+import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   screen: ViewStyle
@@ -11,14 +11,14 @@ type StylesProps = {
 }
 
 const useStyles = ({ isTabScreen }: StylesProps): StylesReturn => {
-  const { colors } = useTheme()
+  const { semantics } = useTheme()
   const { top, bottom } = useScreenInsets()
 
   return StyleSheet.create({
     screen: {
       paddingTop: isTabScreen ? 0 : top,
       paddingBottom: isTabScreen ? 0 : bottom,
-      backgroundColor: colors.background.default,
+      backgroundColor: semantics.background.base.default,
       flex: 1,
       position: 'relative',
     },

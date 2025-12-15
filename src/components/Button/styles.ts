@@ -1,83 +1,53 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 
-import { useTheme } from '@providers/theme'
+import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
-  label: TextStyle
   content: ViewStyle
-  loadingContent: ViewStyle
+  loading: ViewStyle
+  hide: ViewStyle
+  ghost: ViewStyle
 }
-
 type StylesProps = {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'outlined' | 'text'
-  icon: boolean
-  size?: 'action' | 'default'
-  width: 'fit' | 'fixed' | 'full' | 'fill'
-  loading: boolean
+  variant: keyof SemanticsType
 }
 
-const useStyles = ({ variant, size, icon, width, loading }: StylesProps): StylesReturn => {
-  const { colors, fonts } = useTheme()
-
-  const getBackgroundColor = (): string => {
-    if (variant === 'primary') return colors.primary.default
-    if (variant === 'tertiary') return colors.background.container
-    if (variant === 'secondary') return colors.primary.shades.shade5
-    return 'transparent'
-  }
-
-  const getHorizontalPadding = (): number => {
-    if (size === 'action') return 8
-    if (icon) return 10
-    return 24
-  }
-
-  const getVerticalPadding = (): number => {
-    if (size === 'action') return 8
-    if (icon) return 10
-    return 12
-  }
-
-  const getBorderRadius = (): number => {
-    if (size === 'action' || icon) return 12
-    return 16
-  }
-
-  const getContentColor = (): string => {
-    if (variant === 'primary') return colors.text.inverse
-    return colors.primary.default
-  }
+const useStyles = ({ variant }: StylesProps): StylesReturn => {
+  const { semantics } = useTheme()
 
   return StyleSheet.create({
     root: {
-      backgroundColor: getBackgroundColor(),
-      paddingVertical: getVerticalPadding(),
-      paddingHorizontal: getHorizontalPadding(),
-      borderRadius: getBorderRadius(),
+      position: 'relative',
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 12,
       borderWidth: 1,
-      borderColor: variant === 'outlined' ? colors.primary.default : 'transparent',
-      justifyContent: 'center',
+      height: 40,
+      backgroundColor: semantics[variant].base.default,
+      borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
-      width: width === 'fixed' ? 256 : width === 'fill' ? '100%' : 'auto',
-      flex: width === 'full' ? 1 : null,
     },
-    label: {
-      textTransform: 'uppercase',
-      fontFamily: fonts.tertiary.bold,
-      fontSize: size === 'action' ? 12 : 16,
-      lineHeight: size === 'action' ? 18 : 20,
-      color: getContentColor(),
-      textAlign: 'center',
+    ghost: {
+      backgroundColor: 'transparent',
+      borderColor: 'transparent',
+      paddingHorizontal: 8,
+      paddingVertical: 4,
     },
     content: {
-      opacity: loading ? 0 : 1,
       flexDirection: 'row',
-      gap: 12,
+      alignItems: 'center',
+      gap: 8,
     },
-    loadingContent: {
-      opacity: loading ? 1 : 0,
+    loading: {
+      opacity: 1,
       position: 'absolute',
+      height: 40,
+      justifyContent: 'center',
+      alignSelf: 'center',
+    },
+    hide: {
+      opacity: 0,
     },
   })
 }

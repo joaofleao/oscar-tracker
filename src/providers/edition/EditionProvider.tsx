@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import firestore, { Timestamp } from '@react-native-firebase/firestore'
 
+// import firestore, { Timestamp } from '@react-native-firebase/firestore'
 import EditionContext, { type EditionContextType } from './EditionContext'
-import { useUser } from '@providers/user'
 import useAsyncStorage from '@hooks/useAsyncStorage'
+import { useUser } from '@providers/user'
 import type { BasicMovieType, EditionType, Nomination, PersonType } from '@types'
 import { print } from '@utils/functions'
 
@@ -20,26 +20,23 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): JSX.Elem
   const [editionId, setEditionId] = React.useState<string>('97')
   const [year, setYear] = React.useState<number>(0)
 
-  const [date, setDate] = React.useState<Timestamp>(Timestamp.now())
+  const [date, setDate] = React.useState()
 
   const async = useAsyncStorage()
 
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('editions')
-      .doc(editionId)
-      .onSnapshot((documentSnapshot) => {
-        print('Firebase', 'Edition updated', 'green')
-
-        const data = documentSnapshot.data() as EditionType
-
-        setDate(data.date)
-        setYear(data.year)
-        setWinners(data.winners)
-        setCategories(data.categories)
-      })
-
-    return subscriber
+    // const subscriber = firestore()
+    //   .collection('editions')
+    //   .doc(editionId)
+    //   .onSnapshot((documentSnapshot) => {
+    //     print('Firebase', 'Edition updated', 'green')
+    //     const data = documentSnapshot.data() as EditionType
+    //     setDate(data.date)
+    //     setYear(data.year)
+    //     setWinners(data.winners)
+    //     setCategories(data.categories)
+    //   })
+    // return subscriber
   }, [])
 
   React.useEffect(() => {
@@ -53,12 +50,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): JSX.Elem
   const fetchMovies = async (): Promise<void> => {
     print('Firebase', 'Movies fetched', 'yellow')
 
-    const moviesCollection = await firestore()
-      .collection('editions')
-      .doc(editionId)
-      .collection('movies')
-      .orderBy(`name.${language}`)
-      .get()
+    const moviesCollection = []
 
     const map: typeof movies = {}
 
@@ -81,12 +73,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): JSX.Elem
   const fetchPeople = async (): Promise<void> => {
     print('Firebase', 'People fetched', 'yellow')
 
-    const peopleCollection = await firestore()
-      .collection('editions')
-      .doc(editionId)
-      .collection('people')
-      .orderBy('name')
-      .get()
+    const peopleCollection = []
 
     const map: typeof people = {}
 
@@ -110,12 +97,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): JSX.Elem
   const fetchNominations = async (): Promise<void> => {
     print('Firebase', 'Nominations fetched', 'yellow')
 
-    const nominationsCollection = await firestore()
-      .collection('editions')
-      .doc(editionId)
-      .collection('nominations')
-      .get()
-
+    const nominationsCollection = []
     const map: typeof nominations = {}
 
     nominationsCollection.forEach((item) => {
@@ -141,20 +123,14 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): JSX.Elem
   const markCategoryWinner = async (nominationId: string, categoryId: string): Promise<void> => {
     const currentWinners = winners ?? {}
     currentWinners[categoryId] = nominationId
-    await firestore().collection('editions').doc(editionId).update({ winners: currentWinners })
+
     print('Firebase', 'Winner Marked', 'yellow')
   }
 
   const getMovieNominations = async (movie: string): Promise<Nomination[]> => {
     print('Firebase', 'Movie Nominations fetched', 'yellow')
 
-    const nominationsCollection = await firestore()
-      .collection('editions')
-      .doc(editionId)
-      .collection('nominations')
-      .where('movie', '==', movie)
-      .get()
-
+    const nominationsCollection = []
     const array: Nomination[] = []
 
     nominationsCollection.forEach((item) => {

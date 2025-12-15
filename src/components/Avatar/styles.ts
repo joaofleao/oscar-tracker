@@ -2,32 +2,37 @@ import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
 
 import { useTheme } from '@providers/theme'
 
-type StylesProps = {
-  width?: number
-  height?: number
-}
-
 type StylesReturn = {
   root: ViewStyle
   image: ImageStyle
+  iconContainer: ImageStyle
 }
 
-const useStyles = ({ width, height }: StylesProps): StylesReturn => {
-  const { colors } = useTheme()
+const useStyles = (): StylesReturn => {
+  const { semantics } = useTheme()
 
   return StyleSheet.create({
     root: {
-      height,
-      width,
-      backgroundColor: colors.background.container,
-      alignItems: 'center',
-      justifyContenMt: 'center',
       borderRadius: 12,
+      borderWidth: 1,
+      borderColor: semantics.container.stroke.default,
+      backgroundColor: semantics.container.base.default,
+      flexDirection: 'row',
       overflow: 'hidden',
+
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    iconContainer: {
+      padding: 8,
+      minWidth: 40,
+      minHeight: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     image: {
-      height: '100%',
       width: '100%',
+      height: '100%',
     },
   })
 }

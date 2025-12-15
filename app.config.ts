@@ -4,8 +4,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
     name: 'Oscar Tracker',
-    slug: 'oscart-tracker',
-    scheme: 'oscart-tracker',
+    slug: 'oscar-tracker',
+    scheme: 'oscar-tracker',
     version: '5.0',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
@@ -24,11 +24,11 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         'expo-splash-screen',
         {
-          backgroundColor: '#171C23',
+          backgroundColor: '#0D0D0D',
           image: './src/assets/app/splash-icon.png',
           dark: {
             image: './src/assets/app//splash-icon-dark.png',
-            backgroundColor: '#171C23',
+            backgroundColor: '#0D0D0D',
           },
           imageWidth: 440,
           resizeMode: 'contain',
@@ -38,15 +38,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       usesAppleSignIn: true,
       supportsTablet: true,
-      bundleIdentifier: 'com.joaofleao.oscart-tracker',
+      bundleIdentifier: 'com.joaofleao.oscar-tracker',
 
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         CFBundleURLTypes: [
           {
-            CFBundleURLSchemes: [
-              'com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq',
-            ],
+            CFBundleURLSchemes: ['com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq'],
           },
         ],
       },
@@ -58,10 +56,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     android: {
       adaptiveIcon: {
         foregroundImage: './src/assets/app/adaptive-icon.png',
-        backgroundColor: '#171C23',
+        backgroundColor: '#0D0D0D',
       },
       edgeToEdgeEnabled: true,
-      package: 'com.joaofleao.oscart-tracker',
+      package: 'com.joaofleao.oscar-tracker',
     },
     web: {
       favicon: './src/assets/app/favicon.png',

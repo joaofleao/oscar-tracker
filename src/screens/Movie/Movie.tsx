@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import LottieView from 'lottie-react-native'
+// import LottieView from 'lottie-react-native'
 import {
   FlatList,
   Image,

@@ -1,4 +1,4 @@
-import LottieView from 'lottie-react-native'
+// import LottieView from 'lottie-react-native'
 import { ActivityIndicator, Platform } from 'react-native'
 
 import { getAnimation, getColorPrimary, getColorSecondary, getSpeed } from './utils'
@@ -31,19 +31,20 @@ const Loading = (propArgs: LoadingProps): JSX.Element => {
   if (Platform.OS === 'android') return <ActivityIndicator color={colorPrimary} />
 
   return (
-    <LottieView
-      style={{ width: size, height: size }}
-      autoPlay={true}
-      source={render}
-      speed={speed}
-      loop={true}
-      colorFilters={[
-        { keypath: 'Wheel', color: colorPrimary },
-        { keypath: 'WheelHole', color: colorSecondary },
-        { keypath: 'Circle', color: colorPrimary },
-        { keypath: 'Dot', color: colorPrimary },
-      ]}
-    />
+    <></>
+    // <LottieView
+    //   style={{ width: size, height: size }}
+    //   autoPlay={true}
+    //   source={render}
+    //   speed={speed}
+    //   loop={true}
+    //   colorFilters={[
+    //     { keypath: 'Wheel', color: colorPrimary },
+    //     { keypath: 'WheelHole', color: colorSecondary },
+    //     { keypath: 'Circle', color: colorPrimary },
+    //     { keypath: 'Dot', color: colorPrimary },
+    //   ]}
+    // />
   )
 }
 

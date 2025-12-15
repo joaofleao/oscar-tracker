@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import firestore from '@react-native-firebase/firestore'
 
+// import firestore from '@react-native-firebase/firestore'
 import UserContext, { type UserContextType } from './UserContext'
 import usePersistedState from '@hooks/usePersistentState'
 import type { LanguageType, PreferencesType, UserType } from '@types'
@@ -26,15 +26,14 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): JSX.Element
   //subscribes to firestore changes
   useEffect(() => {
     if (isAuth) {
-      const subscriber = firestore()
-        .collection('users')
-        .doc(uid)
-        .onSnapshot((documentSnapshot) => {
-          print('Firebase', 'User updated', 'green')
-          setUser(documentSnapshot.data() as UserType)
-        })
-
-      return subscriber
+      // const subscriber = firestore()
+      //   .collection('users')
+      //   .doc(uid)
+      //   .onSnapshot((documentSnapshot) => {
+      //     print('Firebase', 'User updated', 'green')
+      //     setUser(documentSnapshot.data() as UserType)
+      //   })
+      // return subscriber
     } else setUser(null)
   }, [isAuth])
 
@@ -48,7 +47,7 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): JSX.Element
       ...(updatedUser.settings != null && { settings: updatedUser.settings }),
       ...(updatedUser.onboarding != null && { onboarding: updatedUser.onboarding }),
     }
-    firestore().collection('users').doc(uid).update(values)
+    // firestore().collection('users').doc(uid).update(values)
   }
 
   const value: UserContextType = {

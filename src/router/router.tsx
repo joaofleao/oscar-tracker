@@ -5,23 +5,20 @@ import { LinearGradient } from 'expo-linear-gradient'
 import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
 import { use as run } from 'i18next'
-import { initReactI18next } from 'react-i18next'
+import { initReactI18next, useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import { StackProps } from './types'
+import { IconFilm, IconOscar } from '@components/icon'
+import NavBar from '@components/nav_bar'
 import { fontImports, useTheme } from '@providers/theme'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Nominations from '@screens/nominations'
-import enUS from '@translations/locales/en_US.json'
-import ptBR from '@translations/locales/pt_BR.json'
-import print from '@utils/print'
-
+import Auth from '@screens/auth'
 // import { IconBookmarks, IconFilm } from '@components/icon'
 // import NavBar from '@components/nav_bar'
 // import { fontImports, useTheme } from '@providers/theme'
-
 // import { routes } from '@router'
 // import Auth from '@screens/auth'
 // import Movie from '@screens/movie'
@@ -31,7 +28,11 @@ import print from '@utils/print'
 // import Search from '@screens/search'
 // import WatchedMovie from '@screens/watched_movie'
 // import WatchedMovies from '@screens/watched_movies'
-// import Watchlist from '@screens/watchlist'
+import Movies from '@screens/movies'
+import Nominations from '@screens/nominations'
+import enUS from '@translations/locales/en_US.json'
+import ptBR from '@translations/locales/pt_BR.json'
+import print from '@utils/print'
 // import print from '@utils/print'
 
 const Stack = createNativeStackNavigator<StackProps>()
@@ -62,6 +63,7 @@ const Router = (): React.ReactNode => {
   const [appReady, setAppReady] = React.useState(false)
   const { semantics } = useTheme()
   const styles = useStyles()
+  const { t } = useTranslation()
 
   React.useEffect(() => {
     async function prepare(): Promise<void> {
@@ -91,24 +93,24 @@ const Router = (): React.ReactNode => {
             backgroundColor: semantics.background.base.default,
           },
         }}
-        // tabBar={(props) => (
-        //   <NavBar
-        //     tabs={[
-        //       { icon: <IconFilm />, label: t('overall:watched'), id: 'watched' },
-        //       { icon: <IconBookmarks />, label: t('overall:watchlist'), id: 'watchlist' },
-        //     ]}
-        //     {...props}
-        //   />
-        // )}
+        tabBar={(props) => (
+          <NavBar
+            tabs={[
+              { icon: <IconOscar />, label: t('home:nominations'), id: 'nominations' },
+              { icon: <IconFilm />, label: t('home:movies'), id: 'movies' },
+            ]}
+            {...props}
+          />
+        )}
       >
         <Tabs.Screen
           name={'nominations'}
           component={Nominations}
         />
-        {/* <Tabs.Screen
-          name={'watch_list'}
-          component={Watchlist}
-        /> */}
+        <Tabs.Screen
+          name={'movies'}
+          component={Movies}
+        />
       </Tabs.Navigator>
     )
   }
@@ -135,10 +137,11 @@ const Router = (): React.ReactNode => {
         >
           <Stack.Screen name={'home'}>{renderTabs}</Stack.Screen>
 
-          {/* <Stack.Screen
-            name={'movie'}
-            component={Movie}
+          <Stack.Screen
+            name={'auth'}
+            component={Auth}
           />
+          {/* 
 
           <Stack.Screen
             name={'password_recovery'}
@@ -204,21 +207,11 @@ const Router = (): React.ReactNode => {
         </Stack.Navigator>
 
         <LinearGradient
-          colors={[
-            'rgba(0, 0, 0, 0.60)',
-            'rgba(0, 0, 0, 0.30)',
-            'rgba(0, 0, 0, 0.15)',
-            'rgba(0, 0, 0, 0)',
-          ]}
+          colors={['rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0)']}
           style={styles.topBlur}
         />
         <LinearGradient
-          colors={[
-            'rgba(0, 0, 0, 0)',
-            'rgba(0, 0, 0, 0.15)',
-            'rgba(0, 0, 0, 0.30)',
-            'rgba(0, 0, 0, 0.60)',
-          ]}
+          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.60)']}
           style={styles.bottomBlur}
         />
       </View>

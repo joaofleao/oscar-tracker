@@ -1,45 +1,24 @@
-import AlertCircle from './AlertCircle'
-import ArrowLeft from './ArrowLeft'
-import CheckCircle from './CheckCircle'
-import Clock from './Clock'
-import Eye from './Eye'
-import EyeOff from './EyeOff'
-import FingersCrossed from './FingersCrossed'
-import Globe from './Globe'
-import Home from './Home'
-import Lighthouse from './Lighthouse'
-import Lock from './Lock'
-import MovieRoll from './MovieRoll'
-import Oscar from './Oscar'
-import Pencil from './Pencil'
-import Person from './Person'
-import Placeholder from './Placeholder'
-import Search from './Search'
-import Settings from './Settings'
-import SignOutCircle from './SignOutCircle'
-import Star from './Star'
-import X from './X'
-
-export default {
-  AlertCircle,
-  ArrowLeft,
-  CheckCircle,
-  Clock,
-  Eye,
-  EyeOff,
-  FingersCrossed,
-  Globe,
-  Home,
-  Lighthouse,
-  Lock,
-  MovieRoll,
-  Oscar,
-  Pencil,
-  Person,
-  Placeholder,
-  Search,
-  Settings,
-  SignOutCircle,
-  Star,
-  X,
-}
+export * from './types'
+export { default as IconChevron } from './scripts/icon_chevron'
+export { default as IconArrow } from './scripts/icon_arrow'
+export { default as IconMagnifyingGlass } from './scripts/icon_magnifying_glass'
+export { default as IconX } from './scripts/icon_x'
+export { default as IconAddCircle } from './scripts/icon_add_circle'
+export { default as IconCheckCircle } from './scripts/icon_check_circle'
+export { default as IconLanguages } from './scripts/icon_languages'
+export { default as IconPerson } from './scripts/icon_person'
+export { default as IconGoogle } from './scripts/icon_google'
+export { default as IconApple } from './scripts/icon_apple'
+export { default as IconEmail } from './scripts/icon_email'
+export { default as IconEyeOpen } from './scripts/icon_eye_open'
+export { default as IconEyeClosed } from './scripts/icon_eye_closed'
+export { default as IconLock } from './scripts/icon_lock'
+export { default as IconAlert } from './scripts/icon_alert'
+export { default as IconDoor } from './scripts/icon_door'
+export { default as IconCamera } from './scripts/icon_camera'
+export { default as IconGallery } from './scripts/icon_gallery'
+export { default as IconList } from './scripts/icon_list'
+export { default as IconStar } from './scripts/icon_star'
+export { default as IconBookmarks } from './scripts/icon_bookmarks'
+export { default as IconFilm } from './scripts/icon_film'
+export { default as IconOscar } from './scripts/icon_oscar'
