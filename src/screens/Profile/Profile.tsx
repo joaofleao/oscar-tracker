@@ -1,146 +1,116 @@
-import { FlatList, Image, ScrollView, Text, View } from 'react-native'
+import { useState } from 'react'
+import { View } from 'react-native'
+import { useAction } from 'convex/react'
+import { api } from 'convex_api'
+import { setItem } from 'expo-secure-store'
+import { useTranslation } from 'react-i18next'
+import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
 import useStyles from './styles'
-import Button from '@components/Button'
-import Global from '@components/Global'
-import Header from '@components/Header'
-import Icon from '@components/Icon'
-import { useEdition } from '@providers/edition'
-import { useUser } from '@providers/user'
-import { useWatchedMovies } from '@providers/watchedMovies'
-import { getImage } from '@services/tmdb/api'
-import type { ProfileProps } from '@types'
-import routes from '@utils/routes'
+import Button from '@components/button'
+import { IconDoor, IconLanguages } from '@components/icon'
+import Modal from '@components/modal'
+import Row from '@components/row'
+import { useAuthActions } from '@convex-dev/auth/react'
+import { ScreenType } from '@router/types'
 
-const Profile = ({ navigation }: ProfileProps): JSX.Element => {
-  const { user, isLogged, language } = useUser()
+const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { editionWatchedMovies } = useWatchedMovies()
-  const { movies } = useEdition()
+  const { t, i18n } = useTranslation()
 
-  const handleEdit = (): void => {
-    navigation.navigate(routes.settings)
+  const { signOut } = useAuthActions()
+
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
+  const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [deletedModal, setDeletedModal] = useState<boolean>(false)
+  const deleteAccount = useAction(api.user.deleteAccount)
+  const catchConvexError = useConvexErrorHandler()
+
+  const handleDelete = async (): Promise<void> => {
+    setLoadingDelete(true)
+    void deleteAccount()
+      .catch(catchConvexError)
+      .then(() => {
+        setDeleteModal(false)
+        setDeletedModal(true)
+      })
+      .finally(() => setLoadingDelete(false))
   }
 
-  const handleSignUp = (): void => {
-    navigation.navigate(routes.signUp)
+  const handleSignOut = async (): Promise<void> => {
+    setLoadingSignOut(true)
+    void signOut()
+      .catch(catchConvexError)
+      .then(() => {
+        navigation.pop()
+      })
+      .finally(() => setLoadingSignOut(false))
   }
 
-  const handleSignIn = (): void => {
-    navigation.navigate(routes.signIn)
+  const handleSwitchLanguage = async (): Promise<void> => {
+    i18n.changeLanguage(i18n.language === 'en_US' ? 'pt_BR' : 'en_US')
+    setItem('language', i18n.language)
   }
 
-  const unlogged = (
-    <ScrollView
-      alwaysBounceVertical={false}
-      style={styles.content}
-      contentContainerStyle={styles.contentContainer}
-    >
-      <View style={styles.mainContent}>
-        <View style={styles.smallColumn}>
-          <Text style={styles.title}>Keep up with the Academy Awards</Text>
-          <Text style={styles.subtitle}>
-            Sign in or register to have the best possible experience on the app.
-          </Text>
-        </View>
-
-        <View style={styles.row}>
-          <View style={styles.card}>
-            <View style={styles.iconContainer}>
-              <Icon.CheckCircle />
-            </View>
-            <Text style={styles.feature}>Register watched movies</Text>
-          </View>
-
-          <View style={styles.card}>
-            <View style={styles.iconContainer}>
-              <Icon.Lighthouse />
-            </View>
-            <Text style={styles.feature}>Check your friends status</Text>
-          </View>
-
-          <View style={styles.card}>
-            <View style={styles.iconContainer}>
-              <Icon.Star />
-            </View>
-            <Text style={styles.feature}>Mark your favorites</Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.smallColumn}>
-        <Button
-          width="fixed"
-          label="Sign in"
-          variant="primary"
-          onPress={handleSignIn}
-        />
-        <Button
-          width="fixed"
-          label="Sign Up"
-          variant="text"
-          onPress={handleSignUp}
-        />
-      </View>
-    </ScrollView>
-  )
-
-  const logged = (
-    <FlatList
-      style={styles.list}
-      ListHeaderComponent={
-        <View style={styles.profileInfo}>
-          <View style={styles.imagePlaceholder}>
-            <Icon.Person
-              width={32}
-              height={32}
-            />
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.name}>{user?.displayName}</Text>
-            <Text style={styles.email}>{user?.email}</Text>
-            <Text style={styles.nickname}>{user?.nickname}</Text>
-          </View>
-
-          <Text style={styles.name}>My Watched Movies</Text>
-          <Global.SmallSeparator />
-        </View>
-      }
-      ItemSeparatorComponent={Global.Separator}
-      columnWrapperStyle={{ gap: 20 }}
-      numColumns={3}
-      data={Object.values(editionWatchedMovies)}
-      renderItem={({ item }) => {
-        return (
-          <Image
-            style={styles.image}
-            source={{ uri: getImage(movies[item.movie].image[language]) }}
-            resizeMode="cover"
-          />
-        )
-      }}
-    />
-  )
   return (
-    <Global.Screen>
-      <Header.Root>
-        <Button
-          icon={<Icon.ArrowLeft />}
-          onPress={navigation.goBack}
-          size="action"
-          variant="secondary"
-        />
-        <Header.Row />
-        <Button
-          icon={<Icon.Settings />}
-          onPress={handleEdit}
-          size="action"
-          variant="secondary"
-        />
-      </Header.Root>
-
-      {isLogged ? logged : unlogged}
-    </Global.Screen>
+    <>
+      <View style={styles.root}>
+        <View style={styles.header}>
+          <Button
+            onPress={handleSwitchLanguage}
+            title={i18n.language === 'en_US' ? t('profile:switch_to_ptbr') : t('profile:switch_to_enus')}
+            icon={<IconLanguages />}
+          />
+          <Button
+            loading={loadingSignOut}
+            onPress={handleSignOut}
+            title={t('profile:sign_out')}
+            icon={<IconDoor />}
+          />
+          <Button
+            variant="negative"
+            onPress={() => setDeleteModal(true)}
+            title={t('profile:delete_account')}
+            icon={<IconDoor />}
+          />
+        </View>
+      </View>
+      <Modal
+        setVisible={setDeleteModal}
+        visible={deleteModal}
+        label={t('profile:delete_account_title')}
+        description={t('profile:delete_account_message')}
+      >
+        <Row center>
+          <Button
+            onPress={() => setDeleteModal(false)}
+            title={t('profile:delete_account_deny')}
+          />
+          <Button
+            loading={loadingDelete}
+            onPress={handleDelete}
+            variant="negative"
+            title={t('profile:delete_account_confirm')}
+          />
+        </Row>
+      </Modal>
+      <Modal
+        onClose={handleSignOut}
+        setVisible={setDeletedModal}
+        visible={deletedModal}
+        label={t('profile:deleted_account_title')}
+        description={t('profile:deleted_account_message')}
+      >
+        <Row center>
+          <Button
+            onPress={handleSignOut}
+            variant="negative"
+            title={t('profile:deleted_account_confirm')}
+          />
+        </Row>
+      </Modal>
+    </>
   )
 }
 

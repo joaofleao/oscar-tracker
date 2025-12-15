@@ -12,12 +12,7 @@ const emailValidation = (value: string): boolean => {
   return emailValid
 }
 
-const EmailInput = ({
-  value,
-  onChangeText,
-  debounce = 0,
-  ...props
-}: EmailInputProps): React.ReactElement => {
+const EmailInput = ({ value, onChangeText, debounce = 0, ...props }: EmailInputProps): React.ReactElement => {
   const inputRef = useRef<TextInput>(null)
   const styles = useStyles()
   const { semantics } = useTheme()

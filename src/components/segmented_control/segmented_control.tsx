@@ -5,11 +5,7 @@ import SegmentedControlItem from './segmented_control_item'
 import useStyles from './styles'
 import { SegmentedControlProps } from './types'
 
-const SegmentedControl = ({
-  selected,
-  onChange,
-  options,
-}: SegmentedControlProps): React.ReactElement => {
+const SegmentedControl = ({ selected, onChange, options }: SegmentedControlProps): React.ReactElement => {
   const style = useStyles()
   const selectedIndex = Object.keys(options).findIndex((key) => key === selected)
 

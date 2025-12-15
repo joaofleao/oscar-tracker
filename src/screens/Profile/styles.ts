@@ -1,136 +1,48 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
-
-import { useTheme } from '@providers/theme'
+import { StyleSheet, ViewStyle } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
+  root: ViewStyle
+  header: ViewStyle
   content: ViewStyle
-  mainContent: ViewStyle
-  contentContainer: ViewStyle
-  row: ViewStyle
-  imagePlaceholder: ViewStyle
+  footer: ViewStyle
 
-  profileInfo: ViewStyle
-  name: TextStyle
-  section: TextStyle
-  email: TextStyle
-  nickname: TextStyle
-
-  title: TextStyle
-  subtitle: TextStyle
-
-  list: ViewStyle
-  smallColumn: ViewStyle
-  card: ViewStyle
-  iconContainer: ViewStyle
-  feature: TextStyle
-  image: ImageStyle
+  passwordWithForget: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { colors, fonts } = useTheme()
+  const { bottom, right, left } = useSafeAreaInsets()
+
   return StyleSheet.create({
-    content: {
-      paddingHorizontal: 20,
-    },
-    contentContainer: {
-      gap: 100,
+    root: {
+      paddingBottom: bottom,
+      paddingTop: 40,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
       justifyContent: 'center',
-    },
-
-    row: {
-      gap: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    imagePlaceholder: {
-      backgroundColor: colors.background.container,
-      width: 80,
-      height: 80,
-      borderRadius: 40,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    name: {
-      fontFamily: fonts.secondary.bold,
-      color: colors.text.default,
-      fontSize: 16,
-    },
-    email: {
-      fontFamily: fonts.secondary.bold,
-      color: colors.text.light,
-      fontSize: 16,
-    },
-    nickname: {
-      fontFamily: fonts.secondary.bold,
-      color: colors.text.light,
-      fontSize: 16,
-    },
-
-    profileInfo: {
-      gap: 20,
-    },
-    list: {
-      paddingHorizontal: 20,
-    },
-
-    section: {
-      gap: 8,
-    },
-
-    mainContent: {
       gap: 40,
     },
 
-    title: {
-      marginTop: 80,
-      fontSize: 32,
-      lineHeight: 44,
-      fontFamily: fonts.primary.bold,
-      color: colors.text.default,
-      textAlign: 'center',
-    },
-
-    subtitle: {
-      fontSize: 16,
-      lineHeight: 24,
-      fontFamily: fonts.secondary.bold,
-      color: colors.text.default,
-      textAlign: 'center',
-    },
-
-    smallColumn: {
-      gap: 16,
+    header: {
+      justifyContent: 'center',
+      // flexDirection: 'row',
       alignItems: 'center',
+      gap: 16,
     },
 
-    card: {
-      flex: 1,
+    content: {
+      gap: 20,
+    },
+
+    footer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 12,
+    },
+
+    passwordWithForget: {
       alignItems: 'center',
       gap: 8,
-    },
-
-    iconContainer: {
-      backgroundColor: colors.background.container,
-
-      borderRadius: 200,
-
-      width: 52,
-      height: 52,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-
-    feature: {
-      fontFamily: fonts.secondary.bold,
-      color: colors.text.default,
-      textAlign: 'center',
-    },
-    image: {
-      flex: 1,
-      maxWidth: '30%',
-      aspectRatio: 2 / 3,
-      borderRadius: 12,
     },
   })
 }

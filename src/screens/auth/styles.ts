@@ -21,12 +21,13 @@ const useStyles = (): StylesReturn => {
       paddingRight: right + 20,
       paddingLeft: left + 20,
       justifyContent: 'center',
+      alignItems: 'center',
       gap: 40,
     },
 
     header: {
       justifyContent: 'center',
-      flexDirection: 'row',
+      // flexDirection: 'row',
       alignItems: 'center',
     },
 

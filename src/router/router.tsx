@@ -30,6 +30,7 @@ import Auth from '@screens/auth'
 // import WatchedMovies from '@screens/watched_movies'
 import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
+import Profile from '@screens/profile'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
@@ -140,7 +141,26 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'auth'}
             component={Auth}
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: {
+                backgroundColor: semantics.container.base.original,
+              },
+            }}
           />
+          <Stack.Screen
+            name={'profile'}
+            component={Profile}
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: {
+                backgroundColor: semantics.container.base.original,
+              },
+            }}
+          />
+
           {/* 
 
           <Stack.Screen

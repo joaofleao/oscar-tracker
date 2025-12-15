@@ -1,11 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
+import { Authenticated, Unauthenticated } from 'convex/react'
 
 // import { getItem } from 'expo-secure-store'
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
 import Avatar from '@components/avatar'
+import Button from '@components/button'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
@@ -36,7 +38,15 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   return (
     <>
       <View style={[styles.header]}>
-        <Avatar onPress={() => navigation.navigate('auth')} />
+        <Authenticated>
+          <Avatar onPress={() => navigation.navigate('profile')} />
+        </Authenticated>
+        <Unauthenticated>
+          <Button
+            title="entrar"
+            onPress={() => navigation.navigate('auth')}
+          />
+        </Unauthenticated>
       </View>
       <View style={[styles.footer]}>{tabs.map(renderTabs)}</View>
     </>

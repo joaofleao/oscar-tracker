@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import useStyles from './styles'
 import Button from '@components/button'
 import EmailInput from '@components/email_input'
+import { TextLogo, TriangleLogo } from '@components/logo'
 import OTPInput from '@components/otp_input'
 import PasswordInput from '@components/password_input'
 import Row from '@components/row'
@@ -81,6 +82,12 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const signInContent = (
     <>
       <View style={styles.content}>
+        <Typography
+          title
+          center
+        >
+          {}
+        </Typography>
         <EmailInput
           value={email}
           onChangeText={setEmail}
@@ -103,13 +110,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
             disabled={email.length === 0 || password.length === 0}
             loading={loading === 'email'}
             title={t('auth:sign_in')}
-            variant="accent"
             onPress={handleSignIn}
           />
         </View>
-      </View>
-      <View style={styles.footer}>
-        <Typography>{t('auth:continue_with')}</Typography>
       </View>
     </>
   )
@@ -168,7 +171,6 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
           disabled={email.length === 0 || password.length === 0 || password !== confirmPassword}
           loading={loading === 'email'}
           title={t('auth:sign_up')}
-          variant="accent"
           onPress={handleSignUp}
         />
       </Row>
@@ -185,6 +187,8 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   return (
     <View style={styles.root}>
+      <TriangleLogo />
+      <TextLogo size={140} />
       <View style={styles.header}>
         <SegmentedControl
           selected={flow}

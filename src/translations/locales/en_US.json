@@ -1,6 +1,60 @@
 {
+  "overall": {
+    "search_placeholder": "search",
+    "email_placeholder": "email",
+    "password_placeholder": "password",
+    "password_confirmation_placeholder": "confirm password",
+    "password_requirements": "your passwords need to have: ",
+    "password_digit": "one digit and ",
+    "password_uppercase": "one uppercase letter.",
+    "password_match": "passwords need to match",
+    "not_implemented": "Not implemented",
+    "feature_not_implemented": "This feature is not implemented yet."
+  },
   "home": {
     "nominations": "Nominations",
     "movies": "Movies"
+  },
+  "auth": {
+    "sign_in": "Sign In",
+    "sign_up": "Register",
+    "continue_with": "Continue with",
+    "forgot_password": "Forgot password?",
+    "verify": "verify your email by providing the 4 digit code that was sent.",
+    "spam": "Remember to verify the spam inbox as well.",
+    "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage."
+  },
+  "profile": {
+    "sign_out": "Sign Out",
+    "switch_to_ptbr": "Switch to Portuguese",
+    "switch_to_enus": "Switch to English",
+    "delete_account": "Delete Account",
+    "delete_account_title": "You are about to request the deletion of your account",
+    "delete_account_message": "This action is permanent, all your information will be lost.",
+    "delete_account_confirm": "delete Account",
+    "delete_account_deny": "Keep Account",
+
+    "deleted_account_title": "You have requested the deletion of your account",
+    "deleted_account_message": "Your data will be deleted in 24 hours, no more actions are necessary from your side.",
+    "deleted_account_confirm": "Leave Absolute Cinema"
+  },
+  "errors": {
+    "wrong_password": {
+      "title": "Incorrect Password",
+      "message": "Make sure you are providing the password you registered with."
+    },
+    "wrong_email": {
+      "title": "Account not found",
+      "message": "There isn't an account assigned to thie email."
+    },
+    "already_exists": {
+      "title": "Email already in use",
+      "message": "This email is already assigned to an user, use another email"
+    },
+    "unknown_error": {
+      "title": "Unkown Error"
+    },
+    "continue": "Continue",
+    "report": "Report"
   }
 }

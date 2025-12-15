@@ -1,6 +1,62 @@
 {
+  "overall": {
+    "search_placeholder": "pesquisar",
+    "email_placeholder": "email",
+
+    "password_placeholder": "senha",
+    "password_confirmation_placeholder": "confirmar senha",
+    "password_requirements": "suas senhas precisam de: ",
+    "password_digit": "um digito e",
+    "password_uppercase": "uma letra maiuscula.",
+    "password_match": "precisam ser iguais ",
+
+    "not_implemented": "Não implementado",
+    "feature_not_implemented": "Este recurso não está implementado ainda."
+  },
   "home": {
     "nominations": "Nomeações",
     "movies": "Filmes"
+  },
+  "auth": {
+    "sign_in": "Entrar",
+    "sign_up": "Registrar",
+    "continue_with": "Continue com",
+    "forgot_password": "Esqueceu a senha?",
+    "verify": "Verifique seu email com o código de 4 digitos que foi enviado.",
+    "spam": "Lembre-se de verificar a caixa de spam.",
+    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
+  },
+  "profile": {
+    "sign_out": "Sair",
+    "switch_to_ptbr": "Mudar para Português",
+    "switch_to_enus": "Mudar para Inglês",
+    "delete_account": "Excluir conta",
+    "delete_account_title": "Você está prestes a solicitar a exclusão de sua conta",
+    "delete_account_message": "Essa ação não pode ser desfeita, todos os seus dados serão perdidos.",
+    "delete_account_confirm": "excluir contar",
+    "delete_account_deny": "Manter Conta",
+
+    "deleted_account_title": "Você solicitou a exclusão da sua conta",
+    "deleted_account_message": "Seus dados serão removidos em até 24 horas, nenhuma ação é necessária de sua parte.",
+    "deleted_account_confirm": "Sair do Absolute Cinema"
+  },
+  "errors": {
+    "wrong_password": {
+      "title": "Senha Incorreta",
+      "message": "Verifique se essa é a senha que foi utilizada no registro."
+    },
+    "wrong_email": {
+      "title": "Conta não encontrada",
+      "message": "Não existe uma conta com esse email. "
+    },
+    "already_exists": {
+      "title": "Email em uso",
+      "message": "Este email está associado a uma conta existente."
+    },
+    "unknown_error": {
+      "title": "Erro desconhecido"
+    },
+    "continue": "Continuar",
+    "report": "Reportar"
   }
 }

@@ -30,23 +30,14 @@ const passwordValidation = (
   }
 }
 
-const PasswordInput = ({
-  debounce = 0,
-  value,
-  passwordConfirmation,
-  type = 'password',
-  ...props
-}: PasswordInputProps): React.ReactElement => {
+const PasswordInput = ({ debounce = 0, value, passwordConfirmation, type = 'password', ...props }: PasswordInputProps): React.ReactElement => {
   const inputRef = useRef<TextInput>(null)
   const styles = useStyles()
   const { semantics } = useTheme()
   const strings = useStrings()
   const [showPassword, setShowPassword] = useState(false)
 
-  const { match, oneDigit, oneUpperCase, passwordValid } = passwordValidation(
-    value ?? '',
-    passwordConfirmation ?? '',
-  )
+  const { match, oneDigit, oneUpperCase, passwordValid } = passwordValidation(value ?? '', passwordConfirmation ?? '')
 
   const handleShow = (): void => {
     setShowPassword((prev) => !prev)
@@ -123,7 +114,7 @@ const PasswordInput = ({
           style={styles.leading}
         >
           <IconLock
-            color={semantics.background.foreground.light}
+            color={semantics.container.foreground.light}
             size={16}
           />
         </Pressable>
@@ -133,14 +124,10 @@ const PasswordInput = ({
           autoCorrect={false}
           secureTextEntry={!showPassword}
           ref={inputRef}
-          placeholder={
-            type === 'confirm_password'
-              ? strings.password.confirmationPlaceholder
-              : strings.password.placeholder
-          }
-          placeholderTextColor={semantics.background.foreground.light}
-          selectionColor={semantics.background.foreground.light}
-          cursorColor={semantics.background.foreground.default}
+          placeholder={type === 'confirm_password' ? strings.password.confirmationPlaceholder : strings.password.placeholder}
+          placeholderTextColor={semantics.container.foreground.light}
+          selectionColor={semantics.container.foreground.light}
+          cursorColor={semantics.container.foreground.default}
           style={styles.input}
           value={value}
           {...props}
@@ -153,12 +140,12 @@ const PasswordInput = ({
         >
           {showPassword ? (
             <IconEyeClosed
-              color={semantics.background.foreground.default}
+              color={semantics.container.foreground.default}
               size={16}
             />
           ) : (
             <IconEyeOpen
-              color={semantics.background.foreground.default}
+              color={semantics.container.foreground.default}
               size={16}
             />
           )}

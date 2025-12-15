@@ -44,8 +44,8 @@ const semantics = {
 
   accent: {
     base: {
-      default: color(primitives.brand[60], 1),
-      pressed: color(primitives.brand[65], 1),
+      default: color(primitives.brand[50], 1),
+      pressed: color(primitives.brand[55], 1),
     },
     foreground: {
       default: color(primitives.neutral[5], 1),
