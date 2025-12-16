@@ -17,6 +17,15 @@
     "nominations": "Nomeações",
     "movies": "Filmes"
   },
+  "movies": {
+    "watch": "Assistir",
+    "edition": "Edição",
+    "select_edition": "Selecione a edição",
+    "no_movies_title": "Em breve",
+    "no_movies_description": "Nenhum filme por enquanto.",
+    "nomination": "nomeação",
+    "nominations_plural": "nomeações"
+  },
   "auth": {
     "sign_in": "Entrar",
     "sign_up": "Registrar",

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import EditionContext, { type EditionContextType } from './EditionContext'
+import EditionContext, { type EditionContextType } from './edition_context'
 
 const useEditions = (): EditionContextType => {
   const useEditionsContext = useContext(EditionContext)

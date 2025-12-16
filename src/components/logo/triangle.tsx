@@ -4,14 +4,14 @@ import Svg, { Path } from 'react-native-svg'
 import { LogoProps } from './types'
 import { useTheme } from '@providers/theme'
 
-const Logo = ({ size = 120, ...props }: LogoProps): React.ReactElement => {
+const Logo = ({ color: colorProp, size = 120, ...props }: LogoProps): React.ReactElement => {
   const originalWidth = 298
   const originalHeight = 247
 
   const width = size ?? originalWidth
   const height = (originalHeight / originalWidth) * width
   const { primitives } = useTheme()
-  const color = primitives.brand[50]
+  const color = colorProp ?? primitives.brand[50]
 
   return (
     <Svg

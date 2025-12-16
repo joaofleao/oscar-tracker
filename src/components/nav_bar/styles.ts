@@ -27,7 +27,7 @@ const useStyles = (): StylesReturn => {
     header: {
       position: 'absolute',
       zIndex: 10,
-      top: top + 20,
+      top: top + 16,
       right: right + 20,
     },
   })

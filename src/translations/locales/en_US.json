@@ -15,6 +15,15 @@
     "nominations": "Nominations",
     "movies": "Movies"
   },
+  "movies": {
+    "watch": "Watch",
+    "edition": "Edition",
+    "select_edition": "Select an edition",
+    "no_movies_title": "Coming soon",
+    "no_movies_description": "No movies yet.",
+    "nomination": "nomination",
+    "nominations_plural": "nominations"
+  },
   "auth": {
     "sign_in": "Sign In",
     "sign_up": "Register",

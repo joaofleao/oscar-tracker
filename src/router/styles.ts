@@ -11,7 +11,6 @@ const useStyles = (): StylesReturn => {
   const { top, bottom } = useSafeAreaInsets()
   return StyleSheet.create({
     container: {
-      backgroundColor: 'red',
       flex: 1,
     },
     topBlur: {

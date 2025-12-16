@@ -37,7 +37,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   return (
     <>
-      <View style={[styles.header]}>
+      <View style={styles.header}>
         <Authenticated>
           <Avatar onPress={() => navigation.navigate('profile')} />
         </Authenticated>
