@@ -23,7 +23,7 @@ export type StackProps = {
     movieId: string
   }
 
-  category_details: {
+  category: {
     categoryId: string
   }
 }

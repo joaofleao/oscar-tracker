@@ -6,7 +6,7 @@ interface IMDBProps extends SvgProps {
   height?: number | string
 }
 
-const IMDB = ({ height, width, ...props }: IMDBProps): JSX.Element => {
+const IMDB = ({ height, width, ...props }: IMDBProps): React.ReactElement => {
   const originalWidth = 40
   const originalHeight = 40
   const aspectRatio = originalWidth / originalHeight

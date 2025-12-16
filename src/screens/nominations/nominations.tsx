@@ -13,7 +13,7 @@ import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
-const Nominations: TabType<'nominations'> = () => {
+const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { currentEdition, setCurrentEdition, editions } = useEdition()
   const { semantics } = useTheme()
   const styles = useStyles()
@@ -22,93 +22,82 @@ const Nominations: TabType<'nominations'> = () => {
 
   const { i18n, t } = useTranslation()
 
-  const bestPicture = (
-    <View style={{ gap: 120 }}>
-      <View style={{ alignSelf: 'center' }}>
-        <Typography
-          center
-          color={semantics.accent.base.default}
-        >
-          oscar tracker
-        </Typography>
+  const header = (
+    <View style={{ alignSelf: 'center', marginBottom: 80 }}>
+      <Typography
+        center
+        color={semantics.accent.base.default}
+      >
+        oscar tracker
+      </Typography>
 
-        <Select
-          label={t('nominations:select_edition')}
-          data={editions?.map((edition) => ({
-            name: `${t('nominations:edition')} ${edition.number} - ${edition.year}`,
-            id: edition._id,
-          }))}
-          onSelect={setCurrentEdition}
-          selected={currentEdition}
-          renderAnchor={({ selectedOption, setVisible, visible }) => (
-            <Typography
-              onPress={() => setVisible(!visible)}
-              center
-              color={semantics.background.foreground.light}
-            >
-              {selectedOption?.name}
-            </Typography>
-          )}
-        />
-      </View>
-
-      <BigCaroussel
-        button={{
-          action: console.log,
-          title: 'expand',
-        }}
-        title={nominations[0]?.category.name[i18n.language]}
-        nominations={nominations[0]?.nominations.map((el) => {
-          return {
-            image: el.posterPath[i18n.language],
-            title: el.title[i18n.language],
-          }
-        })}
+      <Select
+        label={t('nominations:select_edition')}
+        data={editions?.map((edition) => ({
+          name: `${t('nominations:edition')} ${edition.number} - ${edition.year}`,
+          id: edition._id,
+        }))}
+        onSelect={setCurrentEdition}
+        selected={currentEdition}
+        renderAnchor={({ selectedOption, setVisible, visible }) => (
+          <Typography
+            onPress={() => setVisible(!visible)}
+            center
+            color={semantics.background.foreground.light}
+          >
+            {selectedOption?.name}
+          </Typography>
+        )}
       />
     </View>
   )
 
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
+    const button = {
+      action: (): void => navigation.navigate('category', { categoryId: item.category._id }),
+      title: 'expand',
+    }
+
+    const enrichedNominations = item.nominations.map((el) => {
+      return {
+        image: el.posterPath[i18n.language],
+        title: el.title[i18n.language],
+        description: el.description ? el.description[i18n.language] : undefined,
+      }
+    })
+
+    if (item.type === 'picture')
+      return (
+        <BigCaroussel
+          nominations={enrichedNominations}
+          title={item.category.name[i18n.language]}
+          button={button}
+        />
+      )
+
     if (item.type === 'person' || item.type === 'song')
       return (
         <SmallCaroussel
-          nominations={item.nominations.map((el) => {
-            return {
-              image: el.posterPath[i18n.language],
-              title: el.title[i18n.language],
-              description: el.description ? el.description[i18n.language] : undefined,
-            }
-          })}
+          nominations={enrichedNominations}
           title={item.category.name[i18n.language]}
-          button={{
-            action: console.log,
-            title: 'expand',
-          }}
+          button={button}
         />
       )
 
     return (
       <MediumCaroussel
-        nominations={item.nominations.map((el) => {
-          return {
-            image: el.posterPath[i18n.language],
-            title: el.title[i18n.language],
-          }
-        })}
+        nominations={enrichedNominations}
         title={item.category.name[i18n.language]}
-        button={{
-          action: console.log,
-          title: 'expand',
-        }}
+        button={button}
       />
     )
   }
 
   return (
     <FlatList
-      ListHeaderComponent={bestPicture}
+      ListHeaderComponent={header}
       contentContainerStyle={styles.flatlists}
-      data={nominations.slice(1)}
+      data={nominations}
       renderItem={renderCaroussel}
     />
   )

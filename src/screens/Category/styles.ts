@@ -1,34 +1,22 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
-
-import { useTheme } from '@providers/theme'
+import { StyleSheet, ViewStyle } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
-  content: ViewStyle
-  accent: TextStyle
-  interactiveArea: ViewStyle
-  card: ViewStyle
+  root: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { colors, fonts } = useTheme()
+  const { bottom, right, left } = useSafeAreaInsets()
+
   return StyleSheet.create({
-    content: {
-      paddingHorizontal: 20,
-      flex: 1,
-    },
-    accent: {
-      color: colors.primary.default,
-      fontFamily: fonts.secondary.bold,
-    },
-    interactiveArea: {
-      gap: 12,
-      // justifyContent: 'center',
-      // flex: 1,
-      flexDirection: 'row',
-      // alignItems: 'flex-end',
-    },
-    card: {
-      flexDirection: 'row',
+    root: {
+      paddingBottom: bottom,
+      paddingTop: 40,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 40,
     },
   })
 }

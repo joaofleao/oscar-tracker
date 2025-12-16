@@ -16,25 +16,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
-// import { IconBookmarks, IconFilm } from '@components/icon'
-// import NavBar from '@components/nav_bar'
-// import { fontImports, useTheme } from '@providers/theme'
-// import { routes } from '@router'
-// import Auth from '@screens/auth'
-// import Movie from '@screens/movie'
-// import Onboarding from '@screens/onboarding'
-// import PasswordRecovery from '@screens/password_recovery'
-// import Profile from '@screens/profile'
-// import Search from '@screens/search'
-// import WatchedMovie from '@screens/watched_movie'
-// import WatchedMovies from '@screens/watched_movies'
+import Category from '@screens/category'
 import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
-// import print from '@utils/print'
 
 const Stack = createNativeStackNavigator<StackProps>()
 const Tabs = createBottomTabNavigator<StackProps>()
@@ -161,31 +149,9 @@ const Router = (): React.ReactNode => {
             }}
           />
 
-          {/* 
-
           <Stack.Screen
-            name={'password_recovery'}
-            component={PasswordRecovery}
-          />
-
-          <Stack.Screen
-            name={'search'}
-            component={Search}
-            options={{
-              presentation: 'formSheet',
-              sheetExpandsWhenScrolledToEdge: false,
-              sheetInitialDetentIndex: 'last',
-              sheetAllowedDetents: 'fitToContents',
-
-              contentStyle: {
-                backgroundColor: semantics.container.base.original,
-              },
-            }}
-          />
-
-          <Stack.Screen
-            name={'watched_movie'}
-            component={WatchedMovie}
+            name={'category'}
+            component={Category}
             options={{
               presentation: 'formSheet',
               sheetAllowedDetents: 'fitToContents',
@@ -194,36 +160,6 @@ const Router = (): React.ReactNode => {
               },
             }}
           />
-          <Stack.Screen
-            name={'profile'}
-            component={Profile}
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: 'fitToContents',
-              contentStyle: {
-                backgroundColor: semantics.container.base.original,
-              },
-            }}
-          />
-
-          <Stack.Screen
-            name={'auth'}
-            component={Auth}
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: 'fitToContents',
-              contentStyle: {
-                backgroundColor: semantics.container.base.original,
-              },
-            }}
-          />
-          <Stack.Screen
-            name={'onboarding'}
-            component={Onboarding}
-            options={{
-              animation: 'slide_from_left',
-            }}
-          /> */}
         </Stack.Navigator>
 
         <LinearGradient
