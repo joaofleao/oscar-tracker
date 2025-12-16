@@ -8,7 +8,7 @@ import useStyles from './styles'
 import ToastNotification from '@components/ToastNotification'
 import LoadingModal from '@containers/LoadingModal'
 import NetworkModal from '@containers/NetworkModal'
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 import { print } from '@utils/functions'
 
 SplashScreen.preventAutoHideAsync()

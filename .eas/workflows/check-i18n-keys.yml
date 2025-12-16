@@ -1,0 +1,21 @@
+name: Check i18n Consistency
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/i18n/locales/pt_BR.json'
+      - 'src/i18n/locales/en_US.json'
+
+jobs:
+  check-keys:
+    steps:
+      - name: Checkout
+        uses: eas/checkout
+
+      - name: Use Node.js
+        uses: eas/install_node_modules
+
+      - name: Compare i18n JSON keys
+        run: |
+          node .eas/scripts/compare-i18n.js

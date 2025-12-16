@@ -1,6 +1,6 @@
 import { StyleSheet, TextStyle, useWindowDimensions, ViewStyle } from 'react-native'
 
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   header: ViewStyle

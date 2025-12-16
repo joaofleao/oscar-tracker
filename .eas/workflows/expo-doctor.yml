@@ -1,0 +1,19 @@
+name: Run expo doctor
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  expo-doctor:
+    steps:
+      - name: Checkout
+        uses: eas/checkout
+
+      - name: Use Node.js
+        uses: eas/install_node_modules
+
+      - name: Run expo doctor
+        run: npx expo-doctor

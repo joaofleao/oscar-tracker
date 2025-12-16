@@ -1,17 +1,18 @@
 {
   "cli": {
-    "version": ">= 12.5.1",
-    "appVersionSource": "remote"
+    "version": ">= 16.17.4",
+    "appVersionSource": "remote",
+    "requireCommit": true
   },
   "build": {
-    "development": {
+    "simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
       "ios": {
-        "simulator": true,
-        "image": "latest"
-      },
-      "android": {
-        "image": "latest"
-      },
+        "simulator": true
+      }
+    },
+    "development": {
       "developmentClient": true,
       "distribution": "internal"
     },
@@ -26,10 +27,6 @@
     }
   },
   "submit": {
-    "production": {
-      "ios": {
-        "ascAppId": "6741040256"
-      }
-    }
+    "production": {}
   }
 }

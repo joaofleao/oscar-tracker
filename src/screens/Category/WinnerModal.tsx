@@ -3,7 +3,7 @@ import { Text } from 'react-native'
 import useStyles from './styles'
 import Button from '@components/Button'
 import Modal from '@components/Modal'
-import { useEdition } from '@features/edition'
+import { useEdition } from '@providers/edition'
 
 type WinnerModalProps = {
   newWinner: [string, string, string] | null

@@ -1,70 +1,73 @@
-import 'dotenv/config'
-import { ExpoConfig } from 'expo/config'
+import { ConfigContext, ExpoConfig } from 'expo/config'
 
-export default (): ExpoConfig => ({
-  owner: 'joaofleao',
-  name: 'Oscar Tracker',
-  slug: 'oscartracker',
-  icon: './src/assets/app/icon.png',
-  newArchEnabled: true,
+export default ({ config }: ConfigContext): ExpoConfig => {
+  return {
+    ...config,
+    name: 'Oscar Tracker',
+    slug: 'oscar-tracker',
+    scheme: 'oscar-tracker',
+    version: '5.0',
+    orientation: 'portrait',
+    icon: './src/assets/app/icon.png',
+    newArchEnabled: true,
+    plugins: [
+      'expo-apple-authentication',
+      'expo-web-browser',
+      'expo-secure-store',
 
-  plugins: [
-    'expo-font',
-    '@react-native-firebase/app',
-    '@react-native-firebase/auth',
-    [
-      'expo-splash-screen',
-      {
-        backgroundColor: '#171C23',
-        image: './src/assets/app/splash-icon-dark.png',
-        dark: {
-          backgroundColor: '#171C23',
-          image: './src/assets/app/splash-icon-dark.png',
+      [
+        '@react-native-google-signin/google-signin',
+        {
+          iosUrlScheme: 'com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq',
         },
-        imageWidth: 200,
-      },
-    ],
-
-    [
-      'expo-build-properties',
-      {
-        ios: {
-          useFrameworks: 'static',
+      ],
+      [
+        'expo-splash-screen',
+        {
+          backgroundColor: '#0D0D0D',
+          image: './src/assets/app/splash-icon.png',
+          dark: {
+            image: './src/assets/app//splash-icon-dark.png',
+            backgroundColor: '#0D0D0D',
+          },
+          imageWidth: 440,
+          resizeMode: 'contain',
         },
-      },
+      ],
     ],
-  ],
+    ios: {
+      usesAppleSignIn: true,
+      supportsTablet: true,
+      bundleIdentifier: 'com.joaofleao.oscar-tracker',
 
-  extra: {
-    TMDB_API_KEY: process.env.TMDB_API_KEY,
-    eas: {
-      projectId: '8b994b96-2537-4c86-b4c9-6219f98bb639',
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+        CFBundleURLTypes: [
+          {
+            CFBundleURLSchemes: ['com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq'],
+          },
+        ],
+      },
+      icon: {
+        light: './src/assets/app/icon.png',
+        dark: './src/assets/app/icon-dark.png',
+      },
     },
-  },
-
-  androidStatusBar: {
-    translucent: true,
-    barStyle: 'light-content',
-  },
-
-  android: {
-    softwareKeyboardLayoutMode: 'resize',
-    adaptiveIcon: {
-      foregroundImage: './src/assets/app/adaptive-icon.png',
-      backgroundColor: '#171C23',
+    android: {
+      adaptiveIcon: {
+        foregroundImage: './src/assets/app/adaptive-icon.png',
+        backgroundColor: '#0D0D0D',
+      },
+      edgeToEdgeEnabled: true,
+      package: 'com.joaofleao.oscar-tracker',
     },
-    package: 'com.joaofleao.oscartracker',
-    googleServicesFile: process.env.GOOGLE_SERVICES_ANDROID || './google-services.json',
-  },
-
-  ios: {
-    googleServicesFile: process.env.GOOGLE_SERVICES_IOS || './GoogleService-Info.plist',
-    supportsTablet: true,
-    bundleIdentifier: 'com.joaofleao.oscartracker',
-    bitcode: false,
-  },
-
-  web: {
-    favicon: './src/assets/app/favicon.png',
-  },
-})
+    web: {
+      favicon: './src/assets/app/favicon.png',
+    },
+    extra: {
+      eas: {
+        projectId: '9ef1512c-10df-409b-ac04-04c8ebfa96d2',
+      },
+    },
+  }
+}

@@ -1,7 +1,8 @@
 export const routes = {
   index: 'Index' as const,
   home: 'Home' as const,
-  watchList: 'WatchList' as const,
+  movies: 'Movies' as const,
+  nominations: 'Nominations' as const,
   profile: 'Profile' as const,
   settings: 'Settings' as const,
   movie: 'Movie' as const,

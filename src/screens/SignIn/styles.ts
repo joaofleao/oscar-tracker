@@ -1,6 +1,6 @@
 import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 
-import { useTheme } from '@features/theme'
+import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   content: TextStyle
