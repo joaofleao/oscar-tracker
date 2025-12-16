@@ -7,7 +7,7 @@ import { IconProps } from '@components/icon/types'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const Button = ({ variant: variantProp = 'container', title, icon, style, loading = false, ...props }: ButtonProps): React.ReactElement => {
+const Button = ({ small = false, variant: variantProp = 'container', title, icon, style, loading = false, ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
   const variant = isGhost ? 'container' : variantProp
   const styles = useStyles({ variant })
@@ -15,11 +15,16 @@ const Button = ({ variant: variantProp = 'container', title, icon, style, loadin
 
   return (
     <TouchableOpacity
-      style={[styles.root, isGhost && styles.ghost, style]}
+      style={[styles.root, isGhost && styles.ghost, small && styles.small, style]}
       {...props}
     >
       <View style={[styles.content, loading && styles.hide]}>
-        <Typography color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}>{title}</Typography>
+        <Typography
+          legend={small}
+          color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
+        >
+          {title}
+        </Typography>
 
         {icon &&
           React.cloneElement<IconProps>(icon, {

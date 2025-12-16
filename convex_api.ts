@@ -336,10 +336,10 @@ export type PublicApiType = {
       { nominationId: Id<"oscarNomination"> },
       null
     >;
-    getMoviesFromEdition: FunctionReference<
+    getMovies: FunctionReference<
       "query",
       "public",
-      { editionId: Id<"oscarEditions"> },
+      { editionId?: Id<"oscarEditions"> },
       Array<{
         _id: Id<"movies">;
         nominationCount: number;
@@ -351,20 +351,23 @@ export type PublicApiType = {
     getNominations: FunctionReference<
       "query",
       "public",
-      { editionId: Id<"oscarEditions"> },
+      { editionId?: Id<"oscarEditions"> },
       Array<{
         category: {
           _id: Id<"oscarCategories">;
           name: { en_US: string; pt_BR: string };
+          order: number;
         };
         nominations: Array<{
+          description?: { en_US: string; pt_BR: string };
           movieId: Id<"movies">;
           nominationId: Id<"oscarNomination">;
-          poster_path: { en_US: string; pt_BR: string };
+          posterPath: { en_US: string; pt_BR: string };
           title: { en_US: string; pt_BR: string };
           watched?: boolean;
           winner?: boolean;
         }>;
+        type: "person" | "song" | "movie" | "picture";
       }>
     >;
   };

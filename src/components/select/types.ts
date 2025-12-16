@@ -12,7 +12,7 @@ export type SelectItem<T> = {
 
 export interface SelectProps<T> {
   data: SelectItem<T>[]
-  onSelect: React.Dispatch<React.SetStateAction<T>>
+  onSelect: React.Dispatch<React.SetStateAction<T | undefined>>
   selected?: T
 
   label?: string

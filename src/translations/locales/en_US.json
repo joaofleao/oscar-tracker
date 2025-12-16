@@ -24,6 +24,10 @@
     "nomination": "nomination",
     "nominations_plural": "nominations"
   },
+  "nominations": {
+    "select_edition": "Select an edition",
+    "edition": "Edition"
+  },
   "auth": {
     "sign_in": "Sign In",
     "sign_up": "Register",

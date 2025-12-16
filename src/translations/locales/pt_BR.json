@@ -26,6 +26,10 @@
     "nomination": "nomeação",
     "nominations_plural": "nomeações"
   },
+  "nominations": {
+    "select_edition": "Selecione a edição",
+    "edition": "Edição"
+  },
   "auth": {
     "sign_in": "Entrar",
     "sign_up": "Registrar",

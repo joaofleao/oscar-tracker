@@ -64,7 +64,7 @@ const useStyles = (): StylesReturn => {
       alignSelf: 'flex-end',
     },
     flatlists: {
-      paddingTop: top,
+      paddingTop: top + 20,
       paddingBottom: bottom + 88,
       paddingRight: right + 16,
       paddingLeft: left + 16,

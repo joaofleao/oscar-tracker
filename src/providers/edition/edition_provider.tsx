@@ -10,7 +10,12 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   const editions = useMemo(() => queryEditions || [], [queryEditions])
 
-  const [currentEdition, setCurrentEdition] = React.useState(editions[0]?._id)
+  const [currentEdition, setCurrentEdition] = React.useState<EditionContextType['currentEdition']>(undefined)
+
+  useEffect(() => {
+    if (editions.length === 0) return
+    setCurrentEdition(editions[0]._id)
+  }, [editions])
 
   useEffect(() => {
     const hydrateEdition = async (): Promise<void> => {

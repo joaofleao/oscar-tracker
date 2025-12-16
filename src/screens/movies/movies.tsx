@@ -4,11 +4,9 @@ import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
-import Bar from '@components/bar'
 import ListView from '@components/list_view'
 import { TriangleLogo } from '@components/logo'
 import Select from '@components/select'
-import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { semantics } from '@providers/theme'
@@ -19,7 +17,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t } = useTranslation()
   const { currentEdition, setCurrentEdition, editions } = useEdition()
 
-  const movies = useQuery(api.oscars.getMoviesFromEdition, { editionId: currentEdition }) || []
+  const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition }) || []
 
   const data = movies.map((movie) => ({
     _id: movie._id,
@@ -31,28 +29,58 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   }))
 
   const header = (): React.ReactElement => (
-    <Bar.Root style={{ padding: 16, marginHorizontal: -16, paddingBottom: 0 }}>
-      <Select
-        label={t('movies:select_edition')}
-        data={editions?.map((edition) => ({
-          name: `${t('movies:edition')} ${edition.number} - ${edition.year}`,
-          id: edition._id,
-        }))}
-        onSelect={setCurrentEdition}
-        selected={currentEdition}
-        renderAnchor={({ selectedOption, setVisible, visible }) => (
-          <Bar.Item
-            onPress={() => setVisible(true)}
-            icon={<TinyChevron orientation="down" />}
-          >
-            {selectedOption?.name as string}
-          </Bar.Item>
-        )}
-      />
+    <>
+      <View style={{ alignSelf: 'center' }}>
+        <Typography
+          center
+          color={semantics.accent.base.default}
+        >
+          oscar tracker
+        </Typography>
 
-      {/* <Bar.Item icon={<TinyChevron orientation="down" />}>filters</Bar.Item> */}
-      {/* <Bar.Item icon={<TinyArrow orientation="down" />}>sort</Bar.Item> */}
-    </Bar.Root>
+        <Select
+          label={t('movies:select_edition')}
+          data={editions?.map((edition) => ({
+            name: `${t('movies:edition')} ${edition.number} - ${edition.year}`,
+            id: edition._id,
+          }))}
+          onSelect={setCurrentEdition}
+          selected={currentEdition}
+          renderAnchor={({ selectedOption, setVisible, visible }) => (
+            <Typography
+              onPress={() => setVisible(!visible)}
+              center
+              color={semantics.background.foreground.light}
+            >
+              {selectedOption?.name}
+            </Typography>
+          )}
+        />
+      </View>
+
+      {/* <Bar.Root style={{ padding: 16, marginHorizontal: -16, paddingBottom: 0 }}>
+        <Select
+          label={t('movies:select_edition')}
+          data={editions?.map((edition) => ({
+            name: `${t('movies:edition')} ${edition.number} - ${edition.year}`,
+            id: edition._id,
+          }))}
+          onSelect={setCurrentEdition}
+          selected={currentEdition}
+          renderAnchor={({ selectedOption, setVisible, visible }) => (
+            <Bar.Item
+              onPress={() => setVisible(true)}
+              icon={<TinyChevron orientation="down" />}
+            >
+              {selectedOption?.name as string}
+            </Bar.Item>
+          )}
+        />
+
+        <Bar.Item icon={<TinyChevron orientation="down" />}>filters</Bar.Item>
+        <Bar.Item icon={<TinyArrow orientation="down" />}>sort</Bar.Item>
+      </Bar.Root> */}
+    </>
   )
   const empty = (): React.ReactElement => (
     <View style={{ minHeight: 600, justifyContent: 'center', alignItems: 'center', gap: 20 }}>

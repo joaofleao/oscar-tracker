@@ -27,6 +27,7 @@ const Select = <T,>({ renderAnchor, ...props }: SelectProps<T>): React.ReactElem
         selectedOption,
         ...props,
       }) ?? renderDefaultAnchor()}
+
       <SelectDropdown
         visible={visible}
         setVisible={setVisible}

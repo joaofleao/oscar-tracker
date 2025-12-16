@@ -8,6 +8,7 @@ type StylesReturn = {
   loading: ViewStyle
   hide: ViewStyle
   ghost: ViewStyle
+  small: ViewStyle
 }
 type StylesProps = {
   variant: keyof SemanticsType
@@ -27,6 +28,12 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       backgroundColor: semantics[variant].base.default,
       borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
+    },
+    small: {
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 8,
+      height: 24,
     },
     ghost: {
       backgroundColor: 'transparent',
