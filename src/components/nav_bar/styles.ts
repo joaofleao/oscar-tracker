@@ -4,13 +4,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
-  header: ViewStyle
   footer: ViewStyle
+  leading: ViewStyle
+  trailing: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
-  const { bottom, top, right } = useSafeAreaInsets()
+  const { bottom, left, right } = useSafeAreaInsets()
   return StyleSheet.create({
     footer: {
       flexDirection: 'row',
@@ -24,10 +25,10 @@ const useStyles = (): StylesReturn => {
       zIndex: 10,
       bottom: bottom + 20,
     },
-    header: {
-      position: 'absolute',
-      zIndex: 10,
-      top: top + 16,
+    leading: {
+      left: left + 20,
+    },
+    trailing: {
       right: right + 20,
     },
   })

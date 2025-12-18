@@ -49,7 +49,7 @@ const BigCard = ({ image, index, scrollX, ...props }: BigCardProps): React.React
       >
         {hasImage && (
           <Image
-            source={{ uri: `https://image.tmdb.org/t/p/w500${image}` }}
+            source={{ uri: image }}
             style={styles.image}
           />
         )}

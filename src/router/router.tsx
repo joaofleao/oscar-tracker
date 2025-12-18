@@ -9,7 +9,7 @@ import { initReactI18next, useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import { StackProps } from './types'
-import { IconFilm, IconOscar } from '@components/icon'
+import { IconFilm, IconOscar, IconPerson } from '@components/icon'
 import NavBar from '@components/nav_bar'
 import { fontImports, useTheme } from '@providers/theme'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -20,6 +20,8 @@ import Category from '@screens/category'
 import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
+import Search from '@screens/search'
+import Settings from '@screens/settings'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
@@ -87,6 +89,7 @@ const Router = (): React.ReactNode => {
             tabs={[
               { icon: <IconOscar />, label: t('home:nominations'), id: 'nominations' },
               { icon: <IconFilm />, label: t('home:movies'), id: 'movies' },
+              { icon: <IconPerson />, label: t('home:profile'), id: 'profile' },
             ]}
             {...props}
           />
@@ -99,6 +102,10 @@ const Router = (): React.ReactNode => {
         <Tabs.Screen
           name={'movies'}
           component={Movies}
+        />
+        <Tabs.Screen
+          name={'profile'}
+          component={Profile}
         />
       </Tabs.Navigator>
     )
@@ -138,10 +145,17 @@ const Router = (): React.ReactNode => {
             }}
           />
           <Stack.Screen
-            name={'profile'}
-            component={Profile}
+            name={'settings'}
+            component={Settings}
+          />
+
+          <Stack.Screen
+            name={'search'}
+            component={Search}
             options={{
               presentation: 'formSheet',
+              sheetExpandsWhenScrolledToEdge: false,
+              sheetInitialDetentIndex: 'last',
               sheetAllowedDetents: 'fitToContents',
               contentStyle: {
                 backgroundColor: semantics.container.base.original,

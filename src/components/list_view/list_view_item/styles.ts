@@ -44,6 +44,9 @@ const useStyles = (): StylesReturn => {
       width: 60,
       aspectRatio: 2 / 3,
       borderRadius: 4,
+      borderWidth: 1,
+      borderColor: theme.semantics.container.stroke.default,
+      backgroundColor: theme.semantics.container.base.default,
     },
     details: {
       flex: 1,

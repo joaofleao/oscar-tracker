@@ -13,6 +13,7 @@ const ListView = ({
   contentContainerStyle,
   topButton,
   bottomButton,
+  bottomArea,
   style,
   responsive = false,
 
@@ -44,6 +45,7 @@ const ListView = ({
           key={index}
           topButton={topButton}
           bottomButton={bottomButton}
+          bottomArea={item.bottomArea}
         />
         {needsPlaceholder &&
           Array.from({ length: placeholders }).map((_, i) => (

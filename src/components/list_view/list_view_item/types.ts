@@ -1,5 +1,4 @@
 import { GestureResponderEvent, TouchableOpacityProps } from 'react-native'
-import { GenericId } from 'convex/values'
 
 import { IconProps } from '@components/icon'
 
@@ -11,18 +10,11 @@ export type ListViewItemActionProps = {
 }
 
 export interface ListViewItemProps extends Omit<TouchableOpacityProps, 'onPress'> {
-  _id: GenericId<'movies'>
-  posterPath: {
-    pt_BR: string
-    en_US: string
-  }
-  title: {
-    pt_BR: string
-    en_US: string
-  }
+  _id: string
+  image?: string
+  title?: string
   description?: string
-  // voteAverage?: number
-  // date: string
+  bottomArea?: React.ReactElement
   topButton?: ListViewItemActionProps
   bottomButton?: ListViewItemActionProps
   onPress?: (e: GestureResponderEvent, id?: string) => void

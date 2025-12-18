@@ -1,6 +1,5 @@
 import React from 'react'
 import { ActivityIndicator, Image, TouchableOpacity, View } from 'react-native'
-import { useTranslation } from 'react-i18next'
 
 import useStyle from './styles'
 import { ListViewItemProps } from './types'
@@ -8,12 +7,9 @@ import { IconProps } from '@components/icon'
 import Typography from '@components/typography'
 import { semantics, useTheme } from '@providers/theme'
 
-const ListViewItem = ({ _id, title: titleProp, description, posterPath: posterProp, style, topButton, bottomButton, onLongPress, onPress, ...props }: ListViewItemProps): React.ReactElement => {
+const ListViewItem = ({ _id, title, bottomArea, description, image, style, topButton, bottomButton, onLongPress, onPress, ...props }: ListViewItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
-  const { i18n } = useTranslation()
-  const title = typeof titleProp === 'string' ? titleProp : titleProp[i18n.language]
-  const posterPath = posterProp === undefined ? undefined : typeof posterProp === 'string' ? posterProp : posterProp[i18n.language]
 
   const renderButton = (button: typeof topButton, position: 'top' | 'bottom'): React.ReactElement | undefined => {
     if (!button) return
@@ -28,7 +24,7 @@ const ListViewItem = ({ _id, title: titleProp, description, posterPath: posterPr
         disabled={isLoading}
       >
         <View style={[styles.buttonContent, isLoading && styles.hide]}>
-          <Typography color={theme.semantics.container.foreground.default}>{button.title}</Typography>
+          {title && <Typography color={theme.semantics.container.foreground.default}>{button.title}</Typography>}
 
           {button.icon &&
             React.cloneElement<IconProps>(button.icon, {
@@ -46,24 +42,29 @@ const ListViewItem = ({ _id, title: titleProp, description, posterPath: posterPr
 
   const content = (
     <>
-      {posterPath !== undefined && (
+      {image !== undefined && (
         <Image
           style={styles.image}
-          source={{ uri: `https://image.tmdb.org/t/p/w500${posterPath}` }}
+          source={{ uri: image }}
           alt={title}
         />
       )}
 
-      {posterPath === undefined && <View style={styles.imagePlaceholder} />}
+      {image === undefined && <View style={styles.imagePlaceholder} />}
 
-      <View style={{ flex: 1 }}>
-        <Typography body>{typeof title === 'string' ? title : title}</Typography>
-        <Typography
-          body
-          color={semantics.container.foreground.light}
-        >
-          {description}
-        </Typography>
+      <View style={{ flex: 1, gap: 4 }}>
+        <View>
+          <Typography body>{typeof title === 'string' ? title : title}</Typography>
+
+          <Typography
+            body
+            color={semantics.container.foreground.light}
+          >
+            {description}
+          </Typography>
+        </View>
+
+        {bottomArea}
       </View>
     </>
   )

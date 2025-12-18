@@ -18,7 +18,7 @@ const useStyles = (): StylesReturn => {
       borderRadius: 8,
     },
     selected: {
-      backgroundColor: semantics.accent.base.default,
+      backgroundColor: semantics.container.foreground.default,
       borderRadius: 8,
     },
   })

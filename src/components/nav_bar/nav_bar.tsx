@@ -1,13 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Authenticated, Unauthenticated } from 'convex/react'
 
-// import { getItem } from 'expo-secure-store'
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
-import Avatar from '@components/avatar'
-import Button from '@components/button'
+import { IconMagnifyingGlass } from '@components/icon'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
@@ -34,21 +31,21 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       />
     )
   }
+  const leadingArea = <View style={[styles.footer, styles.leading]}>{tabs.map(renderTabs)}</View>
+
+  const trailingArea = (
+    <View style={[styles.footer, styles.trailing]}>
+      <NavBarItem
+        onPress={() => navigation.navigate('search')}
+        icon={<IconMagnifyingGlass />}
+      />
+    </View>
+  )
 
   return (
     <>
-      <View style={styles.header}>
-        <Authenticated>
-          <Avatar onPress={() => navigation.navigate('profile')} />
-        </Authenticated>
-        <Unauthenticated>
-          <Button
-            title="entrar"
-            onPress={() => navigation.navigate('auth')}
-          />
-        </Unauthenticated>
-      </View>
-      <View style={[styles.footer]}>{tabs.map(renderTabs)}</View>
+      {leadingArea}
+      {trailingArea}
     </>
   )
 }

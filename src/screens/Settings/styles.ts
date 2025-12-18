@@ -1,49 +1,48 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
-
-import { useTheme } from '@providers/theme'
+import { StyleSheet, ViewStyle } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
+  root: ViewStyle
+  header: ViewStyle
   content: ViewStyle
-  contentContainer: ViewStyle
-  section: ViewStyle
-  item: ViewStyle
-  bottom: ViewStyle
+  footer: ViewStyle
 
-  accentText: TextStyle
-  label: TextStyle
+  passwordWithForget: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { colors, fonts } = useTheme()
+  const { bottom, right, left } = useSafeAreaInsets()
+
   return StyleSheet.create({
-    content: {
-      paddingHorizontal: 20,
-    },
-    contentContainer: {
+    root: {
+      paddingBottom: bottom,
+      paddingTop: 40,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
+      justifyContent: 'center',
       gap: 40,
     },
-    section: {
+
+    header: {
+      justifyContent: 'center',
+      // flexDirection: 'row',
+      alignItems: 'center',
       gap: 16,
     },
-    item: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
+
+    content: {
+      gap: 20,
+    },
+
+    footer: {
+      justifyContent: 'center',
       alignItems: 'center',
+      gap: 12,
     },
-    accentText: {
-      color: colors.primary.default,
-      fontFamily: fonts.secondary.bold,
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    label: {
-      color: colors.text.default,
-      fontFamily: fonts.secondary.regular,
-      fontSize: 16,
-    },
-    bottom: {
-      gap: 16,
+
+    passwordWithForget: {
       alignItems: 'center',
+      gap: 8,
     },
   })
 }

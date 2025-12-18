@@ -20,6 +20,7 @@ export type PublicApiType = {
         name?: string;
         phone?: string;
         phoneVerificationTime?: number;
+        username?: string;
       }
     >;
     deleteAccount: FunctionReference<
@@ -33,6 +34,47 @@ export type PublicApiType = {
       "public",
       { message: string },
       null
+    >;
+    searchByName: FunctionReference<
+      "query",
+      "public",
+      { name: string },
+      Array<{
+        _id: Id<"users">;
+        following: boolean;
+        follows: boolean;
+        image?: string;
+        name?: string;
+        username?: string;
+      }>
+    >;
+    startFollowing: FunctionReference<
+      "mutation",
+      "public",
+      { friendId: Id<"users"> },
+      null
+    >;
+    getFollowing: FunctionReference<
+      "query",
+      "public",
+      Record<string, never>,
+      Array<{
+        _id: Id<"users">;
+        image?: string;
+        name?: string;
+        username?: string;
+      }>
+    >;
+    getFollowers: FunctionReference<
+      "query",
+      "public",
+      Record<string, never>,
+      Array<{
+        _id: Id<"users">;
+        image?: string;
+        name?: string;
+        username?: string;
+      }>
     >;
   };
   actors: {
@@ -336,12 +378,29 @@ export type PublicApiType = {
       { nominationId: Id<"oscarNomination"> },
       null
     >;
+    getWatchedMoviesFromEdition: FunctionReference<
+      "query",
+      "public",
+      { editionId?: Id<"oscarEditions"> },
+      Array<{
+        _id: Id<"watchedMovies">;
+        movieId: Id<"movies">;
+        posterPath: { en_US: string; pt_BR: string };
+        title: { en_US: string; original: string; pt_BR: string };
+        watchedAt: number;
+      }>
+    >;
     getMovies: FunctionReference<
       "query",
       "public",
       { editionId?: Id<"oscarEditions"> },
       Array<{
         _id: Id<"movies">;
+        friends_who_watched: Array<{
+          _id: Id<"users">;
+          image?: string;
+          name?: string;
+        }>;
         nominationCount: number;
         posterPath: { en_US: string; pt_BR: string };
         title: { en_US: string; pt_BR: string };

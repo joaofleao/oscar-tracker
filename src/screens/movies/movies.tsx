@@ -1,12 +1,13 @@
-import { View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import EmptyState from '@components/empty_state'
 import ListView from '@components/list_view'
-import { TriangleLogo } from '@components/logo'
 import Select from '@components/select'
+import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { semantics } from '@providers/theme'
@@ -14,19 +15,10 @@ import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const styles = useStyles()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { currentEdition, setCurrentEdition, editions } = useEdition()
 
   const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition }) || []
-
-  const data = movies.map((movie) => ({
-    _id: movie._id,
-    title: movie.title,
-    posterPath: movie.posterPath,
-    description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
-    //TODO navigate to movie page
-    // onPress: (): void => navigation.navigate('watched_movie', { movie }),
-  }))
 
   const header = (): React.ReactElement => (
     <>
@@ -39,9 +31,9 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
         </Typography>
 
         <Select
-          label={t('movies:select_edition')}
+          label={t('home:select_edition')}
           data={editions?.map((edition) => ({
-            name: `${t('movies:edition')} ${edition.number} - ${edition.year}`,
+            name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
             id: edition._id,
           }))}
           onSelect={setCurrentEdition}
@@ -82,15 +74,6 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       </Bar.Root> */}
     </>
   )
-  const empty = (): React.ReactElement => (
-    <View style={{ minHeight: 600, justifyContent: 'center', alignItems: 'center', gap: 20 }}>
-      <TriangleLogo color={semantics.container.base.pressed} />
-      <View style={{ alignItems: 'center' }}>
-        <Typography>{t('movies:no_movies_title')}</Typography>
-        <Typography description>{t('movies:no_movies_description')}</Typography>
-      </View>
-    </View>
-  )
 
   //TODO
 
@@ -106,10 +89,37 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   return (
     <ListView
-      empty={empty}
+      empty={
+        <EmptyState
+          title={t('movies:no_movies_title')}
+          description={t('movies:no_movies_description')}
+        />
+      }
       header={header}
       contentContainerStyle={styles.flatlists}
-      data={data}
+      data={movies.map((movie) => ({
+        _id: movie._id,
+        title: movie.title[i18n.language],
+        image: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}`,
+        description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
+        bottomArea: (
+          <>
+            <Typography legend>{t('movies:watched_by')}</Typography>
+            <FlatList
+              horizontal
+              data={movie.friends_who_watched}
+              renderItem={({ item }) => (
+                <TinyAvatar
+                  image={item.image}
+                  label={item.name}
+                />
+              )}
+            />
+          </>
+        ),
+        //TODO navigate to movie page
+        // onPress: (): void => navigation.navigate('watched_movie', { movie }),
+      }))}
     />
   )
 }

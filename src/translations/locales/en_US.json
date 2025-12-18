@@ -13,20 +13,26 @@
   },
   "home": {
     "nominations": "Nominations",
-    "movies": "Movies"
+    "movies": "Movies",
+    "profile": "Perfil",
+    "edition": "Edition",
+    "select_edition": "Select an edition"
+  },
+  "search": {
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+
+    "no_results": "No results found.",
+    "empty_state": "Search users, movies and categories."
   },
   "movies": {
     "watch": "Watch",
-    "edition": "Edition",
-    "select_edition": "Select an edition",
     "no_movies_title": "Coming soon",
     "no_movies_description": "No movies yet.",
     "nomination": "nomination",
-    "nominations_plural": "nominations"
-  },
-  "nominations": {
-    "select_edition": "Select an edition",
-    "edition": "Edition"
+    "nominations_plural": "nominations",
+    "watched_by": "Watched by"
   },
   "auth": {
     "sign_in": "Sign In",
@@ -38,6 +44,17 @@
     "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage."
   },
   "profile": {
+    "movies": "Movies",
+    "following": "Following",
+    "followers": "Followers",
+    "empty_following_title": "You are not following anyone",
+    "empty_following_description": "Start following users to see them here.",
+    "empty_followers_title": "No followers",
+    "empty_followers_description": "When someone follows you, they will appear here.",
+    "empty_movies_title": "No movies",
+    "empty_movies_description": "No movies watched for this edition."
+  },
+  "settings": {
     "sign_out": "Sign Out",
     "switch_to_ptbr": "Switch to Portuguese",
     "switch_to_enus": "Switch to English",

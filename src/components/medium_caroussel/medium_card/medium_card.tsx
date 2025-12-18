@@ -17,7 +17,7 @@ const MediumCard = ({ image, label, ...props }: MediumCardProps): React.ReactEle
     >
       {hasImage && (
         <Image
-          source={{ uri: `https://image.tmdb.org/t/p/w500${image}` }}
+          source={{ uri: image }}
           style={styles.image}
         />
       )}

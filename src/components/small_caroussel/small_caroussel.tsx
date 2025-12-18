@@ -32,6 +32,7 @@ const SmallCaroussel = ({ nominations = [], button, title }: SmallCarousselProps
   const renderBestPictureCard: ListRenderItem<(typeof nominations)[0]> = ({ item, index }) => {
     return (
       <SmallCard
+        style={{ width: CARD_WIDTH }}
         label={item.title}
         description={item.description}
         image={item.image}

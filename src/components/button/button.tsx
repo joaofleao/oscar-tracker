@@ -18,13 +18,15 @@ const Button = ({ small = false, variant: variantProp = 'container', title, icon
       style={[styles.root, isGhost && styles.ghost, small && styles.small, style]}
       {...props}
     >
-      <View style={[styles.content, loading && styles.hide]}>
-        <Typography
-          legend={small}
-          color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
-        >
-          {title}
-        </Typography>
+      <View style={[styles.content, loading && styles.hide, small && styles.smallContent]}>
+        {title && (
+          <Typography
+            legend={small}
+            color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
+          >
+            {title}
+          </Typography>
+        )}
 
         {icon &&
           React.cloneElement<IconProps>(icon, {

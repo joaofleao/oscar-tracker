@@ -32,9 +32,9 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       </Typography>
 
       <Select
-        label={t('nominations:select_edition')}
+        label={t('home:select_edition')}
         data={editions?.map((edition) => ({
-          name: `${t('nominations:edition')} ${edition.number} - ${edition.year}`,
+          name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
           id: edition._id,
         }))}
         onSelect={setCurrentEdition}
@@ -60,7 +60,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
     const enrichedNominations = item.nominations.map((el) => {
       return {
-        image: el.posterPath[i18n.language],
+        image: `https://image.tmdb.org/t/p/w500${el.posterPath[i18n.language]}`,
         title: el.title[i18n.language],
         description: el.description ? el.description[i18n.language] : undefined,
       }

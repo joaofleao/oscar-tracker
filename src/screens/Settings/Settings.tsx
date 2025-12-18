@@ -1,214 +1,117 @@
 import { useState } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
+import { useAction } from 'convex/react'
+import { api } from 'convex_api'
+import { setItem } from 'expo-secure-store'
+import { useTranslation } from 'react-i18next'
+import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
 import useStyles from './styles'
-import Button from '@components/Button'
-import Select from '@components/form/Select'
-import TextField from '@components/FormFields/TextField'
-import Toggle from '@components/FormFields/Toggle'
-import Global from '@components/Global'
-import Header from '@components/Header'
-import Icon from '@components/Icon'
-import { useAuth } from '@providers/auth'
-import { useEdition } from '@providers/edition'
-import { useUser } from '@providers/user'
-import packageJson from '@package.json'
-import type { SettingsProps } from '@types'
-import routes from '@utils/routes'
+import Button from '@components/button'
+import { IconDoor, IconLanguages } from '@components/icon'
+import Modal from '@components/modal'
+import Row from '@components/row'
+import { useAuthActions } from '@convex-dev/auth/react'
+import { ScreenType } from '@router/types'
 
-const Settings = ({ navigation }: SettingsProps): JSX.Element => {
-  const auth = useAuth()
-  const {
-    adminMode,
-    setAdminMode,
-    user,
-    isLogged,
-    setLanguage,
-    language,
-    preferences,
-    setPreferences,
-  } = useUser()
-  const { refreshEdition } = useEdition()
+const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const [loading, setLoading] = useState<boolean>(false)
+  const { t, i18n } = useTranslation()
 
-  const handleSignOut = (): void => {
-    setLoading(true)
-    auth
-      .signOut()
+  const { signOut } = useAuthActions()
+
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
+  const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [deletedModal, setDeletedModal] = useState<boolean>(false)
+  const deleteAccount = useAction(api.user.deleteAccount)
+  const catchConvexError = useConvexErrorHandler()
+
+  const handleDelete = async (): Promise<void> => {
+    setLoadingDelete(true)
+    void deleteAccount()
+      .catch(catchConvexError)
       .then(() => {
-        navigation.navigate(routes.home)
+        setDeleteModal(false)
+        setDeletedModal(true)
       })
-      .finally(() => {
-        setLoading(false)
+      .finally(() => setLoadingDelete(false))
+  }
+
+  const handleSignOut = async (): Promise<void> => {
+    setLoadingSignOut(true)
+    void signOut()
+      .catch(catchConvexError)
+      .then(() => {
+        navigation.pop()
       })
+      .finally(() => setLoadingSignOut(false))
+  }
+
+  const handleSwitchLanguage = async (): Promise<void> => {
+    i18n.changeLanguage(i18n.language === 'en_US' ? 'pt_BR' : 'en_US')
+    setItem('language', i18n.language)
   }
 
   return (
-    <Global.Screen>
-      <Header.Root>
-        <Button
-          icon={<Icon.ArrowLeft />}
-          onPress={navigation.goBack}
-          size="action"
-          variant="secondary"
-        />
-        <Header.Row>
-          <Header.Title>Settings</Header.Title>
-        </Header.Row>
-        <Header.Placeholder />
-      </Header.Root>
-
-      <Global.Body>
-        {isLogged && (
-          <View style={styles.section}>
-            <Global.Description>Personal Information</Global.Description>
-
-            <TextField
-              editable={false}
-              label="Name"
-              placeholder="Walt Disney"
-              value={user.displayName}
-            />
-            <TextField
-              editable={false}
-              placeholder="mickey_mouse"
-              label="Nickname"
-              value={user.nickname}
-            />
-
-            <TextField
-              editable={false}
-              label="Email"
-              value={user?.email}
-            />
-          </View>
-        )}
-
-        <View style={styles.section}>
-          <View style={styles.item}>
-            <Global.Description>Spoiler Preferences</Global.Description>
-            <Button
-              label="Quiz"
-              size="action"
-              variant="secondary"
-              onPress={(): void => {
-                return navigation.navigate(routes.preferences)
-              }}
-            />
-          </View>
-
-          <Toggle
-            label="Hide Posters"
-            selected={!preferences.poster}
-            onToggle={(): void => {
-              setPreferences((old) => {
-                return { ...old, poster: !preferences.poster }
-              })
-            }}
-          />
-
-          <Toggle
-            label="Hide Plot"
-            selected={!preferences.plot}
-            onToggle={(): void => {
-              setPreferences((old) => {
-                return { ...old, plot: !preferences.plot }
-              })
-            }}
-          />
-
-          <Toggle
-            label="Hide Cast"
-            selected={!preferences.cast}
-            onToggle={(): void => {
-              setPreferences((old) => {
-                return { ...old, cast: !preferences.cast }
-              })
-            }}
-          />
-
-          <Toggle
-            label="Hide Ratings"
-            selected={!preferences.ratings}
-            onToggle={(): void => {
-              setPreferences((old) => {
-                return { ...old, ratings: !preferences.ratings }
-              })
-            }}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Global.Description>System Settings</Global.Description>
-
-          {/* <Toggle
-            disabled
-            label="Dark Mode"
-            selected={user?.settings.darkMode}
-            onToggle={(): void => {
-              updateUser({
-                settings: {
-                  ...user?.settings,
-                  darkMode: !user?.settings.darkMode,
-                },
-              })
-            }}
-          /> */}
-
-          <Text
-            style={styles.label}
-            numberOfLines={1}
-          >
-            Language
-          </Text>
-          <Select
-            data={[
-              { id: 'pt-BR' as const, name: 'Português' },
-              { id: 'en-US' as const, name: 'Inglês' },
-            ]}
-            placeholder="Português"
-            selected={language}
-            onSelect={setLanguage}
-          />
-        </View>
-        {user.admin && (
-          <Toggle
-            label="Admin Mode"
-            selected={adminMode}
-            onToggle={(): void => {
-              setAdminMode((old) => {
-                return !old
-              })
-            }}
-          />
-        )}
-        <View style={styles.item}>
-          <Global.Description>App Version</Global.Description>
-          <Text style={styles.accentText}>{packageJson.version}</Text>
-        </View>
-
-        <View style={styles.bottom}>
-          {isLogged && (
-            <Button
-              loading={loading}
-              width="fixed"
-              size="action"
-              label="Log Out"
-              variant="tertiary"
-              onPress={handleSignOut}
-            />
-          )}
-
+    <>
+      <View style={styles.root}>
+        <View style={styles.header}>
           <Button
-            size="action"
-            variant="tertiary"
-            onPress={refreshEdition}
-            label={'UPDATE'}
+            onPress={handleSwitchLanguage}
+            title={i18n.language === 'en_US' ? t('settings:switch_to_ptbr') : t('settings:switch_to_enus')}
+            icon={<IconLanguages />}
+          />
+          <Button
+            loading={loadingSignOut}
+            onPress={handleSignOut}
+            title={t('settings:sign_out')}
+            icon={<IconDoor />}
+          />
+          <Button
+            variant="negative"
+            onPress={() => setDeleteModal(true)}
+            title={t('settings:delete_account')}
+            icon={<IconDoor />}
           />
         </View>
-      </Global.Body>
-    </Global.Screen>
+      </View>
+
+      <Modal
+        setVisible={setDeleteModal}
+        visible={deleteModal}
+        label={t('settings:delete_account_title')}
+        description={t('settings:delete_account_message')}
+      >
+        <Row center>
+          <Button
+            onPress={() => setDeleteModal(false)}
+            title={t('settings:delete_account_deny')}
+          />
+          <Button
+            loading={loadingDelete}
+            onPress={handleDelete}
+            variant="negative"
+            title={t('settings:delete_account_confirm')}
+          />
+        </Row>
+      </Modal>
+      <Modal
+        onClose={handleSignOut}
+        setVisible={setDeletedModal}
+        visible={deletedModal}
+        label={t('settings:deleted_account_title')}
+        description={t('settings:deleted_account_message')}
+      >
+        <Row center>
+          <Button
+            onPress={handleSignOut}
+            variant="negative"
+            title={t('settings:deleted_account_confirm')}
+          />
+        </Row>
+      </Modal>
+    </>
   )
 }
 

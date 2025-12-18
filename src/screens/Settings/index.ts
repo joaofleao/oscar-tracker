@@ -1,3 +1,1 @@
-import Settings from './Settings'
-
-export default Settings
+export { default } from './settings'

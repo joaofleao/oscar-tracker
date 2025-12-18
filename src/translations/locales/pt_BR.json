@@ -15,21 +15,39 @@
   },
   "home": {
     "nominations": "Nomeações",
-    "movies": "Filmes"
+    "movies": "Filmes",
+    "profile": "Perfil",
+    "edition": "Edição",
+    "select_edition": "Selecione a edição"
+  },
+  "profile": {
+    "movies": "Filmes",
+    "following": "Seguindo",
+    "followers": "Seguidores",
+    "empty_following_title": "Você não segue ninguém",
+    "empty_following_description": "Comece a seguir usuários para vê-los aqui.",
+    "empty_followers_title": "Sem seguidores",
+    "empty_followers_description": "Quando alguém te seguir, aparecerá aqui.",
+    "empty_movies_title": "Sem filmes",
+    "empty_movies_description": "Nenhum filme assistido nessa edição."
+  },
+  "search": {
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "follows_you": "Segue você",
+
+    "no_results": "Nenhum resultado encontrado.",
+    "empty_state": "Procure usuários, filmes e categorias."
   },
   "movies": {
     "watch": "Assistir",
-    "edition": "Edição",
-    "select_edition": "Selecione a edição",
     "no_movies_title": "Em breve",
     "no_movies_description": "Nenhum filme por enquanto.",
     "nomination": "nomeação",
-    "nominations_plural": "nomeações"
+    "nominations_plural": "nomeações",
+    "watched_by": "Assistido por"
   },
-  "nominations": {
-    "select_edition": "Selecione a edição",
-    "edition": "Edição"
-  },
+
   "auth": {
     "sign_in": "Entrar",
     "sign_up": "Registrar",
@@ -39,7 +57,7 @@
     "spam": "Lembre-se de verificar a caixa de spam.",
     "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
   },
-  "profile": {
+  "settings": {
     "sign_out": "Sair",
     "switch_to_ptbr": "Mudar para Português",
     "switch_to_enus": "Mudar para Inglês",
