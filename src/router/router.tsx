@@ -17,6 +17,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
 import Category from '@screens/category'
+import Movie from '@screens/movie'
 import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
@@ -148,6 +149,10 @@ const Router = (): React.ReactNode => {
             name={'settings'}
             component={Settings}
           />
+          <Stack.Screen
+            name={'movie'}
+            component={Movie}
+          />
 
           <Stack.Screen
             name={'search'}
@@ -181,7 +186,7 @@ const Router = (): React.ReactNode => {
           style={styles.topBlur}
         />
         <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.60)']}
+          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.90)']}
           style={styles.bottomBlur}
         />
       </View>

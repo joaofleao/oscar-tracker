@@ -34,6 +34,7 @@ const MediumCaroussel = ({ nominations = [], button, title }: MediumCarousselPro
       <MediumCard
         label={item.title}
         image={item.image}
+        onPress={item.onPress}
         index={index}
       />
     )

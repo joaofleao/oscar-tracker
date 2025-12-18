@@ -59,6 +59,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
     return (
       <BigCard
         image={item.image}
+        onPress={item.onPress}
         index={index}
         scrollX={scrollX}
       />
@@ -66,7 +67,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
   }
 
   return (
-    <View style={{ height: Dimensions.get('window').height * 0.6 }}>
+    <View style={{ minHeight: Dimensions.get('window').height * 0.65 }}>
       <View style={{ gap: 40 }}>
         <Animated.FlatList
           ref={flatListRef}
@@ -86,7 +87,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
           getItemLayout={getItemLayout}
           onMomentumScrollEnd={handleMomentumEnd}
         />
-        <View style={{ alignItems: 'center', gap: 16 }}>
+        <View style={{ alignItems: 'center', gap: 16, paddingHorizontal: 16 }}>
           <Animated.View style={fadeAnimatedStyle}>
             <Typography
               display
@@ -95,18 +96,19 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
               {activeTitle}
             </Typography>
           </Animated.View>
-          <Typography
-            body
-            center
-            style={{ paddingHorizontal: 20 }}
-          >
-            {title}
-          </Typography>
-          <Button
-            small
-            title={button.title}
-            onPress={button.action}
-          />
+          <View style={{ alignItems: 'center', gap: 8 }}>
+            <Typography
+              body
+              center
+            >
+              {title}
+            </Typography>
+            <Button
+              small
+              title={button.title}
+              onPress={button.action}
+            />
+          </View>
         </View>
       </View>
     </View>

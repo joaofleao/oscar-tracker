@@ -7,6 +7,7 @@ type StylesReturn = {
   content: ViewStyle
   footer: ViewStyle
   buttons: ViewStyle
+  logo: ViewStyle
 
   passwordWithForget: ViewStyle
 }
@@ -22,17 +23,20 @@ const useStyles = (): StylesReturn => {
       paddingLeft: left + 20,
       justifyContent: 'center',
       alignItems: 'center',
-      gap: 40,
+      gap: 20,
     },
 
     header: {
       justifyContent: 'center',
-      // flexDirection: 'row',
       alignItems: 'center',
     },
 
     content: {
       gap: 20,
+    },
+    logo: {
+      alignItems: 'center',
+      gap: 8,
     },
 
     buttons: {

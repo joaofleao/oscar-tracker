@@ -9,7 +9,7 @@ type StylesReturn = {
 const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
-      padding: 12,
+      padding: 8,
       alignSelf: 'center',
       flexDirection: 'row',
       alignItems: 'center',

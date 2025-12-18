@@ -51,6 +51,8 @@ const useStyles = (): StylesReturn => {
       width: 120,
       height: 120,
       borderRadius: 60,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 
     floatingHeader: {

@@ -6,43 +6,42 @@ type StylesReturn = {
   header: ViewStyle
   content: ViewStyle
   footer: ViewStyle
-
-  passwordWithForget: ViewStyle
+  section: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { bottom, right, left } = useSafeAreaInsets()
+  const { bottom, right, left, top } = useSafeAreaInsets()
 
   return StyleSheet.create({
     root: {
-      paddingBottom: bottom,
-      paddingTop: 40,
+      flex: 1,
+      paddingBottom: bottom + 20,
+      paddingTop: top + 20,
       paddingRight: right + 20,
       paddingLeft: left + 20,
       justifyContent: 'center',
-      gap: 40,
+      gap: 16,
+    },
+    section: {
+      gap: 8,
     },
 
     header: {
-      justifyContent: 'center',
-      // flexDirection: 'row',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
       alignItems: 'center',
+
       gap: 16,
     },
-
     content: {
-      gap: 20,
+      gap: 16,
+      flex: 1,
     },
 
     footer: {
       justifyContent: 'center',
       alignItems: 'center',
       gap: 12,
-    },
-
-    passwordWithForget: {
-      alignItems: 'center',
-      gap: 8,
     },
   })
 }

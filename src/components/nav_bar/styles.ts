@@ -7,6 +7,7 @@ type StylesReturn = {
   footer: ViewStyle
   leading: ViewStyle
   trailing: ViewStyle
+  background: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -14,7 +15,6 @@ const useStyles = (): StylesReturn => {
   const { bottom, left, right } = useSafeAreaInsets()
   return StyleSheet.create({
     footer: {
-      flexDirection: 'row',
       alignSelf: 'center',
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
@@ -23,7 +23,11 @@ const useStyles = (): StylesReturn => {
       position: 'absolute',
       overflow: 'hidden',
       zIndex: 10,
-      bottom: bottom + 20,
+      bottom: bottom,
+    },
+    background: {
+      flexDirection: 'row',
+      backgroundColor: semantics.container.base.default,
     },
     leading: {
       left: left + 20,

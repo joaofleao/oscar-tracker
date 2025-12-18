@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dimensions, FlatList, Image, View } from 'react-native'
-import { useQuery } from 'convex/react'
+import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Button from '@components/button'
 import EmptyState from '@components/empty_state'
 import GalleryView from '@components/gallery_view'
-import { IconSettings } from '@components/icon'
+import { IconPerson, IconSettings } from '@components/icon'
 import IconButton from '@components/icon_button'
 import SegmentedControl from '@components/segmented_control'
 import Select from '@components/select'
@@ -22,6 +23,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { editions, currentEdition, setCurrentEdition } = useEditions()
   const { semantics } = useTheme()
+  const { isAuthenticated } = useConvexAuth()
 
   const [flow, setFlow] = useState('movies')
 
@@ -30,6 +32,10 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const following = useQuery(api.user.getFollowing) || []
 
   const user = useQuery(api.user.getCurrentUser)
+
+  useEffect(() => {
+    if (!isAuthenticated) navigation.navigate('auth')
+  }, [])
 
   const sections = {
     movies: t('profile:movies'),
@@ -40,10 +46,17 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const renderFollowing = (
     <FlatList
       ListEmptyComponent={
-        <EmptyState
-          title={t('profile:empty_following_title')}
-          description={t('profile:empty_following_description')}
-        />
+        isAuthenticated ? (
+          <EmptyState
+            title={t('profile:empty_following_title')}
+            description={t('profile:empty_following_description')}
+          />
+        ) : (
+          <EmptyState
+            title={t('profile:empty_title_unauthenticated')}
+            description={t('profile:empty_description_unauthenticated')}
+          />
+        )
       }
       data={following}
       style={{ width: '100%', padding: 20 }}
@@ -62,10 +75,17 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const renderFollowers = (
     <FlatList
       ListEmptyComponent={
-        <EmptyState
-          title={t('profile:empty_followers_title')}
-          description={t('profile:empty_followers_description')}
-        />
+        isAuthenticated ? (
+          <EmptyState
+            title={t('profile:empty_followers_title')}
+            description={t('profile:empty_followers_description')}
+          />
+        ) : (
+          <EmptyState
+            title={t('profile:empty_title_unauthenticated')}
+            description={t('profile:empty_description_unauthenticated')}
+          />
+        )
       }
       data={followers}
       style={{ width: '100%', padding: 20 }}
@@ -81,14 +101,20 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       )}
     />
   )
-
   const renderMovies = (
     <GalleryView
       empty={
-        <EmptyState
-          title={t('profile:empty_movies_title')}
-          description={t('profile:empty_movies_description')}
-        />
+        isAuthenticated ? (
+          <EmptyState
+            title={t('profile:empty_movies_title')}
+            description={t('profile:empty_movies_description')}
+          />
+        ) : (
+          <EmptyState
+            title={t('profile:empty_title_unauthenticated')}
+            description={t('profile:empty_description_unauthenticated')}
+          />
+        )
       }
       data={watchedMovies.map((el) => {
         return { _id: el._id, title: el.title, posterPath: el.posterPath, date: new Date(el.watchedAt).toLocaleDateString() }
@@ -119,6 +145,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
               <Typography
                 onPress={() => setVisible(!visible)}
                 center
+                legend
                 color={semantics.background.foreground.light}
               >
                 {selectedOption?.name}
@@ -132,13 +159,27 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
             source={{ uri: user.image }}
           />
         ) : (
-          <View style={styles.avatarPlaceholder} />
+          <View style={styles.avatarPlaceholder}>
+            <IconPerson
+              size={40}
+              color={semantics.background.foreground.light}
+            />
+          </View>
         )}
 
-        <View style={styles.profile}>
-          <Typography>{user?.name}</Typography>
-          <Typography description>{user?.username}</Typography>
-        </View>
+        <Authenticated>
+          <View style={styles.profile}>
+            <Typography>{user?.name}</Typography>
+            <Typography description>{user?.username}</Typography>
+          </View>
+        </Authenticated>
+        <Unauthenticated>
+          <Button
+            variant="accent"
+            title={t('profile:sign_in')}
+            onPress={() => navigation.navigate('auth')}
+          />
+        </Unauthenticated>
       </View>
 
       <View style={{ alignItems: 'center', gap: 16 }}>

@@ -1,6 +1,8 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { useTheme } from '@providers/theme'
+
 type StylesReturn = {
   container: ViewStyle
   topBlur: ViewStyle
@@ -9,9 +11,11 @@ type StylesReturn = {
 
 const useStyles = (): StylesReturn => {
   const { top, bottom } = useSafeAreaInsets()
+  const { semantics } = useTheme()
   return StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: semantics.background.base.default,
     },
     topBlur: {
       pointerEvents: 'none',

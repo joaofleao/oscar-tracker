@@ -3,6 +3,7 @@ export interface SmallCarousselProps {
     title: string
     image: string
     description?: string
+    onPress: () => void
   }[]
 
   title?: string

@@ -2,6 +2,7 @@ export interface MediumCarousselProps {
   nominations: {
     title: string
     image: string
+    onPress: () => void
   }[]
 
   title?: string

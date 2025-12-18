@@ -29,7 +29,10 @@
     "empty_followers_title": "Sem seguidores",
     "empty_followers_description": "Quando alguém te seguir, aparecerá aqui.",
     "empty_movies_title": "Sem filmes",
-    "empty_movies_description": "Nenhum filme assistido nessa edição."
+    "empty_movies_description": "Nenhum filme assistido nessa edição.",
+    "empty_title_unauthenticated": "Bem-vindo ao Oscar Tracker",
+    "empty_description_unauthenticated": "Faça login para começar a acompanhar seus filmes.",
+    "sign_in": "Entrar"
   },
   "search": {
     "follow": "Seguir",
@@ -58,6 +61,7 @@
     "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
   },
   "settings": {
+    "settings": "Configurações",
     "sign_out": "Sair",
     "switch_to_ptbr": "Mudar para Português",
     "switch_to_enus": "Mudar para Inglês",
@@ -69,7 +73,22 @@
 
     "deleted_account_title": "Você solicitou a exclusão da sua conta",
     "deleted_account_message": "Seus dados serão removidos em até 24 horas, nenhuma ação é necessária de sua parte.",
-    "deleted_account_confirm": "Sair do Absolute Cinema"
+    "deleted_account_confirm": "Sair do Oscar Tracker",
+
+    "account": "Conta",
+    "preferences": "Preferências",
+    "language": "Idioma",
+    "name": "Nome",
+    "name_placeholder": "Fernanda Torres",
+    "username": "Username",
+    "username_placeholder": "fernanda_torres",
+    "yes": "Sim",
+    "no": "Não",
+    "cast_spoiler": "Elenco é spoilers?",
+    "poster_spoiler": "Poster é spoiler?",
+    "rating_spoiler": "Nota é spoiler?",
+    "plot_spoiler": "Sinopse é spoiler?",
+    "version": "versão"
   },
   "errors": {
     "wrong_password": {

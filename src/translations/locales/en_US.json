@@ -52,9 +52,14 @@
     "empty_followers_title": "No followers",
     "empty_followers_description": "When someone follows you, they will appear here.",
     "empty_movies_title": "No movies",
-    "empty_movies_description": "No movies watched for this edition."
+    "empty_movies_description": "No movies watched for this edition.",
+
+    "empty_title_unauthenticated": "Welcome to Oscar Tracker",
+    "empty_description_unauthenticated": "Sign in to start tracking your movies.",
+    "sign_in": "Sign In"
   },
   "settings": {
+    "settings": "Settings",
     "sign_out": "Sign Out",
     "switch_to_ptbr": "Switch to Portuguese",
     "switch_to_enus": "Switch to English",
@@ -66,7 +71,22 @@
 
     "deleted_account_title": "You have requested the deletion of your account",
     "deleted_account_message": "Your data will be deleted in 24 hours, no more actions are necessary from your side.",
-    "deleted_account_confirm": "Leave Absolute Cinema"
+    "deleted_account_confirm": "Leave Oscar Tracker",
+
+    "account": "Account",
+    "preferences": "Preferences",
+    "language": "Language",
+    "name": "Name",
+    "name_placeholder": "Steven Spielberg",
+    "username": "Username",
+    "username_placeholder": "steven_spielberg",
+    "yes": "Yes",
+    "no": "No",
+    "cast_spoiler": "Is casting a spoiler?",
+    "poster_spoiler": "Is the poster a spoiler?",
+    "rating_spoiler": "Are the Ratings spoilers?",
+    "plot_spoiler": "Is the plot a spoiler?",
+    "version": "Version"
   },
   "errors": {
     "wrong_password": {

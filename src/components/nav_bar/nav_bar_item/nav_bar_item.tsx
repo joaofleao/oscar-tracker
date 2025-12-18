@@ -18,8 +18,8 @@ const NavBarItem = ({ first = false, last = false, icon, label, selected, style,
       {...rest}
     >
       {React.cloneElement<IconProps>(icon, {
-        color: selected ? semantics.accent.base.default : semantics.accent.foreground.light,
-        size: 20,
+        color: selected === undefined ? semantics.container.foreground.default : selected ? semantics.accent.base.default : semantics.accent.foreground.light,
+        size: 16,
         filled: selected ?? false,
       })}
       {selected && label && <Typography color={semantics.accent.base.default}>{label}</Typography>}

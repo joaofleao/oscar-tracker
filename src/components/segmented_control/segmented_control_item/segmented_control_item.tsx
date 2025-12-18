@@ -8,14 +8,14 @@ import { useTheme } from '@providers/theme'
 
 const SegmentedControlItem = ({ selected, children, ...props }: SegmentedControlItemProps): React.ReactElement => {
   const style = useStyles()
-  const theme = useTheme()
+  const { semantics } = useTheme()
 
   return (
     <TouchableOpacity
       style={[style.root, selected && style.selected]}
       {...props}
     >
-      <Typography color={selected ? theme.semantics.accent.foreground.default : undefined}>{children}</Typography>
+      <Typography color={selected ? semantics.container.foreground.default : semantics.accent.foreground.light}>{children}</Typography>
     </TouchableOpacity>
   )
 }

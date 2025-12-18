@@ -37,6 +37,7 @@ const SmallCaroussel = ({ nominations = [], button, title }: SmallCarousselProps
         description={item.description}
         image={item.image}
         index={index}
+        onPress={item.onPress}
       />
     )
   }

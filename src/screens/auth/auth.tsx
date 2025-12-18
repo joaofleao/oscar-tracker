@@ -82,12 +82,6 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const signInContent = (
     <>
       <View style={styles.content}>
-        <Typography
-          title
-          center
-        >
-          {}
-        </Typography>
         <EmailInput
           value={email}
           onChangeText={setEmail}
@@ -187,15 +181,21 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   return (
     <View style={styles.root}>
-      <TriangleLogo />
-      <TextLogo size={140} />
-      <View style={styles.header}>
-        <SegmentedControl
-          selected={flow}
-          onChange={setFlow}
-          options={flows}
-        />
+      <TriangleLogo
+        color={semantics.accent.base.default}
+        opacity={0.3}
+      />
+
+      <View style={styles.logo}>
+        <TextLogo size={140} />
+        <Typography>tracker</Typography>
       </View>
+
+      <SegmentedControl
+        selected={flow}
+        onChange={setFlow}
+        options={flows}
+      />
 
       {flow === 'signIn' && signInContent}
       {flow === 'signUp' && signUpContent}

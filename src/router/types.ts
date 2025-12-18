@@ -6,21 +6,14 @@ export type StackProps = {
   movies: undefined
   nominations: undefined
   auth: undefined
-  sign_in: undefined
-  sign_up: undefined
-  password_recovery: {
-    email: string | undefined
-  }
+
+  password_recovery: { email: string | undefined }
   preferences: undefined
   profile: undefined
   search: undefined
   settings: undefined
-  movie_details: {
-    movieId: string
-  }
-  category: {
-    categoryId: string
-  }
+  movie: { tmdbId: number }
+  category: { categoryId: string }
 }
 
 export type ScreenProps<T extends keyof StackProps> = NativeStackScreenProps<StackProps, T>

@@ -34,7 +34,7 @@ const BigCard = ({ image, index, scrollX, ...props }: BigCardProps): React.React
 
     const inputRange = [(index - 1) * (CARD_WIDTH + CARD_SPACING), index * (CARD_WIDTH + CARD_SPACING), (index + 1) * (CARD_WIDTH + CARD_SPACING)]
 
-    const opacity = interpolate(scrollX.value, inputRange, [0.4, 0, 0.4], Extrapolation.CLAMP)
+    const opacity = interpolate(scrollX.value, inputRange, [0.8, 0, 0.8], Extrapolation.CLAMP)
 
     return {
       opacity,

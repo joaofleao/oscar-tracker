@@ -31,14 +31,20 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       />
     )
   }
-  const leadingArea = <View style={[styles.footer, styles.leading]}>{tabs.map(renderTabs)}</View>
+  const leadingArea = (
+    <View style={[styles.footer, styles.leading]}>
+      <View style={styles.background}>{tabs.map(renderTabs)}</View>
+    </View>
+  )
 
   const trailingArea = (
     <View style={[styles.footer, styles.trailing]}>
-      <NavBarItem
-        onPress={() => navigation.navigate('search')}
-        icon={<IconMagnifyingGlass />}
-      />
+      <View style={styles.background}>
+        <NavBarItem
+          onPress={() => navigation.navigate('search')}
+          icon={<IconMagnifyingGlass />}
+        />
+      </View>
     </View>
   )
 

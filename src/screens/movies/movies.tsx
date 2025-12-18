@@ -42,6 +42,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
             <Typography
               onPress={() => setVisible(!visible)}
               center
+              legend
               color={semantics.background.foreground.light}
             >
               {selectedOption?.name}
@@ -99,26 +100,28 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       contentContainerStyle={styles.flatlists}
       data={movies.map((movie) => ({
         _id: movie._id,
+        tmdbId: movie.tmdbId,
         title: movie.title[i18n.language],
         image: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}`,
         description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
-        bottomArea: (
-          <>
-            <Typography legend>{t('movies:watched_by')}</Typography>
-            <FlatList
-              horizontal
-              data={movie.friends_who_watched}
-              renderItem={({ item }) => (
-                <TinyAvatar
-                  image={item.image}
-                  label={item.name}
-                />
-              )}
-            />
-          </>
-        ),
-        //TODO navigate to movie page
-        // onPress: (): void => navigation.navigate('watched_movie', { movie }),
+        bottomArea:
+          movie.friends_who_watched.length > 0 ? (
+            <>
+              <Typography legend>{t('movies:watched_by')}</Typography>
+              <FlatList
+                alwaysBounceHorizontal={false}
+                horizontal
+                data={movie.friends_who_watched}
+                renderItem={({ item }) => (
+                  <TinyAvatar
+                    image={item.image}
+                    label={item.name}
+                  />
+                )}
+              />
+            </>
+          ) : undefined,
+        onPress: (): void => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
       }))}
     />
   )

@@ -43,6 +43,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
           <Typography
             onPress={() => setVisible(!visible)}
             center
+            legend
             color={semantics.background.foreground.light}
           >
             {selectedOption?.name}
@@ -63,6 +64,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         image: `https://image.tmdb.org/t/p/w500${el.posterPath[i18n.language]}`,
         title: el.title[i18n.language],
         description: el.description ? el.description[i18n.language] : undefined,
+        onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
       }
     })
 

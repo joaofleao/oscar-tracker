@@ -21,7 +21,7 @@ export type PublicApiType = {
         phone?: string;
         phoneVerificationTime?: number;
         username?: string;
-      }
+      } | null
     >;
     deleteAccount: FunctionReference<
       "action",
@@ -404,6 +404,7 @@ export type PublicApiType = {
         nominationCount: number;
         posterPath: { en_US: string; pt_BR: string };
         title: { en_US: string; pt_BR: string };
+        tmdbId: number;
         watched?: boolean;
       }>
     >;
@@ -423,11 +424,33 @@ export type PublicApiType = {
           nominationId: Id<"oscarNomination">;
           posterPath: { en_US: string; pt_BR: string };
           title: { en_US: string; pt_BR: string };
+          tmdbId: number;
           watched?: boolean;
           winner?: boolean;
         }>;
         type: "person" | "song" | "movie" | "picture";
       }>
+    >;
+    getMovieDetail: FunctionReference<
+      "action",
+      "public",
+      { tmdbId: number },
+      {
+        _creationTime: number;
+        _id: Id<"movies">;
+        backdropPath?: string;
+        imdbId?: string;
+        originalLanguage?: string;
+        overview?: string;
+        posterPath: { en_US: string; pt_BR: string };
+        releaseDate?: string;
+        runtime?: number;
+        status?: string;
+        tagline?: string;
+        title: { en_US: string; original: string; pt_BR: string };
+        tmdbId: number;
+        voteAverage?: number;
+      } | null
     >;
   };
 };
