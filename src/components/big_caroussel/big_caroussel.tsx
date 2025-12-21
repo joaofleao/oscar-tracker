@@ -67,7 +67,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
   }
 
   return (
-    <View style={{ minHeight: Dimensions.get('window').height * 0.65 }}>
+    <View style={{ minHeight: Dimensions.get('window').height * 0.65, margin: -20 }}>
       <View style={{ gap: 40 }}>
         <Animated.FlatList
           ref={flatListRef}

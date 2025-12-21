@@ -19,7 +19,9 @@ const useStyles = (): StylesReturn => {
     image: {
       width: 200,
       aspectRatio: 2 / 3,
-      borderRadius: 4,
+      borderWidth: 1,
+      borderColor: semantics.container.stroke.default,
+      backgroundColor: semantics.container.base.default,
     },
   })
 }

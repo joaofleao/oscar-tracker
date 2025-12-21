@@ -9,14 +9,17 @@ import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 import packageJson from '../../../package.json'
 import useStyles from './styles'
 import Button from '@components/button'
-import { IconDoor, IconLanguages } from '@components/icon'
+import { IconDoor } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Modal from '@components/modal'
+import Question from '@components/question'
 import Row from '@components/row'
+import Section from '@components/section'
 import TextInput from '@components/text_input'
 import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
+import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
 
@@ -24,6 +27,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
   const { semantics } = useTheme()
+  const { spoilers, setSpoilers } = useSettings()
 
   const { signOut } = useAuthActions()
 
@@ -55,8 +59,8 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
       .finally(() => setLoadingSignOut(false))
   }
 
-  const handleSwitchLanguage = async (): Promise<void> => {
-    i18n.changeLanguage(i18n.language === 'en_US' ? 'pt_BR' : 'en_US')
+  const handleSwitchLanguage = (value: boolean): void => {
+    i18n.changeLanguage(value ? 'en_US' : 'pt_BR')
     setItem('language', i18n.language)
   }
 
@@ -81,89 +85,56 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
         <View style={styles.content}>
           <Authenticated>
-            <Typography>{t('settings:account')}</Typography>
-            <View style={styles.section}>
-              <Typography legend>{t('settings:name')}</Typography>
-              <TextInput placeholder={t('settings:name_placeholder')} />
-            </View>
+            <Section title={t('settings:account')}>
+              <View style={styles.section}>
+                <Typography legend>{t('settings:name')}</Typography>
+                <TextInput placeholder={t('settings:name_placeholder')} />
+              </View>
 
-            <View style={styles.section}>
-              <Typography legend>{t('settings:username')}</Typography>
-              <TextInput placeholder={t('settings:username_placeholder')} />
-            </View>
+              <View style={styles.section}>
+                <Typography legend>{t('settings:username')}</Typography>
+                <TextInput placeholder={t('settings:username_placeholder')} />
+              </View>
+            </Section>
           </Authenticated>
 
-          <Typography>{t('settings:language')}</Typography>
-          <Button
-            onPress={handleSwitchLanguage}
-            title={i18n.language === 'en_US' ? t('settings:switch_to_ptbr') : t('settings:switch_to_enus')}
-            icon={<IconLanguages />}
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Question
+            title={t('settings:language')}
+            off={t('settings:ptbr')}
+            on={t('settings:enus')}
+            selected={i18n.language === 'en_US'}
+            setSelected={handleSwitchLanguage}
           />
-          <Typography>{t('settings:preferences')}</Typography>
-          <Row between>
-            <Typography body>{t('settings:poster_spoiler')}</Typography>
-
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Button
-                small
-                title={t('settings:yes')}
-                variant="ghost"
-              />
-              <Button
-                small
-                title={t('settings:no')}
-                variant="accent"
-              />
-            </View>
-          </Row>
-          <Row between>
-            <Typography body>{t('settings:cast_spoiler')}</Typography>
-
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Button
-                small
-                title={t('settings:yes')}
-                variant="ghost"
-              />
-              <Button
-                small
-                title={t('settings:no')}
-                variant="accent"
-              />
-            </View>
-          </Row>
-          <Row between>
-            <Typography body>{t('settings:rating_spoiler')}</Typography>
-
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Button
-                small
-                title={t('settings:yes')}
-                variant="ghost"
-              />
-              <Button
-                small
-                title={t('settings:no')}
-                variant="accent"
-              />
-            </View>
-          </Row>
-          <Row between>
-            <Typography body>{t('settings:plot_spoiler')}</Typography>
-
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Button
-                small
-                title={t('settings:yes')}
-                variant="ghost"
-              />
-              <Button
-                small
-                title={t('settings:no')}
-                variant="accent"
-              />
-            </View>
-          </Row>
         </View>
 
         <View style={styles.footer}>

@@ -5,9 +5,11 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import BigCaroussel from '@components/big_caroussel'
-import MediumCaroussel from '@components/medium_caroussel'
+import Caroussel from '@components/caroussel'
+import MediumCard from '@components/medium_card'
+import Section from '@components/section'
 import Select from '@components/select'
-import SmallCaroussel from '@components/small_caroussel'
+import SmallCard, { SmallCardProps } from '@components/small_card'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
@@ -61,6 +63,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
     const enrichedNominations = item.nominations.map((el) => {
       return {
+        _id: el.nominationId,
         image: `https://image.tmdb.org/t/p/w500${el.posterPath[i18n.language]}`,
         title: el.title[i18n.language],
         description: el.description ? el.description[i18n.language] : undefined,
@@ -79,19 +82,27 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
     if (item.type === 'person' || item.type === 'song')
       return (
-        <SmallCaroussel
-          nominations={enrichedNominations}
+        <Section
           title={item.category.name[i18n.language]}
           button={button}
-        />
+        >
+          <Caroussel
+            data={enrichedNominations}
+            item={SmallCard}
+          />
+        </Section>
       )
 
     return (
-      <MediumCaroussel
-        nominations={enrichedNominations}
+      <Section
         title={item.category.name[i18n.language]}
         button={button}
-      />
+      >
+        <Caroussel
+          data={enrichedNominations}
+          item={MediumCard}
+        />
+      </Section>
     )
   }
 

@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store'
 
 import { ConvexAuthProvider } from '@convex-dev/auth/react'
 import { EditionProvider } from '@providers/edition'
+import { SettingsProvider } from '@providers/settings'
 import { StringsProvider } from '@providers/strings'
 import { ThemeProvider } from '@providers/theme'
 import Router from '@router/router'
@@ -26,23 +27,25 @@ GoogleSignin.configure({
 
 export default function App(): React.ReactElement {
   return (
-    <StringsProvider>
-      <KeyboardProvider>
-        <ThemeProvider>
-          <SafeAreaProvider>
-            <ConvexAuthProvider
-              client={convex}
-              storage={secureStorage}
-            >
-              <EditionProvider>
-                <ConvexProvider client={convex}>
-                  <Router />
-                </ConvexProvider>
-              </EditionProvider>
-            </ConvexAuthProvider>
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </KeyboardProvider>
-    </StringsProvider>
+    <SettingsProvider>
+      <StringsProvider>
+        <KeyboardProvider>
+          <ThemeProvider>
+            <SafeAreaProvider>
+              <ConvexAuthProvider
+                client={convex}
+                storage={secureStorage}
+              >
+                <EditionProvider>
+                  <ConvexProvider client={convex}>
+                    <Router />
+                  </ConvexProvider>
+                </EditionProvider>
+              </ConvexAuthProvider>
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </KeyboardProvider>
+      </StringsProvider>
+    </SettingsProvider>
   )
 }

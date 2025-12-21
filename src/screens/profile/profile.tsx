@@ -12,7 +12,7 @@ import { IconPerson, IconSettings } from '@components/icon'
 import IconButton from '@components/icon_button'
 import SegmentedControl from '@components/segmented_control'
 import Select from '@components/select'
-import SmallCard from '@components/small_caroussel/small_card'
+import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
 import useEditions from '@providers/edition/use_edition'
 import { useTheme } from '@providers/theme'
@@ -64,9 +64,10 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard
+          _id={item._id}
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.image}
-          label={item.name}
+          title={item.name}
           description={item.username}
         />
       )}
@@ -93,9 +94,10 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard
+          _id={item._id}
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.image}
-          label={item.name}
+          title={item.name}
           description={item.username}
         />
       )}
@@ -117,7 +119,15 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         )
       }
       data={watchedMovies.map((el) => {
-        return { _id: el._id, title: el.title, posterPath: el.posterPath, date: new Date(el.watchedAt).toLocaleDateString() }
+        return {
+          _id: el._id,
+          title: el.title,
+          posterPath: el.posterPath,
+          date: new Date(el.watchedAt).toLocaleDateString(),
+          onPress: (): void => {
+            navigation.navigate('movie', { tmdbId: el.tmdbId })
+          },
+        }
       })}
     />
   )

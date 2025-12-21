@@ -1,8 +1,4 @@
-export const print = (
-  api: string,
-  message: string,
-  color: 'blue' | 'red' | 'yellow' | 'green' | number,
-): void => {
+export const print = (api: string, message: string, color: 'blue' | 'red' | 'yellow' | 'green' | number): void => {
   if (color === 'blue') color = 34
   if (color === 'red') color = 31
   if (color === 'yellow') color = 33
@@ -42,15 +38,4 @@ export const deepEqual = (obj1: unknown, obj2: unknown): boolean => {
   }
 
   return true
-}
-
-export const formatRuntime = (runtime: number, language: string): string => {
-  const hours = Math.floor(runtime / 60)
-  const minutes = runtime % 60
-
-  if (language === 'pt-BR') {
-    return `${hours}h ${minutes}min`
-  } else {
-    return `${hours}h ${minutes}m`
-  }
 }

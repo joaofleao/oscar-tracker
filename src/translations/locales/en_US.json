@@ -26,6 +26,22 @@
     "no_results": "No results found.",
     "empty_state": "Search users, movies and categories."
   },
+  "movie": {
+    "watch": "Mark as Watched",
+    "unwatch": "Mark as Unwatched",
+    "imdb": "Check on IMDB",
+    "plot": "Plot",
+    "nominations": "Nominations",
+    "friends": "Watched by",
+    "friends_empty": "No friends",
+    "cast": "Cast",
+    "streaming": "Where to watch",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "continue": "Continue",
+    "unwatch_description": "Are you sure you want to mark %movie as unwatched?",
+    "hold_to_choose_date": "Keep holding to choose a date"
+  },
   "movies": {
     "watch": "Watch",
     "no_movies_title": "Coming soon",
@@ -61,8 +77,8 @@
   "settings": {
     "settings": "Settings",
     "sign_out": "Sign Out",
-    "switch_to_ptbr": "Switch to Portuguese",
-    "switch_to_enus": "Switch to English",
+    "ptbr": "Portuguese",
+    "enus": "English",
     "delete_account": "Delete Account",
     "delete_account_title": "You are about to request the deletion of your account",
     "delete_account_message": "This action is permanent, all your information will be lost.",

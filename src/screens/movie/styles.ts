@@ -1,73 +1,61 @@
-import { Dimensions, ImageStyle, StyleSheet, ViewStyle } from 'react-native'
+import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+import { useTheme } from '@providers/theme'
+
 type StylesReturn = {
-  logo: ImageStyle
-  title: ViewStyle
-  banner: ViewStyle
-  content: ViewStyle
-  gradient: ViewStyle
-  gradientContainer: ViewStyle
+  root: ViewStyle
   header: ViewStyle
+  content: ViewStyle
+
+  footer: ViewStyle
+  section: ViewStyle
+  main: ViewStyle
   datepicker: ViewStyle
-  flatlists: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { width } = Dimensions.get('window')
-  const { top, bottom, right, left } = useSafeAreaInsets()
+  const { bottom, right, left, top } = useSafeAreaInsets()
 
   return StyleSheet.create({
-    logo: {
-      width: 159,
-      height: 118,
+    root: {
+      paddingBottom: bottom + 20,
+      paddingTop: top + 20,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
+      gap: 16,
     },
-    datepicker: {
-      alignSelf: 'center',
-    },
-    banner: {
-      position: 'relative',
-      alignItems: 'center',
-      gap: 20,
-      paddingTop: 60,
-      paddingBottom: 20,
-    },
-    title: {
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    content: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 20,
-      paddingTop: 20,
-    },
-    gradientContainer: {
-      position: 'absolute',
-      alignSelf: 'center',
-      top: -width / 2,
-    },
-    gradient: {
-      height: width * 2,
-      width: width,
+    section: {
+      gap: 8,
     },
 
     header: {
+      position: 'absolute',
+      top: top + 20,
+      right: right + 20,
+      left: left + 20,
+
       justifyContent: 'space-between',
       flexDirection: 'row',
-      width: '100%',
-      position: 'absolute',
-      top,
-      paddingHorizontal: 20,
-      paddingBottom: 20,
-      maxWidth: '100%',
-      alignSelf: 'flex-end',
+      alignItems: 'center',
+
+      gap: 16,
     },
-    flatlists: {
-      paddingTop: top + 20,
-      paddingBottom: bottom + 88,
-      paddingRight: right + 16,
-      paddingLeft: left + 16,
+    content: {
+      gap: 16,
+    },
+    main: {
+      gap: 24,
+      alignItems: 'center',
+    },
+
+    footer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: 12,
+    },
+    datepicker: {
+      alignSelf: 'center',
     },
   })
 }

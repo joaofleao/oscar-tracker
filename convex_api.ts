@@ -144,7 +144,7 @@ export type PublicApiType = {
       }>
     >;
     getMovie: FunctionReference<
-      "mutation",
+      "query",
       "public",
       { tmdbId: number },
       {
@@ -387,6 +387,7 @@ export type PublicApiType = {
         movieId: Id<"movies">;
         posterPath: { en_US: string; pt_BR: string };
         title: { en_US: string; original: string; pt_BR: string };
+        tmdbId: number;
         watchedAt: number;
       }>
     >;
@@ -432,14 +433,28 @@ export type PublicApiType = {
       }>
     >;
     getMovieDetail: FunctionReference<
-      "action",
+      "query",
       "public",
       { tmdbId: number },
       {
         _creationTime: number;
         _id: Id<"movies">;
         backdropPath?: string;
+        friends: Array<{
+          _id: Id<"users">;
+          image?: string;
+          name?: string;
+          username?: string;
+        }>;
         imdbId?: string;
+        latestWatch?: Id<"watchedMovies">;
+        nominations: Array<{
+          actorId?: Id<"actors">;
+          categoryId: Id<"oscarCategories">;
+          categoryName: { en_US: string; pt_BR: string };
+          nominationId: Id<"oscarNomination">;
+          winner?: boolean;
+        }>;
         originalLanguage?: string;
         overview?: string;
         posterPath: { en_US: string; pt_BR: string };
@@ -450,7 +465,7 @@ export type PublicApiType = {
         title: { en_US: string; original: string; pt_BR: string };
         tmdbId: number;
         voteAverage?: number;
-      } | null
+      }
     >;
   };
 };

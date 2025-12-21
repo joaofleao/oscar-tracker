@@ -8,7 +8,7 @@ import useStyles from './styles'
 import { IconX } from '@components/icon'
 import IconButton from '@components/icon_button'
 import SearchInput from '@components/search_input'
-import SmallCard from '@components/small_caroussel/small_card'
+import SmallCard from '@components/small_card'
 import { TinyPlus } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
@@ -79,7 +79,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
         <SmallCard
           _id={item._id}
           image={item.image}
-          label={item.title}
+          title={item.title}
           description={item.description}
           additional={item.follows ? t('search:follows_you') : undefined}
           button={{

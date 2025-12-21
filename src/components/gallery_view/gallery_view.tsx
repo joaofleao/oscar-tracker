@@ -10,7 +10,7 @@ const GalleryView = ({ data = [], header, footer, empty, contentContainerStyle, 
   const { width } = Dimensions.get('window')
 
   const HORIZONTAL_PADDING = 16 + 16
-  const GAP = 8
+  const GAP = 16
   const MIN_ITEM_WIDTH = 80
   const maxColumns = 6
 

@@ -14,7 +14,7 @@
     "feature_not_implemented": "Este recurso não está implementado ainda."
   },
   "home": {
-    "nominations": "Nomeações",
+    "nominations": "indicações",
     "movies": "Filmes",
     "profile": "Perfil",
     "edition": "Edição",
@@ -38,7 +38,6 @@
     "follow": "Seguir",
     "following": "Seguindo",
     "follows_you": "Segue você",
-
     "no_results": "Nenhum resultado encontrado.",
     "empty_state": "Procure usuários, filmes e categorias."
   },
@@ -46,9 +45,26 @@
     "watch": "Assistir",
     "no_movies_title": "Em breve",
     "no_movies_description": "Nenhum filme por enquanto.",
-    "nomination": "nomeação",
-    "nominations_plural": "nomeações",
+    "nomination": "indicação",
+    "nominations_plural": "indicações",
     "watched_by": "Assistido por"
+  },
+
+  "movie": {
+    "watch": "Marcar como Assistido",
+    "unwatch": "Marcar como Não Assistido",
+    "imdb": "Ver no IMDB",
+    "plot": "Sinopse",
+    "nominations": "indicações",
+    "friends": "Assistido por",
+    "friends_empty": "Nenhum amigo",
+    "cast": "Elenco",
+    "streaming": "Onde assistir",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "continue": "Continuar",
+    "unwatch_description": "Tem certeza que deseja marcar %movie como não assistido?",
+    "hold_to_choose_date": "Continue segurando para escolher uma data"
   },
 
   "auth": {
@@ -63,8 +79,8 @@
   "settings": {
     "settings": "Configurações",
     "sign_out": "Sair",
-    "switch_to_ptbr": "Mudar para Português",
-    "switch_to_enus": "Mudar para Inglês",
+    "ptbr": "Português",
+    "enus": "Inglês",
     "delete_account": "Excluir conta",
     "delete_account_title": "Você está prestes a solicitar a exclusão de sua conta",
     "delete_account_message": "Essa ação não pode ser desfeita, todos os seus dados serão perdidos.",

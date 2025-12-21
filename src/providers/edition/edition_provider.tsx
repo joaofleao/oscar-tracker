@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
-import * as SecureStore from 'expo-secure-store'
+import { getItemAsync, setItemAsync } from 'expo-secure-store'
 
 import EditionContext, { type EditionContextType } from './edition_context'
 
@@ -19,7 +19,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   useEffect(() => {
     const hydrateEdition = async (): Promise<void> => {
-      const storedEdition = await SecureStore.getItemAsync('oscar-tracker:currentEdition')
+      const storedEdition = await getItemAsync('currentEdition')
       if (storedEdition) {
         setCurrentEdition(storedEdition as EditionContextType['currentEdition'])
       }
@@ -29,7 +29,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   useEffect(() => {
     if (!currentEdition) return
-    SecureStore.setItemAsync('oscar-tracker:currentEdition', currentEdition)
+    setItemAsync('currentEdition', currentEdition)
   }, [currentEdition])
 
   const value: EditionContextType = {

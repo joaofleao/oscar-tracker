@@ -13,8 +13,8 @@ const useStyles = (): StylesReturn => {
       gap: 16,
       paddingTop: top + 20,
       paddingBottom: bottom + 88,
-      paddingRight: right,
-      paddingLeft: left,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
     },
   })
 }
