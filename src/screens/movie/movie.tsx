@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Image, Linking, ScrollView, View } from 'react-native'
@@ -36,6 +36,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const { t, i18n } = useTranslation()
   const { spoilers } = useSettings()
   const catchConvexError = useConvexErrorHandler()
+  const confettiRef = useRef<LottieView>(null)
 
   const movie = useQuery(api.oscars.getMovieDetail, { tmdbId })
 
@@ -89,6 +90,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
     } catch (error) {
       catchConvexError(error)
     } finally {
+      confettiRef.current?.play()
+
       setCalendarModal(false)
     }
   }
@@ -109,6 +112,15 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
           style={{ pointerEvents: 'none', position: 'absolute', bottom: 0, height: 300, width: '100%' }}
         />
+        {movie.brazil && (
+          <LottieView
+            loop={true}
+            autoPlay={true}
+            speed={0.8}
+            source={require('@assets/animations/fireworks.json')}
+            style={styles.animation}
+          />
+        )}
       </View>
 
       <ScrollView contentContainerStyle={styles.root}>
@@ -296,10 +308,11 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
       </Modal>
 
       <LottieView
-        source={require('@assets/animations/confetti.json')}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
-        autoPlay
-        loop
+        ref={confettiRef}
+        loop={false}
+        autoPlay={false}
+        source={movie.brazil ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
+        style={[styles.animation, styles.bottom]}
       />
     </>
   )

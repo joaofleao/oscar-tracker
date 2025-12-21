@@ -1,12 +1,12 @@
-import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
   header: ViewStyle
   content: ViewStyle
+  animation: ViewStyle
+  bottom: ViewStyle
 
   footer: ViewStyle
   section: ViewStyle
@@ -28,7 +28,6 @@ const useStyles = (): StylesReturn => {
     section: {
       gap: 8,
     },
-
     header: {
       position: 'absolute',
       top: top + 20,
@@ -48,7 +47,6 @@ const useStyles = (): StylesReturn => {
       gap: 24,
       alignItems: 'center',
     },
-
     footer: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -56,6 +54,18 @@ const useStyles = (): StylesReturn => {
     },
     datepicker: {
       alignSelf: 'center',
+    },
+    animation: {
+      position: 'absolute',
+      width: '130%',
+      aspectRatio: 1,
+      top: 0,
+      alignSelf: 'center',
+      pointerEvents: 'none',
+    },
+    bottom: {
+      top: undefined,
+      bottom: 0,
     },
   })
 }
