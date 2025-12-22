@@ -225,6 +225,7 @@ export type PublicApiType = {
         _creationTime: number;
         _id: Id<"movies">;
         backdropPath?: string;
+        brazil?: boolean;
         imdbId?: string;
         originalLanguage?: string;
         overview?: string;
