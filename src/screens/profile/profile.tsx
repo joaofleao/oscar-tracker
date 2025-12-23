@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Dimensions, FlatList, Image, View } from 'react-native'
 import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react'
 import { api } from 'convex_api'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -192,13 +193,18 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         </Unauthenticated>
       </View>
 
-      <View style={{ alignItems: 'center', gap: 16 }}>
+      <View style={{ alignItems: 'center' }}>
         <SegmentedControl
           selected={flow}
           onChange={setFlow}
           options={sections}
         />
       </View>
+
+      <LinearGradient
+        colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.70)', 'rgba(0, 0, 0, 0)']}
+        style={{ pointerEvents: 'none', height: 20, width: '100%', marginBottom: -20, zIndex: 1 }}
+      />
 
       {flow === 'movies' && renderMovies}
       {flow === 'following' && renderFollowing}

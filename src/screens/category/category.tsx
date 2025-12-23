@@ -1,6 +1,7 @@
 import { FlatList, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -17,24 +18,33 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const data = useQuery(api.oscars.getNominationsByCategory, {
     editionId: currentEdition,
     categoryId: route.params.categoryId,
+    language: i18n.language,
   })
 
   if (!data) return <></>
 
   return (
     <View style={styles.root}>
-      <Typography>{data.category.name[i18n.language]}</Typography>
-      <FlatList
-        data={data.nominations ?? []}
-        renderItem={({ item }) => (
-          <ListViewItem
-            _id={item.nominationId}
-            title={item.title.en_US}
-            image={item.image.en_US}
-            description={item.description?.en_US}
-          />
-        )}
-      />
+      <Typography center>{data.category.name}</Typography>
+      <View>
+        <FlatList
+          contentContainerStyle={{ gap: 16, paddingTop: 40 }}
+          data={data.nominations ?? []}
+          renderItem={({ item }) => (
+            <ListViewItem
+              _id={item.nominationId}
+              title={item.title}
+              image={`https://image.tmdb.org/t/p/w500${item.image}`}
+              description={item.description}
+              extra={item.extra}
+            />
+          )}
+        />
+        <LinearGradient
+          colors={['rgba(13, 13, 13, 1)', 'rgba(13, 13, 13, 0.70)', 'rgba(13, 13, 13, 0)']}
+          style={{ pointerEvents: 'none', position: 'absolute', height: 40, width: '100%' }}
+        />
+      </View>
     </View>
   )
 }

@@ -14,9 +14,12 @@ export interface ListViewItemProps extends Omit<TouchableOpacityProps, 'onPress'
   image?: string
   title?: string
   description?: string
+  extra?: string
   bottomArea?: React.ReactElement
   topButton?: ListViewItemActionProps
   bottomButton?: ListViewItemActionProps
   onPress?: (e: GestureResponderEvent, id?: string) => void
   onLongPress?: (e: GestureResponderEvent, id?: string) => void
+  spoiler?: boolean
+  watched?: boolean
 }

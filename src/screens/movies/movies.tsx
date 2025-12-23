@@ -10,6 +10,7 @@ import Select from '@components/select'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
+import { useSettings } from '@providers/settings'
 import { semantics } from '@providers/theme'
 import { TabType } from '@router/types'
 
@@ -17,6 +18,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
   const { currentEdition, setCurrentEdition, editions } = useEdition()
+  const { spoilers } = useSettings()
 
   const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition }) || []
 
@@ -99,6 +101,8 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       header={header}
       contentContainerStyle={styles.flatlists}
       data={movies.map((movie) => ({
+        watched: movie.watched,
+        spoiler: spoilers.hidePoster,
         _id: movie._id,
         tmdbId: movie.tmdbId,
         title: movie.title[i18n.language],

@@ -36,7 +36,7 @@ const Poster = ({ spoiler, toggleSpoiler, placeholder, style, ...props }: Poster
         {content}
         <Animated.View style={[styles.spoiler, spoilerStyle]}>
           <BlurView
-            intensity={50}
+            intensity={20}
             style={styles.blur}
           />
           <IconEyeClosed />

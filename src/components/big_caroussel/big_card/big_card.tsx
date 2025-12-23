@@ -1,15 +1,19 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { BigCardProps } from './types'
+import { IconLocket } from '@components/icon'
+import { useTheme } from '@providers/theme'
 
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
-const BigCard = ({ image, index, scrollX, ...props }: BigCardProps): React.ReactElement => {
+const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardProps): React.ReactElement => {
   const styles = useStyles()
+  const { semantics } = useTheme()
 
   const hasImage = image !== undefined
 
@@ -48,10 +52,23 @@ const BigCard = ({ image, index, scrollX, ...props }: BigCardProps): React.React
         {...props}
       >
         {hasImage && (
-          <Image
-            source={{ uri: image }}
-            style={styles.image}
-          />
+          <View>
+            <Image
+              source={{ uri: image }}
+              style={styles.image}
+            />
+            {!watched && (
+              <BlurView
+                style={styles.spoiler}
+                intensity={spoiler && !watched ? 20 : 0}
+              >
+                <IconLocket
+                  color={semantics.container.foreground.light}
+                  size={16}
+                />
+              </BlurView>
+            )}
+          </View>
         )}
         <Animated.View
           style={[

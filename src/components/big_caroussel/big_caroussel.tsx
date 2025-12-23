@@ -71,6 +71,8 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
         }
         index={index}
         scrollX={scrollX}
+        spoiler={item.spoiler}
+        watched={item.watched}
       />
     )
   }

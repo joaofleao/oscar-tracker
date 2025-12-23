@@ -1,12 +1,16 @@
 import React from 'react'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
+import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { MediumCardProps } from './types'
+import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
+import { useTheme } from '@providers/theme'
 
-const MediumCard = ({ image, label, ...props }: MediumCardProps): React.ReactElement => {
+const MediumCard = ({ image, label, spoiler, watched, ...props }: MediumCardProps): React.ReactElement => {
   const styles = useStyles()
+  const { semantics } = useTheme()
 
   const hasImage = image !== undefined
 
@@ -16,10 +20,23 @@ const MediumCard = ({ image, label, ...props }: MediumCardProps): React.ReactEle
       {...props}
     >
       {hasImage && (
-        <Image
-          source={{ uri: image }}
-          style={styles.image}
-        />
+        <View>
+          <Image
+            source={{ uri: image }}
+            style={styles.image}
+          />
+          {!watched && (
+            <BlurView
+              style={styles.spoiler}
+              intensity={spoiler && !watched ? 10 : 0}
+            >
+              <IconLocket
+                color={semantics.container.foreground.light}
+                size={16}
+              />
+            </BlurView>
+          )}
+        </View>
       )}
 
       <Typography body>{label}</Typography>

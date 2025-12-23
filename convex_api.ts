@@ -437,20 +437,21 @@ export type PublicApiType = {
     getNominationsByCategory: FunctionReference<
       "query",
       "public",
-      { categoryId?: Id<"oscarCategories">; editionId?: Id<"oscarEditions"> },
       {
-        category: {
-          _id: Id<"oscarCategories">;
-          name: { en_US: string; pt_BR: string };
-        };
+        categoryId?: Id<"oscarCategories">;
+        editionId?: Id<"oscarEditions">;
+        language?: "pt_BR" | "en_US";
+      },
+      {
+        category: { categoryId: Id<"oscarCategories">; name: string };
         nominations: Array<{
-          description?: { en_US: string; pt_BR: string };
-          extra?: { en_US: string; pt_BR: string };
-          image: { en_US: string; pt_BR: string };
+          description?: string;
+          extra?: string;
+          image?: string;
           nominationId: Id<"oscarNomination">;
-          title: { en_US: string; pt_BR: string };
+          title: string;
           watched?: number;
-          winner?: boolean;
+          winner: boolean;
         }>;
       }
     >;

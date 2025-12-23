@@ -1,13 +1,14 @@
 import React from 'react'
 import { ActivityIndicator, Image, TouchableOpacity, View } from 'react-native'
+import { BlurView } from 'expo-blur'
 
 import useStyle from './styles'
 import { ListViewItemProps } from './types'
-import { IconProps } from '@components/icon'
+import { IconLocket, IconProps } from '@components/icon'
 import Typography from '@components/typography'
 import { semantics, useTheme } from '@providers/theme'
 
-const ListViewItem = ({ _id, title, bottomArea, description, image, style, topButton, bottomButton, onLongPress, onPress, ...props }: ListViewItemProps): React.ReactElement => {
+const ListViewItem = ({ _id, title, spoiler, watched, bottomArea, description, extra, image, style, topButton, bottomButton, onLongPress, onPress, ...props }: ListViewItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
 
@@ -40,14 +41,29 @@ const ListViewItem = ({ _id, title, bottomArea, description, image, style, topBu
     )
   }
 
+  const hasImage = image !== undefined
+
   const content = (
     <>
-      {image !== undefined && (
-        <Image
-          style={styles.image}
-          source={{ uri: image }}
-          alt={title}
-        />
+      {hasImage && (
+        <View>
+          <Image
+            style={styles.image}
+            source={{ uri: image }}
+            alt={title}
+          />
+          {!watched && (
+            <BlurView
+              style={styles.spoiler}
+              intensity={spoiler && !watched ? 10 : 0}
+            >
+              <IconLocket
+                color={semantics.container.foreground.light}
+                size={16}
+              />
+            </BlurView>
+          )}
+        </View>
       )}
 
       {image === undefined && <View style={styles.imagePlaceholder} />}
@@ -56,12 +72,22 @@ const ListViewItem = ({ _id, title, bottomArea, description, image, style, topBu
         <View>
           <Typography body>{typeof title === 'string' ? title : title}</Typography>
 
-          <Typography
-            body
-            color={semantics.container.foreground.light}
-          >
-            {description}
-          </Typography>
+          {description && (
+            <Typography
+              body
+              color={semantics.container.foreground.light}
+            >
+              {description}
+            </Typography>
+          )}
+          {extra && (
+            <Typography
+              body
+              color={semantics.accent.base.default}
+            >
+              {extra}
+            </Typography>
+          )}
         </View>
 
         {bottomArea}

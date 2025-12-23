@@ -15,6 +15,7 @@ type StylesReturn = {
   buttonContent: ViewStyle
   loading: ViewStyle
   hide: ViewStyle
+  spoiler: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -91,6 +92,16 @@ const useStyles = (): StylesReturn => {
     },
     hide: {
       opacity: 0,
+    },
+    spoiler: {
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   })
 }

@@ -15,6 +15,8 @@ export interface SmallCardProps extends TouchableOpacityProps {
   image?: string
   title?: string
   description?: string
+  spoiler?: boolean
+  watched?: boolean
 
   additional?: string
   index?: number

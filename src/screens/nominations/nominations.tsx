@@ -12,12 +12,14 @@ import Select from '@components/select'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
+import useSettings from '@providers/settings/useSettings'
 import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { currentEdition, setCurrentEdition, editions } = useEdition()
   const { semantics } = useTheme()
+  const { spoilers } = useSettings()
   const styles = useStyles()
 
   const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition }) || []
@@ -68,6 +70,8 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         title: el.title[i18n.language],
         description: el.description ? el.description[i18n.language] : undefined,
         onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
+        watched: el.watched,
+        spoiler: item.type === 'person' ? spoilers.hidePlot : spoilers.hidePoster,
       }
     })
 

@@ -4,6 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  spoiler: ViewStyle
   image: ImageStyle
 }
 
@@ -21,6 +22,16 @@ const useStyles = (): StylesReturn => {
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       backgroundColor: semantics.container.base.default,
+    },
+    spoiler: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
     },
   })
 }

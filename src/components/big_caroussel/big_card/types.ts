@@ -5,4 +5,6 @@ export interface BigCardProps extends TouchableOpacityProps {
   image?: string
   index: number
   scrollX?: SharedValue<number>
+  watched?: boolean
+  spoiler?: boolean
 }

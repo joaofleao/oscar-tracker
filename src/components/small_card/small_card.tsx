@@ -1,13 +1,15 @@
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { SmallCardProps } from './types'
 import Button from '@components/button'
+import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const SmallCard = ({ _id, image, button, title, description, additional, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
+const SmallCard = ({ _id, image, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -16,10 +18,23 @@ const SmallCard = ({ _id, image, button, title, description, additional, disable
   const content = (
     <>
       {hasImage && (
-        <Image
-          source={{ uri: image }}
-          style={styles.image}
-        />
+        <View>
+          <Image
+            source={{ uri: image }}
+            style={styles.image}
+          />
+          {!watched && (
+            <BlurView
+              style={styles.spoiler}
+              intensity={spoiler && !watched ? 8 : 0}
+            >
+              <IconLocket
+                color={semantics.container.foreground.light}
+                size={16}
+              />
+            </BlurView>
+          )}
+        </View>
       )}
       <View style={{ flex: 1 }}>
         <Typography
