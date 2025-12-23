@@ -49,6 +49,9 @@
     "nominations_plural": "indicações",
     "watched_by": "Assistido por"
   },
+  "nominations": {
+    "expand": "Expandir"
+  },
 
   "movie": {
     "watch": "Marcar como Assistido",

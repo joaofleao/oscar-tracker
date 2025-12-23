@@ -58,7 +58,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
     const button = {
       action: (): void => navigation.navigate('category', { categoryId: item.category._id }),
-      title: 'expand',
+      title: t('nominations:expand'),
     }
 
     const enrichedNominations = item.nominations.map((el) => {

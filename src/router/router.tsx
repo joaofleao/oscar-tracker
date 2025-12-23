@@ -172,7 +172,7 @@ const Router = (): React.ReactNode => {
             name={'category'}
             component={Category}
             options={{
-              presentation: 'formSheet',
+              presentation: 'pageSheet',
               sheetAllowedDetents: 'fitToContents',
               contentStyle: {
                 backgroundColor: semantics.container.base.original,

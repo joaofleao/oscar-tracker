@@ -1,3 +1,5 @@
+import { GenericId } from 'convex/values'
+
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -13,7 +15,7 @@ export type StackProps = {
   search: undefined
   settings: undefined
   movie: { tmdbId: number }
-  category: { categoryId: string }
+  category: { categoryId: GenericId<'oscarCategories'> }
 }
 
 export type ScreenProps<T extends keyof StackProps> = NativeStackScreenProps<StackProps, T>

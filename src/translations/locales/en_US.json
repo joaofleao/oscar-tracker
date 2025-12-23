@@ -18,6 +18,9 @@
     "edition": "Edition",
     "select_edition": "Select an edition"
   },
+  "nominations": {
+    "expand": "Expand"
+  },
   "search": {
     "follow": "Follow",
     "following": "Following",

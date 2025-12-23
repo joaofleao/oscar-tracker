@@ -10,13 +10,13 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      paddingBottom: bottom,
-      paddingTop: 40,
-      paddingRight: right + 20,
-      paddingLeft: left + 20,
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 40,
+      // paddingBottom: bottom,
+      // paddingTop: 40,
+      // paddingRight: right + 20,
+      // paddingLeft: left + 20,
+      // justifyContent: 'center',
+      // alignItems: 'center',
+      // gap: 40,
     },
   })
 }

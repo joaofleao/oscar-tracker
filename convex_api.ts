@@ -86,7 +86,7 @@ export type PublicApiType = {
         id: number;
         known_for: string;
         name: string;
-        profile_path?: string;
+        profile_path: string | null;
       }>
     >;
     getOrCreateActor: FunctionReference<
@@ -338,7 +338,7 @@ export type PublicApiType = {
     getNominationsByEdition: FunctionReference<
       "query",
       "public",
-      { editionId: Id<"oscarEditions"> },
+      { editionId?: Id<"oscarEditions"> },
       Array<{
         _id: Id<"oscarNomination">;
         actor?: { _id: Id<"actors">; name: string };
@@ -414,7 +414,7 @@ export type PublicApiType = {
     getNominations: FunctionReference<
       "query",
       "public",
-      { editionId?: Id<"oscarEditions"> },
+      { categoryId?: Id<"oscarCategories">; editionId?: Id<"oscarEditions"> },
       Array<{
         category: {
           _id: Id<"oscarCategories">;
@@ -433,6 +433,26 @@ export type PublicApiType = {
         }>;
         type: "person" | "song" | "movie" | "picture";
       }>
+    >;
+    getNominationsByCategory: FunctionReference<
+      "query",
+      "public",
+      { categoryId?: Id<"oscarCategories">; editionId?: Id<"oscarEditions"> },
+      {
+        category: {
+          _id: Id<"oscarCategories">;
+          name: { en_US: string; pt_BR: string };
+        };
+        nominations: Array<{
+          description?: { en_US: string; pt_BR: string };
+          extra?: { en_US: string; pt_BR: string };
+          image: { en_US: string; pt_BR: string };
+          nominationId: Id<"oscarNomination">;
+          title: { en_US: string; pt_BR: string };
+          watched?: number;
+          winner?: boolean;
+        }>;
+      }
     >;
     getMovieDetail: FunctionReference<
       "query",
