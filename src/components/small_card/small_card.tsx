@@ -9,7 +9,7 @@ import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const SmallCard = ({ _id, image, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
+const SmallCard = ({ _id, image, squared, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -21,9 +21,9 @@ const SmallCard = ({ _id, image, button, title, description, additional, spoiler
         <View>
           <Image
             source={{ uri: image }}
-            style={styles.image}
+            style={[styles.image, squared && styles.squared]}
           />
-          {!watched && (
+          {watched === false && (
             <BlurView
               style={styles.spoiler}
               intensity={spoiler && !watched ? 8 : 0}

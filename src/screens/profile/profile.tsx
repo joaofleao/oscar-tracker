@@ -66,6 +66,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       renderItem={({ item }) => (
         <SmallCard
           _id={item._id}
+          squared
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.image}
           title={item.name}
@@ -96,6 +97,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       renderItem={({ item }) => (
         <SmallCard
           _id={item._id}
+          squared
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.image}
           title={item.name}

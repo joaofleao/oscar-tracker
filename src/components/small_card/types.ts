@@ -17,6 +17,7 @@ export interface SmallCardProps extends TouchableOpacityProps {
   description?: string
   spoiler?: boolean
   watched?: boolean
+  squared?: boolean
 
   additional?: string
   index?: number

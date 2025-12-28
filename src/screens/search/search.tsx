@@ -77,6 +77,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
       automaticallyAdjustKeyboardInsets
       renderItem={({ item }) => (
         <SmallCard
+          squared
           _id={item._id}
           image={item.image}
           title={item.title}

@@ -4,6 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  squared: ImageStyle
   spoiler: ViewStyle
   image: ImageStyle
 }
@@ -24,8 +25,11 @@ const useStyles = (): StylesReturn => {
     },
     image: {
       width: 40,
-      aspectRatio: 1 / 1,
+      aspectRatio: 2 / 3,
       borderRadius: 8,
+    },
+    squared: {
+      aspectRatio: 1 / 1,
     },
     spoiler: {
       position: 'absolute',

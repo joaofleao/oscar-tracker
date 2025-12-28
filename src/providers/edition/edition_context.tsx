@@ -6,7 +6,7 @@ type EditionType = PublicApiType['oscars']['getOscarEditions']['_returnType']
 export interface EditionContextType {
   editions: EditionType
   currentEdition: EditionType[0]['_id'] | undefined
-  setCurrentEdition: React.Dispatch<React.SetStateAction<EditionType[0]['_id'] | undefined>>
+  setCurrentEdition: (editionId: EditionContextType['currentEdition']) => void
 }
 
 const EditionContext = createContext<EditionContextType | null>(null)
