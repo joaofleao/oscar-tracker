@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
@@ -31,20 +31,6 @@ const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardP
     }
   })
 
-  const overlayStyle = useAnimatedStyle(() => {
-    if (!scrollX) {
-      return { opacity: 0 }
-    }
-
-    const inputRange = [(index - 1) * (CARD_WIDTH + CARD_SPACING), index * (CARD_WIDTH + CARD_SPACING), (index + 1) * (CARD_WIDTH + CARD_SPACING)]
-
-    const opacity = interpolate(scrollX.value, inputRange, [0.8, 0, 0.8], Extrapolation.CLAMP)
-
-    return {
-      opacity,
-    }
-  })
-
   return (
     <Animated.View style={animatedStyle}>
       <TouchableOpacity
@@ -70,16 +56,6 @@ const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardP
             )}
           </View>
         )}
-        <Animated.View
-          style={[
-            {
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: '#000',
-              borderRadius: 4,
-            },
-            overlayStyle,
-          ]}
-        />
       </TouchableOpacity>
     </Animated.View>
   )

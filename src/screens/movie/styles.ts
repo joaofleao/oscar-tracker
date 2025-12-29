@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
@@ -7,7 +7,11 @@ type StylesReturn = {
   content: ViewStyle
   animation: ViewStyle
   bottom: ViewStyle
+  backdropContainer: ViewStyle
+  backdropGradient: ViewStyle
+  backdropImage: ImageStyle
 
+  chips: ViewStyle
   footer: ViewStyle
   section: ViewStyle
   main: ViewStyle
@@ -27,6 +31,24 @@ const useStyles = (): StylesReturn => {
     },
     section: {
       gap: 8,
+    },
+    chips: {
+      gap: 8,
+    },
+    backdropContainer: {
+      position: 'absolute',
+    },
+    backdropGradient: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      bottom: 0,
+      height: 300,
+      width: '100%',
+    },
+    backdropImage: {
+      aspectRatio: 1,
+      width: '100%',
+      opacity: 0.7,
     },
     header: {
       position: 'absolute',

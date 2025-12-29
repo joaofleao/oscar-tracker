@@ -19,13 +19,14 @@
     "select_edition": "Select an edition"
   },
   "nominations": {
-    "expand": "Expand"
+    "expand": "Expand",
+    "empty_nominations_title": "No nominations",
+    "empty_nominations_description": "No nominations in this edition."
   },
   "search": {
     "follow": "Follow",
     "following": "Following",
     "follows_you": "Follows you",
-
     "no_results": "No results found.",
     "empty_state": "Search users, movies and categories."
   },

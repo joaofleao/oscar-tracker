@@ -77,7 +77,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
           />
           <Typography>{t('settings:settings')}</Typography>
           <IconButton
-            style={{ opacity: 0 }}
+            style={styles.hide}
             icon={<TinyChevron orientation="left" />}
             onPress={navigation.goBack}
           />

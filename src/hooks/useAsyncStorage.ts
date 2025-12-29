@@ -15,7 +15,7 @@ const useAsyncStorage = (): useAsyncStorageType => {
     try {
       const jsonValue = JSON.stringify(value)
       await setItemAsync(id, jsonValue)
-    } catch (e) {
+    } catch {
       print('async-storage', `error saving object: ${id}`, 'red')
     }
   }
@@ -23,7 +23,7 @@ const useAsyncStorage = (): useAsyncStorageType => {
   const storeString: useAsyncStorageType['storeString'] = async (id, value) => {
     try {
       await setItemAsync(id, value)
-    } catch (e) {
+    } catch {
       print('async-storage', `error saving string: ${id}`, 'red')
     }
   }
@@ -34,7 +34,7 @@ const useAsyncStorage = (): useAsyncStorageType => {
       if (value !== null) {
         return value
       }
-    } catch (e) {
+    } catch {
       print('async-storage', `error reading string: ${id}`, 'red')
     }
     return ''
@@ -44,7 +44,7 @@ const useAsyncStorage = (): useAsyncStorageType => {
     try {
       const jsonValue = await getItemAsync(id)
       return jsonValue != null ? JSON.parse(jsonValue) : null
-    } catch (e) {
+    } catch {
       print('async-storage', `error reading string: ${id}`, 'red')
     }
   }
@@ -52,7 +52,7 @@ const useAsyncStorage = (): useAsyncStorageType => {
   const remove: useAsyncStorageType['remove'] = async (id) => {
     try {
       await deleteItemAsync(id)
-    } catch (e) {
+    } catch {
       print('async-storage', `error removing: ${id}`, 'red')
     }
   }

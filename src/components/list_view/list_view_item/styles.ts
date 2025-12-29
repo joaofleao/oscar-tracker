@@ -4,6 +4,8 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  texts: ViewStyle
+  content: ViewStyle
   hasButtons: ViewStyle
   image: ImageStyle
   imagePlaceholder: ViewStyle
@@ -22,6 +24,13 @@ const useStyles = (): StylesReturn => {
   const theme = useTheme()
   return StyleSheet.create({
     root: {
+      flexDirection: 'row',
+    },
+    texts: {
+      flex: 1,
+      gap: 4,
+    },
+    content: {
       flex: 1,
       padding: 8,
       borderRadius: 12,

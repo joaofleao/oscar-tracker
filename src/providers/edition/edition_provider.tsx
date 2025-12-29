@@ -27,6 +27,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       } else setCurrentEditionState(editions[0]?._id)
     }
     void hydrateEdition()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const value: EditionContextType = {

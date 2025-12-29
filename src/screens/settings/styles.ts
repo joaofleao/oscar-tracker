@@ -7,6 +7,7 @@ type StylesReturn = {
   content: ViewStyle
   footer: ViewStyle
   section: ViewStyle
+  hide: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -36,6 +37,9 @@ const useStyles = (): StylesReturn => {
     content: {
       gap: 16,
       flex: 1,
+    },
+    hide: {
+      opacity: 0,
     },
 
     footer: {

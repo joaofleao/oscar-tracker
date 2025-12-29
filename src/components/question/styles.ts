@@ -1,5 +1,4 @@
 import { StyleSheet, ViewStyle } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { SemanticsType, useTheme } from '@providers/theme'
 
@@ -19,7 +18,6 @@ type StylesProps = {
 
 const useStyles = ({ variant }: StylesProps): StylesReturn => {
   const { semantics } = useTheme()
-  const { top } = useSafeAreaInsets()
 
   return StyleSheet.create({
     root: {

@@ -1,25 +1,17 @@
-import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
-
-import { useTheme } from '@providers/theme'
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
 
 type StylesReturn = {
   root: ViewStyle
-  image: ImageStyle
+  text: TextStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { semantics } = useTheme()
-
   return StyleSheet.create({
     root: {
-      borderRadius: 4,
-
-      width: 200,
+      gap: 8,
     },
-    image: {
-      width: 200,
-      aspectRatio: 2 / 3,
-      borderRadius: 4,
+    text: {
+      flex: 1,
     },
   })
 }

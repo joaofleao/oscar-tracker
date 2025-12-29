@@ -10,15 +10,20 @@ import Button from '@components/button'
 import Typography from '@components/typography'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
+const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
 const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): React.ReactElement => {
-  const styles = useStyles()
   const scrollX = useSharedValue(0)
   const flatListRef = React.useRef<FlatList>(null)
   const sidePadding = (SCREEN_WIDTH - CARD_WIDTH) / 2
   const fadeOpacity = useSharedValue(1)
+  const styles = useStyles({
+    sidePadding,
+    minHeight: SCREEN_HEIGHT * 0.65,
+    cardSpacing: CARD_SPACING,
+  })
 
   const [activeElement, setActiveElement] = React.useState(0)
 
@@ -79,54 +84,32 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
 
   return (
     <>
-      <Animated.View
-        style={[
-          {
-            zIndex: -1,
-            position: 'absolute',
-            top: -150,
-            width: '120%',
-            aspectRatio: 2 / 3,
-            alignSelf: 'center',
-          },
-          fadeAnimatedStyle,
-        ]}
-      >
+      <Animated.View style={[styles.backgroundContainer, fadeAnimatedStyle]}>
         {nominations.map((el, index) => (
           <Animated.Image
             key={el.title}
             blurRadius={8}
             source={{ uri: `https://image.tmdb.org/t/p/w500${el.image}` }}
-            style={[
-              {
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                opacity: index === activeElement ? 0.4 : 0,
-              },
-            ]}
+            style={[styles.backgroundImage, index === activeElement ? styles.backgroundImageActive : styles.backgroundImageInactive]}
           />
         ))}
         <LinearGradient
           colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0)']}
-          style={{ pointerEvents: 'none', position: 'absolute', top: 0, height: 300, width: '100%' }}
+          style={styles.gradientTop}
         />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
-          style={{ pointerEvents: 'none', position: 'absolute', bottom: 0, height: 300, width: '100%' }}
+          style={styles.gradientBottom}
         />
       </Animated.View>
-      <View style={{ minHeight: Dimensions.get('window').height * 0.65, margin: -20 }}>
-        <View style={{ gap: 40 }}>
+      <View style={styles.container}>
+        <View style={styles.contentWrapper}>
           <Animated.FlatList
             ref={flatListRef}
             snapToInterval={CARD_WIDTH + CARD_SPACING}
-            style={{ overflow: 'visible' }}
+            style={styles.list}
             decelerationRate="fast"
-            contentContainerStyle={{
-              gap: CARD_SPACING,
-              paddingHorizontal: sidePadding,
-            }}
+            contentContainerStyle={styles.listContent}
             showsHorizontalScrollIndicator={false}
             horizontal
             data={nominations}
@@ -137,14 +120,14 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
             onMomentumScrollEnd={handleMomentumEnd}
             onMomentumScrollBegin={handleMomentumStart}
           />
-          <Animated.View style={[{ alignItems: 'center', gap: 16, paddingHorizontal: 16 }, fadeAnimatedStyle]}>
+          <Animated.View style={[styles.infoContainer, fadeAnimatedStyle]}>
             <Typography
               display
               center
             >
               {nominations[activeElement]?.title}
             </Typography>
-            <View style={{ alignItems: 'center', gap: 8 }}>
+            <View style={styles.infoTextContainer}>
               <Typography
                 body
                 center

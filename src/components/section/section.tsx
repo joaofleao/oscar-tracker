@@ -9,15 +9,14 @@ import Typography from '@components/typography'
 
 const Section = ({ children, button, title }: SectionProps): React.ReactElement => {
   const styles = useStyles()
-
   return (
-    <View style={{ gap: 8 }}>
+    <View style={styles.text}>
       <Row between>
         <Typography
-          style={{ flex: 1 }}
+          style={styles.text}
           numberOfLines={1}
         >
-          {title}
+          Melhor filme internactional baseado num bando de brancos djsaiod djsaio ds
         </Typography>
         {button && (
           <Button

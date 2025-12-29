@@ -1,25 +1,94 @@
 import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
 
-import { useTheme } from '@providers/theme'
-
 type StylesReturn = {
-  root: ViewStyle
-  image: ImageStyle
+  backgroundContainer: ViewStyle
+  backgroundImage: ImageStyle
+  backgroundImageActive: ImageStyle
+  backgroundImageInactive: ImageStyle
+  gradientTop: ViewStyle
+  gradientBottom: ViewStyle
+  container: ViewStyle
+  contentWrapper: ViewStyle
+  list: ViewStyle
+  listContent: ViewStyle
+  infoContainer: ViewStyle
+  infoTextContainer: ViewStyle
 }
 
-const useStyles = (): StylesReturn => {
-  const { semantics } = useTheme()
+type StyleParams = {
+  sidePadding: number
+  minHeight: number
+  cardSpacing: number
+}
 
+const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): StylesReturn => {
   return StyleSheet.create({
-    root: {
-      borderRadius: 4,
-
-      width: 200,
-    },
-    image: {
-      width: 200,
+    backgroundContainer: {
+      zIndex: -1,
+      position: 'absolute',
+      top: -150,
+      width: '120%',
       aspectRatio: 2 / 3,
-      borderRadius: 4,
+      alignSelf: 'center',
+    },
+
+    backgroundImage: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+    },
+
+    backgroundImageActive: {
+      opacity: 0.4,
+    },
+
+    backgroundImageInactive: {
+      opacity: 0,
+    },
+
+    gradientTop: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      height: 300,
+      width: '100%',
+    },
+
+    gradientBottom: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      bottom: 0,
+      height: 300,
+      width: '100%',
+    },
+
+    container: {
+      minHeight,
+      margin: -20,
+    },
+
+    contentWrapper: {
+      gap: 40,
+    },
+
+    list: {
+      overflow: 'visible',
+    },
+
+    listContent: {
+      gap: cardSpacing,
+      paddingHorizontal: sidePadding,
+    },
+
+    infoContainer: {
+      alignItems: 'center',
+      gap: 16,
+      paddingHorizontal: 16,
+    },
+
+    infoTextContainer: {
+      alignItems: 'center',
+      gap: 8,
     },
   })
 }

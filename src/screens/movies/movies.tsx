@@ -24,7 +24,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   const header = (): React.ReactElement => (
     <>
-      <View style={{ alignSelf: 'center' }}>
+      <View>
         <Typography
           center
           color={semantics.accent.base.default}

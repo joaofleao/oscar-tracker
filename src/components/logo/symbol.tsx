@@ -1,14 +1,11 @@
 import React from 'react'
-import Svg, { G, Path } from 'react-native-svg'
+import Svg, { Path } from 'react-native-svg'
 
 import { LogoProps } from './types'
-import { useTheme } from '@providers/theme'
 
 const Logo = ({ size = 180, ...props }: LogoProps): React.ReactElement => {
   const originalWidth = 355
   const originalHeight = 138
-  const { primitives } = useTheme()
-  const color = primitives.brand[50]
 
   const width = size ?? originalWidth
   const height = (originalHeight / originalWidth) * width

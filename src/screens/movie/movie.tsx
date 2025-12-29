@@ -98,19 +98,15 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   return (
     <>
-      <View style={{ position: 'absolute' }}>
+      <View style={styles.backdropContainer}>
         <Image
           blurRadius={3}
           source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdropPath}` }}
-          style={{
-            aspectRatio: 1,
-            width: '100%',
-            opacity: 0.7,
-          }}
+          style={styles.backdropImage}
         />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
-          style={{ pointerEvents: 'none', position: 'absolute', bottom: 0, height: 300, width: '100%' }}
+          style={styles.backdropGradient}
         />
         {movie.brazil && (
           <LottieView
@@ -154,7 +150,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             horizontal
             showsHorizontalScrollIndicator={false}
             alwaysBounceHorizontal={false}
-            contentContainerStyle={{ gap: 8 }}
+            contentContainerStyle={styles.chips}
           >
             {movie.releaseDate && (
               <Chip
@@ -223,6 +219,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
                 title: friend.name?.split(' ')[0],
                 description: friend.username,
                 image: friend.image,
+                squared: true,
               }))}
             />
           </Section>

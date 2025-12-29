@@ -6,6 +6,7 @@ type StylesReturn = {
   root: ViewStyle
   spoiler: ViewStyle
   image: ImageStyle
+  overlay: ImageStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -33,6 +34,10 @@ const useStyles = (): StylesReturn => {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
+    overlay: {
+      backgroundColor: '#000',
+      borderRadius: 4,
     },
   })
 }

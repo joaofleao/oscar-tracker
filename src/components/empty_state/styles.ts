@@ -1,64 +1,20 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 
-import { SemanticsType, useTheme } from '@providers/theme'
-
 type StylesReturn = {
   root: ViewStyle
   content: ViewStyle
-  loading: ViewStyle
-  hide: ViewStyle
-  ghost: ViewStyle
-  small: ViewStyle
-  smallContent: ViewStyle
-}
-type StylesProps = {
-  variant: keyof SemanticsType
 }
 
-const useStyles = ({ variant }: StylesProps): StylesReturn => {
-  const { semantics } = useTheme()
-
+const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
-      position: 'relative',
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderRadius: 12,
-      borderWidth: 1,
-      // height: 40,
-      backgroundColor: semantics[variant].base.default,
-      borderColor: semantics[variant].stroke.default,
+      minHeight: 300,
+      justifyContent: 'center',
       alignItems: 'center',
-    },
-    small: {
-      paddingHorizontal: 8,
-      paddingVertical: 4,
-      borderRadius: 8,
-      // height: 24,
-    },
-    ghost: {
-      backgroundColor: 'transparent',
-      borderColor: 'transparent',
-      paddingHorizontal: 8,
-      paddingVertical: 4,
+      gap: 20,
     },
     content: {
-      flexDirection: 'row',
       alignItems: 'center',
-      gap: 8,
-    },
-    smallContent: {
-      gap: 4,
-    },
-    loading: {
-      opacity: 1,
-      position: 'absolute',
-      height: 40,
-      justifyContent: 'center',
-      alignSelf: 'center',
-    },
-    hide: {
-      opacity: 0,
     },
   })
 }

@@ -5,11 +5,14 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
-  header: ViewStyle
   avatar: ImageStyle
   avatarPlaceholder: ViewStyle
   profile: ViewStyle
   floatingHeader: ViewStyle
+  centerContainer: ViewStyle
+  galleryListContainer: ViewStyle
+  galleryColumnWrapper: ViewStyle
+  gradient: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -59,6 +62,27 @@ const useStyles = (): StylesReturn => {
       position: 'absolute',
       top: top + 20,
       right: right + 20,
+    },
+
+    centerContainer: {
+      alignSelf: 'center',
+    },
+
+    galleryListContainer: {
+      width: '100%',
+      padding: 20,
+    },
+
+    galleryColumnWrapper: {
+      justifyContent: 'space-between',
+    },
+
+    gradient: {
+      pointerEvents: 'none',
+      height: 20,
+      width: '100%',
+      marginBottom: -20,
+      zIndex: 1,
     },
   })
 }

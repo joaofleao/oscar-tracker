@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import useStyles from './styles'
 import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
+import EmptyState from '@components/empty_state'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import Select from '@components/select'
@@ -27,7 +28,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { i18n, t } = useTranslation()
 
   const header = (
-    <View style={{ alignSelf: 'center', marginBottom: 80 }}>
+    <View style={styles.header}>
       <Typography
         center
         color={semantics.accent.base.default}
@@ -71,7 +72,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         description: el.description ? el.description[i18n.language] : undefined,
         onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
         watched: el.watched,
-        spoiler: item.type === 'person' ? spoilers.hidePlot : spoilers.hidePoster,
+        spoiler: item.type === 'person' ? !spoilers.hidePlot : spoilers.hidePoster,
       }
     })
 
@@ -116,6 +117,13 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       contentContainerStyle={styles.flatlists}
       data={nominations}
       renderItem={renderCaroussel}
+      ListEmptyComponent={
+        <EmptyState
+          style={styles.empty}
+          title={t('nominations:empty_nominations_title')}
+          description={t('nominations:empty_nominations_description')}
+        />
+      }
     />
   )
 }

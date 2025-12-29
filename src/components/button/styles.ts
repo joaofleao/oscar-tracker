@@ -1,5 +1,4 @@
 import { StyleSheet, ViewStyle } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { SemanticsType, useTheme } from '@providers/theme'
 
@@ -19,7 +18,6 @@ type StylesProps = {
 
 const useStyles = ({ variant }: StylesProps): StylesReturn => {
   const { semantics } = useTheme()
-  const { top } = useSafeAreaInsets()
 
   return StyleSheet.create({
     root: {
@@ -28,7 +26,6 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       paddingVertical: 8,
       borderRadius: 12,
       borderWidth: 1,
-      // height: 40,
       backgroundColor: semantics[variant].base.default,
       borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
@@ -37,7 +34,6 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderRadius: 8,
-      // height: 24,
     },
     ghost: {
       backgroundColor: 'transparent',

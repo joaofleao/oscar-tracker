@@ -50,7 +50,9 @@
     "watched_by": "Assistido por"
   },
   "nominations": {
-    "expand": "Expandir"
+    "expand": "Expandir",
+    "empty_nominations_title": "Sem indicações",
+    "empty_nominations_description": "Nenhuma indicação nessa edição."
   },
 
   "movie": {

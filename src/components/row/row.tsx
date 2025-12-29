@@ -4,17 +4,7 @@ import { View, ViewStyle } from 'react-native'
 import useStyles from './styles'
 import { RowProps } from './types'
 
-const Row = ({
-  wrap = false,
-  style,
-  center,
-  start,
-  end,
-  between,
-  around,
-  evenly,
-  ...props
-}: RowProps): React.ReactElement => {
+const Row = ({ wrap = false, style, center, start, end, between, around, evenly, ...props }: RowProps): React.ReactElement => {
   const styles = useStyles()
 
   const getJustifyContent = (): ViewStyle['justifyContent'] => {

@@ -6,6 +6,7 @@ type StylesReturn = {
   root: ViewStyle
   squared: ImageStyle
   spoiler: ViewStyle
+  header: ViewStyle
   image: ImageStyle
 }
 
@@ -27,6 +28,9 @@ const useStyles = (): StylesReturn => {
       width: 40,
       aspectRatio: 2 / 3,
       borderRadius: 8,
+    },
+    header: {
+      flex: 1,
     },
     squared: {
       aspectRatio: 1 / 1,

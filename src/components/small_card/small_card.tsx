@@ -36,7 +36,7 @@ const SmallCard = ({ _id, image, squared, button, title, description, additional
           )}
         </View>
       )}
-      <View style={{ flex: 1 }}>
+      <View style={styles.header}>
         <Typography
           numberOfLines={1}
           body

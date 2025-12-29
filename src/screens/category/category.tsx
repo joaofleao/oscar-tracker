@@ -28,7 +28,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
       <Typography center>{data.category.name}</Typography>
       <View>
         <FlatList
-          contentContainerStyle={{ gap: 16, paddingTop: 40 }}
+          contentContainerStyle={styles.data}
           data={data.nominations ?? []}
           renderItem={({ item }) => (
             <ListViewItem
@@ -42,7 +42,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
         />
         <LinearGradient
           colors={['rgba(13, 13, 13, 1)', 'rgba(13, 13, 13, 0.70)', 'rgba(13, 13, 13, 0)']}
-          style={{ pointerEvents: 'none', position: 'absolute', height: 40, width: '100%' }}
+          style={styles.gradient}
         />
       </View>
     </View>

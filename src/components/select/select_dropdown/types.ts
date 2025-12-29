@@ -2,8 +2,8 @@ import { SelectItem } from '../types'
 
 export interface SelectDropdownProps<T> {
   data: SelectItem<T>[]
-  onSelect: React.Dispatch<React.SetStateAction<T>>
-  selected?: T
+  onSelect: React.Dispatch<React.SetStateAction<T | undefined>>
+  selected?: T | undefined
 
   label?: string
   visible?: boolean

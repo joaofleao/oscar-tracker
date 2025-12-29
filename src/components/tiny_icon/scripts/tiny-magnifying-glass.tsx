@@ -3,13 +3,7 @@ import Svg, { Path } from 'react-native-svg'
 import { IconProps } from '../types'
 import { useTheme } from '@providers/theme'
 
-const Icon = ({
-  orientation = 'default',
-  style,
-  size = 24,
-  color: colorProp,
-  ...rest
-}: IconProps): React.ReactElement => {
+const Icon = ({ orientation = 'default', style, size = 24, color: colorProp, ...rest }: IconProps): React.ReactElement => {
   const theme = useTheme()
   const scale = size / 24
 

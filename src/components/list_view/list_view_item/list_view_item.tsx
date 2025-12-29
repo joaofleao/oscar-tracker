@@ -68,7 +68,7 @@ const ListViewItem = ({ _id, title, spoiler, watched, bottomArea, description, e
 
       {image === undefined && <View style={styles.imagePlaceholder} />}
 
-      <View style={{ flex: 1, gap: 4 }}>
+      <View style={styles.texts}>
         <View>
           <Typography body>{typeof title === 'string' ? title : title}</Typography>
 
@@ -96,12 +96,12 @@ const ListViewItem = ({ _id, title, spoiler, watched, bottomArea, description, e
   )
 
   return (
-    <View style={[{ flexDirection: 'row' }, style]}>
+    <View style={[styles.root, style]}>
       {(onPress || onLongPress) && (
         <TouchableOpacity
           onPress={(e) => onPress?.(e, props.id)}
           onLongPress={(e) => onLongPress?.(e, props.id)}
-          style={[styles.root, topButton && bottomButton && styles.hasButtons]}
+          style={[styles.content, topButton && bottomButton && styles.hasButtons]}
           activeOpacity={0.7}
           {...props}
         >
@@ -111,7 +111,7 @@ const ListViewItem = ({ _id, title, spoiler, watched, bottomArea, description, e
 
       {!onPress && !onLongPress && (
         <View
-          style={[styles.root, topButton && bottomButton && styles.hasButtons]}
+          style={[styles.content, topButton && bottomButton && styles.hasButtons]}
           activeOpacity={0.7}
           {...props}
         >

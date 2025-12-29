@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react'
-import { Pressable, TextInput as RNTextInput, View } from 'react-native'
+import React, { useRef } from 'react'
+import { TextInput as RNTextInput, View } from 'react-native'
 
 import useStyles from './styles'
 import { TextInputProps } from './types'
-import { IconAlert, IconCheckCircle } from '@components/icon'
+// import { IconAlert, IconCheckCircle } from '@components/icon'
 import { useStrings } from '@providers/strings'
 import { useTheme } from '@providers/theme'
 
@@ -12,7 +12,7 @@ const TextInput = ({ value, debounce = 0, ...props }: TextInputProps): React.Rea
   const styles = useStyles()
   const { semantics } = useTheme()
   const { email } = useStrings()
-  const [error, setError] = useState<boolean>()
+  // const [error, setError] = useState<boolean>()
 
   return (
     <View style={styles.root}>
@@ -28,7 +28,7 @@ const TextInput = ({ value, debounce = 0, ...props }: TextInputProps): React.Rea
         value={value}
         {...props}
       />
-      {error !== undefined && (
+      {/* {error !== undefined && (
         <Pressable
           onPress={inputRef.current?.focus}
           style={styles.trailing}
@@ -49,7 +49,7 @@ const TextInput = ({ value, debounce = 0, ...props }: TextInputProps): React.Rea
             />
           )}
         </Pressable>
-      )}
+      )} */}
     </View>
   )
 }

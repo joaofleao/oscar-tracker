@@ -36,6 +36,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   useEffect(() => {
     if (!isAuthenticated) navigation.navigate('auth')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const sections = {
@@ -60,8 +61,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         )
       }
       data={following}
-      style={{ width: '100%', padding: 20 }}
-      columnWrapperStyle={{ justifyContent: 'space-between' }}
+      style={styles.galleryListContainer}
+      columnWrapperStyle={styles.galleryColumnWrapper}
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard
@@ -91,8 +92,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         )
       }
       data={followers}
-      style={{ width: '100%', padding: 20 }}
-      columnWrapperStyle={{ justifyContent: 'space-between' }}
+      style={styles.galleryListContainer}
+      columnWrapperStyle={styles.galleryColumnWrapper}
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard
@@ -138,7 +139,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   return (
     <>
       <View style={styles.root}>
-        <View style={{ alignSelf: 'center' }}>
+        <View style={styles.centerContainer}>
           <Typography
             center
             color={semantics.accent.base.default}
@@ -195,7 +196,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         </Unauthenticated>
       </View>
 
-      <View style={{ alignItems: 'center' }}>
+      <View style={styles.centerContainer}>
         <SegmentedControl
           selected={flow}
           onChange={setFlow}
@@ -205,7 +206,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
       <LinearGradient
         colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.70)', 'rgba(0, 0, 0, 0)']}
-        style={{ pointerEvents: 'none', height: 20, width: '100%', marginBottom: -20, zIndex: 1 }}
+        style={styles.gradient}
       />
 
       {flow === 'movies' && renderMovies}
