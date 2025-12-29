@@ -16,7 +16,7 @@ const Section = ({ children, button, title }: SectionProps): React.ReactElement 
           style={styles.text}
           numberOfLines={1}
         >
-          Melhor filme internactional baseado num bando de brancos djsaiod djsaio ds
+          {title}
         </Typography>
         {button && (
           <Button

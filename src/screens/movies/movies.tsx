@@ -52,29 +52,6 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           )}
         />
       </View>
-
-      {/* <Bar.Root style={{ padding: 16, marginHorizontal: -16, paddingBottom: 0 }}>
-        <Select
-          label={t('movies:select_edition')}
-          data={editions?.map((edition) => ({
-            name: `${t('movies:edition')} ${edition.number} - ${edition.year}`,
-            id: edition._id,
-          }))}
-          onSelect={setCurrentEdition}
-          selected={currentEdition}
-          renderAnchor={({ selectedOption, setVisible, visible }) => (
-            <Bar.Item
-              onPress={() => setVisible(true)}
-              icon={<TinyChevron orientation="down" />}
-            >
-              {selectedOption?.name as string}
-            </Bar.Item>
-          )}
-        />
-
-        <Bar.Item icon={<TinyChevron orientation="down" />}>filters</Bar.Item>
-        <Bar.Item icon={<TinyArrow orientation="down" />}>sort</Bar.Item>
-      </Bar.Root> */}
     </>
   )
 
