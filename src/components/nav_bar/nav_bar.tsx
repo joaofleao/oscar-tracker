@@ -1,13 +1,23 @@
 import React from 'react'
 import { View } from 'react-native'
+import { BlurView } from 'expo-blur'
+import { useTranslation } from 'react-i18next'
 
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
-import { IconMagnifyingGlass } from '@components/icon'
+import { IconMagnifyingGlass, IconSettings } from '@components/icon'
+import IconButton from '@components/icon_button'
+import Select from '@components/select'
+import Typography from '@components/typography'
+import { useEdition } from '@providers/edition'
+import { useTheme } from '@providers/theme'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
+  const { semantics } = useTheme()
+  const { editions, setCurrentEdition, currentEdition } = useEdition()
+  const { t } = useTranslation()
 
   // setTimeout(() => {
   //   const onb = getItem('onboarding')
@@ -31,25 +41,74 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       />
     )
   }
+  const header = (
+    <BlurView
+      intensity={20}
+      style={styles.header}
+    >
+      {state.index === 2 && <IconButton placeholder />}
+
+      <View style={styles.headerContent}>
+        <Typography
+          center
+          color={semantics.accent.base.default}
+        >
+          oscar tracker
+        </Typography>
+
+        <Select
+          label={t('home:select_edition')}
+          data={editions?.map((edition) => ({
+            name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
+            id: edition._id,
+          }))}
+          onSelect={setCurrentEdition}
+          selected={currentEdition}
+          renderAnchor={({ selectedOption, setVisible, visible }) => (
+            <Typography
+              onPress={() => setVisible(!visible)}
+              center
+              legend
+              color={semantics.background.foreground.light}
+            >
+              {selectedOption?.name}
+            </Typography>
+          )}
+        />
+      </View>
+      {state.index === 2 && (
+        <IconButton
+          icon={<IconSettings />}
+          onPress={() => navigation.navigate('settings')}
+        />
+      )}
+    </BlurView>
+  )
+
   const leadingArea = (
-    <View style={[styles.footer, styles.leading]}>
-      <View style={styles.background}>{tabs.map(renderTabs)}</View>
-    </View>
+    <BlurView
+      intensity={20}
+      style={[styles.footer, styles.leading]}
+    >
+      {tabs.map(renderTabs)}
+    </BlurView>
   )
 
   const trailingArea = (
-    <View style={[styles.footer, styles.trailing]}>
-      <View style={styles.background}>
-        <NavBarItem
-          onPress={() => navigation.navigate('search')}
-          icon={<IconMagnifyingGlass size={24} />}
-        />
-      </View>
-    </View>
+    <BlurView
+      intensity={20}
+      style={[styles.footer, styles.trailing]}
+    >
+      <NavBarItem
+        onPress={() => navigation.navigate('search')}
+        icon={<IconMagnifyingGlass size={24} />}
+      />
+    </BlurView>
   )
 
   return (
     <>
+      {header}
       {leadingArea}
       {trailingArea}
     </>

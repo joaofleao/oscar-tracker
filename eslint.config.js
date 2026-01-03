@@ -24,7 +24,7 @@ module.exports = defineConfig([
       '@typescript-eslint/explicit-module-boundary-types': 'warn',
       '@typescript-eslint/no-empty-object-type': 'off',
       'simple-import-sort/imports': ['error', { groups: [['^react$', 'react-native', '^[a-z]']] }],
-      'react-native/no-inline-styles': 'error',
+      'react-native/no-inline-styles': 'warn',
     },
   },
 ])

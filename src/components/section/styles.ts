@@ -11,7 +11,7 @@ const useStyles = (): StylesReturn => {
       gap: 8,
     },
     text: {
-      flex: 1,
+      gap: 16,
     },
   })
 }

@@ -15,7 +15,7 @@ const useStyles = (): StylesReturn => {
 
     list: {
       gap: 16,
-      padding: 20,
+      paddingHorizontal: 20,
     },
     gallery: {
       justifyContent: 'space-between',

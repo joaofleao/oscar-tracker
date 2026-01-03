@@ -15,6 +15,7 @@ const semantics = {
     base: {
       default: '#000',
       inverse: color(primitives.neutral[95], 1),
+      tint: color('hsl(0, 0%, 0%)', 0.7),
     },
     foreground: {
       default: color(primitives.neutral[95], 1),

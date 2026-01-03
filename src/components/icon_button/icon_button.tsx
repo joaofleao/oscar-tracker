@@ -4,15 +4,16 @@ import { TouchableOpacity } from 'react-native'
 import useStyles from './styles'
 import { IconButtonProps } from './types'
 import { IconProps } from '@components/icon/types'
+import { TinyChevron } from '@components/tiny_icon'
 import { useTheme } from '@providers/theme'
 
-const IconButton = ({ icon, variant = 'container', ...props }: IconButtonProps): React.ReactElement => {
+const IconButton = ({ icon = <TinyChevron />, placeholder = false, style, variant = 'container', ...props }: IconButtonProps): React.ReactElement => {
   const styles = useStyles({ variant })
   const theme = useTheme()
 
   return (
     <TouchableOpacity
-      style={styles.root}
+      style={[styles.root, placeholder && styles.placeholder, style]}
       {...props}
     >
       {React.cloneElement<IconProps>(icon, {

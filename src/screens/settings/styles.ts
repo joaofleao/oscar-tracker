@@ -15,7 +15,7 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      flex: 1,
+      // flex: 1,
       paddingBottom: bottom + 20,
       paddingTop: top + 20,
       paddingRight: right + 20,

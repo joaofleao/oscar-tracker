@@ -4,6 +4,7 @@ import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  placeholder: ViewStyle
 }
 type StylesProps = {
   variant: keyof SemanticsType
@@ -26,6 +27,9 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       backgroundColor: semantics[variant].base.default,
       flexDirection: 'row',
       gap: 8,
+    },
+    placeholder: {
+      opacity: 0,
     },
   })
 }

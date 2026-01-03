@@ -10,7 +10,7 @@ import Typography from '@components/typography'
 const Section = ({ children, button, title }: SectionProps): React.ReactElement => {
   const styles = useStyles()
   return (
-    <View style={styles.text}>
+    <View style={styles.root}>
       <Row between>
         <Typography
           style={styles.text}

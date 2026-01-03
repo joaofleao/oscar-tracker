@@ -8,7 +8,6 @@ type StylesReturn = {
   avatar: ImageStyle
   avatarPlaceholder: ViewStyle
   profile: ViewStyle
-  floatingHeader: ViewStyle
   centerContainer: ViewStyle
   galleryListContainer: ViewStyle
   galleryColumnWrapper: ViewStyle
@@ -21,8 +20,8 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
+      paddingTop: top + 120,
       paddingBottom: bottom,
-      paddingTop: top + 20,
       paddingRight: right + 20,
       paddingLeft: left + 20,
       justifyContent: 'center',
@@ -30,11 +29,6 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
     },
 
-    header: {
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      gap: 16,
-    },
     profile: {
       alignItems: 'center',
     },
@@ -58,19 +52,13 @@ const useStyles = (): StylesReturn => {
       justifyContent: 'center',
     },
 
-    floatingHeader: {
-      position: 'absolute',
-      top: top + 20,
-      right: right + 20,
-    },
-
     centerContainer: {
       alignSelf: 'center',
     },
 
     galleryListContainer: {
       width: '100%',
-      padding: 20,
+      paddingHorizontal: 20,
     },
 
     galleryColumnWrapper: {

@@ -13,7 +13,7 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     flatlists: {
       gap: 16,
-      paddingTop: top + 20,
+      paddingTop: top + 160,
       paddingBottom: bottom + 88,
       paddingRight: right + 20,
       paddingLeft: left + 20,

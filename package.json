@@ -3,7 +3,7 @@
   "version": "5.0",
   "main": "index.ts",
   "scripts": {
-    "cvx": "npx convex-helpers ts-api-spec --output-file convex_api",
+    "cvx": "npx convex-helpers ts-api-spec --output-file convex_api.ts; prettier --write ./convex_api.ts",
     "start": "npm run cvx; expo start --clear",
     "android": "expo run:android",
     "ios": "expo run:ios",

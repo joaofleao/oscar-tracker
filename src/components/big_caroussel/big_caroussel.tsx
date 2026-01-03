@@ -54,10 +54,8 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
     const newActiveElement = clampedIndex
 
     if (newActiveElement !== activeElement) {
-      fadeOpacity.value = withTiming(0, { duration: 300 }, () => {
-        runOnJS(setActiveElement)(newActiveElement)
-        fadeOpacity.value = withTiming(1, { duration: 300 })
-      })
+      runOnJS(setActiveElement)(newActiveElement)
+      fadeOpacity.value = withTiming(1, { duration: 300 })
     }
   }
 
@@ -118,7 +116,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
             scrollEventThrottle={16}
             getItemLayout={getItemLayout}
             onMomentumScrollEnd={handleMomentumEnd}
-            onMomentumScrollBegin={handleMomentumStart}
+            onScrollBeginDrag={handleMomentumStart}
           />
           <Animated.View style={[styles.infoContainer, fadeAnimatedStyle]}>
             <Typography

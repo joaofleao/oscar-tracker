@@ -1,4 +1,4 @@
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
@@ -9,54 +9,20 @@ import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
-import Select from '@components/select'
 import SmallCard from '@components/small_card'
-import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import useSettings from '@providers/settings/useSettings'
-import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
-  const { currentEdition, setCurrentEdition, editions } = useEdition()
-  const { semantics } = useTheme()
+  const { currentEdition } = useEdition()
+
   const { spoilers } = useSettings()
   const styles = useStyles()
 
   const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition }) || []
 
   const { i18n, t } = useTranslation()
-
-  const header = (
-    <View style={styles.header}>
-      <Typography
-        center
-        color={semantics.accent.base.default}
-      >
-        oscar tracker
-      </Typography>
-
-      <Select
-        label={t('home:select_edition')}
-        data={editions?.map((edition) => ({
-          name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
-          id: edition._id,
-        }))}
-        onSelect={setCurrentEdition}
-        selected={currentEdition}
-        renderAnchor={({ selectedOption, setVisible, visible }) => (
-          <Typography
-            onPress={() => setVisible(!visible)}
-            center
-            legend
-            color={semantics.background.foreground.light}
-          >
-            {selectedOption?.name}
-          </Typography>
-        )}
-      />
-    </View>
-  )
 
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
     const button = {
@@ -113,7 +79,6 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
   return (
     <FlatList
-      ListHeaderComponent={header}
       contentContainerStyle={styles.flatlists}
       data={nominations}
       renderItem={renderCaroussel}
