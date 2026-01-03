@@ -1,4 +1,4 @@
-import { anyApi, type FunctionReference } from 'convex/server'
+import { type FunctionReference, anyApi } from 'convex/server'
 import { type GenericId as Id } from 'convex/values'
 
 export const api: PublicApiType = anyApi as unknown as PublicApiType
@@ -6,6 +6,21 @@ export const internal: InternalApiType = anyApi as unknown as InternalApiType
 
 export type PublicApiType = {
   user: {
+    updateUser: FunctionReference<
+      'mutation',
+      'public',
+      {
+        hideCast?: boolean
+        hidePlot?: boolean
+        hidePoster?: boolean
+        hideRate?: boolean
+        language?: string
+        name?: string
+        storageId?: Id<'_storage'>
+        username?: string
+      },
+      null
+    >
     getCurrentUser: FunctionReference<
       'query',
       'public',
@@ -15,8 +30,13 @@ export type PublicApiType = {
         _id: Id<'users'>
         email?: string
         emailVerificationTime?: number
+        hideCast?: boolean
+        hidePlot?: boolean
+        hidePoster?: boolean
+        hideRate?: boolean
         image?: string
         isAnonymous?: boolean
+        language?: string
         name?: string
         phone?: string
         phoneVerificationTime?: number
@@ -29,37 +49,37 @@ export type PublicApiType = {
       'query',
       'public',
       { name: string },
-      {
+      Array<{
         _id: Id<'users'>
         following: boolean
         follows: boolean
         image?: string
         name?: string
         username?: string
-      }[]
+      }>
     >
     startFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
     getFollowing: FunctionReference<
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _id: Id<'users'>
         image?: string
         name?: string
         username?: string
-      }[]
+      }>
     >
     getFollowers: FunctionReference<
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _id: Id<'users'>
         image?: string
         name?: string
         username?: string
-      }[]
+      }>
     >
   }
   actors: {
@@ -67,12 +87,12 @@ export type PublicApiType = {
       'action',
       'public',
       { page?: number; query: string },
-      {
+      Array<{
         id: number
         known_for: string
         name: string
         profile_path: string | null
-      }[]
+      }>
     >
     getOrCreateActor: FunctionReference<'mutation', 'public', { name: string; picture_path?: string; tmdbId: number }, Id<'actors'>>
     getActor: FunctionReference<
@@ -109,14 +129,14 @@ export type PublicApiType = {
       'action',
       'public',
       { language?: string; page?: number; query: string },
-      {
+      Array<{
         id: number
         original_language: string
         poster_path?: string
         release_date: string
         title: string
         vote_average: number
-      }[]
+      }>
     >
     getMovie: FunctionReference<
       'query',
@@ -149,7 +169,7 @@ export type PublicApiType = {
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _creationTime: number
         _id: Id<'movies'>
         addedAt: number
@@ -165,13 +185,13 @@ export type PublicApiType = {
         title: { en_US: string; original: string; pt_BR: string }
         tmdbId: number
         voteAverage?: number
-      }[]
+      }>
     >
     getUserWatchedMovies: FunctionReference<
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _creationTime: number
         _id: Id<'movies'>
         backdropPath?: string
@@ -189,7 +209,7 @@ export type PublicApiType = {
         voteAverage?: number
         watchId: Id<'watchedMovies'>
         watchedAt: number
-      }[]
+      }>
     >
     isInWatchlist: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean>
     hasWatchedMovie: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean>
@@ -199,13 +219,13 @@ export type PublicApiType = {
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _creationTime: number
         _id: Id<'oscarEditions'>
         date: number
         number: number
         year: number
-      }[]
+      }>
     >
     createOscarEdition: FunctionReference<'mutation', 'public', { date: number; number: number; year: number }, Id<'oscarEditions'>>
     updateOscarEdition: FunctionReference<'mutation', 'public', { _id: Id<'oscarEditions'>; date: number; number: number; year: number }, null>
@@ -214,12 +234,12 @@ export type PublicApiType = {
       'query',
       'public',
       Record<string, never>,
-      {
+      Array<{
         _creationTime: number
         _id: Id<'oscarCategories'>
         name: { en_US: string; pt_BR: string }
         order: number
-      }[]
+      }>
     >
     createOscarCategory: FunctionReference<'mutation', 'public', { name: { en_US: string; pt_BR: string }; order: number }, Id<'oscarCategories'>>
     updateOscarCategory: FunctionReference<
@@ -254,7 +274,7 @@ export type PublicApiType = {
       'query',
       'public',
       { editionId?: Id<'oscarEditions'> },
-      {
+      Array<{
         _id: Id<'oscarNomination'>
         actor?: { _id: Id<'actors'>; name: string }
         category: {
@@ -269,7 +289,7 @@ export type PublicApiType = {
         url?: string
         watched?: boolean
         winner?: boolean
-      }[]
+      }>
     >
     updateOscarNomination: FunctionReference<
       'mutation',
@@ -294,44 +314,44 @@ export type PublicApiType = {
       'query',
       'public',
       { editionId?: Id<'oscarEditions'> },
-      {
+      Array<{
         _id: Id<'watchedMovies'>
         movieId: Id<'movies'>
         posterPath: { en_US: string; pt_BR: string }
         title: { en_US: string; original: string; pt_BR: string }
         tmdbId: number
         watchedAt: number
-      }[]
+      }>
     >
     getMovies: FunctionReference<
       'query',
       'public',
       { editionId?: Id<'oscarEditions'> },
-      {
+      Array<{
         _id: Id<'movies'>
-        friends_who_watched: {
+        friends_who_watched: Array<{
           _id: Id<'users'>
           image?: string
           name?: string
-        }[]
+        }>
         nominationCount: number
         posterPath: { en_US: string; pt_BR: string }
         title: { en_US: string; pt_BR: string }
         tmdbId: number
         watched?: boolean
-      }[]
+      }>
     >
     getNominations: FunctionReference<
       'query',
       'public',
       { categoryId?: Id<'oscarCategories'>; editionId?: Id<'oscarEditions'> },
-      {
+      Array<{
         category: {
           _id: Id<'oscarCategories'>
           name: { en_US: string; pt_BR: string }
           order: number
         }
-        nominations: {
+        nominations: Array<{
           description?: { en_US: string; pt_BR: string }
           movieId: Id<'movies'>
           nominationId: Id<'oscarNomination'>
@@ -340,9 +360,9 @@ export type PublicApiType = {
           tmdbId: number
           watched?: boolean
           winner?: boolean
-        }[]
+        }>
         type: 'person' | 'song' | 'movie' | 'picture'
-      }[]
+      }>
     >
     getNominationsByCategory: FunctionReference<
       'query',
@@ -354,7 +374,7 @@ export type PublicApiType = {
       },
       {
         category: { categoryId: Id<'oscarCategories'>; name: string }
-        nominations: {
+        nominations: Array<{
           description?: string
           extra?: string
           image?: string
@@ -362,7 +382,7 @@ export type PublicApiType = {
           title: string
           watched?: number
           winner: boolean
-        }[]
+        }>
       }
     >
     getMovieDetail: FunctionReference<
@@ -374,21 +394,21 @@ export type PublicApiType = {
         _id: Id<'movies'>
         backdropPath?: string
         brazil?: boolean
-        friends: {
+        friends: Array<{
           _id: Id<'users'>
           image?: string
           name?: string
           username?: string
-        }[]
+        }>
         imdbId?: string
         latestWatch?: Id<'watchedMovies'>
-        nominations: {
+        nominations: Array<{
           actorId?: Id<'actors'>
           categoryId: Id<'oscarCategories'>
           categoryName: { en_US: string; pt_BR: string }
           nominationId: Id<'oscarNomination'>
           winner?: boolean
-        }[]
+        }>
         originalLanguage?: string
         overview?: string
         posterPath: { en_US: string; pt_BR: string }

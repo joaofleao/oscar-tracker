@@ -1,5 +1,6 @@
 import { FlatList, View } from 'react-native'
 import { useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
@@ -7,16 +8,16 @@ import { useTranslation } from 'react-i18next'
 import useStyles from './styles'
 import ListViewItem from '@components/list_view/list_view_item'
 import Typography from '@components/typography'
-import { useEdition } from '@providers/edition'
+import { useSettings } from '@providers/settings'
 import { ScreenType } from '@router/types'
 
 const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { i18n } = useTranslation()
-  const { currentEdition } = useEdition()
+  const { currentEdition } = useSettings()
 
   const data = useQuery(api.oscars.getNominationsByCategory, {
-    editionId: currentEdition,
+    editionId: currentEdition as GenericId<'oscarEditions'>,
     categoryId: route.params.categoryId,
     language: i18n.language,
   })

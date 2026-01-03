@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
-import { Authenticated, useAction } from 'convex/react'
+import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
-import { setItem } from 'expo-secure-store'
 import { useTranslation } from 'react-i18next'
 import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
@@ -16,7 +15,7 @@ import Question from '@components/question'
 import Row from '@components/row'
 import Section from '@components/section'
 import TextInput from '@components/text_input'
-import { TinyChevron } from '@components/tiny_icon'
+import { TinyCheckmark, TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { useSettings } from '@providers/settings'
@@ -25,18 +24,28 @@ import { ScreenType } from '@router/types'
 
 const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { semantics } = useTheme()
-  const { spoilers, setSpoilers } = useSettings()
+  const { spoilers, setSpoilers, language, setLanguage } = useSettings()
 
   const { signOut } = useAuthActions()
+  const user = useQuery(api.user.getCurrentUser)
+  const updateUser = useMutation(api.user.updateUser)
 
+  const [name, setName] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
   const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
   const [deletedModal, setDeletedModal] = useState<boolean>(false)
   const deleteAccount = useAction(api.user.deleteAccount)
   const catchConvexError = useConvexErrorHandler()
+
+  useEffect(() => {
+    if (!user) return
+    setName(user?.name ?? '')
+    setUsername(user?.username ?? '')
+  }, [user])
 
   const handleDelete = async (): Promise<void> => {
     setLoadingDelete(true)
@@ -60,8 +69,14 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   }
 
   const handleSwitchLanguage = (value: boolean): void => {
-    i18n.changeLanguage(value ? 'en_US' : 'pt_BR')
-    setItem('language', i18n.language)
+    setLanguage(value ? 'en_US' : 'pt_BR')
+  }
+
+  const updateButton = {
+    icon: <TinyCheckmark />,
+    action: (): void => {
+      updateUser({ name, username })
+    },
   }
 
   return (
@@ -88,12 +103,22 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             <Section title={t('settings:account')}>
               <View style={styles.section}>
                 <Typography legend>{t('settings:name')}</Typography>
-                <TextInput placeholder={t('settings:name_placeholder')} />
+                <TextInput
+                  button={name !== user?.name ? updateButton : undefined}
+                  value={name}
+                  onChangeText={setName}
+                  placeholder={t('settings:name_placeholder')}
+                />
               </View>
 
               <View style={styles.section}>
                 <Typography legend>{t('settings:username')}</Typography>
-                <TextInput placeholder={t('settings:username_placeholder')} />
+                <TextInput
+                  button={username !== user?.username ? updateButton : undefined}
+                  value={username}
+                  onChangeText={setUsername}
+                  placeholder={t('settings:username_placeholder')}
+                />
               </View>
             </Section>
           </Authenticated>
@@ -132,7 +157,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             title={t('settings:language')}
             off={t('settings:ptbr')}
             on={t('settings:enus')}
-            selected={i18n.language === 'en_US'}
+            selected={language === 'en_US'}
             setSelected={handleSwitchLanguage}
           />
         </View>

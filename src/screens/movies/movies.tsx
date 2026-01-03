@@ -1,5 +1,6 @@
 import { FlatList, View } from 'react-native'
 import { useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -7,17 +8,16 @@ import useStyles from './styles'
 import MovieSlider from '@components/movie_slider'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
-import { useEdition } from '@providers/edition'
 import { useSettings } from '@providers/settings'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t, i18n } = useTranslation()
-  const { currentEdition } = useEdition()
-  const { spoilers } = useSettings()
+  const { currentEdition, spoilers } = useSettings()
+
   const styles = useStyles()
 
-  const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition }) || []
+  const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
 
   //TODO
 

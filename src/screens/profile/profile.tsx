@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Dimensions, FlatList, Image, View } from 'react-native'
 import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -12,20 +13,20 @@ import { IconPerson } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
-import useEditions from '@providers/edition/use_edition'
+import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
-  const { currentEdition } = useEditions()
+  const { currentEdition } = useSettings()
   const { semantics } = useTheme()
   const { isAuthenticated } = useConvexAuth()
 
   const [flow, setFlow] = useState('movies')
 
-  const watchedMovies = useQuery(api.oscars.getWatchedMoviesFromEdition, { editionId: currentEdition }) || []
+  const watchedMovies = useQuery(api.oscars.getWatchedMoviesFromEdition, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
   const followers = useQuery(api.user.getFollowers) || []
   const following = useQuery(api.user.getFollowing) || []
 
@@ -101,6 +102,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       data={following}
       style={styles.galleryListContainer}
       columnWrapperStyle={styles.galleryColumnWrapper}
+      contentContainerStyle={styles.galleryContentContainer}
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard
@@ -133,6 +135,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       data={followers}
       style={styles.galleryListContainer}
       columnWrapperStyle={styles.galleryColumnWrapper}
+      contentContainerStyle={styles.galleryContentContainer}
       numColumns={2}
       renderItem={({ item }) => (
         <SmallCard

@@ -1,13 +1,14 @@
 import React, { useRef } from 'react'
-import { TextInput as RNTextInput, View } from 'react-native'
+import { Pressable, TextInput as RNTextInput, View } from 'react-native'
 
 import useStyles from './styles'
 import { TextInputProps } from './types'
+import { IconX } from '@components/icon'
 // import { IconAlert, IconCheckCircle } from '@components/icon'
 import { useStrings } from '@providers/strings'
 import { useTheme } from '@providers/theme'
 
-const TextInput = ({ value, debounce = 0, ...props }: TextInputProps): React.ReactElement => {
+const TextInput = ({ value, button, debounce = 0, ...props }: TextInputProps): React.ReactElement => {
   const inputRef = useRef<RNTextInput>(null)
   const styles = useStyles()
   const { semantics } = useTheme()
@@ -28,6 +29,22 @@ const TextInput = ({ value, debounce = 0, ...props }: TextInputProps): React.Rea
         value={value}
         {...props}
       />
+
+      {button && (
+        <>
+          <View style={styles.divider} />
+          <Pressable
+            style={styles.trailing}
+            onPress={button?.action}
+          >
+            {React.cloneElement(button?.icon, {
+              color: semantics.container.foreground.default,
+              size: 16,
+              ...button?.icon.props,
+            })}
+          </Pressable>
+        </>
+      )}
       {/* {error !== undefined && (
         <Pressable
           onPress={inputRef.current?.focus}

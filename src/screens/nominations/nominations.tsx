@@ -1,5 +1,6 @@
 import { FlatList, ListRenderItem } from 'react-native'
 import { useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -10,17 +11,14 @@ import EmptyState from '@components/empty_state'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
-import { useEdition } from '@providers/edition'
 import useSettings from '@providers/settings/useSettings'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
-  const { currentEdition } = useEdition()
-
-  const { spoilers } = useSettings()
+  const { spoilers, currentEdition } = useSettings()
   const styles = useStyles()
 
-  const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition }) || []
+  const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
 
   const { i18n, t } = useTranslation()
 

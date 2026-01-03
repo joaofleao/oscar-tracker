@@ -48,7 +48,6 @@ const SearchInput = ({ debounce = 0, value, onChangeText, onDebouncedText, onCle
           size={16}
         />
       </Pressable>
-
       <TextInput
         ref={inputRef}
         placeholder={search.placeholder}
@@ -61,20 +60,16 @@ const SearchInput = ({ debounce = 0, value, onChangeText, onDebouncedText, onCle
         {...props}
       />
 
-      {inputRef?.current?.isFocused() && (
-        <>
-          <View style={styles.divider} />
-          <Pressable
-            onPress={handleClear}
-            style={styles.trailing}
-          >
-            <IconX
-              color={semantics.container.foreground.default}
-              size={16}
-            />
-          </Pressable>
-        </>
-      )}
+      <View style={styles.divider} />
+      <Pressable
+        onPress={handleClear}
+        style={styles.trailing}
+      >
+        <IconX
+          color={semantics.container.foreground.default}
+          size={16}
+        />
+      </Pressable>
     </View>
   )
 }

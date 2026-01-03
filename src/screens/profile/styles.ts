@@ -11,17 +11,17 @@ type StylesReturn = {
   centerContainer: ViewStyle
   galleryListContainer: ViewStyle
   galleryColumnWrapper: ViewStyle
+  galleryContentContainer: ViewStyle
   gradient: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { bottom, right, left, top } = useSafeAreaInsets()
+  const { right, left, top } = useSafeAreaInsets()
   const { semantics } = useTheme()
 
   return StyleSheet.create({
     root: {
       paddingTop: top + 120,
-      paddingBottom: bottom,
       paddingRight: right + 20,
       paddingLeft: left + 20,
       justifyContent: 'center',
@@ -63,6 +63,9 @@ const useStyles = (): StylesReturn => {
 
     galleryColumnWrapper: {
       justifyContent: 'space-between',
+    },
+    galleryContentContainer: {
+      gap: 16,
     },
 
     gradient: {

@@ -6,6 +6,7 @@ type StylesReturn = {
   root: ViewStyle
   leading: ViewStyle
   trailing: ViewStyle
+  divider: ViewStyle
   input: TextStyle
 }
 
@@ -27,14 +28,17 @@ const useStyles = (): StylesReturn => {
       left: 8,
     },
     trailing: {
-      position: 'absolute',
-      right: 8,
-
-      padding: 4,
-      borderWidth: 1,
-      borderColor: 'transparent',
-
+      right: 0,
+      height: 40,
+      width: 40,
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+    divider: {
+      backgroundColor: semantics.container.stroke.default,
+      width: 1,
+      borderRadius: 2,
+      height: 20,
     },
     input: {
       height: 40,

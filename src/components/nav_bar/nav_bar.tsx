@@ -10,13 +10,13 @@ import { IconMagnifyingGlass, IconSettings } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Select from '@components/select'
 import Typography from '@components/typography'
-import { useEdition } from '@providers/edition'
+import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
-  const { editions, setCurrentEdition, currentEdition } = useEdition()
+  const { editions, setCurrentEdition, currentEdition } = useSettings()
   const { t } = useTranslation()
 
   // setTimeout(() => {
