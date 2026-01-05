@@ -96,7 +96,7 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
       if (storedEdition) {
         setCurrentEditionState(storedEdition as SettingsContextType['currentEdition'])
       } else if (editions.length > 0) {
-        setCurrentEditionState(editions[0]._id)
+        setCurrentEditionState(editions.find((el) => el.complete)?._id ?? editions[0]._id)
         SecureStore.setItemAsync('currentEdition', editions[0]._id)
       }
     }

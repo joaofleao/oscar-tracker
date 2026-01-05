@@ -7,6 +7,7 @@ export type StackProps = {
   home: undefined
   movies: undefined
   nominations: undefined
+
   auth: undefined
 
   password_recovery: { email: string | undefined }

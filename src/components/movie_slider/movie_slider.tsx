@@ -10,7 +10,7 @@ const ITEM_HEIGHT = 56
 const ITEM_SPACING = 28
 const SNAP = ITEM_HEIGHT + ITEM_SPACING
 
-const MovieSlider = ({ data = [], ...props }: MovieSliderProps): React.ReactElement => {
+const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSliderProps): React.ReactElement => {
   const [activeElement, setActiveElement] = React.useState(0)
   const styles = useStyles({ height: ITEM_HEIGHT, spacing: ITEM_SPACING })
 
@@ -34,6 +34,7 @@ const MovieSlider = ({ data = [], ...props }: MovieSliderProps): React.ReactElem
     const clampedIndex = Math.max(0, Math.min(data.length - 1, rawIndex))
     const newActiveElement = clampedIndex
     if (newActiveElement !== activeElement) setActiveElement(newActiveElement)
+    onScrollProp?.(event)
   }
 
   return (

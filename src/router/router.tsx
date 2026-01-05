@@ -76,6 +76,8 @@ const Router = (): React.ReactNode => {
   if (!appReady) return null
 
   const renderTabs = (): React.ReactElement => {
+    // Create shared values for scroll tracking on each tab
+
     return (
       <Tabs.Navigator
         backBehavior="none"

@@ -5,6 +5,8 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   header: ViewStyle
+  headerBackground: ViewStyle
+  headerBlur: ViewStyle
   headerContent: ViewStyle
   hide: ViewStyle
   footer: ViewStyle
@@ -21,21 +23,29 @@ const useStyles = (): StylesReturn => {
     },
     headerContent: {
       flex: 1,
-      alignItems: 'center',
     },
     header: {
       position: 'absolute',
-      top: 0,
       flexDirection: 'row',
       paddingTop: top + 20,
+      top: 0,
       left: 0,
       right: 0,
       paddingVertical: 16,
       paddingHorizontal: 24,
       zIndex: 10,
-      borderBottomWidth: 1,
+    },
+    headerBackground: {
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      position: 'absolute',
       backgroundColor: semantics.background.base.tint,
-      borderBottomColor: semantics.background.base,
+    },
+    headerBlur: {
+      height: '100%',
+      width: '100%',
     },
     footer: {
       alignSelf: 'center',

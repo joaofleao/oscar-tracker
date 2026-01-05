@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 import { useTranslation } from 'react-i18next'
 
@@ -10,6 +11,7 @@ import { IconMagnifyingGlass, IconSettings } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Select from '@components/select'
 import Typography from '@components/typography'
+import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 
@@ -18,6 +20,8 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const { semantics } = useTheme()
   const { editions, setCurrentEdition, currentEdition } = useSettings()
   const { t } = useTranslation()
+  const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
+  const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
 
   // setTimeout(() => {
   //   const onb = getItem('onboarding')
@@ -27,6 +31,10 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const renderTabs = (tab: TabType, index: number): React.ReactElement => {
     const handleTabPress = (): void => {
       navigation.navigate(tab.id)
+
+      if (state.index === 0 && index === 0) nominationsRef.current?.scrollToOffset({ offset: 0, animated: true })
+      if (state.index === 1 && index === 1) moviesRef.current?.scrollToOffset({ offset: 0, animated: true })
+      if (state.index === 2 && index === 2) profileRef.current?.scrollToOffset({ offset: 0, animated: true })
     }
 
     return (
@@ -42,10 +50,13 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     )
   }
   const header = (
-    <BlurView
-      intensity={20}
-      style={styles.header}
-    >
+    <View style={styles.header}>
+      <Animated.View style={[styles.headerBackground, headerAnimatedStyle]}>
+        <BlurView
+          style={styles.headerBlur}
+          intensity={20}
+        />
+      </Animated.View>
       {state.index === 2 && <IconButton placeholder />}
 
       <View style={styles.headerContent}>
@@ -58,10 +69,15 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
         <Select
           label={t('home:select_edition')}
-          data={editions?.map((edition) => ({
-            name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
-            id: edition._id,
-          }))}
+          data={
+            editions
+              .filter((edition) => edition.complete)
+              ?.map((edition) => ({
+                name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
+                id: edition._id,
+              }))
+              .sort((a, b) => b.name.localeCompare(a.name)) ?? []
+          }
           onSelect={setCurrentEdition}
           selected={currentEdition}
           renderAnchor={({ selectedOption, setVisible, visible }) => (
@@ -82,7 +98,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
           onPress={() => navigation.navigate('settings')}
         />
       )}
-    </BlurView>
+    </View>
   )
 
   const leadingArea = (

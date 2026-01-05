@@ -222,12 +222,14 @@ export type PublicApiType = {
       Array<{
         _creationTime: number
         _id: Id<'oscarEditions'>
+        announcement?: number
+        complete: boolean
         date: number
         number: number
         year: number
       }>
     >
-    createOscarEdition: FunctionReference<'mutation', 'public', { date: number; number: number; year: number }, Id<'oscarEditions'>>
+    createOscarEdition: FunctionReference<'mutation', 'public', { announcement?: number; date: number; number: number; year: number }, Id<'oscarEditions'>>
     updateOscarEdition: FunctionReference<'mutation', 'public', { _id: Id<'oscarEditions'>; date: number; number: number; year: number }, null>
     deleteOscarEdition: FunctionReference<'mutation', 'public', { _id: Id<'oscarEditions'> }, null>
     getOscarCategories: FunctionReference<

@@ -1,3 +1,4 @@
+import React from 'react'
 import { FlatList, ListRenderItem } from 'react-native'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
@@ -11,11 +12,14 @@ import EmptyState from '@components/empty_state'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
+import useAnimations from '@providers/animations/useAnimations'
 import useSettings from '@providers/settings/useSettings'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { spoilers, currentEdition } = useSettings()
+  const { onScrollNominations, nominationsRef } = useAnimations()
+
   const styles = useStyles()
 
   const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
@@ -77,6 +81,8 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
   return (
     <FlatList
+      ref={nominationsRef}
+      onScroll={onScrollNominations}
       contentContainerStyle={styles.flatlists}
       data={nominations}
       renderItem={renderCaroussel}

@@ -8,12 +8,14 @@ import useStyles from './styles'
 import MovieSlider from '@components/movie_slider'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
+import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t, i18n } = useTranslation()
   const { currentEdition, spoilers } = useSettings()
+  const { onScrollMovies, moviesRef } = useAnimations()
 
   const styles = useStyles()
 
@@ -33,6 +35,8 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   return (
     <MovieSlider
+      ref={moviesRef}
+      onScroll={onScrollMovies}
       data={movies.map((movie) => ({
         watched: movie.watched,
         spoiler: spoilers.hidePoster,

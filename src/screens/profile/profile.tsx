@@ -13,6 +13,7 @@ import { IconPerson } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
+import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
@@ -23,6 +24,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const { currentEdition } = useSettings()
   const { semantics } = useTheme()
   const { isAuthenticated } = useConvexAuth()
+  const { onScrollProfile, profileRef } = useAnimations()
 
   const [flow, setFlow] = useState('movies')
 
@@ -85,6 +87,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const renderFollowing = (
     <FlatList
+      onScroll={onScrollProfile}
+      ref={profileRef}
       ListHeaderComponent={header}
       ListEmptyComponent={
         isAuthenticated ? (
@@ -118,6 +122,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   )
   const renderFollowers = (
     <FlatList
+      onScroll={onScrollProfile}
+      ref={profileRef}
       ListHeaderComponent={header}
       ListEmptyComponent={
         isAuthenticated ? (
@@ -151,6 +157,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   )
   const renderMovies = (
     <GalleryView
+      onScroll={onScrollProfile}
+      ref={profileRef}
       header={header}
       empty={
         isAuthenticated ? (
