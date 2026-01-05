@@ -1,4 +1,5 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
@@ -27,25 +28,27 @@ GoogleSignin.configure({
 
 export default function App(): React.ReactElement {
   return (
-    <AnimationsProvider>
-      <KeyboardProvider>
-        <ThemeProvider>
-          <SafeAreaProvider>
-            <ConvexAuthProvider
-              client={convex}
-              storage={secureStorage}
-            >
-              <ConvexProvider client={convex}>
-                <SettingsProvider>
-                  <StringsProvider>
-                    <Router />
-                  </StringsProvider>
-                </SettingsProvider>
-              </ConvexProvider>
-            </ConvexAuthProvider>
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </KeyboardProvider>
-    </AnimationsProvider>
+    <GestureHandlerRootView>
+      <AnimationsProvider>
+        <KeyboardProvider>
+          <ThemeProvider>
+            <SafeAreaProvider>
+              <ConvexAuthProvider
+                client={convex}
+                storage={secureStorage}
+              >
+                <ConvexProvider client={convex}>
+                  <SettingsProvider>
+                    <StringsProvider>
+                      <Router />
+                    </StringsProvider>
+                  </SettingsProvider>
+                </ConvexProvider>
+              </ConvexAuthProvider>
+            </SafeAreaProvider>
+          </ThemeProvider>
+        </KeyboardProvider>
+      </AnimationsProvider>
+    </GestureHandlerRootView>
   )
 }

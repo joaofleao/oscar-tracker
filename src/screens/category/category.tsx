@@ -1,4 +1,5 @@
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
+import ReorderableList from 'react-native-reorderable-list'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -28,7 +29,8 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
     <View style={styles.root}>
       <Typography center>{data.category.name}</Typography>
       <View>
-        <FlatList
+        <ReorderableList
+          onReorder={console.log}
           contentContainerStyle={styles.data}
           data={data.nominations ?? []}
           renderItem={({ item }) => (
