@@ -6,6 +6,7 @@ type StylesReturn = {
   root: ViewStyle
   squared: ImageStyle
   spoiler: ViewStyle
+  imageContainer: ViewStyle
   header: ViewStyle
   image: ImageStyle
 }
@@ -15,19 +16,20 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      borderRadius: 16,
       flexDirection: 'row',
       gap: 16,
       backgroundColor: semantics.container.base.default,
-      padding: 8,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       alignItems: 'center',
     },
     image: {
-      width: 40,
+      width: 44,
       aspectRatio: 2 / 3,
-      borderRadius: 8,
+    },
+    imageContainer: {
+      borderRightWidth: 1,
+      borderColor: semantics.container.stroke.default,
     },
     header: {
       flex: 1,

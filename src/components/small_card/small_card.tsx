@@ -18,7 +18,7 @@ const SmallCard = ({ _id, image, squared, button, title, description, additional
   const content = (
     <>
       {hasImage && (
-        <View>
+        <View style={styles.imageContainer}>
           <Image
             source={{ uri: image }}
             style={[styles.image, squared && styles.squared]}
