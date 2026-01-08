@@ -6,18 +6,24 @@ type StylesReturn = {
   root: ViewStyle
   texts: ViewStyle
   content: ViewStyle
-  hasButtons: ViewStyle
+  contentPressed: ViewStyle
+
   image: ImageStyle
   imagePlaceholder: ViewStyle
-  details: ViewStyle
 
+  imageContainer: ViewStyle
+  details: ViewStyle
   button: ViewStyle
-  top: ViewStyle
-  bottom: ViewStyle
+  buttonPressed: ViewStyle
+
+  horizontalSeparator: ViewStyle
+  verticalSeparator: ViewStyle
   buttonContent: ViewStyle
   loading: ViewStyle
   hide: ViewStyle
   spoiler: ViewStyle
+  unwatched: ViewStyle
+  hasImage: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -25,72 +31,75 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
+      flex: 1,
+      borderWidth: 1,
+      borderColor: theme.semantics.container.stroke.default,
+      backgroundColor: theme.semantics.container.base.default,
     },
     texts: {
       flex: 1,
       gap: 4,
+
+      paddingHorizontal: 16,
     },
     content: {
       flex: 1,
       padding: 8,
-      borderRadius: 12,
+      flexDirection: 'row',
+    },
+    contentPressed: {
+      flex: 1,
+      padding: 8,
+      flexDirection: 'row',
+      backgroundColor: theme.semantics.container.base.pressed,
+    },
+
+    imageContainer: {
+      width: 60,
+      aspectRatio: 2 / 3,
       borderWidth: 1,
       borderColor: theme.semantics.container.stroke.default,
       backgroundColor: theme.semantics.container.base.default,
-      flexDirection: 'row',
-      gap: 16,
-    },
-    hasButtons: {
-      borderRightWidth: 0,
-      borderBottomEndRadius: 0,
-      borderTopEndRadius: 0,
     },
     image: {
-      width: 60,
-      aspectRatio: 2 / 3,
-      borderRadius: 4,
+      width: '100%',
+      height: '100%',
     },
     imagePlaceholder: {
-      width: 60,
-      aspectRatio: 2 / 3,
-      borderRadius: 4,
-      borderWidth: 1,
-      borderColor: theme.semantics.container.stroke.default,
-      backgroundColor: theme.semantics.container.base.default,
+      width: '100%',
+      height: '100%',
     },
+
     details: {
       flex: 1,
       gap: 8,
     },
 
     button: {
-      position: 'relative',
       paddingHorizontal: 16,
       paddingVertical: 8,
-      borderRadius: 12,
-      borderWidth: 1,
+      minWidth: 40,
       alignItems: 'center',
       justifyContent: 'center',
-
-      backgroundColor: theme.semantics.container.base.default,
-      borderColor: theme.semantics.container.stroke.default,
       flex: 1,
     },
-    top: {
-      borderBottomStartRadius: 0,
-      borderTopStartRadius: 0,
-      // borderBottomEndRadius: 0,
+    buttonPressed: {
+      backgroundColor: theme.semantics.container.base.pressed,
     },
-    bottom: {
-      borderBottomStartRadius: 0,
-      borderTopStartRadius: 0,
-      borderTopEndRadius: 0,
-      borderTopWidth: 0,
+    horizontalSeparator: {
+      height: 1,
+      width: '100%',
+      backgroundColor: theme.semantics.container.stroke.default,
+    },
+    verticalSeparator: {
+      width: 1,
+      height: '100%',
+      backgroundColor: theme.semantics.container.stroke.default,
     },
     buttonContent: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 4,
+      // gap: 4,
     },
     loading: {
       opacity: 1,
@@ -102,8 +111,19 @@ const useStyles = (): StylesReturn => {
     hide: {
       opacity: 0,
     },
-    spoiler: {
+    unwatched: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    hasImage: {
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
+    spoiler: {
       position: 'absolute',
       top: 0,
       left: 0,

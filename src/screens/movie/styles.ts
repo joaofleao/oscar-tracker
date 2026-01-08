@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   root: ViewStyle
+  posterContainer: ViewStyle
   header: ViewStyle
   content: ViewStyle
   animation: ViewStyle
@@ -24,13 +25,18 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       paddingBottom: bottom + 20,
-      paddingTop: top + 20,
+      paddingTop: top,
       paddingRight: right + 20,
       paddingLeft: left + 20,
       gap: 16,
     },
     section: {
       gap: 8,
+    },
+    posterContainer: {
+      justifyContent: 'space-between',
+      width: '100%',
+      flexDirection: 'row',
     },
     chips: {
       gap: 8,
@@ -52,7 +58,7 @@ const useStyles = (): StylesReturn => {
     },
     header: {
       position: 'absolute',
-      top: top + 20,
+      top: top,
       right: right + 20,
       left: left + 20,
 

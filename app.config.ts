@@ -1,11 +1,15 @@
 import { ConfigContext, ExpoConfig } from 'expo/config'
 
 export default ({ config }: ConfigContext): ExpoConfig => {
+  const appName = process.env.APP_NAME || 'Oscar Tracker'
+  const appSlug = process.env.APP_SLUG || 'oscar-tracker'
+  const isDev = appSlug.includes('dev')
+
   return {
     ...config,
-    name: 'Oscar Tracker',
-    slug: 'oscar-tracker',
-    scheme: 'oscar-tracker',
+    name: appName,
+    slug: appSlug,
+    scheme: appSlug,
     version: '5.0',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
@@ -38,7 +42,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       usesAppleSignIn: true,
       supportsTablet: true,
-      bundleIdentifier: 'com.joaofleao.oscar-tracker',
+      bundleIdentifier: isDev ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
 
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
@@ -59,7 +63,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         backgroundColor: '#0D0D0D',
       },
       edgeToEdgeEnabled: true,
-      package: 'com.joaofleao.oscar-tracker',
+      package: isDev ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
     },
     web: {
       favicon: './src/assets/app/favicon.png',

@@ -21,7 +21,7 @@ import Row from '@components/row'
 import Section from '@components/section'
 import SmallCard, { SmallCardProps } from '@components/small_card'
 import Tag from '@components/tag'
-import { TinyChevron, TinyPlus, TinyX } from '@components/tiny_icon'
+import { TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
 import { useSettings } from '@providers/settings'
@@ -121,11 +121,25 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
       <ScrollView contentContainerStyle={styles.root}>
         <View style={styles.main}>
-          <Poster
-            source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}` }}
-            toggleSpoiler={spoilers.hidePoster ? toggleSpoiler : undefined}
-            spoiler={!watched && hideInfo && localSpoiler.hidePoster}
-          />
+          <View style={styles.posterContainer}>
+            <IconButton
+              placeholder
+              icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
+              onPress={() => setHideInfo((prev) => !prev)}
+            />
+
+            <Poster
+              source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}` }}
+              toggleSpoiler={spoilers.hidePoster ? toggleSpoiler : undefined}
+              spoiler={!watched && hideInfo && localSpoiler.hidePoster}
+            />
+
+            <IconButton
+              placeholder={watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
+              icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
+              onPress={() => setHideInfo((prev) => !prev)}
+            />
+          </View>
 
           <View>
             <Typography
@@ -243,20 +257,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
         </View>
       </ScrollView>
-
-      <View style={styles.header}>
-        <IconButton
-          icon={<TinyChevron orientation="left" />}
-          onPress={navigation.goBack}
-        />
-
-        {!watched && (spoilers.hidePlot || spoilers.hideRate || spoilers.hidePoster || spoilers.hideCast) && (
-          <IconButton
-            icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
-            onPress={() => setHideInfo((prev) => !prev)}
-          />
-        )}
-      </View>
 
       <Dropdown
         visible={calendarModal}

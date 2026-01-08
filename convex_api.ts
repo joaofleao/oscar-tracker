@@ -382,6 +382,7 @@ export type PublicApiType = {
           image?: string
           nominationId: Id<'oscarNomination'>
           title: string
+          tmdbId: number
           watched?: number
           winner: boolean
         }>

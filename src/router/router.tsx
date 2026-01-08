@@ -154,6 +154,10 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'movie'}
             component={Movie}
+            options={{
+              presentation: 'pageSheet',
+              sheetAllowedDetents: 'fitToContents',
+            }}
           />
 
           <Stack.Screen
