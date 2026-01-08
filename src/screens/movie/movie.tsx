@@ -108,7 +108,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
           style={styles.backdropGradient}
         />
-        {movie.brazil && (
+        {movie.originCountry?.includes('BR') && (
           <LottieView
             loop={true}
             autoPlay={true}
@@ -308,7 +308,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
         ref={confettiRef}
         loop={false}
         autoPlay={false}
-        source={movie.brazil ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
+        source={movie.originCountry?.includes('BR') ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
         style={[styles.animation, styles.bottom]}
       />
     </>

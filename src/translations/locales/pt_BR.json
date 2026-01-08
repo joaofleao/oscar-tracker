@@ -13,6 +13,14 @@
     "not_implemented": "Não implementado",
     "feature_not_implemented": "Este recurso não está implementado ainda."
   },
+  "category": {
+    "discard_title": "Descartar alterações?",
+    "discard_message": "Você tem alterações de classificação não salvas. Tem certeza de que deseja sair?",
+    "discard": "Descartar",
+    "cancel": "Cancelar",
+    "watched_description": "Classifique os filmes pela probabilidade de vitória",
+    "unwatched_description": "Assista aos filmes para classificá-los"
+  },
   "home": {
     "nominations": "indicações",
     "movies": "Filmes",

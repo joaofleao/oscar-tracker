@@ -146,8 +146,8 @@ export type PublicApiType = {
         _creationTime: number
         _id: Id<'movies'>
         backdropPath?: string
-        brazil?: boolean
         imdbId?: string
+        originCountry?: Array<string>
         originalLanguage?: string
         overview?: string
         posterPath: { en_US: string; pt_BR: string }
@@ -175,6 +175,7 @@ export type PublicApiType = {
         addedAt: number
         backdropPath?: string
         imdbId?: string
+        originCountry?: Array<string>
         originalLanguage?: string
         overview?: string
         posterPath: { en_US: string; pt_BR: string }
@@ -195,8 +196,8 @@ export type PublicApiType = {
         _creationTime: number
         _id: Id<'movies'>
         backdropPath?: string
-        brazil?: boolean
         imdbId?: string
+        originCountry?: Array<string>
         originalLanguage?: string
         overview?: string
         posterPath: { en_US: string; pt_BR: string }
@@ -396,7 +397,6 @@ export type PublicApiType = {
         _creationTime: number
         _id: Id<'movies'>
         backdropPath?: string
-        brazil?: boolean
         friends: Array<{
           _id: Id<'users'>
           image?: string
@@ -412,6 +412,7 @@ export type PublicApiType = {
           nominationId: Id<'oscarNomination'>
           winner?: boolean
         }>
+        originCountry?: Array<string>
         originalLanguage?: string
         overview?: string
         posterPath: { en_US: string; pt_BR: string }

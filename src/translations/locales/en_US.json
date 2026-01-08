@@ -11,10 +11,18 @@
     "not_implemented": "Not implemented",
     "feature_not_implemented": "This feature is not implemented yet."
   },
+  "category": {
+    "discard_title": "Discard changes?",
+    "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
+    "discard": "Discard",
+    "cancel": "Cancel",
+    "watched_description": "Rank the movies by the order you believe they will win",
+    "unwatched_description": "Watch movies to rank them"
+  },
   "home": {
     "nominations": "Nominations",
     "movies": "Movies",
-    "profile": "Perfil",
+    "profile": "Profile",
     "edition": "Edition",
     "select_edition": "Select an edition"
   },

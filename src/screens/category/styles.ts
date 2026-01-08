@@ -15,6 +15,7 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     header: {
       paddingBottom: 20,
+      gap: 8,
     },
     watched: {
       paddingTop: 40,

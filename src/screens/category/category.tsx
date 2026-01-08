@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, View } from 'react-native'
 import ReorderableList, { ReorderableListProps } from 'react-native-reorderable-list'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
@@ -12,6 +12,7 @@ import ListItem, { ListItemProps } from '@components/list_item'
 import { TinyHeart } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useSettings } from '@providers/settings'
+import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
 type Nomination = {
@@ -29,7 +30,7 @@ type Nomination = {
 
 const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { currentEdition } = useSettings()
 
   const data = useQuery(api.oscars.getNominationsByCategory, {
@@ -40,6 +41,15 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
 
   const [watchedNominations, setWatchedNominations] = useState<Nomination[]>([])
   const [unwatchedNominations, setUnwatchedNominations] = useState<Nomination[]>([])
+
+  // const hasChanges = watchedNominations.some((item) => item.position !== undefined)
+
+  usePreventRemove(true, ({ data }) => {
+    Alert.alert(t('category:discard_title'), t('category:discard_message'), [
+      { text: t('category:cancel'), onPress: (): void => {} },
+      { text: t('category:discard'), onPress: (): void => navigation.dispatch(data.action), style: 'destructive' },
+    ])
+  })
 
   useEffect(() => {
     if (data?.nominations) {
@@ -73,6 +83,14 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const header = (
     <View style={styles.header}>
       <Typography center>{data.category.name}</Typography>
+      {unwatchedNominations.length > 0 && (
+        <Typography
+          center
+          legend
+        >
+          {t('category:watched_description')}
+        </Typography>
+      )}
     </View>
   )
 
@@ -121,7 +139,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
               center
               legend
             >
-              Assista aos filmes para poder classifica-los.
+              {t('category:unwatched_description')}
             </Typography>
           )}
           {unwatchedNominations.map((item, index) => {
