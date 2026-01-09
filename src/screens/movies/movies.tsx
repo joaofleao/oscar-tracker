@@ -19,7 +19,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   const styles = useStyles()
 
-  const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
+  const movies = useQuery(api.oscars.getMovies, { editionId: currentEdition as GenericId<'oscarEditions'>, language: i18n.language }) || []
 
   //TODO
 
@@ -40,8 +40,8 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       data={movies.map((movie) => ({
         watched: movie.watched,
         spoiler: spoilers.hidePoster,
-        title: movie.title[i18n.language],
-        image: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}`,
+        title: movie.title,
+        image: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
         description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
         bottomArea:
           movie.friends_who_watched.length > 0 ? (

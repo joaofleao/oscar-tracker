@@ -24,7 +24,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
   const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
 
-  const { i18n, t } = useTranslation()
+  const { t } = useTranslation()
 
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
     const button = {
@@ -35,11 +35,11 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     const enrichedNominations = item.nominations.map((el) => {
       return {
         _id: el.nominationId,
-        image: `https://image.tmdb.org/t/p/w500${el.posterPath[i18n.language]}`,
-        title: el.title[i18n.language],
-        description: el.description ? el.description[i18n.language] : undefined,
-        onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
+        title: el.title,
+        description: el.description,
         watched: el.watched,
+        image: `https://image.tmdb.org/t/p/w500${el.posterPath}`,
+        onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
         spoiler: item.type === 'person' ? !spoilers.hidePlot : spoilers.hidePoster,
       }
     })
@@ -48,7 +48,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       return (
         <BigCaroussel
           nominations={enrichedNominations}
-          title={item.category.name[i18n.language]}
+          title={item.category.name}
           button={button}
         />
       )
@@ -56,7 +56,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     if (item.type === 'person' || item.type === 'song')
       return (
         <Section
-          title={item.category.name[i18n.language]}
+          title={item.category.name}
           button={button}
         >
           <Caroussel
@@ -68,7 +68,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
     return (
       <Section
-        title={item.category.name[i18n.language]}
+        title={item.category.name}
         button={button}
       >
         <Caroussel

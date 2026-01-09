@@ -4,6 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   content: ViewStyle
+  hasIcon: ViewStyle
   root: ViewStyle
   spoiler: ViewStyle
   blur: ViewStyle
@@ -26,6 +27,9 @@ const useStyles = (): StylesReturn => {
       flexDirection: 'row',
       paddingVertical: 4,
       paddingHorizontal: 8,
+    },
+    hasIcon: {
+      paddingLeft: 4,
     },
     spoiler: {
       alignItems: 'center',

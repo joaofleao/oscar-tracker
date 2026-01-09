@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Image, Linking, ScrollView, View } from 'react-native'
+import { SvgUri } from 'react-native-svg'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -27,7 +28,6 @@ import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
-import { languages } from '@utils/languages'
 import { runtime } from '@utils/runtime'
 
 const Movie: TabType<'movie'> = ({ navigation, route }) => {
@@ -38,7 +38,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const catchConvexError = useConvexErrorHandler()
   const confettiRef = useRef<LottieView>(null)
 
-  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId })
+  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language })
 
   const { semantics } = useTheme()
   const [hideInfo, setHideInfo] = useState(true)
@@ -108,7 +108,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
           style={styles.backdropGradient}
         />
-        {movie.originCountry?.includes('BR') && (
+        {movie.originCountry?.some((e) => e.code === 'BR') && (
           <LottieView
             loop={true}
             autoPlay={true}
@@ -129,7 +129,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             />
 
             <Poster
-              source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath[i18n.language]}` }}
+              source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath}` }}
               toggleSpoiler={spoilers.hidePoster ? toggleSpoiler : undefined}
               spoiler={!watched && hideInfo && localSpoiler.hidePoster}
             />
@@ -185,7 +185,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             {movie.originalLanguage && (
               <Chip
                 icon={<IconLanguages />}
-                title={languages[movie.originalLanguage][i18n.language]}
+                title={movie.originalLanguage}
               />
             )}
 
@@ -211,7 +211,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           <Section title={t('movie:nominations')}>
             <Caroussel
               data={movie.nominations.map((nomination) => ({
-                title: nomination.categoryName[i18n.language],
+                title: nomination.categoryName,
                 icon: nomination.winner ? (
                   <IconOscar
                     color={semantics.accent.base.default}
@@ -221,6 +221,22 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
                 onPress: () => navigation.navigate('category', { categoryId: nomination.categoryId }),
               }))}
               item={Tag}
+            />
+          </Section>
+
+          <Section title={t('movie:country')}>
+            <Caroussel
+              data={movie.originCountry?.map((country) => ({
+                title: country.name,
+                icon: (
+                  <SvgUri
+                    uri={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
+                    width={20}
+                    height={20}
+                  />
+                ),
+              }))}
+              item={Chip}
             />
           </Section>
 
@@ -240,13 +256,16 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
           <Typography>{t('movie:streaming')}</Typography>
           <Typography>{t('movie:cast')}</Typography>
-
-          <Typography>{t('movie:plot')}</Typography>
-          <Paragraph
-            text={movie.overview}
-            toggleSpoiler={spoilers.hidePlot ? toggleSpoiler : undefined}
-            spoiler={!watched && hideInfo && localSpoiler.hidePlot}
-          />
+          {movie.plot && (
+            <>
+              <Typography>{t('movie:plot')}</Typography>
+              <Paragraph
+                text={movie.plot}
+                toggleSpoiler={spoilers.hidePlot ? toggleSpoiler : undefined}
+                spoiler={!watched && hideInfo && localSpoiler.hidePlot}
+              />
+            </>
+          )}
         </View>
 
         <View style={styles.footer}>
@@ -308,7 +327,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
         ref={confettiRef}
         loop={false}
         autoPlay={false}
-        source={movie.originCountry?.includes('BR') ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
+        source={movie.originCountry?.some((e) => e.code === 'BR') ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
         style={[styles.animation, styles.bottom]}
       />
     </>

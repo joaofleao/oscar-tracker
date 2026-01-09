@@ -25,7 +25,7 @@ const Chip = ({ title, icon, spoiler, toggleSpoiler, ...props }: ChipProps): Rea
   })
 
   const content = (
-    <View style={styles.content}>
+    <View style={[styles.content, !!icon && styles.hasIcon]}>
       {icon &&
         React.cloneElement<IconProps>(icon, {
           color: theme.semantics.container.foreground.light,

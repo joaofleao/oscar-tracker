@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, Image, Pressable, View } from 'react-native'
-import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyle from './styles'

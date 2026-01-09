@@ -6,6 +6,18 @@ export const internal: InternalApiType = anyApi as unknown as InternalApiType
 
 export type PublicApiType = {
   user: {
+    getLatestVersion: FunctionReference<
+      'query',
+      'public',
+      { language?: 'en_US' | 'pt_BR' },
+      {
+        _creationTime: number
+        _id: Id<'versions'>
+        changelog: string
+        url: string
+        version: string
+      }
+    >
     updateUser: FunctionReference<
       'mutation',
       'public',
@@ -128,29 +140,29 @@ export type PublicApiType = {
     searchMovies: FunctionReference<
       'action',
       'public',
-      { language?: string; page?: number; query: string },
+      { language?: 'en_US' | 'pt_BR'; page?: number; query: string },
       Array<{
         id: number
-        original_language: string
+        original_language?: string
         poster_path?: string
-        release_date: string
+        release_date?: string
         title: string
-        vote_average: number
+        vote_average?: number
       }>
     >
     getMovie: FunctionReference<
       'query',
       'public',
-      { tmdbId: number },
+      { language?: 'en_US' | 'pt_BR'; tmdbId: number },
       {
         _creationTime: number
         _id: Id<'movies'>
         backdropPath?: string
         imdbId?: string
-        originCountry?: Array<string>
+        originCountry?: Array<{ code: string; name: string; url: string }>
         originalLanguage?: string
-        overview?: string
-        posterPath: { en_US: string; pt_BR: string }
+        plot?: string
+        posterPath: string
         releaseDate?: string
         runtime?: number
         status?: string
@@ -168,7 +180,7 @@ export type PublicApiType = {
     getUserWatchlist: FunctionReference<
       'query',
       'public',
-      Record<string, never>,
+      { language?: 'en_US' | 'pt_BR' },
       Array<{
         _creationTime: number
         _id: Id<'movies'>
@@ -177,13 +189,13 @@ export type PublicApiType = {
         imdbId?: string
         originCountry?: Array<string>
         originalLanguage?: string
-        overview?: string
-        posterPath: { en_US: string; pt_BR: string }
+        plot?: string
+        posterPath: string
         releaseDate?: string
         runtime?: number
         status?: string
         tagline?: string
-        title: { en_US: string; original: string; pt_BR: string }
+        title: string
         tmdbId: number
         voteAverage?: number
       }>
@@ -191,7 +203,7 @@ export type PublicApiType = {
     getUserWatchedMovies: FunctionReference<
       'query',
       'public',
-      Record<string, never>,
+      { language?: 'en_US' | 'pt_BR' },
       Array<{
         _creationTime: number
         _id: Id<'movies'>
@@ -199,13 +211,13 @@ export type PublicApiType = {
         imdbId?: string
         originCountry?: Array<string>
         originalLanguage?: string
-        overview?: string
-        posterPath: { en_US: string; pt_BR: string }
+        plot?: string
+        posterPath: string
         releaseDate?: string
         runtime?: number
         status?: string
         tagline?: string
-        title: { en_US: string; original: string; pt_BR: string }
+        title: string
         tmdbId: number
         voteAverage?: number
         watchId: Id<'watchedMovies'>
@@ -329,7 +341,7 @@ export type PublicApiType = {
     getMovies: FunctionReference<
       'query',
       'public',
-      { editionId?: Id<'oscarEditions'> },
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
       Array<{
         _id: Id<'movies'>
         friends_who_watched: Array<{
@@ -338,8 +350,8 @@ export type PublicApiType = {
           name?: string
         }>
         nominationCount: number
-        posterPath: { en_US: string; pt_BR: string }
-        title: { en_US: string; pt_BR: string }
+        posterPath: string
+        title: string
         tmdbId: number
         watched?: boolean
       }>
@@ -347,19 +359,19 @@ export type PublicApiType = {
     getNominations: FunctionReference<
       'query',
       'public',
-      { categoryId?: Id<'oscarCategories'>; editionId?: Id<'oscarEditions'> },
+      {
+        categoryId?: Id<'oscarCategories'>
+        editionId?: Id<'oscarEditions'>
+        language?: 'pt_BR' | 'en_US'
+      },
       Array<{
-        category: {
-          _id: Id<'oscarCategories'>
-          name: { en_US: string; pt_BR: string }
-          order: number
-        }
+        category: { _id: Id<'oscarCategories'>; name: string; order: number }
         nominations: Array<{
-          description?: { en_US: string; pt_BR: string }
+          description?: string
           movieId: Id<'movies'>
           nominationId: Id<'oscarNomination'>
-          posterPath: { en_US: string; pt_BR: string }
-          title: { en_US: string; pt_BR: string }
+          posterPath: string
+          title: string
           tmdbId: number
           watched?: boolean
           winner?: boolean
@@ -408,7 +420,7 @@ export type PublicApiType = {
     getMovieDetail: FunctionReference<
       'query',
       'public',
-      { tmdbId: number },
+      { language?: 'pt_BR' | 'en_US'; tmdbId: number },
       {
         _creationTime: number
         _id: Id<'movies'>
@@ -424,14 +436,14 @@ export type PublicApiType = {
         nominations: Array<{
           actorId?: Id<'actors'>
           categoryId: Id<'oscarCategories'>
-          categoryName: { en_US: string; pt_BR: string }
+          categoryName: string
           nominationId: Id<'oscarNomination'>
           winner?: boolean
         }>
-        originCountry?: Array<string>
+        originCountry?: Array<{ code: string; name: string; url: string }>
         originalLanguage?: string
-        overview?: string
-        posterPath: { en_US: string; pt_BR: string }
+        plot?: string
+        posterPath: string
         releaseDate?: string
         runtime?: number
         status?: string

@@ -3,8 +3,6 @@ import { Pressable, TextInput as RNTextInput, View } from 'react-native'
 
 import useStyles from './styles'
 import { TextInputProps } from './types'
-import { IconX } from '@components/icon'
-// import { IconAlert, IconCheckCircle } from '@components/icon'
 import { useStrings } from '@providers/strings'
 import { useTheme } from '@providers/theme'
 
