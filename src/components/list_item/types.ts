@@ -5,7 +5,7 @@ import { IconProps } from '@components/icon'
 export interface ListItemSecondaryActionProps extends Omit<PressableProps, 'onPress'> {
   icon?: React.ReactElement<IconProps>
   title?: string
-  onPress?: (e: GestureResponderEvent, id: string) => void | undefined
+  onPress?: (e: GestureResponderEvent, id: string) => void | undefined | Promise<void>
   loading?: boolean
   disabled?: boolean
   filled?: boolean

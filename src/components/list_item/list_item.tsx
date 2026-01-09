@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, Image, Pressable, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import Animated, { BounceIn, FadeIn, FadeOut } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyle from './styles'
@@ -27,11 +27,12 @@ const ListItem = ({ id, title, watched = false, spoiler = false, description, ex
         >
           <View style={[styles.buttonContent, loading && styles.hide]}>
             {title && <Typography color={loading || disabled ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default}>{title}</Typography>}
+
             {icon &&
               React.cloneElement<IconProps>(icon, {
                 color: disabled || loading ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default,
                 size: 20,
-                filled: filled ?? false,
+                filled: filled,
               })}
           </View>
 

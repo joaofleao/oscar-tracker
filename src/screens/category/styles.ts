@@ -7,6 +7,7 @@ type StylesReturn = {
   watchedContent: ViewStyle
   unwatched: ViewStyle
   gap: ViewStyle
+  footer: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -24,7 +25,7 @@ const useStyles = (): StylesReturn => {
     },
     watchedContent: {
       paddingHorizontal: 20,
-      paddingBottom: bottom + 20,
+      paddingBottom: bottom + 20 + 40 + 20,
     },
     unwatched: {
       paddingTop: 20,
@@ -32,6 +33,16 @@ const useStyles = (): StylesReturn => {
     },
     gap: {
       height: 20,
+    },
+    footer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      gap: 20,
+      position: 'absolute',
+      bottom: bottom + 20,
+      right: right,
+      left: left,
+      alignItems: 'center',
     },
   })
 }

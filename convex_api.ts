@@ -367,6 +367,9 @@ export type PublicApiType = {
         type: 'person' | 'song' | 'movie' | 'picture'
       }>
     >
+    wishOscarNomination: FunctionReference<'mutation', 'public', { nominationId: Id<'oscarNomination'> }, null>
+    unwishOscarNomination: FunctionReference<'mutation', 'public', { nominationId: Id<'oscarNomination'> }, null>
+    rankNomination: FunctionReference<'mutation', 'public', { votes: Array<{ nominationId: Id<'oscarNomination'>; rank?: number }> }, null>
     getNominationsByCategory: FunctionReference<
       'query',
       'public',
@@ -377,15 +380,28 @@ export type PublicApiType = {
       },
       {
         category: { categoryId: Id<'oscarCategories'>; name: string }
-        nominations: Array<{
+        unwatched: Array<{
           description?: string
           extra?: string
           image?: string
           nominationId: Id<'oscarNomination'>
           title: string
           tmdbId: number
-          watched?: number
+          watched: boolean
           winner: boolean
+          wish: boolean
+        }>
+        watched: Array<{
+          description?: string
+          extra?: string
+          image?: string
+          nominationId: Id<'oscarNomination'>
+          rank?: number
+          title: string
+          tmdbId: number
+          watched: boolean
+          winner: boolean
+          wish: boolean
         }>
       }
     >

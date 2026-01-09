@@ -8,7 +8,7 @@ import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 import packageJson from '../../../package.json'
 import useStyles from './styles'
 import Button from '@components/button'
-import { IconDoor } from '@components/icon'
+import { IconDoor, IconTrash } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Modal from '@components/modal'
 import Question from '@components/question'
@@ -185,7 +185,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
               variant="negative"
               onPress={() => setDeleteModal(true)}
               title={t('settings:delete_account')}
-              icon={<IconDoor />}
+              icon={<IconTrash />}
             />
           </Authenticated>
         </View>

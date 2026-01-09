@@ -57,6 +57,19 @@ const semantics = {
     },
   },
 
+  brand: {
+    base: {
+      default: color(primitives.brand[5], 1),
+      pressed: color(primitives.brand[10], 1),
+    },
+    foreground: {
+      default: color(primitives.brand[60], 1),
+      light: color(primitives.brand[40], 1),
+    },
+    stroke: {
+      default: color(primitives.brand[20], 1),
+    },
+  },
   positive: {
     base: {
       default: color(primitives.vibrant.jade[5], 1),

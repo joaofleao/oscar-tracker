@@ -26,6 +26,7 @@ const useStyles = (): StylesReturn => {
     content: {
       justifyContent: 'center',
       gap: 4,
+      flex: 1,
     },
     spoiler: {
       position: 'absolute',

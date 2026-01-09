@@ -64,7 +64,8 @@ const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): Styles
 
     container: {
       minHeight,
-      margin: -20,
+      paddingBottom: 20,
+      marginHorizontal: -20,
     },
 
     contentWrapper: {
