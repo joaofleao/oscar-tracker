@@ -18,13 +18,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       'expo-apple-authentication',
       'expo-web-browser',
       'expo-secure-store',
-
-      [
-        '@react-native-google-signin/google-signin',
-        {
-          iosUrlScheme: 'com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq',
-        },
-      ],
+      ['expo-image-picker', { photosPermission: 'The app accesses your photos to let you share them with your friends.' }],
+      ['@react-native-google-signin/google-signin', { iosUrlScheme: 'com.googleusercontent.apps.674386239678-bnrobvq969mockak51tqpbgpjb0lu1qq' }],
       [
         'expo-splash-screen',
         {

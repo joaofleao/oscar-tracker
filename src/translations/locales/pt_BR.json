@@ -11,9 +11,12 @@
     "password_match": "precisam ser iguais ",
 
     "not_implemented": "Não implementado",
-    "feature_not_implemented": "Este recurso não está implementado ainda."
+    "feature_not_implemented": "Este recurso não está implementado ainda.",
+    "permission_required": "Permissão necessária",
+    "permission_media_library": "Permissão para acessar a biblioteca de mídia é necessária."
   },
   "category": {
+    "cast_ballot": "Enviar Votos",
     "discard_title": "Descartar alterações?",
     "discard_message": "Você tem alterações de classificação não salvas. Tem certeza de que deseja sair?",
     "discard": "Descartar",
@@ -90,6 +93,8 @@
     "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
   },
   "settings": {
+    "remove": "remover",
+    "change": "alterar",
     "settings": "Configurações",
     "sign_out": "Sair",
     "ptbr": "Português",

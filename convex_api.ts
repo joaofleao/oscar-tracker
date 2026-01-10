@@ -6,6 +6,7 @@ export const internal: InternalApiType = anyApi as unknown as InternalApiType
 
 export type PublicApiType = {
   user: {
+    generateUploadUrl: FunctionReference<'mutation', 'public', Record<string, never>, any>
     getLatestVersion: FunctionReference<
       'query',
       'public',
@@ -26,9 +27,9 @@ export type PublicApiType = {
         hidePlot?: boolean
         hidePoster?: boolean
         hideRate?: boolean
-        language?: string
+        image?: Id<'_storage'> | null
+        language?: 'pt_BR' | 'en_US'
         name?: string
-        storageId?: Id<'_storage'>
         username?: string
       },
       null
@@ -242,8 +243,30 @@ export type PublicApiType = {
         year: number
       }>
     >
-    createOscarEdition: FunctionReference<'mutation', 'public', { announcement?: number; date: number; number: number; year: number }, Id<'oscarEditions'>>
-    updateOscarEdition: FunctionReference<'mutation', 'public', { _id: Id<'oscarEditions'>; date: number; number: number; year: number }, null>
+    createOscarEdition: FunctionReference<
+      'mutation',
+      'public',
+      {
+        announcement?: number
+        complete: boolean
+        date: number
+        number: number
+        year: number
+      },
+      Id<'oscarEditions'>
+    >
+    updateOscarEdition: FunctionReference<
+      'mutation',
+      'public',
+      {
+        _id: Id<'oscarEditions'>
+        complete: boolean
+        date: number
+        number: number
+        year: number
+      },
+      null
+    >
     deleteOscarEdition: FunctionReference<'mutation', 'public', { _id: Id<'oscarEditions'> }, null>
     getOscarCategories: FunctionReference<
       'query',
@@ -328,12 +351,12 @@ export type PublicApiType = {
     getWatchedMoviesFromEdition: FunctionReference<
       'query',
       'public',
-      { editionId?: Id<'oscarEditions'> },
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
       Array<{
         _id: Id<'watchedMovies'>
         movieId: Id<'movies'>
-        posterPath: { en_US: string; pt_BR: string }
-        title: { en_US: string; original: string; pt_BR: string }
+        posterPath: string
+        title: string
         tmdbId: number
         watchedAt: number
       }>

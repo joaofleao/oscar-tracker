@@ -1,8 +1,7 @@
-import { Ref } from 'react'
-import { TouchableOpacityProps, View } from 'react-native'
+import { ViewStyle } from 'react-native'
 
-export interface AvatarProps extends TouchableOpacityProps {
+export interface AvatarProps {
   image?: string
-  label?: string
-  ref?: Ref<View>
+  name?: string
+  style?: ViewStyle
 }

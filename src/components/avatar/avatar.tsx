@@ -1,23 +1,26 @@
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, View } from 'react-native'
 
 import useStyles from './styles'
 import { AvatarProps } from './types'
 import { IconPerson } from '@components/icon'
 import Typography from '@components/typography'
 
-const Avatar = ({ ref, image, label, ...props }: AvatarProps): React.ReactElement => {
+const Avatar = ({ image, name, style }: AvatarProps): React.ReactElement => {
   const styles = useStyles()
 
-  const hasLabel = label !== undefined
+  const hasName = name !== undefined
   const hasImage = image !== undefined
 
-  return (
-    <TouchableOpacity
-      ref={ref}
-      style={styles.root}
-      {...props}
-    >
+  const initials = hasName
+    ? name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+    : ''
+
+  const content = (
+    <>
       {hasImage && (
         <Image
           style={styles.image}
@@ -27,12 +30,14 @@ const Avatar = ({ ref, image, label, ...props }: AvatarProps): React.ReactElemen
 
       {!hasImage && (
         <View style={styles.iconContainer}>
-          {hasLabel && <Typography>{label}</Typography>}
-          {!hasLabel && <IconPerson size={16} />}
+          {hasName && <Typography display>{initials}</Typography>}
+          {!hasName && <IconPerson size={16} />}
         </View>
       )}
-    </TouchableOpacity>
+    </>
   )
+
+  return <View style={[styles.root, style]}>{content}</View>
 }
 
 export default Avatar

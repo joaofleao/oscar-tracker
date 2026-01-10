@@ -9,9 +9,12 @@
     "password_uppercase": "one uppercase letter.",
     "password_match": "passwords need to match",
     "not_implemented": "Not implemented",
-    "feature_not_implemented": "This feature is not implemented yet."
+    "feature_not_implemented": "This feature is not implemented yet.",
+    "permission_required": "Permission required",
+    "permission_media_library": "Permission to access the media library is required."
   },
   "category": {
+    "cast_ballot": "Enviar Votos",
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
     "discard": "Discard",
@@ -87,6 +90,8 @@
     "sign_in": "Sign In"
   },
   "settings": {
+    "remove": "remove",
+    "change": "change",
     "settings": "Settings",
     "sign_out": "Sign Out",
     "ptbr": "Portuguese",

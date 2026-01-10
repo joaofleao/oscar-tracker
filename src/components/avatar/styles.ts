@@ -20,13 +20,13 @@ const useStyles = (): StylesReturn => {
       flexDirection: 'row',
       overflow: 'hidden',
 
+      width: 96,
+      height: 96,
       justifyContent: 'center',
       alignItems: 'center',
     },
     iconContainer: {
       padding: 8,
-      minWidth: 40,
-      minHeight: 40,
       alignItems: 'center',
       justifyContent: 'center',
     },

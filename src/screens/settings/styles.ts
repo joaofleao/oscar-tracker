@@ -8,6 +8,8 @@ type StylesReturn = {
   footer: ViewStyle
   section: ViewStyle
   hide: ViewStyle
+  avatarButtons: ViewStyle
+  avatarContainer: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -15,7 +17,6 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      // flex: 1,
       paddingBottom: bottom + 20,
       paddingTop: top + 20,
       paddingRight: right + 20,
@@ -25,6 +26,17 @@ const useStyles = (): StylesReturn => {
     },
     section: {
       gap: 8,
+    },
+    avatarButtons: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+    },
+    avatarContainer: {
+      paddingVertical: 40,
+      alignItems: 'center',
+      gap: 16,
+      justifyContent: 'space-between',
     },
 
     header: {

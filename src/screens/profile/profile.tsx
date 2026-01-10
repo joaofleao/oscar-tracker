@@ -6,29 +6,28 @@ import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
 import GalleryView from '@components/gallery_view'
-import { IconPerson } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
-import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
   const { currentEdition } = useSettings()
-  const { semantics } = useTheme()
+
   const { isAuthenticated } = useConvexAuth()
   const { onScrollProfile, profileRef } = useAnimations()
 
   const [flow, setFlow] = useState('movies')
 
-  const watchedMovies = useQuery(api.oscars.getWatchedMoviesFromEdition, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
+  const watchedMovies = useQuery(api.oscars.getWatchedMoviesFromEdition, { editionId: currentEdition as GenericId<'oscarEditions'>, language: i18n.language }) || []
   const followers = useQuery(api.user.getFollowers) || []
   const following = useQuery(api.user.getFollowing) || []
 
@@ -47,19 +46,10 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const header = (
     <View style={styles.root}>
-      {user?.image ? (
-        <Image
-          style={styles.avatar}
-          source={{ uri: user.image }}
-        />
-      ) : (
-        <View style={styles.avatarPlaceholder}>
-          <IconPerson
-            size={40}
-            color={semantics.background.foreground.light}
-          />
-        </View>
-      )}
+      <Avatar
+        image={user?.image}
+        name={user?.name}
+      />
 
       <Authenticated>
         <View style={styles.profile}>

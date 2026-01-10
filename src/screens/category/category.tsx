@@ -184,7 +184,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
             onPress={handleRankNominations}
             icon={<IconVote />}
             variant="brand"
-            title="Cast Ballot"
+            title={t('category:cast_ballot')}
           />
         </Animated.View>
       )}

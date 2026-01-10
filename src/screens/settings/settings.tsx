@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Alert, ScrollView, View } from 'react-native'
 import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
+import * as ImagePicker from 'expo-image-picker'
 import { useTranslation } from 'react-i18next'
 import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
 import packageJson from '../../../package.json'
 import useStyles from './styles'
+import Avatar from '@components/avatar'
 import Button from '@components/button'
-import { IconDoor, IconTrash } from '@components/icon'
+import { IconDoor, IconImages, IconTrash } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Modal from '@components/modal'
 import Question from '@components/question'
@@ -40,6 +42,28 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const [deletedModal, setDeletedModal] = useState<boolean>(false)
   const deleteAccount = useAction(api.user.deleteAccount)
   const catchConvexError = useConvexErrorHandler()
+  const generateUploadUrl = useMutation(api.user.generateUploadUrl)
+
+  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | undefined>(undefined)
+
+  const pickImage = async (): Promise<void> => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (!permissionResult.granted) {
+      Alert.alert(t('overall:permission_required'), t('overall:permission_media_library'))
+      return
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.9,
+    })
+
+    if (!result.canceled) {
+      setImage(result.assets[0])
+    }
+  }
 
   useEffect(() => {
     if (!user) return
@@ -72,6 +96,28 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     setLanguage(value ? 'en_US' : 'pt_BR')
   }
 
+  const handleChangeImage = (): void => {
+    pickImage().then(async () => {
+      if (image) {
+        const postUrl = await generateUploadUrl()
+
+        const result = await fetch(postUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': image.type ?? 'image' },
+          body: image.uri,
+        })
+
+        const { storageId } = await result.json()
+
+        await updateUser({ image: storageId }).catch(catchConvexError)
+      }
+    })
+  }
+
+  const handleRemoveImage = (): void => {
+    void updateUser({ image: null }).catch(catchConvexError)
+  }
+
   const updateButton = {
     icon: <TinyCheckmark />,
     action: (): void => {
@@ -100,6 +146,24 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
         <View style={styles.content}>
           <Authenticated>
+            <View style={styles.avatarContainer}>
+              <Avatar
+                name={user?.name}
+                image={user?.image}
+              />
+              <View style={styles.avatarButtons}>
+                <Button
+                  onPress={handleRemoveImage}
+                  title={t('settings:remove')}
+                  icon={<IconTrash />}
+                />
+                <Button
+                  onPress={handleChangeImage}
+                  title={t('settings:change')}
+                  icon={<IconImages />}
+                />
+              </View>
+            </View>
             <Section title={t('settings:account')}>
               <View style={styles.section}>
                 <Typography legend>{t('settings:name')}</Typography>
