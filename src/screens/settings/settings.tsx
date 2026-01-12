@@ -100,15 +100,11 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     pickImage().then(async () => {
       if (image) {
         const postUrl = await generateUploadUrl()
-
         const result = await fetch(postUrl, {
           method: 'POST',
-          headers: { 'Content-Type': image.type ?? 'image' },
-          body: image.uri,
+          body: image as unknown as Blob,
         })
-
         const { storageId } = await result.json()
-
         await updateUser({ image: storageId }).catch(catchConvexError)
       }
     })

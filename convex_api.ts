@@ -47,9 +47,9 @@ export type PublicApiType = {
         hidePlot?: boolean
         hidePoster?: boolean
         hideRate?: boolean
-        image?: string
+        image?: Id<'_storage'>
         isAnonymous?: boolean
-        language?: string
+        language?: 'pt_BR' | 'en_US'
         name?: string
         phone?: string
         phoneVerificationTime?: number
@@ -66,7 +66,7 @@ export type PublicApiType = {
         _id: Id<'users'>
         following: boolean
         follows: boolean
-        image?: string
+        image?: Id<'_storage'>
         name?: string
         username?: string
       }>
@@ -78,7 +78,7 @@ export type PublicApiType = {
       Record<string, never>,
       Array<{
         _id: Id<'users'>
-        image?: string
+        image?: Id<'_storage'>
         name?: string
         username?: string
       }>
@@ -89,7 +89,7 @@ export type PublicApiType = {
       Record<string, never>,
       Array<{
         _id: Id<'users'>
-        image?: string
+        image?: Id<'_storage'>
         name?: string
         username?: string
       }>
@@ -104,7 +104,7 @@ export type PublicApiType = {
         id: number
         known_for: string
         name: string
-        profile_path: string | null
+        profile_path?: string
       }>
     >
     getOrCreateActor: FunctionReference<'mutation', 'public', { name: string; picture_path?: string; tmdbId: number }, Id<'actors'>>
