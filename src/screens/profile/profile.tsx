@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, View } from 'react-native'
+import { Dimensions, FlatList, View } from 'react-native'
 import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -10,6 +10,7 @@ import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
 import GalleryView from '@components/gallery_view'
+import { IconCamera } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
@@ -59,7 +60,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       </Authenticated>
       <Unauthenticated>
         <Button
-          variant="accent"
+          icon={<IconCamera />}
+          variant="brand"
           title={t('profile:sign_in')}
           onPress={() => navigation.navigate('auth')}
         />

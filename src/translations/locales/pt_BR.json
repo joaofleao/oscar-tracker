@@ -24,12 +24,14 @@
     "watched_description": "Classifique os filmes pela probabilidade de vitória",
     "unwatched_description": "Assista aos filmes para classificá-los"
   },
+  "select_edition": {
+    "edition": "Edição",
+    "select_edition": "Selecione a edição"
+  },
   "home": {
     "nominations": "indicações",
     "movies": "Filmes",
-    "profile": "Perfil",
-    "edition": "Edição",
-    "select_edition": "Selecione a edição"
+    "profile": "Perfil"
   },
   "profile": {
     "movies": "Filmes",

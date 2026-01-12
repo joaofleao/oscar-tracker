@@ -10,6 +10,7 @@ export type StackProps = {
 
   auth: undefined
 
+  select_edition: undefined
   password_recovery: { email: string | undefined }
   preferences: undefined
   profile: undefined

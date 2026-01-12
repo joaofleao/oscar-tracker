@@ -9,7 +9,6 @@ import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
 import { IconMagnifyingGlass, IconSettings } from '@components/icon'
 import IconButton from '@components/icon_button'
-import Select from '@components/select'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
@@ -18,8 +17,10 @@ import { useTheme } from '@providers/theme'
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
-  const { editions, setCurrentEdition, currentEdition } = useSettings()
+  const { currentEdition, editions } = useSettings()
   const { t } = useTranslation()
+  const edition = editions.find((e) => e._id === currentEdition)
+
   const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
   const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
 
@@ -67,30 +68,14 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
           oscar tracker
         </Typography>
 
-        <Select
-          label={t('home:select_edition')}
-          data={
-            editions
-              .filter((edition) => edition.complete)
-              ?.map((edition) => ({
-                name: `${t('home:edition')} ${edition.number} - ${edition.year}`,
-                id: edition._id,
-              }))
-              .sort((a, b) => b.name.localeCompare(a.name)) ?? []
-          }
-          onSelect={setCurrentEdition}
-          selected={currentEdition}
-          renderAnchor={({ selectedOption, setVisible, visible }) => (
-            <Typography
-              onPress={() => setVisible(!visible)}
-              center
-              legend
-              color={semantics.background.foreground.light}
-            >
-              {selectedOption?.name}
-            </Typography>
-          )}
-        />
+        <Typography
+          onPress={() => navigation.navigate('select_edition')}
+          center
+          legend
+          color={semantics.background.foreground.light}
+        >
+          {`${t('home:edition')} ${edition?.number} - ${edition?.year}`}
+        </Typography>
       </View>
       {state.index === 2 && (
         <IconButton

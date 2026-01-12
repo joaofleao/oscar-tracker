@@ -22,6 +22,7 @@ import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
 import Search from '@screens/search'
+import SelectEdition from '@screens/select_edition'
 import Settings from '@screens/settings'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
@@ -160,6 +161,17 @@ const Router = (): React.ReactNode => {
             }}
           />
 
+          <Stack.Screen
+            name={'select_edition'}
+            component={SelectEdition}
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: [0.2, 0.6],
+              contentStyle: {
+                backgroundColor: semantics.container.base.original,
+              },
+            }}
+          />
           <Stack.Screen
             name={'search'}
             component={Search}

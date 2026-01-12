@@ -22,12 +22,14 @@
     "watched_description": "Rank the movies by the order you believe they will win",
     "unwatched_description": "Watch movies to rank them"
   },
+  "select_edition": {
+    "edition": "Edição",
+    "select_edition": "Selecione a edição"
+  },
   "home": {
     "nominations": "Nominations",
     "movies": "Movies",
-    "profile": "Profile",
-    "edition": "Edition",
-    "select_edition": "Select an edition"
+    "profile": "Profile"
   },
   "nominations": {
     "expand": "Expand",
