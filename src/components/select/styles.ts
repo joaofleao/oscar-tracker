@@ -62,7 +62,7 @@ const useStyles = (): StylesReturn => {
     },
     overlay: {
       position: 'absolute',
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      backgroundColor: semantics.background.base.tint,
       width: '100%',
       height: '100%',
     },

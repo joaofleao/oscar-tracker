@@ -105,7 +105,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           style={styles.backdropImage}
         />
         <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
+          colors={semantics.background.base.gradient as any}
           style={styles.backdropGradient}
         />
         {movie.originCountry?.some((e) => e.code === 'BR') && (

@@ -12,6 +12,7 @@ type StylesReturn = {
   footer: ViewStyle
   leading: ViewStyle
   trailing: ViewStyle
+  gradient: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -65,6 +66,20 @@ const useStyles = (): StylesReturn => {
     },
     trailing: {
       right: right + 20,
+    },
+    gradientTop: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      height: top + 60,
+      width: '100%',
+    },
+    gradientBottom: {
+      pointerEvents: 'none',
+      position: 'absolute',
+      bottom: 0,
+      height: bottom + 60,
+      width: '100%',
     },
   })
 }

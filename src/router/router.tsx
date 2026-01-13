@@ -166,7 +166,7 @@ const Router = (): React.ReactNode => {
             component={SelectEdition}
             options={{
               presentation: 'formSheet',
-              sheetAllowedDetents: [0.2, 0.6],
+              sheetAllowedDetents: [0.4, 0.6],
               contentStyle: {
                 backgroundColor: semantics.container.base.original,
               },
@@ -198,15 +198,6 @@ const Router = (): React.ReactNode => {
             }}
           />
         </Stack.Navigator>
-
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0)']}
-          style={styles.topBlur}
-        />
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.30)', 'rgba(0, 0, 0, 0.90)']}
-          style={styles.bottomBlur}
-        />
       </View>
     </NavigationContainer>
   )

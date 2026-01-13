@@ -12,12 +12,9 @@ const Avatar = ({ image, name, style }: AvatarProps): React.ReactElement => {
   const hasName = name !== undefined
   const hasImage = image !== undefined
 
-  const initials = hasName
-    ? name
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-    : ''
+  const names = hasName ? name.split(' ') : []
+
+  const initials = hasName ? names[0].charAt(0) + (names[names.length - 1] ? names[names.length - 1].charAt(0) : '') : ''
 
   const content = (
     <>

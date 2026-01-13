@@ -8,6 +8,7 @@ import useStyles from './styles'
 import { BigCarousselProps } from './types'
 import Button from '@components/button'
 import Typography from '@components/typography'
+import { useTheme } from '@providers/theme'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 const { height: SCREEN_HEIGHT } = Dimensions.get('window')
@@ -19,6 +20,7 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
   const flatListRef = React.useRef<FlatList>(null)
   const sidePadding = (SCREEN_WIDTH - CARD_WIDTH) / 2
   const fadeOpacity = useSharedValue(1)
+  const { semantics } = useTheme()
   const styles = useStyles({
     sidePadding,
     minHeight: SCREEN_HEIGHT * 0.65,
@@ -92,12 +94,12 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
           />
         ))}
         <LinearGradient
-          colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0)']}
-          style={styles.gradientTop}
+          colors={semantics.background.base.gradient.toReversed() as any}
+          style={styles.gradientBottom}
         />
         <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 0.60)', 'rgba(0, 0, 0, 1)']}
-          style={styles.gradientBottom}
+          colors={semantics.background.base.gradient as any}
+          style={styles.gradientTop}
         />
       </Animated.View>
       <View style={styles.container}>

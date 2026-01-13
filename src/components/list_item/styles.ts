@@ -27,14 +27,14 @@ type StylesReturn = {
 }
 
 const useStyles = (): StylesReturn => {
-  const theme = useTheme()
+  const { semantics } = useTheme()
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
       flex: 1,
       borderWidth: 1,
-      borderColor: theme.semantics.container.stroke.default,
-      backgroundColor: theme.semantics.container.base.default,
+      borderColor: semantics.container.stroke.default,
+      backgroundColor: semantics.container.base.default,
     },
     texts: {
       flex: 1,
@@ -51,15 +51,15 @@ const useStyles = (): StylesReturn => {
       flex: 1,
       padding: 8,
       flexDirection: 'row',
-      backgroundColor: theme.semantics.container.base.pressed,
+      backgroundColor: semantics.container.base.pressed,
     },
 
     imageContainer: {
       width: 60,
       aspectRatio: 2 / 3,
       borderWidth: 1,
-      borderColor: theme.semantics.container.stroke.default,
-      backgroundColor: theme.semantics.container.base.default,
+      borderColor: semantics.container.stroke.default,
+      backgroundColor: semantics.container.base.default,
     },
     image: {
       width: '100%',
@@ -84,17 +84,17 @@ const useStyles = (): StylesReturn => {
       flex: 1,
     },
     buttonPressed: {
-      backgroundColor: theme.semantics.container.base.pressed,
+      backgroundColor: semantics.container.base.pressed,
     },
     horizontalSeparator: {
       height: 1,
       width: '100%',
-      backgroundColor: theme.semantics.container.stroke.default,
+      backgroundColor: semantics.container.stroke.default,
     },
     verticalSeparator: {
       width: 1,
       height: '100%',
-      backgroundColor: theme.semantics.container.stroke.default,
+      backgroundColor: semantics.container.stroke.default,
     },
     buttonContent: {
       flexDirection: 'row',
@@ -121,7 +121,7 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
     },
     hasImage: {
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      backgroundColor: semantics.background.base.tint,
     },
     spoiler: {
       position: 'absolute',

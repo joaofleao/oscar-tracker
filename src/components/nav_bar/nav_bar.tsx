@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
 import NavBarItem from './nav_bar_item'
@@ -109,6 +110,14 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   return (
     <>
+      <LinearGradient
+        colors={semantics.background.base.gradient as any}
+        style={styles.gradientTop}
+      />
+      <LinearGradient
+        colors={semantics.background.base.gradient.toReversed() as any}
+        style={styles.gradientBottom}
+      />
       {header}
       {leadingArea}
       {trailingArea}
