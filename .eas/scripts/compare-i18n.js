@@ -17,7 +17,7 @@ function getKeys(obj, prefix = '') {
   })
 }
 
-const basePath = resolve(__dirname, '../../src/i18n/locales')
+const basePath = resolve(__dirname, '../../src/translations/locales')
 const en = JSON.parse(readFileSync(join(basePath, 'en_US.json'), 'utf8'))
 const pt = JSON.parse(readFileSync(join(basePath, 'pt_BR.json'), 'utf8'))
 
