@@ -10,7 +10,7 @@ const map: Record<string, string> = {
 }
 
 const parseError = (errorMessage: string): string => {
-  for (const key in map) {
+  for (const key of Object.keys(map)) {
     if (errorMessage.includes(key)) {
       return map[key]
     }
