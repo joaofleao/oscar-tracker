@@ -90,14 +90,6 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const header = (
     <View style={styles.header}>
       <Typography center>{data.category.name}</Typography>
-      {data.nominations.length > 0 && (
-        <Typography
-          center
-          legend
-        >
-          {t('category:watched_description')}
-        </Typography>
-      )}
     </View>
   )
 

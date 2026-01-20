@@ -20,9 +20,7 @@
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
     "discard": "Discard",
-    "cancel": "Cancel",
-    "watched_description": "Rank the movies by the order you believe they will win",
-    "unwatched_description": "Watch movies to rank them"
+    "cancel": "Cancel"
   },
 
   "select_edition": {
