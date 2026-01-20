@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'src/i18n/locales/pt_BR.json'
-      - 'src/i18n/locales/en_US.json'
+      - 'src/translations/locales/pt_BR.json'
+      - 'src/translations/locales/en_US.json'
 
 jobs:
   check-keys:
