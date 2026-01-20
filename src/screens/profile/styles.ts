@@ -16,7 +16,7 @@ type StylesReturn = {
 }
 
 const useStyles = (): StylesReturn => {
-  const { right, left, top } = useSafeAreaInsets()
+  const { right, left, top, bottom } = useSafeAreaInsets()
   const { semantics } = useTheme()
 
   return StyleSheet.create({
@@ -66,6 +66,7 @@ const useStyles = (): StylesReturn => {
     },
     galleryContentContainer: {
       gap: 16,
+      paddingBottom: bottom + 60,
     },
 
     gradient: {

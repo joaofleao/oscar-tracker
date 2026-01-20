@@ -9,20 +9,18 @@ import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
 import GalleryView from '@components/gallery_view'
-import { IconCamera, IconOscar } from '@components/icon'
+import { IconOscar } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
-import useTheme from '@providers/theme/useTheme'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { i18n, t } = useTranslation()
   const { edition } = useSettings()
-  const { semantics } = useTheme()
 
   const { isAuthenticated, isLoading } = useConvexAuth()
   const { onScrollProfile, profileRef } = useAnimations()
@@ -160,6 +158,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   )
   const renderMovies = (
     <GalleryView
+      contentContainerStyle={styles.galleryContentContainer}
       onScroll={onScrollProfile}
       ref={profileRef}
       header={header}
