@@ -242,29 +242,26 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             </Typography>
           </Typography>
 
-          <Unauthenticated>
-            <Button
-              onPress={handleCleanCache}
-              title={t('settings:clean_cache')}
-              icon={<IconBroom />}
-            />
-          </Unauthenticated>
-
-          <Authenticated>
-            <Row>
+          <Row>
+            <Unauthenticated>
               <Button
                 onPress={handleCleanCache}
                 title={t('settings:clean_cache')}
                 icon={<IconBroom />}
               />
+            </Unauthenticated>
+
+            <Authenticated>
               <Button
                 loading={loadingSignOut}
                 onPress={handleSignOut}
                 title={t('settings:sign_out')}
                 icon={<IconDoor />}
               />
-            </Row>
+            </Authenticated>
+          </Row>
 
+          <Authenticated>
             <Button
               variant="negative"
               onPress={() => setDeleteModal(true)}
