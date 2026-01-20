@@ -174,7 +174,7 @@ const Router = (): React.ReactNode => {
             component={SelectEdition}
             options={{
               presentation: 'formSheet',
-              sheetAllowedDetents: [0.4, 0.6],
+              sheetAllowedDetents: [0.4],
               contentStyle: {
                 backgroundColor: semantics.container.base.original,
               },

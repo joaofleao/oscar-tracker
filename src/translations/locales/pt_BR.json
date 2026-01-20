@@ -110,6 +110,7 @@
   },
   "settings": {
     "remove": "remover",
+    "clean_cache": "limpar cache",
     "change": "alterar",
     "settings": "Configurações",
     "sign_out": "Sair",

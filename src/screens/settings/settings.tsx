@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
-import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
-import { GenericId } from 'convex/values'
+import { Authenticated, Unauthenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
+import * as SecureStore from 'expo-secure-store'
 import { useTranslation } from 'react-i18next'
 import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
@@ -11,7 +11,7 @@ import packageJson from '../../../package.json'
 import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
-import { IconDoor, IconImages, IconTrash } from '@components/icon'
+import { IconBroom, IconDoor, IconImages, IconTrash } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Modal from '@components/modal'
 import Question from '@components/question'
@@ -44,8 +44,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const deleteAccount = useAction(api.user.deleteAccount)
   const catchConvexError = useConvexErrorHandler()
   const generateUploadUrl = useMutation(api.user.generateUploadUrl)
-
-  const [image, setImage] = useState<ImagePicker.ImagePickerAsset | undefined>(undefined)
 
   const pickImage = async (): Promise<ImagePicker.ImagePickerAsset | undefined> => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -91,6 +89,16 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
         navigation.navigate('home')
       })
       .finally(() => setLoadingSignOut(false))
+  }
+
+  const handleCleanCache = async (): Promise<void> => {
+    await SecureStore.deleteItemAsync('language')
+    await SecureStore.deleteItemAsync('currentEdition')
+    await SecureStore.deleteItemAsync('hidePoster')
+    await SecureStore.deleteItemAsync('hidePlot')
+    await SecureStore.deleteItemAsync('hideRate')
+    await SecureStore.deleteItemAsync('hideCast')
+    handleSignOut()
   }
 
   const handleSwitchLanguage = (value: boolean): void => {
@@ -234,13 +242,28 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             </Typography>
           </Typography>
 
-          <Authenticated>
+          <Unauthenticated>
             <Button
-              loading={loadingSignOut}
-              onPress={handleSignOut}
-              title={t('settings:sign_out')}
-              icon={<IconDoor />}
+              onPress={handleCleanCache}
+              title={t('settings:clean_cache')}
+              icon={<IconBroom />}
             />
+          </Unauthenticated>
+
+          <Authenticated>
+            <Row>
+              <Button
+                onPress={handleCleanCache}
+                title={t('settings:clean_cache')}
+                icon={<IconBroom />}
+              />
+              <Button
+                loading={loadingSignOut}
+                onPress={handleSignOut}
+                title={t('settings:sign_out')}
+                icon={<IconDoor />}
+              />
+            </Row>
 
             <Button
               variant="negative"

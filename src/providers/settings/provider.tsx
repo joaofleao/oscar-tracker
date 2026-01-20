@@ -96,7 +96,7 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
     const hydrateEdition = async (): Promise<void> => {
       const storedEditionId = await SecureStore.getItemAsync('currentEdition')
       let selectedEdition = storedEditionId ? editions.find((ed) => ed._id === storedEditionId) : null
-      if (!selectedEdition) selectedEdition = editions.find((ed) => ed.public)
+      if (!selectedEdition) selectedEdition = editions.find((ed) => ed.complete)
       if (selectedEdition) setEdition(selectedEdition._id)
     }
 

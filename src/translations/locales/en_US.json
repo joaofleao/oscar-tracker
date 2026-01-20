@@ -106,6 +106,7 @@
     "sign_in": "Sign In"
   },
   "settings": {
+    "clean_cache": "clean cache",
     "remove": "remove",
     "change": "change",
     "settings": "Settings",
