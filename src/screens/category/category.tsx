@@ -123,7 +123,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
     ],
   })
 
-  const distanceFromNow = new Date(edition.date).getTime() - new Date().getTime()
+  const distanceFromNow = new Date(edition?.date ?? 0).getTime() - new Date().getTime()
 
   return (
     <>
@@ -135,7 +135,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
         ListHeaderComponent={header}
         ItemSeparatorComponent={() => <View style={styles.gap} />}
         renderItem={({ item, index }) => {
-          if (edition.complete && distanceFromNow > 0)
+          if (edition?.complete && distanceFromNow > 0)
             return (
               <DraggableListItem
                 index={item.rank}

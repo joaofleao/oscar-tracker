@@ -11,7 +11,7 @@ export interface SettingsContextType {
   }
   setSpoilers: (name: keyof SettingsContextType['spoilers'], value: boolean) => void
   editions: EditionType
-  edition: EditionType[number]
+  edition?: EditionType[number]
   setEdition: (edition: string) => void
   language: 'pt_BR' | 'en_US'
   setLanguage: (language: SettingsContextType['language']) => void

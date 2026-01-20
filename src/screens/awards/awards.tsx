@@ -38,9 +38,9 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
-    const distanceFromNow = new Date(edition.date).getTime() - new Date().getTime()
+    const distanceFromNow = new Date(edition?.date ?? 0).getTime() - new Date().getTime()
     const updateCountdown = (): void => {
-      const distanceFromNow = new Date(edition.date).getTime() - new Date().getTime()
+      const distanceFromNow = new Date(edition?.date ?? 0).getTime() - new Date().getTime()
       setCountdown({
         days: Math.floor(distanceFromNow / (1000 * 60 * 60 * 24)),
         hours: Math.floor((distanceFromNow % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
@@ -53,7 +53,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
       const interval = setInterval(updateCountdown, 1000)
       return (): void => clearInterval(interval)
     }
-  }, [edition.date])
+  }, [edition?.date])
 
   const handleShowMeResults = (): void => {
     curtainsOpen.value = withTiming(1, { duration: 800 })
@@ -90,7 +90,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
     if (countdown.hours > 0) return <Typography center>{t('awards:will').replace('{countdown}', countdown.hours.toString()).replace('{time_unit}', getUnit(countdown.hours, 'hours'))}</Typography>
     if (countdown.minutes > 0) return <Typography center>{t('awards:will').replace('{countdown}', countdown.minutes.toString()).replace('{time_unit}', getUnit(countdown.minutes, 'minutes'))}</Typography>
     if (countdown.seconds > 0) return <Typography center>{t('awards:will').replace('{countdown}', countdown.seconds.toString()).replace('{time_unit}', getUnit(countdown.seconds, 'seconds'))}</Typography>
-    return <Typography center>{t('awards:has').replace('{date}', new Date(edition.date).toLocaleDateString())}</Typography>
+    return <Typography center>{t('awards:has').replace('{date}', new Date(edition?.date ?? 0).toLocaleDateString())}</Typography>
   }
 
   return (
@@ -119,7 +119,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
             </View>
             {getCountdown()}
 
-            {edition.hasVoted && (
+            {edition?.hasVoted && (
               <View style={styles.footer}>
                 <Typography
                   legend

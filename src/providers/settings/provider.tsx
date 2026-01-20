@@ -9,7 +9,7 @@ import { type SettingsContextType } from './types'
 
 const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
   const { i18n } = useTranslation()
-  const [editionState, setEditionState] = React.useState<SettingsContextType['edition']>()
+  const [edition, setEditionState] = React.useState<SettingsContextType['edition']>()
   const [hideCast, sethideCast] = React.useState(false)
   const [hidePlot, sethidePlot] = React.useState(false)
   const [hidePoster, sethidePoster] = React.useState(false)
@@ -19,7 +19,6 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
 
   const queryEditions = useQuery(api.oscars.getOscarEditions, { public: true })
   const editions = useMemo(() => queryEditions ?? [], [queryEditions])
-  const edition = useMemo(() => editionState ?? editions[0], [editionState, editions])
 
   const currentUser = useQuery(api.user.getCurrentUser)
   const updateUser = useMutation(api.user.updateUser)

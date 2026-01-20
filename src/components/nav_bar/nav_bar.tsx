@@ -1,7 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { useConvexAuth } from 'convex/react'
 import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
@@ -22,8 +21,6 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const { semantics } = useTheme()
   const { edition, editions } = useSettings()
   const { t, i18n } = useTranslation()
-
-  const { isAuthenticated } = useConvexAuth()
 
   const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
   const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
@@ -99,9 +96,9 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
       {state.index !== 2 && (
         <IconButton
-          placeholder={!edition.complete}
-          icon={edition.hasVoted ? <IconTrophy /> : <IconInformation />}
-          variant={edition.hasVoted ? 'brand' : 'container'}
+          placeholder={!edition?.complete}
+          icon={edition?.hasVoted ? <IconTrophy /> : <IconInformation />}
+          variant={edition?.hasVoted ? 'brand' : 'container'}
           onPress={() => navigation.navigate('awards')}
         />
       )}
