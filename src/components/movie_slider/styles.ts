@@ -18,7 +18,7 @@ const useStyles = ({ height, spacing }: StyleParams): StylesReturn => {
     root: {
       position: 'relative',
       height,
-      marginTop: 180,
+      marginTop: 222,
     },
     list: {
       overflow: 'visible',

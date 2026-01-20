@@ -10,7 +10,7 @@ import { useTheme } from '@providers/theme'
 const TOOLTIP_DELAY = 500 // Show tooltip after 500ms
 const HOLD_DURATION = 3000 // 3 second countdown
 
-const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, ...props }: ButtonProps): React.ReactElement => {
+const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
   const variant = isGhost ? 'container' : variantProp
   const styles = useStyles({ variant })
@@ -67,18 +67,26 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
         {...props}
       >
         <View style={[styles.content, loading && styles.hide, small && styles.smallContent]}>
+          {icon &&
+            iconPosition === 'trailing' &&
+            React.cloneElement<IconProps>(icon, {
+              color: props.disabled ? theme.semantics[variant].stroke.default : theme.semantics[variant].foreground.default,
+              size: 16,
+              ...icon.props,
+            })}
           {title && (
             <Typography
               legend={small}
-              color={theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
+              color={props.disabled ? theme.semantics[variant].stroke.default : theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
             >
               {title}
             </Typography>
           )}
 
           {icon &&
+            iconPosition === 'leading' &&
             React.cloneElement<IconProps>(icon, {
-              color: theme.semantics[variant].foreground.default,
+              color: props.disabled ? theme.semantics[variant].stroke.default : theme.semantics[variant].foreground.default,
               size: 16,
               ...icon.props,
             })}

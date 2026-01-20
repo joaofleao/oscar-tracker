@@ -10,6 +10,8 @@ type StylesReturn = {
   bottom: ViewStyle
   backdropContainer: ViewStyle
   backdropGradient: ViewStyle
+  backdropGradientTop: ViewStyle
+  flag: ViewStyle
   backdropImage: ImageStyle
 
   chips: ViewStyle
@@ -33,6 +35,9 @@ const useStyles = (): StylesReturn => {
     section: {
       gap: 8,
     },
+    flag: {
+      marginLeft: -4,
+    },
     posterContainer: {
       justifyContent: 'space-between',
       width: '100%',
@@ -50,6 +55,10 @@ const useStyles = (): StylesReturn => {
       bottom: 0,
       height: 300,
       width: '100%',
+    },
+    backdropGradientTop: {
+      top: 0,
+      bottom: undefined,
     },
     backdropImage: {
       aspectRatio: 1,

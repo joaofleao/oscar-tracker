@@ -1,12 +1,11 @@
 import React from 'react'
-import { View, ViewStyle } from 'react-native'
+import { ViewStyle } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { RowProps } from './types'
 
-const Row = ({ wrap = false, style, center, start, end, between, around, evenly, ...props }: RowProps): React.ReactElement => {
-  const styles = useStyles()
-
+const Row = ({ wrap = false, style, center, start, end, between, around, evenly, middle, ...props }: RowProps): React.ReactElement => {
   const getJustifyContent = (): ViewStyle['justifyContent'] => {
     if (center) return 'center'
     if (start) return 'flex-start'
@@ -16,9 +15,14 @@ const Row = ({ wrap = false, style, center, start, end, between, around, evenly,
     if (evenly) return 'space-evenly'
   }
 
+  const styles = useStyles({
+    justify: getJustifyContent(),
+    align: middle ? 'middle' : undefined,
+  })
+
   return (
-    <View
-      style={[styles.row, wrap && styles.wrap, { justifyContent: getJustifyContent() }, style]}
+    <Animated.View
+      style={[styles.row, wrap && styles.wrap, style]}
       {...props}
     />
   )

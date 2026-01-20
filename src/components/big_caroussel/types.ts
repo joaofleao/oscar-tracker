@@ -1,6 +1,7 @@
 export interface BigCarousselProps {
   nominations: {
     title: string
+    winner?: boolean
     image: string
     spoiler?: boolean
     watched?: boolean
@@ -8,6 +9,7 @@ export interface BigCarousselProps {
   }[]
 
   title?: string
+  extra?: string
 
   button: {
     title: string

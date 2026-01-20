@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeInDown, FadeInUp, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
@@ -54,6 +54,7 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
           <Typography color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}>{title}</Typography>
           {isActive && description && (
             <Typography
+              entering={FadeInDown}
               legend
               color={semantics.background.foreground.light}
             >

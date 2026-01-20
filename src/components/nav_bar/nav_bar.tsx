@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
+import { useConvexAuth } from 'convex/react'
 import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
@@ -8,19 +9,21 @@ import { useTranslation } from 'react-i18next'
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
-import { IconMagnifyingGlass, IconSettings } from '@components/icon'
+import { IconInformation, IconMagnifyingGlass, IconSettings, IconTrophy } from '@components/icon'
 import IconButton from '@components/icon_button'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
+import { ordinal } from '@utils/ordinals'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
-  const { currentEdition, editions } = useSettings()
-  const { t } = useTranslation()
-  const edition = editions.find((e) => e._id === currentEdition)
+  const { edition, editions } = useSettings()
+  const { t, i18n } = useTranslation()
+
+  const { isAuthenticated } = useConvexAuth()
 
   const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
   const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
@@ -51,6 +54,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       />
     )
   }
+
   const header = (
     <View style={styles.header}>
       <Animated.View style={[styles.headerBackground, headerAnimatedStyle]}>
@@ -59,7 +63,11 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
           intensity={20}
         />
       </Animated.View>
-      {state.index === 2 && <IconButton placeholder />}
+
+      <IconButton
+        placeholder
+        icon={<IconSettings />}
+      />
 
       <View style={styles.headerContent}>
         <Typography
@@ -69,19 +77,32 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
           oscar tracker
         </Typography>
 
-        <Typography
-          onPress={() => navigation.navigate('select_edition')}
-          center
-          legend
-          color={semantics.background.foreground.light}
-        >
-          {`${t('home:edition')} ${edition?.number} - ${edition?.year}`}
-        </Typography>
+        {editions.length > 0 && (
+          <Typography
+            onPress={() => navigation.navigate('select_edition')}
+            center
+            legend
+            color={semantics.background.foreground.light}
+          >
+            {`${ordinal(edition?.number ?? 0, i18n.language, true)} ${t('home:edition')} - ${edition?.year}`}
+          </Typography>
+        )}
       </View>
+
       {state.index === 2 && (
         <IconButton
           icon={<IconSettings />}
+          variant={'container'}
           onPress={() => navigation.navigate('settings')}
+        />
+      )}
+
+      {state.index !== 2 && (
+        <IconButton
+          placeholder={!edition.complete}
+          icon={edition.hasVoted ? <IconTrophy /> : <IconInformation />}
+          variant={edition.hasVoted ? 'brand' : 'container'}
+          onPress={() => navigation.navigate('awards')}
         />
       )}
     </View>

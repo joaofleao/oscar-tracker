@@ -4,4 +4,5 @@ export interface EmptyStateProps {
   title: string
   description?: string
   style?: ViewStyle
+  loading?: boolean
 }

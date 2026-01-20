@@ -15,13 +15,14 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      padding: 8,
+      padding: 12 - 1,
       borderRadius: 12,
       borderWidth: 1,
-      height: 40,
-      width: 40,
+      // height: 40,
+      // width: 40,
       alignItems: 'center',
       justifyContent: 'center',
+      alignSelf: 'flex-start',
 
       borderColor: semantics[variant].stroke.default,
       backgroundColor: semantics[variant].base.default,

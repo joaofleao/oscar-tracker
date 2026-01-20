@@ -8,25 +8,25 @@ import Button from '@components/button'
 import Typography from '@components/typography'
 import { useSettings } from '@providers/settings'
 import { ScreenType } from '@router/types'
+import { ordinal } from '@utils/ordinals'
+
+const ITEM_HEIGHT = 42 // Adjust based on your Button height
 
 const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   const styles = useStyles()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
-  const { editions, currentEdition, setCurrentEdition } = useSettings()
+  const { editions, edition, setEdition } = useSettings()
   const flatlistRef = useRef<FlatList>(null)
 
   const options = useMemo(
     () =>
-      editions
-        .filter((edition) => edition.complete)
-        ?.map((edition) => ({
-          name: `${t('select_edition:edition')} ${edition.number} - ${edition.year}`,
-          id: edition._id,
-          selected: edition._id === currentEdition,
-        }))
-        .sort((a, b) => b.name.localeCompare(a.name)) ?? [],
-    [currentEdition, editions, t],
+      editions?.map((ed) => ({
+        name: `${ordinal(ed.number, i18n.language)} ${t('select_edition:edition')} - ${ed.year}`,
+        id: ed._id,
+        selected: ed._id === edition?._id,
+      })) ?? [],
+    [edition, editions, i18n.language, t],
   )
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
         flatlistRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0 })
       }, 100)
     }
-  }, [options, currentEdition])
+  }, [options, edition])
 
   return (
     <>
@@ -51,12 +51,17 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
             title={item.name}
             variant={item.selected ? 'brand' : 'ghost'}
             onPress={(): void => {
-              setCurrentEdition(item.id)
+              setEdition(item.id)
               navigation.goBack()
             }}
           />
         )}
         data={options}
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
       />
       <BlurView
         collapsable={false}

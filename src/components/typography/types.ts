@@ -1,4 +1,5 @@
-import { TextProps } from 'react-native'
+import { Text, TextProps } from 'react-native'
+import { AnimatedProps } from 'react-native-reanimated'
 
 export interface TypographyProps extends TextProps {
   display?: boolean
@@ -17,4 +18,7 @@ export interface TypographyProps extends TextProps {
   left?: boolean
   right?: boolean
   justify?: boolean
+
+  entering?: AnimatedProps<Text>['entering']
+  exiting?: AnimatedProps<Text>['exiting']
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dimensions, FlatList, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native'
-import Animated, { runOnJS, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp, runOnJS, useAnimatedScrollHandler, useSharedValue, withTiming } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import BigCard from './big_card'
@@ -15,7 +15,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
-const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): React.ReactElement => {
+const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselProps): React.ReactElement => {
   const scrollX = useSharedValue(0)
   const flatListRef = React.useRef<FlatList>(null)
   const sidePadding = (SCREEN_WIDTH - CARD_WIDTH) / 2
@@ -28,10 +28,6 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
   })
 
   const [activeElement, setActiveElement] = React.useState(0)
-
-  const fadeAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: fadeOpacity.value,
-  }))
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -78,18 +74,24 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
         scrollX={scrollX}
         spoiler={item.spoiler}
         watched={item.watched}
+        winner={item.winner}
       />
     )
   }
 
   return (
     <>
-      <Animated.View style={[styles.backgroundContainer, fadeAnimatedStyle]}>
+      <Animated.View
+        key={activeElement}
+        style={[styles.backgroundContainer]}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
         {nominations.map((el, index) => (
           <Animated.Image
             key={el.title}
-            blurRadius={8}
-            source={{ uri: `https://image.tmdb.org/t/p/w500${el.image}` }}
+            blurRadius={5}
+            source={{ uri: `https://image.tmdb.org/t/p/w200${el.image}` }}
             style={[styles.backgroundImage, index === activeElement ? styles.backgroundImageActive : styles.backgroundImageInactive]}
           />
         ))}
@@ -120,7 +122,12 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
             onMomentumScrollEnd={handleMomentumEnd}
             onScrollBeginDrag={handleMomentumStart}
           />
-          <Animated.View style={[styles.infoContainer, fadeAnimatedStyle]}>
+          <Animated.View
+            key={nominations[activeElement]?.title}
+            style={[styles.infoContainer]}
+            entering={FadeInDown.delay(200)}
+            exiting={FadeOutUp}
+          >
             <Typography
               display
               center
@@ -128,6 +135,14 @@ const BigCaroussel = ({ nominations = [], button, title }: BigCarousselProps): R
               {nominations[activeElement]?.title}
             </Typography>
             <View style={styles.infoTextContainer}>
+              {nominations[activeElement].winner && (
+                <Typography
+                  color={semantics.brand.foreground.default}
+                  center
+                >
+                  {extra}
+                </Typography>
+              )}
               <Typography
                 body
                 center

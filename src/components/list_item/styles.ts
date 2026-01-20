@@ -4,6 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  winner: ViewStyle
   texts: ViewStyle
   content: ViewStyle
   contentPressed: ViewStyle
@@ -35,6 +36,11 @@ const useStyles = (): StylesReturn => {
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       backgroundColor: semantics.container.base.default,
+    },
+    winner: {
+      position: 'absolute',
+      top: -8,
+      right: -12,
     },
     texts: {
       flex: 1,

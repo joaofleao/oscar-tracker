@@ -181,10 +181,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   return (
     <View style={styles.root}>
-      <TriangleLogo
-        color={semantics.accent.base.default}
-        opacity={0.3}
-      />
+      <TriangleLogo color={semantics.accent.base.default} />
 
       <View style={styles.logo}>
         <TextLogo size={140} />

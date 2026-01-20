@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, ListRenderItem } from 'react-native'
+import { ActivityIndicator, FlatList, ListRenderItem } from 'react-native'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -17,14 +17,12 @@ import useSettings from '@providers/settings/useSettings'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
-  const { spoilers, currentEdition } = useSettings()
+  const { spoilers, edition } = useSettings()
   const { onScrollNominations, nominationsRef } = useAnimations()
 
   const styles = useStyles()
-
-  const nominations = useQuery(api.oscars.getNominations, { editionId: currentEdition as GenericId<'oscarEditions'> }) || []
-
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const nominations = useQuery(api.oscars.getNominations, { editionId: edition?._id as GenericId<'oscarEditions'>, language: i18n.language }) || []
 
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
     const button = {
@@ -38,6 +36,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         title: el.title,
         description: el.description,
         watched: el.watched,
+        winner: el.winner,
         image: `https://image.tmdb.org/t/p/w500${el.posterPath}`,
         onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
         spoiler: item.type === 'person' ? !spoilers.hidePlot : spoilers.hidePoster,
@@ -47,6 +46,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     if (item.type === 'picture')
       return (
         <BigCaroussel
+          extra={t('overall:winner')}
           nominations={enrichedNominations}
           title={item.category.name}
           button={button}
@@ -79,6 +79,43 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     )
   }
 
+  const daysUntilAnnouncement = edition?.announcement ? Math.ceil((new Date(edition.announcement).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
+  const daysUntilEdition = edition?.date ? Math.ceil((new Date(edition.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
+
+  const emptyState = (): React.ReactElement => {
+    if (daysUntilAnnouncement !== null && daysUntilEdition !== null) {
+      if (daysUntilAnnouncement < 0)
+        return (
+          <EmptyState
+            title={t('nominations:announcement_made_title')}
+            description={t('nominations:announcement_made_description')}
+          />
+        )
+      if (daysUntilAnnouncement === 0)
+        return (
+          <EmptyState
+            title={t('nominations:announcement_today_title')}
+            description={t('nominations:announcement_today_description')}
+          />
+        )
+      if (daysUntilAnnouncement === 1)
+        return (
+          <EmptyState
+            title={t('nominations:until_announcement_title_singular').replace('{count}', '1')}
+            description={t('nominations:until_announcement_description_singular').replace('{count}', '1')}
+          />
+        )
+      if (daysUntilAnnouncement > 1)
+        return (
+          <EmptyState
+            title={t('nominations:until_announcement_title').replace('{count}', Math.abs(daysUntilAnnouncement)?.toString())}
+            description={t('nominations:until_announcement_description').replace('{count}', Math.abs(daysUntilEdition)?.toString())}
+          />
+        )
+    }
+    return <ActivityIndicator />
+  }
+
   return (
     <FlatList
       ref={nominationsRef}
@@ -86,13 +123,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       contentContainerStyle={styles.flatlists}
       data={nominations}
       renderItem={renderCaroussel}
-      ListEmptyComponent={
-        <EmptyState
-          style={styles.empty}
-          title={t('nominations:empty_nominations_title')}
-          description={t('nominations:empty_nominations_description')}
-        />
-      }
+      ListEmptyComponent={emptyState()}
     />
   )
 }

@@ -2,6 +2,7 @@
   "overall": {
     "search_placeholder": "pesquisar",
     "email_placeholder": "email",
+    "winner": "Vencedor",
 
     "password_placeholder": "senha",
     "password_confirmation_placeholder": "confirmar senha",
@@ -24,11 +25,14 @@
     "watched_description": "Classifique os filmes pela probabilidade de vitória",
     "unwatched_description": "Assista aos filmes para classificá-los"
   },
+
   "select_edition": {
     "edition": "Edição",
     "select_edition": "Selecione a edição"
   },
   "home": {
+    "edition": "Edição",
+    "select_edition": "Selecione a edição",
     "nominations": "indicações",
     "movies": "Filmes",
     "profile": "Perfil"
@@ -52,7 +56,7 @@
     "following": "Seguindo",
     "follows_you": "Segue você",
     "no_results": "Nenhum resultado encontrado.",
-    "empty_state": "Procure usuários, filmes e categorias."
+    "empty_state": "Procure seus amigos pelo nome."
   },
   "movies": {
     "watch": "Assistir",
@@ -64,8 +68,18 @@
   },
   "nominations": {
     "expand": "Expandir",
-    "empty_nominations_title": "Sem indicações",
-    "empty_nominations_description": "Nenhuma indicação nessa edição."
+
+    "until_announcement_title_singular": "{count} dia para o anúncio",
+    "until_announcement_description_singular": "{count} dia para a cerimônia.",
+
+    "until_announcement_title": "{count} dias para o anúncio",
+    "until_announcement_description": "{count} dias para a cerimônia.",
+
+    "announcement_today_title": "Hoje é o dia do anúncio!",
+    "announcement_today_description": "As indicações serão reveladas em breve.",
+
+    "announcement_made_title": "O anúncio já foi feito",
+    "announcement_made_description": "As indicações serão reveladas em breve."
   },
 
   "movie": {
@@ -144,5 +158,25 @@
     },
     "continue": "Continuar",
     "report": "Reportar"
+  },
+  "awards": {
+    "call": "A {count} cerimônia de",
+    "name": "Prêmios da Academia",
+    "will": "vai acontecer em {countdown} {time_unit}.",
+    "has": "ocorreu dia {date}.",
+
+    "days": "dias",
+    "day": "dia",
+    "hours": "horas",
+    "hour": "hora",
+    "minutes": "minutos",
+    "minute": "minuto",
+    "seconds": "segundos",
+    "second": "segundo",
+
+    "show_me_winners": "mostrar vencedores",
+    "coming_soon": "em breve",
+    "your_rank": "sua classificação",
+    "not_ranked": "não classificado"
   }
 }

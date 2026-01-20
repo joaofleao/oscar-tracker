@@ -1,7 +1,6 @@
 import React from 'react'
 import { StatusBar, View } from 'react-native'
 import * as Fonts from 'expo-font'
-import { LinearGradient } from 'expo-linear-gradient'
 import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
 import { use as run } from 'i18next'
@@ -16,6 +15,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
+import Awards from '@screens/awards'
 import Category from '@screens/category'
 import Movie from '@screens/movie'
 import Movies from '@screens/movies'
@@ -155,6 +155,14 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'movie'}
             component={Movie}
+            options={{
+              presentation: 'pageSheet',
+              sheetAllowedDetents: 'fitToContents',
+            }}
+          />
+          <Stack.Screen
+            name={'awards'}
+            component={Awards}
             options={{
               presentation: 'pageSheet',
               sheetAllowedDetents: 'fitToContents',

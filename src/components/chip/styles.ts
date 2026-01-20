@@ -1,24 +1,28 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 
-import { useTheme } from '@providers/theme'
+import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   content: ViewStyle
-  hasIcon: ViewStyle
   root: ViewStyle
+  hasIcon: ViewStyle
   spoiler: ViewStyle
   blur: ViewStyle
 }
 
-const useStyles = (): StylesReturn => {
+type StylesProps = {
+  variant: keyof SemanticsType
+}
+
+const useStyles = ({ variant }: StylesProps): StylesReturn => {
   const { semantics } = useTheme()
 
   return StyleSheet.create({
     root: {
       position: 'relative',
       borderRadius: 20,
-      backgroundColor: semantics.container.base.default,
-      borderColor: semantics.container.stroke.default,
+      backgroundColor: semantics[variant].base.default,
+      borderColor: semantics[variant].stroke.default,
       borderWidth: 1,
     },
     content: {
@@ -26,10 +30,10 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
       flexDirection: 'row',
       paddingVertical: 4,
-      paddingHorizontal: 8,
+      paddingHorizontal: 4,
     },
     hasIcon: {
-      paddingLeft: 4,
+      paddingHorizontal: 8,
     },
     spoiler: {
       alignItems: 'center',

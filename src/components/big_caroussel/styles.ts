@@ -83,7 +83,7 @@ const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): Styles
 
     infoContainer: {
       alignItems: 'center',
-      gap: 16,
+      gap: 8,
       paddingHorizontal: 16,
     },
 

@@ -9,16 +9,17 @@ import { type SettingsContextType } from './types'
 
 const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
   const { i18n } = useTranslation()
-  const [currentEdition, setCurrentEditionState] = React.useState<SettingsContextType['currentEdition']>(undefined)
+  const [editionState, setEditionState] = React.useState<SettingsContextType['edition']>()
   const [hideCast, sethideCast] = React.useState(false)
   const [hidePlot, sethidePlot] = React.useState(false)
   const [hidePoster, sethidePoster] = React.useState(false)
   const [hideRate, sethideRate] = React.useState(false)
 
-  const [language, setLanguageState] = React.useState<string>('pt_BR')
+  const [language, setLanguageState] = React.useState<'pt_BR' | 'en_US'>('pt_BR')
 
-  const queryEditions = useQuery(api.oscars.getOscarEditions)
-  const editions = useMemo(() => queryEditions || [], [queryEditions])
+  const queryEditions = useQuery(api.oscars.getOscarEditions, { public: true })
+  const editions = useMemo(() => queryEditions ?? [], [queryEditions])
+  const edition = useMemo(() => editionState ?? editions[0], [editionState, editions])
 
   const currentUser = useQuery(api.user.getCurrentUser)
   const updateUser = useMutation(api.user.updateUser)
@@ -66,7 +67,7 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
       if (!apiLanguage) {
         const storedLanguage = await SecureStore.getItemAsync('language')
         if (storedLanguage) {
-          finalLanguage = storedLanguage
+          finalLanguage = storedLanguage as 'pt_BR' | 'en_US'
         }
       }
 
@@ -79,11 +80,10 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
     [i18n],
   )
 
-  const setCurrentEdition = (editionId: SettingsContextType['currentEdition']): void => {
-    if (!editionId) return
-
-    SecureStore.setItemAsync('currentEdition', editionId)
-    setCurrentEditionState(editionId)
+  const setEdition: SettingsContextType['setEdition'] = (edition): void => {
+    if (!edition) return
+    SecureStore.setItemAsync('currentEdition', edition)
+    setEditionState(editions.find((ed) => ed._id === edition))
   }
 
   useEffect(() => {
@@ -91,15 +91,15 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
   }, [currentUser, hydrateSettings])
 
   useEffect(() => {
+    if (editions.length === 0) return
+
     const hydrateEdition = async (): Promise<void> => {
-      const storedEdition = await SecureStore.getItemAsync('currentEdition')
-      if (storedEdition) {
-        setCurrentEditionState(storedEdition as SettingsContextType['currentEdition'])
-      } else if (editions.length > 0) {
-        setCurrentEditionState(editions.find((el) => el.complete)?._id ?? editions[0]._id)
-        SecureStore.setItemAsync('currentEdition', editions[0]._id)
-      }
+      const storedEditionId = await SecureStore.getItemAsync('currentEdition')
+      let selectedEdition = storedEditionId ? editions.find((ed) => ed._id === storedEditionId) : null
+      if (!selectedEdition) selectedEdition = editions.find((ed) => ed.public)
+      if (selectedEdition) setEdition(selectedEdition._id)
     }
+
     void hydrateEdition()
   }, [editions])
 
@@ -123,7 +123,7 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
     updateUser({ [name]: value })
   }
 
-  const setLanguage = (newLanguage: string): void => {
+  const setLanguage = (newLanguage: SettingsContextType['language']): void => {
     setLanguageState(newLanguage)
     i18n.changeLanguage(newLanguage)
     SecureStore.setItemAsync('language', newLanguage)
@@ -141,8 +141,8 @@ const SettingsProvider = ({ children }: { children?: React.ReactNode }): React.R
         },
         setSpoilers,
         editions,
-        currentEdition,
-        setCurrentEdition,
+        edition,
+        setEdition,
         language,
         setLanguage,
       }}

@@ -7,6 +7,8 @@ type StylesReturn = {
   spoiler: ViewStyle
   image: ImageStyle
   overlay: ImageStyle
+  container: ViewStyle
+  winner: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -18,12 +20,20 @@ const useStyles = (): StylesReturn => {
 
       width: 200,
     },
-    image: {
-      width: 200,
+    container: {
       aspectRatio: 2 / 3,
-      borderWidth: 1,
+      width: 200,
       borderColor: semantics.container.stroke.default,
       backgroundColor: semantics.container.base.default,
+      borderWidth: 1,
+    },
+    winner: {
+      borderColor: semantics.brand.foreground.light,
+      borderWidth: 3,
+    },
+    image: {
+      width: '100%',
+      height: '100%',
     },
     spoiler: {
       position: 'absolute',

@@ -24,6 +24,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       position: 'relative',
       paddingHorizontal: 16,
       paddingVertical: 8,
+
       borderRadius: 12,
       borderWidth: 1,
       backgroundColor: semantics[variant].base.default,
@@ -49,6 +50,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
     smallContent: {
       gap: 4,
     },
+
     loading: {
       opacity: 1,
       position: 'absolute',

@@ -163,7 +163,7 @@ export type PublicApiType = {
         originCountry?: Array<{ code: string; name: string; url: string }>
         originalLanguage?: string
         plot?: string
-        posterPath: string
+        posterPath?: string
         releaseDate?: string
         runtime?: number
         status?: string
@@ -191,7 +191,7 @@ export type PublicApiType = {
         originCountry?: Array<string>
         originalLanguage?: string
         plot?: string
-        posterPath: string
+        posterPath?: string
         releaseDate?: string
         runtime?: number
         status?: string
@@ -213,7 +213,7 @@ export type PublicApiType = {
         originCountry?: Array<string>
         originalLanguage?: string
         plot?: string
-        posterPath: string
+        posterPath?: string
         releaseDate?: string
         runtime?: number
         status?: string
@@ -232,14 +232,18 @@ export type PublicApiType = {
     getOscarEditions: FunctionReference<
       'query',
       'public',
-      Record<string, never>,
+      { public?: boolean },
       Array<{
         _creationTime: number
         _id: Id<'oscarEditions'>
+        allowVoting: boolean
         announcement?: number
         complete: boolean
         date: number
+        finished: boolean
+        hasVoted: boolean
         number: number
+        public: boolean
         year: number
       }>
     >
@@ -250,7 +254,9 @@ export type PublicApiType = {
         announcement?: number
         complete: boolean
         date: number
+        finished: boolean
         number: number
+        public: boolean
         year: number
       },
       Id<'oscarEditions'>
@@ -260,9 +266,12 @@ export type PublicApiType = {
       'public',
       {
         _id: Id<'oscarEditions'>
+        announcement?: number
         complete: boolean
         date: number
+        finished: boolean
         number: number
+        public: boolean
         year: number
       },
       null
@@ -275,22 +284,67 @@ export type PublicApiType = {
       Array<{
         _creationTime: number
         _id: Id<'oscarCategories'>
+        group: string
         name: { en_US: string; pt_BR: string }
         order: number
       }>
     >
-    createOscarCategory: FunctionReference<'mutation', 'public', { name: { en_US: string; pt_BR: string }; order: number }, Id<'oscarCategories'>>
+    getOscarGroups: FunctionReference<
+      'query',
+      'public',
+      Record<string, never>,
+      Array<{
+        _creationTime: number
+        _id: Id<'oscarGroups'>
+        name: { en_US: string; pt_BR: string }
+        order: number
+        tagline: { en_US: string; pt_BR: string }
+      }>
+    >
+    createOscarGroup: FunctionReference<
+      'mutation',
+      'public',
+      {
+        name: { en_US: string; pt_BR: string }
+        order: number
+        tagline: { en_US: string; pt_BR: string }
+      },
+      Id<'oscarGroups'>
+    >
+    createOscarCategory: FunctionReference<
+      'mutation',
+      'public',
+      {
+        groupId: Id<'oscarGroups'>
+        name: { en_US: string; pt_BR: string }
+        order: number
+      },
+      Id<'oscarCategories'>
+    >
     updateOscarCategory: FunctionReference<
       'mutation',
       'public',
       {
         _id: Id<'oscarCategories'>
+        groupId: Id<'oscarGroups'>
         name: { en_US: string; pt_BR: string }
         order: number
       },
       null
     >
+    updateOscarGroup: FunctionReference<
+      'mutation',
+      'public',
+      {
+        _id: Id<'oscarGroups'>
+        name: { en_US: string; pt_BR: string }
+        order: number
+        tagline: { en_US: string; pt_BR: string }
+      },
+      null
+    >
     deleteOscarCategory: FunctionReference<'mutation', 'public', { _id: Id<'oscarCategories'> }, null>
+    deleteOscarGroup: FunctionReference<'mutation', 'public', { _id: Id<'oscarGroups'> }, null>
     createOscarNomination: FunctionReference<
       'mutation',
       'public',
@@ -355,7 +409,7 @@ export type PublicApiType = {
       Array<{
         _id: Id<'watchedMovies'>
         movieId: Id<'movies'>
-        posterPath: string
+        posterPath?: string
         title: string
         tmdbId: number
         watchedAt: number
@@ -373,7 +427,7 @@ export type PublicApiType = {
           name?: string
         }>
         nominationCount: number
-        posterPath: string
+        posterPath?: string
         title: string
         tmdbId: number
         watched?: boolean
@@ -393,7 +447,7 @@ export type PublicApiType = {
           description?: string
           movieId: Id<'movies'>
           nominationId: Id<'oscarNomination'>
-          posterPath: string
+          posterPath?: string
           title: string
           tmdbId: number
           watched?: boolean
@@ -415,18 +469,7 @@ export type PublicApiType = {
       },
       {
         category: { categoryId: Id<'oscarCategories'>; name: string }
-        unwatched: Array<{
-          description?: string
-          extra?: string
-          image?: string
-          nominationId: Id<'oscarNomination'>
-          title: string
-          tmdbId: number
-          watched: boolean
-          winner: boolean
-          wish: boolean
-        }>
-        watched: Array<{
+        nominations: Array<{
           description?: string
           extra?: string
           image?: string
@@ -466,7 +509,7 @@ export type PublicApiType = {
         originCountry?: Array<{ code: string; name: string; url: string }>
         originalLanguage?: string
         plot?: string
-        posterPath: string
+        posterPath?: string
         releaseDate?: string
         runtime?: number
         status?: string
@@ -475,6 +518,30 @@ export type PublicApiType = {
         tmdbId: number
         voteAverage?: number
       }
+    >
+    getBallotResults: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      Array<{
+        categories: Array<{
+          bonus: number
+          categoryId: Id<'oscarCategories'>
+          name: string
+          nominations: Array<{
+            movieId: Id<'movies'>
+            nominationId: Id<'oscarNomination'>
+            posterPath?: string
+            title: string
+            tmdbId: number
+            watched: boolean
+            winner: boolean
+          }>
+          penalty: number
+          points: number
+        }>
+        group: { groupId: Id<'oscarGroups'>; name: string; tagline: string }
+      }>
     >
   }
 }

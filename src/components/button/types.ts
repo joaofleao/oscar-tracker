@@ -10,4 +10,5 @@ export interface ButtonProps extends TouchableOpacityProps {
   loading?: boolean
   variant?: keyof SemanticsType | 'ghost'
   tooltip?: string
+  iconPosition?: 'leading' | 'trailing'
 }

@@ -5,11 +5,12 @@ import { BlurView } from 'expo-blur'
 import useStyles from './styles'
 import { SmallCardProps } from './types'
 import Button from '@components/button'
-import { IconLocket } from '@components/icon'
+import { IconLocket, IconOscar } from '@components/icon'
+import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const SmallCard = ({ _id, image, squared, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
+const SmallCard = ({ _id, image, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -37,12 +38,21 @@ const SmallCard = ({ _id, image, squared, button, title, description, additional
         </View>
       )}
       <View style={styles.header}>
-        <Typography
-          numberOfLines={1}
-          body
-        >
-          {title}
-        </Typography>
+        <Row middle>
+          {winner && (
+            <IconOscar
+              filled
+              size={12}
+              color={semantics.brand.foreground.default}
+            />
+          )}
+          <Typography
+            numberOfLines={1}
+            body
+          >
+            {title}
+          </Typography>
+        </Row>
 
         <Typography
           numberOfLines={1}

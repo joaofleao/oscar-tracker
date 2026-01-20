@@ -1,5 +1,6 @@
 {
   "overall": {
+    "winner": "Winner",
     "search_placeholder": "search",
     "email_placeholder": "email",
     "password_placeholder": "password",
@@ -14,6 +15,7 @@
     "permission_media_library": "Permission to access the media library is required."
   },
   "category": {
+    "winner": "Winner",
     "cast_ballot": "Enviar Votos",
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
@@ -22,26 +24,38 @@
     "watched_description": "Rank the movies by the order you believe they will win",
     "unwatched_description": "Watch movies to rank them"
   },
+
   "select_edition": {
-    "edition": "Edição",
-    "select_edition": "Selecione a edição"
+    "edition": "Edition",
+    "select_edition": "Select Edition"
   },
   "home": {
+    "edition": "Edition",
+    "select_edition": "Select Edition",
     "nominations": "Nominations",
     "movies": "Movies",
     "profile": "Profile"
   },
   "nominations": {
     "expand": "Expand",
-    "empty_nominations_title": "No nominations",
-    "empty_nominations_description": "No nominations in this edition."
+    "until_announcement_title_singular": "{count} day until the announcement",
+    "until_announcement_description_singular": "{count} day left until the nominations announcement.",
+
+    "until_announcement_title": "{count} days until the announcement",
+    "until_announcement_description": "{count} days left until the nominations announcement.",
+
+    "announcement_today_title": "Today is the announcement day!",
+    "announcement_today_description": "The nominations will be revealed soon.",
+
+    "announcement_made_title": "The announcement has been made",
+    "announcement_made_description": "The nominations have been revealed."
   },
   "search": {
     "follow": "Follow",
     "following": "Following",
     "follows_you": "Follows you",
     "no_results": "No results found.",
-    "empty_state": "Search users, movies and categories."
+    "empty_state": "Search your friends by name."
   },
   "movie": {
     "watch": "Mark as Watched",
@@ -130,7 +144,7 @@
     },
     "wrong_email": {
       "title": "Account not found",
-      "message": "There isn't an account assigned to thie email."
+      "message": "There isn't an account assigned to this email."
     },
     "already_exists": {
       "title": "Email already in use",
@@ -141,5 +155,25 @@
     },
     "continue": "Continue",
     "report": "Report"
+  },
+  "awards": {
+    "call": "The {count} ceremony of the",
+    "name": "Academy Awards",
+    "will": "will happen in {countdown} {time_unit}.",
+    "has": "happened on {date}.",
+
+    "days": "days",
+    "day": "day",
+    "hours": "hours",
+    "hour": "hour",
+    "minutes": "minutes",
+    "minute": "minute",
+    "seconds": "seconds",
+    "second": "second",
+
+    "show_me_winners": "show me the winners",
+    "coming_soon": "coming soon",
+    "your_rank": "your rank",
+    "not_ranked": "not ranked"
   }
 }

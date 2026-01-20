@@ -21,6 +21,7 @@ export interface ListItemProps {
   image?: string
   watched?: boolean
   spoiler?: boolean
+  winner?: boolean
 
   title?: string
   description?: string

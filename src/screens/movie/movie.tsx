@@ -100,12 +100,16 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
     <>
       <View style={styles.backdropContainer}>
         <Image
-          blurRadius={3}
-          source={{ uri: `https://image.tmdb.org/t/p/w500${movie.backdropPath}` }}
+          blurRadius={1}
+          source={{ uri: `https://image.tmdb.org/t/p/w200${movie.backdropPath}` }}
           style={styles.backdropImage}
         />
         <LinearGradient
           colors={semantics.background.base.gradient as any}
+          style={[styles.backdropGradient, styles.backdropGradientTop]}
+        />
+        <LinearGradient
+          colors={semantics.background.base.gradient.toReversed() as any}
           style={styles.backdropGradient}
         />
         {movie.originCountry?.some((e) => e.code === 'BR') && (
@@ -212,12 +216,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             <Caroussel
               data={movie.nominations.map((nomination) => ({
                 title: nomination.categoryName,
-                icon: nomination.winner ? (
-                  <IconOscar
-                    color={semantics.accent.base.default}
-                    filled
-                  />
-                ) : undefined,
+                variant: nomination.winner ? ('brand' as const) : ('container' as const),
+                icon: nomination.winner ? <IconOscar filled /> : undefined,
                 onPress: () => navigation.navigate('category', { categoryId: nomination.categoryId }),
               }))}
               item={Tag}
@@ -230,6 +230,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
                 title: country.name,
                 icon: (
                   <SvgUri
+                    style={styles.flag}
                     uri={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
                     width={20}
                     height={20}
@@ -254,8 +255,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             />
           </Section>
 
-          <Typography>{t('movie:streaming')}</Typography>
-          <Typography>{t('movie:cast')}</Typography>
+          {/* <Typography>{t('movie:streaming')}</Typography>
+          <Typography>{t('movie:cast')}</Typography> */}
           {movie.plot && (
             <>
               <Typography>{t('movie:plot')}</Typography>

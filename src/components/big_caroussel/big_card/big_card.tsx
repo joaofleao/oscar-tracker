@@ -11,7 +11,7 @@ import { useTheme } from '@providers/theme'
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
-const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardProps): React.ReactElement => {
+const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: BigCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -23,12 +23,8 @@ const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardP
     }
 
     const inputRange = [(index - 1) * (CARD_WIDTH + CARD_SPACING), index * (CARD_WIDTH + CARD_SPACING), (index + 1) * (CARD_WIDTH + CARD_SPACING)]
-
     const scale = interpolate(scrollX.value, inputRange, [0.85, 1.15, 0.85], Extrapolation.CLAMP)
-
-    return {
-      transform: [{ scale }],
-    }
+    return { transform: [{ scale }] }
   })
 
   return (
@@ -38,7 +34,7 @@ const BigCard = ({ image, spoiler, watched, index, scrollX, ...props }: BigCardP
         {...props}
       >
         {hasImage && (
-          <View>
+          <View style={[styles.container, winner && styles.winner]}>
             <Image
               source={{ uri: image }}
               style={styles.image}

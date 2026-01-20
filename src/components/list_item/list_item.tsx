@@ -5,11 +5,12 @@ import { BlurView } from 'expo-blur'
 
 import useStyle from './styles'
 import { ListItemProps, ListItemSecondaryActionProps } from './types'
-import { IconLocket, IconProps } from '@components/icon'
+import { IconLocket, IconOscar, IconProps } from '@components/icon'
+import Tag from '@components/tag'
 import Typography from '@components/typography'
 import { semantics, useTheme } from '@providers/theme'
 
-const ListItem = ({ id, title, watched = false, spoiler = false, description, extra, image, secondaryActions, bottomArea, mainAction }: ListItemProps): React.ReactElement => {
+const ListItem = ({ id, title, watched = false, spoiler = false, winner = false, description, extra, image, secondaryActions, bottomArea, mainAction }: ListItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
   const hasSecondaryActions = secondaryActions !== undefined && secondaryActions.length > 0
@@ -67,10 +68,12 @@ const ListItem = ({ id, title, watched = false, spoiler = false, description, ex
         )}
         {!watched && (
           <View style={[styles.unwatched, hasImage && styles.hasImage]}>
-            <IconLocket
-              color={semantics.container.foreground.light}
-              size={16}
-            />
+            {!watched && (
+              <IconLocket
+                color={semantics.container.foreground.light}
+                size={16}
+              />
+            )}
           </View>
         )}
       </View>
@@ -118,6 +121,18 @@ const ListItem = ({ id, title, watched = false, spoiler = false, description, ex
           <View style={styles.verticalSeparator} />
           <View>{secondaryActions.map(renderSecondaryAction)}</View>
         </>
+      )}
+      {winner && (
+        <Tag
+          title="winner"
+          style={styles.winner}
+          icon={
+            <IconOscar
+              filled
+              color={semantics.brand.foreground.default}
+            />
+          }
+        />
       )}
     </Animated.View>
   )

@@ -12,7 +12,8 @@ type StylesReturn = {
   footer: ViewStyle
   leading: ViewStyle
   trailing: ViewStyle
-  gradient: ViewStyle
+  gradientTop: ViewStyle
+  gradientBottom: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -24,6 +25,7 @@ const useStyles = (): StylesReturn => {
     },
     headerContent: {
       flex: 1,
+      alignItems: 'center',
     },
     header: {
       position: 'absolute',

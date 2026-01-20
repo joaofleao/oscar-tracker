@@ -9,7 +9,7 @@ export type StackProps = {
   nominations: undefined
 
   auth: undefined
-
+  awards: undefined
   select_edition: undefined
   password_recovery: { email: string | undefined }
   preferences: undefined

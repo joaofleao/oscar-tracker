@@ -9,6 +9,7 @@ type StylesReturn = {
   imageContainer: ViewStyle
   header: ViewStyle
   image: ImageStyle
+  winner: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -26,6 +27,11 @@ const useStyles = (): StylesReturn => {
     image: {
       width: 44,
       aspectRatio: 2 / 3,
+    },
+    winner: {
+      position: 'absolute',
+      top: -16,
+      right: -12,
     },
     imageContainer: {
       borderRightWidth: 1,

@@ -53,10 +53,12 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
         onScroll={onScroll}
         {...props}
       />
-      <TinyChevron
-        orientation="right"
-        style={styles.chevron}
-      />
+      {data.length > 0 && (
+        <TinyChevron
+          orientation="right"
+          style={styles.chevron}
+        />
+      )}
     </View>
   )
 }

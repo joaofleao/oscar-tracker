@@ -1,4 +1,5 @@
-import { Text, TextStyle } from 'react-native'
+import { TextStyle } from 'react-native'
+import Animated from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { TypographyProps } from './types'
@@ -15,7 +16,7 @@ const Typography = ({ style, display = false, onboardingAccent = false, onboardi
   }
 
   return (
-    <Text
+    <Animated.Text
       style={[title && styles.title, display && styles.display, onboardingAccent && styles.onboardingAccent, onboarding && styles.onboarding, header && styles.header, body && styles.body, description && styles.description, legend && styles.legend, { textAlign: getTextAlign() }, style]}
       {...props}
     />

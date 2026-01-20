@@ -10,8 +10,8 @@ import { IconProps } from '@components/icon/types'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const Chip = ({ title, icon, spoiler, toggleSpoiler, ...props }: ChipProps): React.ReactElement => {
-  const styles = useStyles()
+const Chip = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', entering, exiting }: ChipProps): React.ReactElement => {
+  const styles = useStyles({ variant })
   const theme = useTheme()
 
   const animation = useSharedValue(1)
@@ -26,14 +26,21 @@ const Chip = ({ title, icon, spoiler, toggleSpoiler, ...props }: ChipProps): Rea
 
   const content = (
     <View style={[styles.content, !!icon && styles.hasIcon]}>
-      {icon &&
+      {icon !== undefined &&
         React.cloneElement<IconProps>(icon, {
-          color: theme.semantics.container.foreground.light,
+          color: theme.semantics[variant].foreground.default,
           size: 12,
           ...icon.props,
         })}
 
-      {title && <Typography legend>{title}</Typography>}
+      {title !== undefined && (
+        <Typography
+          color={theme.semantics[variant].foreground.default}
+          legend
+        >
+          {title}
+        </Typography>
+      )}
     </View>
   )
 
@@ -54,7 +61,15 @@ const Chip = ({ title, icon, spoiler, toggleSpoiler, ...props }: ChipProps): Rea
       </Pressable>
     )
 
-  return <View style={styles.root}>{content}</View>
+  return (
+    <Animated.View
+      style={styles.root}
+      entering={entering}
+      exiting={exiting}
+    >
+      {content}
+    </Animated.View>
+  )
 }
 
 export default Chip

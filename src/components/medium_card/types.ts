@@ -5,5 +5,6 @@ export interface MediumCardProps extends TouchableOpacityProps {
   label?: string
   spoiler?: boolean
   watched?: boolean
+  winner?: boolean
   index?: number
 }
