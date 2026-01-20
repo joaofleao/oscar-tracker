@@ -33,7 +33,7 @@ const GalleryViewItem = ({ _id, posterPath, title, style, onPress, ...props }: G
   if (onPress)
     return (
       <TouchableOpacity
-        onPress={(e) => onPress(e, props.id)}
+        onPress={(e) => onPress(e, _id)}
         style={[styles.root, style]}
         activeOpacity={0.7}
         {...props}
