@@ -48,6 +48,7 @@ export type PublicApiType = {
         hidePoster?: boolean
         hideRate?: boolean
         image?: Id<'_storage'>
+        imageURL?: string
         isAnonymous?: boolean
         language?: 'pt_BR' | 'en_US'
         name?: string
@@ -66,7 +67,7 @@ export type PublicApiType = {
         _id: Id<'users'>
         following: boolean
         follows: boolean
-        image?: Id<'_storage'>
+        imageURL?: string
         name?: string
         username?: string
       }>
@@ -78,7 +79,7 @@ export type PublicApiType = {
       Record<string, never>,
       Array<{
         _id: Id<'users'>
-        image?: Id<'_storage'>
+        imageURL?: string
         name?: string
         username?: string
       }>
@@ -89,7 +90,7 @@ export type PublicApiType = {
       Record<string, never>,
       Array<{
         _id: Id<'users'>
-        image?: Id<'_storage'>
+        imageURL?: string
         name?: string
         username?: string
       }>

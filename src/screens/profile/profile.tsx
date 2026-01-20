@@ -47,7 +47,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const header = (
     <View style={styles.root}>
       <Avatar
-        image={user?.image}
+        image={user?.imageURL}
         name={user?.name}
       />
 
@@ -112,7 +112,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           _id={item._id}
           squared
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
-          image={item.image}
+          image={item.imageURL}
           title={item.name}
           description={item.username}
         />
@@ -149,7 +149,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           _id={item._id}
           squared
           style={{ width: (Dimensions.get('window').width - 56) / 2 }}
-          image={item.image}
+          image={item.imageURL}
           title={item.name}
           description={item.username}
         />

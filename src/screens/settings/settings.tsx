@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
 import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
 import { useTranslation } from 'react-i18next'
@@ -46,7 +47,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset | undefined>(undefined)
 
-  const pickImage = async (): Promise<void> => {
+  const pickImage = async (): Promise<ImagePicker.ImagePickerAsset | undefined> => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
 
     if (!permissionResult.granted) {
@@ -57,11 +58,11 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.9,
+      quality: 0.1,
     })
 
     if (!result.canceled) {
-      setImage(result.assets[0])
+      return result.assets[0]
     }
   }
 
@@ -96,18 +97,18 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     setLanguage(value ? 'en_US' : 'pt_BR')
   }
 
-  const handleChangeImage = (): void => {
-    pickImage().then(async () => {
-      if (image) {
-        const postUrl = await generateUploadUrl()
-        const result = await fetch(postUrl, {
-          method: 'POST',
-          body: image as unknown as Blob,
-        })
-        const { storageId } = await result.json()
-        await updateUser({ image: storageId }).catch(catchConvexError)
-      }
-    })
+  const handleChangeImage = async (): Promise<void> => {
+    const pickedImage = await pickImage()
+
+    if (pickedImage) {
+      const postUrl = await generateUploadUrl()
+      const result = await fetch(postUrl, {
+        method: 'POST',
+        body: pickedImage as unknown as Blob,
+      })
+      const { storageId } = await result.json()
+      await updateUser({ image: storageId }).catch(catchConvexError)
+    }
   }
 
   const handleRemoveImage = (): void => {
@@ -145,7 +146,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             <View style={styles.avatarContainer}>
               <Avatar
                 name={user?.name}
-                image={user?.image}
+                image={user?.imageURL ?? undefined}
               />
               <View style={styles.avatarButtons}>
                 <Button
