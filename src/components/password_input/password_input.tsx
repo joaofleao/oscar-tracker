@@ -10,14 +10,14 @@ import { useTheme } from '@providers/theme'
 
 const passwordValidation = (
   password: string,
-  confirmPassowrd: string,
+  confirmPassword: string,
 ): {
   oneUpperCase: boolean
   oneDigit: boolean
   passwordValid: boolean
   match: boolean
 } => {
-  const match = password === confirmPassowrd && password !== ''
+  const match = password === confirmPassword && password !== ''
   const oneUpperCase = /(?=.*[A-Z])/.test(password)
   const oneDigit = /(?=.*[0-9])/.test(password)
   const passwordValid = oneUpperCase && oneDigit
