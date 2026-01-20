@@ -15,7 +15,6 @@
     "permission_media_library": "Permission to access the media library is required."
   },
   "category": {
-    "winner": "Winner",
     "cast_ballot": "Enviar Votos",
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
