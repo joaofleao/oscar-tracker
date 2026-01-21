@@ -98,6 +98,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     await SecureStore.deleteItemAsync('hidePlot')
     await SecureStore.deleteItemAsync('hideRate')
     await SecureStore.deleteItemAsync('hideCast')
+    await SecureStore.deleteItemAsync('version')
     handleSignOut()
   }
 
@@ -192,6 +193,16 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             </Section>
           </Authenticated>
 
+          <Section title={t('settings:general')}>
+            <Question
+              title={t('settings:language')}
+              off={t('settings:ptbr')}
+              on={t('settings:enus')}
+              selected={language === 'en_US'}
+              setSelected={handleSwitchLanguage}
+            />
+          </Section>
+
           <Section title={t('settings:spoilers')}>
             <Question
               title={t('settings:poster_spoiler')}
@@ -222,13 +233,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
               setSelected={(value) => setSpoilers('hidePlot', value)}
             />
           </Section>
-          <Question
-            title={t('settings:language')}
-            off={t('settings:ptbr')}
-            on={t('settings:enus')}
-            selected={language === 'en_US'}
-            setSelected={handleSwitchLanguage}
-          />
         </View>
 
         <View style={styles.footer}>
@@ -243,13 +247,11 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
           </Typography>
 
           <Row>
-            <Unauthenticated>
-              <Button
-                onPress={handleCleanCache}
-                title={t('settings:clean_cache')}
-                icon={<IconBroom />}
-              />
-            </Unauthenticated>
+            <Button
+              onPress={handleCleanCache}
+              title={t('settings:clean_cache')}
+              icon={<IconBroom />}
+            />
 
             <Authenticated>
               <Button

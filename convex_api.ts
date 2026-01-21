@@ -10,10 +10,14 @@ export type PublicApiType = {
     getLatestVersion: FunctionReference<
       'query',
       'public',
-      { language?: 'en_US' | 'pt_BR' },
+      {
+        app: 'absolute-cinema' | 'oscar-tracker'
+        language?: 'en_US' | 'pt_BR'
+      },
       {
         _creationTime: number
         _id: Id<'versions'>
+        app?: 'absolute-cinema' | 'oscar-tracker'
         changelog: string
         url: string
         version: string
@@ -73,12 +77,14 @@ export type PublicApiType = {
       }>
     >
     startFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
+    stopFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
     getFollowing: FunctionReference<
       'query',
       'public',
       Record<string, never>,
       Array<{
         _id: Id<'users'>
+        followsYou: boolean
         imageURL?: string
         name?: string
         username?: string
@@ -90,6 +96,7 @@ export type PublicApiType = {
       Record<string, never>,
       Array<{
         _id: Id<'users'>
+        following: boolean
         imageURL?: string
         name?: string
         username?: string
@@ -243,6 +250,8 @@ export type PublicApiType = {
         date: number
         finished: boolean
         hasVoted: boolean
+        moviesNominated: number
+        moviesWatched: number
         number: number
         public: boolean
         year: number
@@ -424,7 +433,7 @@ export type PublicApiType = {
         _id: Id<'movies'>
         friends_who_watched: Array<{
           _id: Id<'users'>
-          image?: string
+          imageURL?: string
           name?: string
         }>
         nominationCount: number
@@ -494,7 +503,7 @@ export type PublicApiType = {
         backdropPath?: string
         friends: Array<{
           _id: Id<'users'>
-          image?: string
+          imageURL?: string
           name?: string
           username?: string
         }>
@@ -543,6 +552,39 @@ export type PublicApiType = {
         }>
         group: { groupId: Id<'oscarGroups'>; name: string; tagline: string }
       }>
+    >
+    search: FunctionReference<
+      'query',
+      'public',
+      {
+        editionId?: Id<'oscarEditions'>
+        language?: 'pt_BR' | 'en_US'
+        name?: string
+      },
+      {
+        categories: Array<{
+          _id: Id<'oscarCategories'>
+          groupName: string
+          name: string
+          order: number
+        }>
+        movies: Array<{
+          _id: Id<'movies'>
+          nominationCount: number
+          posterPath?: string
+          title: string
+          tmdbId: number
+          watched: boolean
+        }>
+        users: Array<{
+          _id: Id<'users'>
+          following: boolean
+          follows: boolean
+          imageURL?: string
+          name?: string
+          username?: string
+        }>
+      }
     >
   }
 }

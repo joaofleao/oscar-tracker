@@ -18,7 +18,7 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
-      gap: 16,
+
       backgroundColor: semantics.container.base.default,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
@@ -39,9 +39,13 @@ const useStyles = (): StylesReturn => {
     },
     header: {
       flex: 1,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
     },
+
     squared: {
       aspectRatio: 1 / 1,
+      flex: 1,
     },
     spoiler: {
       position: 'absolute',

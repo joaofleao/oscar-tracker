@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { ActivityIndicator, GestureResponderEvent, TouchableOpacity, View } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { ButtonProps } from './types'
@@ -8,7 +9,7 @@ import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
 const TOOLTIP_DELAY = 500 // Show tooltip after 500ms
-const HOLD_DURATION = 3000 // 3 second countdown
+const HOLD_DURATION = 2000 // 3 second countdown
 
 const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
@@ -35,7 +36,7 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
       countdownIntervalRef.current = setInterval(() => {
         const elapsed = Date.now() - (holdStartTimeRef.current ?? 0)
         const remaining = Math.max(0, HOLD_DURATION - elapsed)
-        setHoldCountdown(Math.ceil(remaining / 1000))
+        setHoldCountdown(Math.ceil((remaining + 1000) / 1000))
       }, 100)
     }
 
@@ -98,7 +99,10 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
       </TouchableOpacity>
 
       {showTooltip && (
-        <View style={[styles.tooltip, { top: position.y - position.height - 16 }]}>
+        <Animated.View
+          style={[styles.tooltip, { top: position.y - position.height - 16 }]}
+          entering={FadeInDown}
+        >
           <Typography
             body
             color={theme.semantics.container.foreground.default}
@@ -111,7 +115,7 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
               {holdCountdown}
             </Typography>
           </Typography>
-        </View>
+        </Animated.View>
       )}
     </>
   )

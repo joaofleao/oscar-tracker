@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Dimensions, FlatList, View } from 'react-native'
-import { Authenticated, Unauthenticated, useConvexAuth, useQuery } from 'convex/react'
+import { FlatList, View } from 'react-native'
+import { Authenticated, Unauthenticated, useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -8,26 +8,25 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
-import GalleryView from '@components/gallery_view'
 import { IconOscar } from '@components/icon'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
+import { TinyCheckmark, TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
-import { useSettings } from '@providers/settings'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { i18n, t } = useTranslation()
-  const { edition } = useSettings()
+  const { t } = useTranslation()
 
   const { isAuthenticated, isLoading } = useConvexAuth()
   const { onScrollProfile, profileRef } = useAnimations()
+  const startFollowing = useMutation(api.user.startFollowing)
+  const stopFollowing = useMutation(api.user.stopFollowing)
 
-  const [flow, setFlow] = useState('movies')
+  const [flow, setFlow] = useState('following')
 
-  const watchedMovies = useQuery(api.oscars.getWatchedMoviesFromEdition, { editionId: edition?._id, language: i18n.language }) || []
   const followers = useQuery(api.user.getFollowers) || []
   const following = useQuery(api.user.getFollowing) || []
 
@@ -39,7 +38,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   }, [])
 
   const sections = {
-    movies: t('profile:movies'),
     following: t('profile:following'),
     followers: t('profile:followers'),
   } as const
@@ -73,12 +71,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           options={sections}
         />
       </View>
-
-      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4, alignItems: 'center', gap: 8, width: '100%' }}>
-        <Typography legend>02</Typography>
-        <View style={{ height: 4, flex: 1, backgroundColor: semantics.brand.foreground.light }} />
-        <Typography legend>56</Typography>
-      </View> */}
     </View>
   )
 
@@ -103,22 +95,29 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         )
       }
       data={following}
-      style={styles.galleryListContainer}
-      columnWrapperStyle={styles.galleryColumnWrapper}
-      contentContainerStyle={styles.galleryContentContainer}
-      numColumns={2}
+      style={styles.list}
+      contentContainerStyle={styles.content}
       renderItem={({ item }) => (
         <SmallCard
           _id={item._id}
           squared
-          style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.imageURL}
           title={item.name}
           description={item.username}
+          additional={item.followsYou ? t('search:follows_you') : undefined}
+          button={{
+            icon: <TinyX />,
+            disabled: item.following,
+            title: t('profile:stop_following'),
+            onPress: (): void => {
+              stopFollowing({ friendId: item._id })
+            },
+          }}
         />
       )}
     />
   )
+
   const renderFollowers = (
     <FlatList
       onScroll={onScrollProfile}
@@ -140,60 +139,30 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         )
       }
       data={followers}
-      style={styles.galleryListContainer}
-      columnWrapperStyle={styles.galleryColumnWrapper}
-      contentContainerStyle={styles.galleryContentContainer}
-      numColumns={2}
+      style={styles.list}
+      contentContainerStyle={styles.content}
       renderItem={({ item }) => (
         <SmallCard
           _id={item._id}
           squared
-          style={{ width: (Dimensions.get('window').width - 56) / 2 }}
           image={item.imageURL}
           title={item.name}
           description={item.username}
+          button={{
+            icon: item.following ? <TinyCheckmark /> : <TinyPlus />,
+            disabled: item.following,
+            title: item.following ? t('profile:following') : t('profile:follow'),
+            onPress: (): void => {
+              startFollowing({ friendId: item._id })
+            },
+          }}
         />
       )}
-    />
-  )
-  const renderMovies = (
-    <GalleryView
-      contentContainerStyle={styles.galleryContentContainer}
-      onScroll={onScrollProfile}
-      ref={profileRef}
-      header={header}
-      empty={
-        isAuthenticated ? (
-          <EmptyState
-            loading={isLoading}
-            title={t('profile:empty_movies_title')}
-            description={t('profile:empty_movies_description')}
-          />
-        ) : (
-          <EmptyState
-            loading={isLoading}
-            title={t('profile:empty_title_unauthenticated')}
-            description={t('profile:empty_description_unauthenticated')}
-          />
-        )
-      }
-      data={watchedMovies.map((el) => {
-        return {
-          _id: el._id,
-          title: el.title,
-          posterPath: el.posterPath,
-          date: new Date(el.watchedAt).toLocaleDateString(),
-          onPress: (): void => {
-            navigation.navigate('movie', { tmdbId: el.tmdbId })
-          },
-        }
-      })}
     />
   )
 
   return (
     <>
-      {flow === 'movies' && renderMovies}
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
     </>

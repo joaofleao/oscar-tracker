@@ -36,8 +36,6 @@
     "profile": "Perfil"
   },
   "profile": {
-    "movies": "Filmes",
-    "following": "Seguindo",
     "followers": "Seguidores",
     "empty_following_title": "Você não segue ninguém",
     "empty_following_description": "Comece a seguir usuários para vê-los aqui.",
@@ -47,14 +45,22 @@
     "empty_movies_description": "Nenhum filme assistido nessa edição.",
     "empty_title_unauthenticated": "Bem-vindo ao Oscar Tracker",
     "empty_description_unauthenticated": "Faça login para começar a acompanhar seus filmes.",
-    "sign_in": "Entrar"
-  },
-  "search": {
+    "sign_in": "Entrar",
     "follow": "Seguir",
     "following": "Seguindo",
     "follows_you": "Segue você",
-    "no_results": "Nenhum resultado encontrado.",
-    "empty_state": "Procure seus amigos pelo nome."
+    "stop_following": "Parar de seguir"
+  },
+  "search": {
+    "title": "Pesquisar",
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "follows_you": "Segue você",
+    "no_results": "Nenhum resultado",
+    "empty_state": "Procure amigos, filmes e categorias.",
+    "categories": "Categorias",
+    "users": "Usuários",
+    "movies": "Filmes"
   },
   "movies": {
     "watch": "Assistir",
@@ -81,6 +87,10 @@
   },
 
   "movie": {
+    "error_title": "Erro",
+    "watch_error": "Falha ao marcar o filme como assistido. Por favor, tente novamente.",
+    "ok": "OK",
+    "country": "Países",
     "watch": "Marcar como Assistido",
     "unwatch": "Marcar como Não Assistido",
     "imdb": "Ver no IMDB",
@@ -108,6 +118,7 @@
   },
   "settings": {
     "remove": "remover",
+    "general": "geral",
     "clean_cache": "limpar cache",
     "change": "alterar",
     "settings": "Configurações",

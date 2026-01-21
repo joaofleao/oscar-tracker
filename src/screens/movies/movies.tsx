@@ -91,7 +91,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
                 data={movie.friends_who_watched}
                 renderItem={({ item }) => (
                   <TinyAvatar
-                    image={item.image}
+                    image={item.imageURL}
                     label={item.name}
                   />
                 )}

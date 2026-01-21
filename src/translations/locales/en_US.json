@@ -48,14 +48,22 @@
     "announcement_made_description": "The nominations have been revealed."
   },
   "search": {
+    "title": "Search",
     "follow": "Follow",
     "following": "Following",
     "follows_you": "Follows you",
-    "no_results": "No results found.",
-    "empty_state": "Search your friends by name."
+    "no_results": "No results",
+    "empty_state": "Search friends, movies, and categories.",
+    "categories": "Categories",
+    "users": "Users",
+    "movies": "Movies"
   },
   "movie": {
+    "error_title": "Error",
+    "watch_error": "Failed to mark movie as watched. Please try again.",
+    "ok": "OK",
     "watch": "Mark as Watched",
+    "country": "Countries",
     "unwatch": "Mark as Unwatched",
     "imdb": "Check on IMDB",
     "plot": "Plot",
@@ -88,8 +96,6 @@
     "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage."
   },
   "profile": {
-    "movies": "Movies",
-    "following": "Following",
     "followers": "Followers",
     "empty_following_title": "You are not following anyone",
     "empty_following_description": "Start following users to see them here.",
@@ -100,13 +106,18 @@
 
     "empty_title_unauthenticated": "Welcome to Oscar Tracker",
     "empty_description_unauthenticated": "Sign in to start tracking your movies.",
-    "sign_in": "Sign In"
+    "sign_in": "Sign In",
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+    "stop_following": "Stop Following"
   },
   "settings": {
     "clean_cache": "clean cache",
     "remove": "remove",
     "change": "change",
     "settings": "Settings",
+    "general": "General",
     "sign_out": "Sign Out",
     "ptbr": "Portuguese",
     "enus": "English",

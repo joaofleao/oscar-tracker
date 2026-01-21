@@ -9,9 +9,8 @@ type StylesReturn = {
   avatarPlaceholder: ViewStyle
   profile: ViewStyle
   centerContainer: ViewStyle
-  galleryListContainer: ViewStyle
-  galleryColumnWrapper: ViewStyle
-  galleryContentContainer: ViewStyle
+  list: ViewStyle
+  content: ViewStyle
   gradient: ViewStyle
 }
 
@@ -56,15 +55,12 @@ const useStyles = (): StylesReturn => {
       alignSelf: 'center',
     },
 
-    galleryListContainer: {
+    list: {
       width: '100%',
       paddingHorizontal: 20,
     },
 
-    galleryColumnWrapper: {
-      justifyContent: 'space-between',
-    },
-    galleryContentContainer: {
+    content: {
       gap: 16,
       paddingBottom: bottom + 60,
     },

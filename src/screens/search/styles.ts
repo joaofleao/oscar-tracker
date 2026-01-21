@@ -1,27 +1,36 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 
+import { useTheme } from '@providers/theme'
+
 type StylesReturn = {
+  root: ViewStyle
   content: ViewStyle
-  list: ViewStyle
+  noContent: ViewStyle
+  noResults: ViewStyle
   input: ViewStyle
-  datepicker: ViewStyle
-  calendarFooter: ViewStyle
   footer: ViewStyle
+  header: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
+  const { semantics } = useTheme()
   return StyleSheet.create({
-    datepicker: {
-      alignSelf: 'center',
+    root: {
+      paddingHorizontal: 20,
+      overflow: 'visible',
     },
     content: {
-      alignItems: 'center',
+      gap: 12,
       justifyContent: 'center',
-      margin: 10,
-      paddingTop: 10,
     },
-    list: {
-      padding: 20,
+    noResults: {
+      gap: 12,
+      justifyContent: 'center',
+      paddingBottom: 40,
+    },
+    noContent: {
+      justifyContent: 'center',
+      paddingVertical: 40,
     },
     input: {
       flex: 1,
@@ -29,12 +38,13 @@ const useStyles = (): StylesReturn => {
     footer: {
       flexDirection: 'row',
       gap: 8,
-      marginBottom: 16,
+      backgroundColor: semantics.container.base.default,
     },
-    calendarFooter: {
-      flexDirection: 'row',
-      justifyContent: 'flex-end',
-      gap: 8,
+    header: {
+      padding: 20,
+      backgroundColor: semantics.container.base.default,
+      width: '100%',
+      zIndex: 1,
     },
   })
 }

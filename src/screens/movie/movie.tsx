@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
-import { Image, Linking, ScrollView, View } from 'react-native'
+import { Alert, Image, Linking, ScrollView, View } from 'react-native'
 import { SvgUri } from 'react-native-svg'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
@@ -36,7 +36,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const { t, i18n } = useTranslation()
   const { spoilers } = useSettings()
   const catchConvexError = useConvexErrorHandler()
-  const confettiRef = useRef<LottieView>(null)
+
+  const [confetti, setConfetti] = useState(false)
 
   const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language })
 
@@ -50,6 +51,9 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const [calendarModal, setCalendarModal] = useState(false)
   const [unwatchModal, setUnwatchModal] = useState(false)
 
+  // Optimistic state
+  const [optimisticWatched, setOptimisticWatched] = useState<number | null>(null)
+
   const [localSpoiler, setLocalSpoiler] = useState(spoilers)
 
   const toggleSpoiler = (type: string): void => {
@@ -61,7 +65,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   if (!movie) return <></>
 
-  const watched = !!movie.latestWatch
+  const watched = optimisticWatched !== null ? optimisticWatched : movie.latestWatch
 
   const translatedTitle = movie.title[i18n.language]
   const academyTitle = movie.title.en_US
@@ -73,26 +77,37 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   const unwatchMovie = async (): Promise<void> => {
     if (!movie || !movie.latestWatch) return
+
+    // Optimistic update
+    const previousWatchId = movie.latestWatch
+    setOptimisticWatched(0)
+    setUnwatchModal(false)
+
     try {
-      await markAsUnWatched({ watchId: movie.latestWatch })
+      await markAsUnWatched({ watchId: previousWatchId })
     } catch (error) {
+      // Revert optimistic update
+      setOptimisticWatched(null)
       catchConvexError(error)
-    } finally {
-      setUnwatchModal(false)
+      Alert.alert(t('movie:error_title') || 'Error', t('movie:unwatch_error') || 'Failed to unwatch movie. Please try again.', [{ text: t('movie:ok') || 'OK' }])
     }
   }
 
   const watchMovie = async (): Promise<void> => {
     if (!movie) return
 
-    try {
-      await markAsWatched({ movieId: movie._id, watchedAt: date.getTime() })
-    } catch (error) {
-      catchConvexError(error)
-    } finally {
-      confettiRef.current?.play()
+    const watchTimestamp = date.getTime()
+    setOptimisticWatched(watchTimestamp)
+    setCalendarModal(false)
+    setConfetti(true)
 
-      setCalendarModal(false)
+    try {
+      await markAsWatched({ movieId: movie._id, watchedAt: watchTimestamp })
+    } catch (error) {
+      setOptimisticWatched(null)
+      setConfetti(false)
+      catchConvexError(error)
+      Alert.alert(t('movie:error_title'), t('movie:watch_error'), [{ text: t('movie:ok') }])
     }
   }
 
@@ -139,7 +154,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             />
 
             <IconButton
-              placeholder={watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
+              placeholder={!!watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
               icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
               onPress={() => setHideInfo((prev) => !prev)}
             />
@@ -249,7 +264,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
                 _id: friend._id,
                 title: friend.name?.split(' ')[0],
                 description: friend.username,
-                image: friend.image,
+                image: friend.imageURL,
                 squared: true,
               }))}
             />
@@ -291,7 +306,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           onChange={(_, date) => {
             if (date) setDate(date)
           }}
-          accentColor={semantics.accent.base.default}
+          accentColor={semantics.brand.foreground.light}
         />
         <Row end>
           <Button
@@ -323,14 +338,15 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
         </Row>
       </Modal>
-
-      <LottieView
-        ref={confettiRef}
-        loop={false}
-        autoPlay={false}
-        source={movie.originCountry?.some((e) => e.code === 'BR') ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
-        style={[styles.animation, styles.bottom]}
-      />
+      {confetti && (
+        <LottieView
+          onAnimationFinish={() => setConfetti(false)}
+          loop={false}
+          autoPlay={true}
+          source={movie.originCountry?.some((e) => e.code === 'BR') ? require(`@assets/animations/confetti_brazil.json`) : require(`@assets/animations/confetti.json`)}
+          style={[styles.animation, styles.bottom]}
+        />
+      )}
     </>
   )
 }

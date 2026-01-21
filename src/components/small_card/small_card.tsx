@@ -54,21 +54,23 @@ const SmallCard = ({ _id, image, squared, winner, button, title, description, ad
           </Typography>
         </Row>
 
-        <Typography
-          numberOfLines={1}
-          description
-        >
-          {description}
-          {additional && ' '}
-          {additional && (
-            <Typography
-              legend
-              color={semantics.accent.base.default}
-            >
-              {additional}
-            </Typography>
-          )}
-        </Typography>
+        {(description || additional) && (
+          <Typography
+            numberOfLines={1}
+            description
+          >
+            {description}
+            {additional && ' '}
+            {additional && (
+              <Typography
+                legend
+                color={semantics.accent.base.default}
+              >
+                {additional}
+              </Typography>
+            )}
+          </Typography>
+        )}
       </View>
       <View>
         {button && (

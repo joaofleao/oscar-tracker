@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import Animated, { FadeInDown, FadeInUp, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'

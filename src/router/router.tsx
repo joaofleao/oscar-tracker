@@ -157,7 +157,6 @@ const Router = (): React.ReactNode => {
             component={Movie}
             options={{
               presentation: 'pageSheet',
-              sheetAllowedDetents: 'fitToContents',
             }}
           />
           <Stack.Screen
@@ -174,7 +173,7 @@ const Router = (): React.ReactNode => {
             component={SelectEdition}
             options={{
               presentation: 'formSheet',
-              sheetAllowedDetents: [0.4],
+              sheetAllowedDetents: [0.6],
               contentStyle: {
                 backgroundColor: semantics.container.base.original,
               },
@@ -185,8 +184,7 @@ const Router = (): React.ReactNode => {
             component={Search}
             options={{
               presentation: 'formSheet',
-              sheetExpandsWhenScrolledToEdge: false,
-              sheetInitialDetentIndex: 'last',
+              sheetExpandsWhenScrolledToEdge: true,
               sheetAllowedDetents: 'fitToContents',
               contentStyle: {
                 backgroundColor: semantics.container.base.original,

@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import Animated, { FadeInDown, FadeOutDown } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { SectionProps } from './types'
@@ -7,10 +8,10 @@ import Button from '@components/button'
 import Row from '@components/row'
 import Typography from '@components/typography'
 
-const Section = ({ children, button, title }: SectionProps): React.ReactElement => {
+const Section = ({ children, entering, exiting, button, title }: SectionProps): React.ReactElement => {
   const styles = useStyles()
   return (
-    <View style={styles.root}>
+    <Animated.View style={styles.root}>
       <Row between>
         <Typography
           style={styles.text}
@@ -27,7 +28,7 @@ const Section = ({ children, button, title }: SectionProps): React.ReactElement 
         )}
       </Row>
       {children}
-    </View>
+    </Animated.View>
   )
 }
 
