@@ -1,15 +1,19 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import useTheme from '@providers/theme/useTheme'
 
 type StylesReturn = {
   root: ViewStyle
   content: ViewStyle
   buttons: ViewStyle
   logo: ViewStyle
+  logoText: TextStyle
 }
 
 const useStyles = (): StylesReturn => {
   const { bottom, right, left } = useSafeAreaInsets()
+  const { fonts } = useTheme()
 
   return StyleSheet.create({
     root: {
@@ -29,6 +33,9 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
       gap: 8,
       paddingVertical: 20,
+    },
+    logoText: {
+      fontFamily: fonts.quaternary.light,
     },
 
     buttons: {

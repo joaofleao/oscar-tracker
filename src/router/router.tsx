@@ -151,21 +151,17 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'settings'}
             component={Settings}
+            options={{ presentation: 'pageSheet' }}
           />
           <Stack.Screen
             name={'movie'}
             component={Movie}
-            options={{
-              presentation: 'pageSheet',
-            }}
+            options={{ presentation: 'pageSheet' }}
           />
           <Stack.Screen
             name={'awards'}
             component={Awards}
-            options={{
-              presentation: 'pageSheet',
-              sheetAllowedDetents: 'fitToContents',
-            }}
+            options={{ presentation: 'pageSheet' }}
           />
 
           <Stack.Screen

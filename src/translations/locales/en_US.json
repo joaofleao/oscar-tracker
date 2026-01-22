@@ -87,16 +87,20 @@
     "watched_by": "Watched by"
   },
   "auth": {
-    "details": "Fill in details",
+    "details": "Account Details",
     "sign_in": "Sign In",
     "sign_up": "Register",
     "continue_with": "Continue with",
     "forgot_password": "Forgot password?",
     "fill_details": "Confirm",
-    "start_watching": "Start watching",
+    "save": "Save",
     "verify": "verify your email",
     "spam": "A 4 digit code was sent. Remember to verify the spam inbox as well.",
-    "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage."
+    "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage.",
+    "name_valid": "Valid name",
+    "name_invalid": "Please enter your full name.",
+    "username_valid": "Username available",
+    "username_invalid": "Username unavailable"
   },
   "profile": {
     "followers": "Followers",
@@ -107,7 +111,7 @@
     "empty_movies_title": "No movies",
     "empty_movies_description": "No movies watched for this edition.",
 
-    "empty_title_unauthenticated": "Welcome to Oscar Tracker",
+    "empty_title_unauthenticated": "Welcome to Academy Tracker",
     "empty_description_unauthenticated": "Sign in to start tracking your movies.",
     "sign_in": "Sign In",
     "follow": "Follow",
@@ -116,6 +120,7 @@
     "stop_following": "Stop Following"
   },
   "settings": {
+    "edit": "edit",
     "clean_cache": "clean cache",
     "remove": "remove",
     "change": "change",
@@ -132,7 +137,7 @@
 
     "deleted_account_title": "You have requested the deletion of your account",
     "deleted_account_message": "Your data will be deleted in 24 hours, no more actions are necessary from your side.",
-    "deleted_account_confirm": "Leave Oscar Tracker",
+    "deleted_account_confirm": "Leave Academy Tracker",
 
     "account": "Account",
     "preferences": "Preferences",

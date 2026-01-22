@@ -23,6 +23,7 @@ export type PublicApiType = {
         version: string
       }
     >
+    checkUsernameAvailability: FunctionReference<'query', 'public', { username: string }, boolean>
     updateUser: FunctionReference<
       'mutation',
       'public',

@@ -1,17 +1,34 @@
 import React, { useRef } from 'react'
-import { Pressable, TextInput as RNTextInput, View } from 'react-native'
+import { ActivityIndicator, Pressable, TextInput as RNTextInput, View } from 'react-native'
+import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { TextInputProps } from './types'
+import { IconAlert, IconCheckCircle } from '@components/icon'
 import { useStrings } from '@providers/strings'
 import { useTheme } from '@providers/theme'
 
-const TextInput = ({ value, button, debounce = 0, ...props }: TextInputProps): React.ReactElement => {
+const TextInput = ({ value, button, onChangeText, onDebouncedText, success, loading, debounce = 0, error, ...props }: TextInputProps): React.ReactElement => {
   const inputRef = useRef<RNTextInput>(null)
   const styles = useStyles()
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { semantics } = useTheme()
   const { email } = useStrings()
-  // const [error, setError] = useState<boolean>()
+
+  const debouncer = (text: string): void => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      onDebouncedText?.(text)
+    }, debounce)
+  }
+
+  const handleChangeText = (text: string): void => {
+    onChangeText?.(text)
+    debouncer(text)
+  }
 
   return (
     <View style={styles.root}>
@@ -24,6 +41,7 @@ const TextInput = ({ value, button, debounce = 0, ...props }: TextInputProps): R
         selectionColor={semantics.container.foreground.light}
         cursorColor={semantics.container.foreground.default}
         style={styles.input}
+        onChangeText={handleChangeText}
         value={value}
         {...props}
       />
@@ -43,28 +61,45 @@ const TextInput = ({ value, button, debounce = 0, ...props }: TextInputProps): R
           </Pressable>
         </>
       )}
-      {/* {error !== undefined && (
-        <Pressable
-          onPress={inputRef.current?.focus}
+      {success && (
+        <Animated.View
+          entering={ZoomIn}
+          exiting={ZoomOut}
           style={styles.trailing}
         >
-          {error === false && (
-            <IconAlert
-              filled
-              color={semantics.negative.foreground.default}
-              size={16}
-            />
-          )}
+          <IconCheckCircle
+            filled
+            color={semantics.positive.foreground.default}
+            size={16}
+          />
+        </Animated.View>
+      )}
 
-          {error === true && (
-            <IconCheckCircle
-              filled
-              color={semantics.positive.foreground.default}
-              size={16}
-            />
-          )}
-        </Pressable>
-      )} */}
+      {error && (
+        <Animated.View
+          entering={ZoomIn}
+          exiting={ZoomOut}
+          style={styles.trailing}
+        >
+          <IconAlert
+            filled
+            color={semantics.negative.foreground.default}
+            size={16}
+          />
+        </Animated.View>
+      )}
+      {loading && (
+        <Animated.View
+          entering={ZoomIn}
+          exiting={ZoomOut}
+          style={styles.trailing}
+        >
+          <ActivityIndicator
+            size="small"
+            style={{ transform: [{ scale: 0.8 }] }}
+          />
+        </Animated.View>
+      )}
     </View>
   )
 }

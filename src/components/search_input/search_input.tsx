@@ -9,7 +9,7 @@ import { useTheme } from '@providers/theme'
 
 const SearchInput = ({ debounce = 0, value, onChangeText, onDebouncedText, onClear, style, ...props }: SearchInputProps): React.ReactElement => {
   const inputRef = useRef<TextInput>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null) // Ref to store the timeout ID
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const styles = useStyles()
   const { semantics } = useTheme()
   const { search } = useStrings()

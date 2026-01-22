@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Alert, Linking, View } from 'react-native'
+import { FadeIn, FadeOut } from 'react-native-reanimated'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
@@ -8,9 +9,9 @@ import { useTranslation } from 'react-i18next'
 import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
+import Column from '@components/column'
 import EmailInput from '@components/email_input'
 import { IconImages } from '@components/icon'
-import { TextLogo } from '@components/logo'
 import OTPInput from '@components/otp_input'
 import PasswordInput from '@components/password_input'
 import Row from '@components/row'
@@ -20,6 +21,7 @@ import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
 import { useTheme } from '@providers/theme'
+import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
 const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
@@ -38,6 +40,15 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const catchConvexError = useConvexErrorHandler()
   const updateUser = useMutation(api.user.updateUser)
   const generateUploadUrl = useMutation(api.user.generateUploadUrl)
+  const usernameAvailable = useQuery(api.user.checkUsernameAvailability, { username })
+  const [loadingUsername, setLoadingUsername] = useState(false)
+  const [nameValid, setNameValid] = useState<boolean>()
+
+  useEffect(() => {
+    if (usernameAvailable !== undefined) {
+      setLoadingUsername(false)
+    }
+  }, [usernameAvailable, username])
 
   const flows = {
     signIn: t('auth:sign_in'),
@@ -45,6 +56,8 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   } as const
 
   const [flow, setFlow] = useState((route.params?.flow as string) ?? 'signIn')
+
+  // usePreventRemove(flow === 'email-verification' || flow === 'details', ({ data }) => {})
 
   const handleSignUp = async (): Promise<void> => {
     setLoading(true)
@@ -94,7 +107,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         navigation.pop()
       })
       .catch(catchConvexError)
-      .finally(() => setLoading(false))
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const pickImage = async (): Promise<ImagePicker.ImagePickerAsset | undefined> => {
@@ -133,7 +148,12 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const header = (
     <>
       <View style={styles.logo}>
-        <TextLogo size={140} />
+        <Typography
+          onboardingAccent
+          style={styles.logoText}
+        >
+          ACADEMY
+        </Typography>
         <Typography>tracker</Typography>
       </View>
 
@@ -260,32 +280,83 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         {t('auth:details')}
       </Typography>
 
-      <Row center>
+      <Column middle>
         <Avatar
           onPress={handleChangeImage}
           name={user?.name}
           image={user?.imageURL ?? undefined}
           icon={<IconImages />}
         />
-      </Row>
+        {user?.imageURL && (
+          <Button
+            onPress={() => updateUser({ image: null }).catch(catchConvexError)}
+            title={t('auth:remove')}
+            variant="ghost"
+          />
+        )}
+      </Column>
 
-      <TextInput
-        value={name}
-        onChangeText={setName}
-        placeholder={t('settings:name')}
-      />
+      <Column trailing>
+        <TextInput
+          defaultValue={user?.name}
+          onChangeText={(text) => {
+            if (text.trim() === '') setNameValid(undefined)
+          }}
+          onDebouncedText={(text) => {
+            if (text.trim() === '') return setNameValid(undefined)
+            const isValid = text.trim().split(' ').length >= 2
+            setNameValid(isValid)
+            setName(text.trim())
+          }}
+          debounce={1000}
+          placeholder={t('auth:name')}
+          error={nameValid !== undefined && nameValid === false}
+          success={nameValid !== undefined && nameValid === true}
+        />
 
-      <TextInput
-        value={username}
-        onChangeText={setUsername}
-        placeholder={t('settings:username')}
-      />
+        {nameValid !== undefined && (
+          <Typography
+            legend
+            entering={FadeIn}
+            exiting={FadeOut}
+            color={semantics[nameValid === false ? 'negative' : 'positive'].foreground.default}
+          >
+            {nameValid === false ? t('auth:name_invalid') : t('auth:name_valid')}
+          </Typography>
+        )}
+      </Column>
+
+      <Column trailing>
+        <TextInput
+          defaultValue={user?.username}
+          onChangeText={() => {
+            setLoadingUsername(true)
+          }}
+          onDebouncedText={setUsername}
+          debounce={2000}
+          placeholder={t('auth:username')}
+          loading={loadingUsername}
+          error={!loadingUsername && usernameAvailable !== null && usernameAvailable === false}
+          success={!loadingUsername && usernameAvailable !== null && usernameAvailable === true}
+        />
+
+        {!loadingUsername && usernameAvailable !== null && (
+          <Typography
+            legend
+            entering={FadeIn}
+            exiting={FadeOut}
+            color={semantics[usernameAvailable === false ? 'negative' : 'positive'].foreground.default}
+          >
+            {usernameAvailable === false ? t('auth:username_invalid') : t('auth:username_valid')}
+          </Typography>
+        )}
+      </Column>
 
       <Row center>
         <Button
-          disabled={name.length === 0 || username.length === 0}
+          disabled={loadingUsername || !nameValid || usernameAvailable !== true}
           loading={loading}
-          title={t('auth:start_watching')}
+          title={t('auth:save')}
           variant="brand"
           onPress={handleDetails}
         />

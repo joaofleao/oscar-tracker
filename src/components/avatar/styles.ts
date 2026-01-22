@@ -26,6 +26,10 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
     },
     iconContainer: {
+      position: 'absolute',
+      backgroundColor: semantics.container.base.default,
+      width: '100%',
+      height: '100%',
       padding: 8,
       alignItems: 'center',
       justifyContent: 'center',

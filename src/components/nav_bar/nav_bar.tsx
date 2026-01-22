@@ -110,7 +110,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
             center
             color={semantics.accent.base.default}
           >
-            oscar tracker
+            academy tracker
           </Typography>
 
           {editions.length > 0 && (

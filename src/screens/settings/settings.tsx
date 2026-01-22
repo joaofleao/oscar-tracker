@@ -17,7 +17,6 @@ import Modal from '@components/modal'
 import Question from '@components/question'
 import Row from '@components/row'
 import Section from '@components/section'
-import TextInput from '@components/text_input'
 import { TinyCheckmark, TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
@@ -38,6 +37,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   const [name, setName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
+  const validUsername = useQuery(api.user.checkUsernameAvailability, { username })
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
   const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
@@ -170,26 +170,24 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
                 />
               </View>
             </View>
-            <Section title={t('settings:account')}>
-              <View style={styles.section}>
-                <Typography legend>{t('settings:name')}</Typography>
-                <TextInput
-                  button={name !== user?.name ? updateButton : undefined}
-                  value={name}
-                  onChangeText={setName}
-                  placeholder={t('settings:name_placeholder')}
-                />
-              </View>
 
-              <View style={styles.section}>
-                <Typography legend>{t('settings:username')}</Typography>
-                <TextInput
-                  button={username !== user?.username ? updateButton : undefined}
-                  value={username}
-                  onChangeText={setUsername}
-                  placeholder={t('settings:username_placeholder')}
-                />
-              </View>
+            <Section
+              title={t('settings:account')}
+              button={{
+                title: t('settings:edit'),
+                action: () => {
+                  navigation.navigate('auth', { flow: 'details' })
+                },
+              }}
+            >
+              <Row between>
+                <Typography body>{t('settings:name')}</Typography>
+                <Typography legend>{user?.name}</Typography>
+              </Row>
+              <Row between>
+                <Typography body>{t('settings:username')}</Typography>
+                <Typography legend>{user?.username}</Typography>
+              </Row>
             </Section>
           </Authenticated>
 

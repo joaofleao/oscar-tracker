@@ -3,7 +3,7 @@ import { Image, TouchableOpacity, View } from 'react-native'
 
 import useStyles from './styles'
 import { AvatarProps } from './types'
-import { IconPerson } from '@components/icon'
+import { IconImages, IconPerson } from '@components/icon'
 import Typography from '@components/typography'
 
 const Avatar = ({ icon = <IconPerson />, image, name, style, onPress }: AvatarProps): React.ReactElement => {
@@ -40,6 +40,7 @@ const Avatar = ({ icon = <IconPerson />, image, name, style, onPress }: AvatarPr
         style={[styles.root, style]}
       >
         {content}
+        <View style={styles.iconContainer}>{!hasName && React.cloneElement(<IconImages />, { size: 20 })}</View>
       </TouchableOpacity>
     )
 

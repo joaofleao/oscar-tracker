@@ -42,7 +42,7 @@
     "empty_followers_description": "Quando alguém te seguir, aparecerá aqui.",
     "empty_movies_title": "Sem filmes",
     "empty_movies_description": "Nenhum filme assistido nessa edição.",
-    "empty_title_unauthenticated": "Bem-vindo ao Oscar Tracker",
+    "empty_title_unauthenticated": "Bem-vindo ao Academy Tracker",
     "empty_description_unauthenticated": "Faça login para começar a acompanhar seus filmes.",
     "sign_in": "Entrar",
     "follow": "Seguir",
@@ -107,18 +107,27 @@
   },
 
   "auth": {
-    "details": "Preencher detalhes",
+    "name": "Nome Completo",
+    "username": "Nome de Usuário",
+    "remove": "remover",
+    "details": "Detlhes da Conta",
     "sign_in": "Entrar",
     "sign_up": "Registrar",
     "continue_with": "Continue com",
     "forgot_password": "Esqueceu a senha?",
     "fill_details": "Confirmar",
-    "start_watching": "Entrar",
+    "save": "Salvar",
     "verify": "Verifique seu email",
     "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
-    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
+    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade.",
+
+    "name_valid": "Nome válido",
+    "name_invalid": "Insira seu nome completo.",
+    "username_valid": "Usuário disponível",
+    "username_invalid": "Usuário indisponível"
   },
   "settings": {
+    "edit": "editar",
     "remove": "remover",
     "general": "geral",
     "clean_cache": "limpar cache",
@@ -135,15 +144,13 @@
 
     "deleted_account_title": "Você solicitou a exclusão da sua conta",
     "deleted_account_message": "Seus dados serão removidos em até 24 horas, nenhuma ação é necessária de sua parte.",
-    "deleted_account_confirm": "Sair do Oscar Tracker",
+    "deleted_account_confirm": "Sair do Academy Tracker",
 
     "account": "Conta",
     "preferences": "Preferências",
     "language": "Idioma",
-    "name": "Nome",
-    "name_placeholder": "Fernanda Torres",
-    "username": "Usuário",
-    "username_placeholder": "fernanda_torres",
+    "name": "Nome Completo",
+    "username": "Nome de Usuário",
     "yes": "Sim",
     "no": "Não",
     "cast_spoiler": "Elenco é spoilers?",
