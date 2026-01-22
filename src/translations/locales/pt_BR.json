@@ -1,11 +1,10 @@
 {
   "overall": {
-    "search_placeholder": "pesquisar",
-    "email_placeholder": "email",
+    "search_placeholder": "Pesquisar",
+    "email_placeholder": "Email",
     "winner": "Vencedor",
-
-    "password_placeholder": "senha",
-    "password_confirmation_placeholder": "confirmar senha",
+    "password_placeholder": "Senha",
+    "password_confirmation_placeholder": "Confirmar senha",
     "password_requirements": "suas senhas precisam de: ",
     "password_digit": "um digito e",
     "password_uppercase": "uma letra maiuscula.",
@@ -108,12 +107,15 @@
   },
 
   "auth": {
+    "details": "Preencher detalhes",
     "sign_in": "Entrar",
     "sign_up": "Registrar",
     "continue_with": "Continue com",
     "forgot_password": "Esqueceu a senha?",
-    "verify": "Verifique seu email com o código de 4 digitos que foi enviado.",
-    "spam": "Lembre-se de verificar a caixa de spam.",
+    "fill_details": "Confirmar",
+    "start_watching": "Entrar",
+    "verify": "Verifique seu email",
+    "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
     "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade."
   },
   "settings": {
@@ -140,7 +142,7 @@
     "language": "Idioma",
     "name": "Nome",
     "name_placeholder": "Fernanda Torres",
-    "username": "Username",
+    "username": "Usuário",
     "username_placeholder": "fernanda_torres",
     "yes": "Sim",
     "no": "Não",

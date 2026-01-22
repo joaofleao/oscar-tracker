@@ -12,6 +12,7 @@ const useStyles = (): StylesReturn => {
     },
     text: {
       gap: 16,
+      flex: 1,
     },
   })
 }

@@ -8,7 +8,9 @@ export type StackProps = {
   movies: undefined
   nominations: undefined
 
-  auth: undefined
+  auth: {
+    flow: 'email-verification' | 'details' | 'signIn' | 'signUp' | undefined
+  }
   awards: undefined
   select_edition: undefined
   password_recovery: { email: string | undefined }

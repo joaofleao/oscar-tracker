@@ -184,7 +184,7 @@ const Router = (): React.ReactNode => {
             component={Search}
             options={{
               presentation: 'formSheet',
-              sheetExpandsWhenScrolledToEdge: true,
+              keyboardHandlingEnabled: true,
               sheetAllowedDetents: 'fitToContents',
               contentStyle: {
                 backgroundColor: semantics.container.base.original,

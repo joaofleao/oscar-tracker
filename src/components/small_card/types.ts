@@ -1,4 +1,5 @@
-import { TouchableOpacityProps } from 'react-native'
+import { TouchableOpacityProps, View } from 'react-native'
+import { AnimatedProps } from 'react-native-reanimated'
 
 import { IconProps } from '@components/icon'
 
@@ -19,6 +20,8 @@ export interface SmallCardProps extends TouchableOpacityProps {
   watched?: boolean
   squared?: boolean
   winner?: boolean
+  entering?: AnimatedProps<View>['entering']
+  exiting?: AnimatedProps<View>['exiting']
 
   additional?: string
   index?: number

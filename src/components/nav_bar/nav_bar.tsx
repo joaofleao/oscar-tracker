@@ -26,6 +26,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const { semantics } = useTheme()
   const { edition, editions } = useSettings()
   const { t, i18n } = useTranslation()
+  const user = useQuery(api.user.getCurrentUser)
 
   const latest = useQuery(api.user.getLatestVersion, {
     app: 'oscar-tracker',
@@ -62,10 +63,10 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
   const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
 
-  // setTimeout(() => {
-  //   const onb = getItem('onboarding')
-  //   if (onb !== 'done') navigation.navigate('onboarding')
-  // }, 2000)
+  setTimeout(() => {
+    if (user && user?.emailVerificationTime === undefined) navigation.navigate('auth', { flow: 'email-verification' })
+    if (user && (user?.image === undefined || user?.username === undefined || user?.name === undefined)) navigation.navigate('auth', { flow: 'details' })
+  }, 2000)
 
   const renderTabs = (tab: TabType, index: number): React.ReactElement => {
     const handleTabPress = (): void => {

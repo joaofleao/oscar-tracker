@@ -1,12 +1,12 @@
 import React from 'react'
-import { Image, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 
 import useStyles from './styles'
 import { AvatarProps } from './types'
 import { IconPerson } from '@components/icon'
 import Typography from '@components/typography'
 
-const Avatar = ({ image, name, style }: AvatarProps): React.ReactElement => {
+const Avatar = ({ icon = <IconPerson />, image, name, style, onPress }: AvatarProps): React.ReactElement => {
   const styles = useStyles()
 
   const hasName = name !== undefined
@@ -28,11 +28,20 @@ const Avatar = ({ image, name, style }: AvatarProps): React.ReactElement => {
       {!hasImage && (
         <View style={styles.iconContainer}>
           {hasName && <Typography display>{initials}</Typography>}
-          {!hasName && <IconPerson size={16} />}
+          {!hasName && React.cloneElement(icon, { size: 20 })}
         </View>
       )}
     </>
   )
+  if (onPress)
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.root, style]}
+      >
+        {content}
+      </TouchableOpacity>
+    )
 
   return <View style={[styles.root, style]}>{content}</View>
 }

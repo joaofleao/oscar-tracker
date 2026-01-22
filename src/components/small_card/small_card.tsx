@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import Animated, { createAnimatedComponent } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
@@ -9,6 +10,7 @@ import { IconLocket, IconOscar } from '@components/icon'
 import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
+const AnimatedTouchableOpacity = createAnimatedComponent(TouchableOpacity)
 
 const SmallCard = ({ _id, image, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
@@ -90,21 +92,21 @@ const SmallCard = ({ _id, image, squared, winner, button, title, description, ad
 
   if (props.onPress)
     return (
-      <TouchableOpacity
+      <AnimatedTouchableOpacity
         {...props}
         style={[styles.root, style]}
       >
         {content}
-      </TouchableOpacity>
+      </AnimatedTouchableOpacity>
     )
   else
     return (
-      <View
+      <Animated.View
         {...props}
         style={[styles.root, style]}
       >
         {content}
-      </View>
+      </Animated.View>
     )
 }
 

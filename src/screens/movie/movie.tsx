@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Alert, Image, Linking, ScrollView, View } from 'react-native'
 import { SvgUri } from 'react-native-svg'
-import { useMutation, useQuery } from 'convex/react'
+import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
@@ -36,6 +36,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const { t, i18n } = useTranslation()
   const { spoilers } = useSettings()
   const catchConvexError = useConvexErrorHandler()
+  const { isAuthenticated } = useConvexAuth()
 
   const [confetti, setConfetti] = useState(false)
 
@@ -220,7 +221,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             variant={watched ? 'container' : 'accent'}
             title={watched ? t('movie:unwatch') : t('movie:watch')}
             icon={watched ? <TinyX /> : <TinyPlus />}
-            onPress={() => (watched ? setUnwatchModal(true) : watchMovie())}
+            onPress={() => (!isAuthenticated ? navigation.navigate('auth') : watched ? setUnwatchModal(true) : watchMovie())}
             onLongPress={() => setCalendarModal(true)}
             tooltip={t('movie:hold_to_choose_date')}
           />

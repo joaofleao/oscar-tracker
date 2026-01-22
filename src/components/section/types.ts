@@ -8,6 +8,7 @@ export interface SectionProps {
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
 
+  legend?: boolean
   button?: {
     title: string
     action: () => void

@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { createAnimatedComponent, FadeInDown, FadeOutDown } from 'react-native-reanimated'
-import { useMutation, useQuery } from 'convex/react'
+import Animated, { FadeInDown, FadeInRight, FadeOutDown, FadeOutUp } from 'react-native-reanimated'
+import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { BlurView } from 'expo-blur'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,7 @@ import Caroussel from '@components/caroussel'
 import { IconX } from '@components/icon'
 import IconButton from '@components/icon_button'
 import MediumCard from '@components/medium_card'
+import Row from '@components/row/row'
 import SearchInput from '@components/search_input'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
@@ -20,106 +21,130 @@ import Typography from '@components/typography'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
-const AnimatedActivityIndicator = createAnimatedComponent(ActivityIndicator)
 
 const Search: ScreenType<'search'> = ({ navigation, route }) => {
   const { edition, spoilers } = useSettings()
   const styles = useStyles()
   const { i18n, t } = useTranslation()
   const theme = useTheme()
-  const [name, setName] = useState('')
 
+  const [name, setName] = useState<string | undefined>()
   const results = useQuery(api.oscars.search, { name, editionId: edition?._id, language: i18n.language })
   const startFollowing = useMutation(api.user.startFollowing)
+  const { isAuthenticated } = useConvexAuth()
 
   const [loading, setLoading] = useState(false)
-  const empty = name.trim() === ''
+
+  useEffect(() => {
+    if (results !== undefined) setLoading(false)
+  }, [results])
 
   const handleSearch = async (query: string): Promise<void> => {
     if (query.trim() === '') {
       setLoading(false)
+      setName(undefined)
       return
     }
     setLoading(true)
     setName(query.trim())
-    if (results !== undefined) setLoading(false)
   }
 
-  const footer = (
-    <View style={[styles.footer]}>
-      <SearchInput
-        autoComplete="off"
-        autoCorrect={false}
-        autoCapitalize="none"
-        autoFocus
-        style={styles.input}
-        debounce={2000}
-        onChangeText={() => {
-          setLoading(true)
-        }}
-        onDebouncedText={handleSearch}
-        onClear={() => {
-          setLoading(false)
-        }}
-      />
-      <IconButton
-        onPress={navigation.goBack}
-        icon={<IconX />}
-      />
-    </View>
+  const header = (
+    <BlurView
+      collapsable={false}
+      intensity={8}
+      style={styles.header}
+    >
+      <Typography center>{t('search:title')}</Typography>
+
+      <Row>
+        <SearchInput
+          placeholder=""
+          autoComplete="off"
+          autoCorrect={false}
+          autoCapitalize="none"
+          autoFocus
+          style={styles.input}
+          debounce={2000}
+          onChangeText={(text) => {
+            if (text.trim() !== '') {
+              setLoading(true)
+            } else {
+              setLoading(false)
+              setName(undefined)
+            }
+          }}
+          onDebouncedText={handleSearch}
+          onClear={() => {
+            setLoading(false)
+            setName(undefined)
+          }}
+        />
+        <IconButton
+          onPress={navigation.goBack}
+          icon={<IconX />}
+        />
+      </Row>
+    </BlurView>
   )
 
   const noResultsState = (
-    <View style={styles.noResults}>
+    <Animated.View
+      style={styles.empty}
+      entering={FadeInDown}
+      exiting={FadeOutUp}
+    >
       <Typography legend>{t('search:no_results')}</Typography>
-    </View>
+    </Animated.View>
   )
 
   const loadingState = (
-    <View style={styles.noContent}>
-      <AnimatedActivityIndicator entering={FadeInDown} />
-    </View>
+    <Animated.View
+      style={styles.empty}
+      entering={FadeInDown}
+      exiting={FadeOutUp}
+    >
+      <ActivityIndicator />
+    </Animated.View>
   )
 
   const emptyState = (
-    <View style={styles.noContent}>
+    <Animated.View
+      style={styles.empty}
+      entering={FadeInDown}
+      exiting={FadeOutUp}
+    >
       <Typography
         center
         color={theme.semantics.background.foreground.light}
       >
         {t('search:empty_state')}
       </Typography>
-    </View>
+    </Animated.View>
   )
 
   return (
     <>
-      <BlurView
-        collapsable={false}
-        intensity={8}
-        style={styles.header}
-      >
-        <Typography center>{t('search:title')}</Typography>
-      </BlurView>
-
+      {header}
       <ScrollView
-        automaticallyAdjustKeyboardInsets
-        style={styles.root}
-        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="always"
+        style={[styles.root]}
+        contentContainerStyle={[styles.content]}
       >
         {loading && loadingState}
-        {!loading && empty && emptyState}
-        {!loading && !empty && (
+        {!loading && name === undefined && emptyState}
+        {!loading && name !== undefined && (
           <>
             <Section
               title={t('search:categories')}
               entering={FadeInDown}
               exiting={FadeOutDown}
             >
-              {(results?.categories.length ?? -1 > 0) ? (
+              {((results !== undefined && results?.categories.length) ?? -1 > 0) ? (
                 <Caroussel
                   item={SmallCard}
-                  data={results?.categories.map((category) => ({
+                  data={results?.categories.map((category, index) => ({
+                    entering: FadeInRight.delay(index * 100),
                     ...category,
                     title: category.name,
                     onPress: (): void => {
@@ -136,11 +161,12 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
               entering={FadeInDown}
               exiting={FadeOutDown}
             >
-              {(results?.users.length ?? -1 > 0) ? (
+              {((results !== undefined && results?.users.length) ?? -1 > 0) ? (
                 <Caroussel
                   item={SmallCard}
-                  data={results?.users.map((user) => ({
+                  data={results?.users.map((user, index) => ({
                     ...user,
+                    entering: FadeInRight.delay(index * 100),
                     squared: true,
                     image: user.imageURL,
                     title: user.name,
@@ -151,6 +177,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
                       disabled: user.following,
                       title: user.following ? t('search:following') : t('search:follow'),
                       onPress: (): void => {
+                        if (!isAuthenticated) return navigation.navigate('auth')
                         startFollowing({ friendId: user._id })
                       },
                     },
@@ -165,11 +192,12 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
               entering={FadeInDown}
               exiting={FadeOutDown}
             >
-              {(results?.movies.length ?? -1 > 0) ? (
+              {((results !== undefined && results?.movies.length) ?? -1 > 0) ? (
                 <Caroussel
                   item={MediumCard}
-                  data={results?.movies.map((movie) => ({
+                  data={results?.movies.map((movie, index) => ({
                     ...movie,
+                    entering: FadeInRight.delay(index * 100),
                     spoiler: spoilers.hidePoster && !movie.watched,
                     squared: true,
                     image: `https://image.tmdb.org/t/p/w500${movie.posterPath}`,
@@ -185,8 +213,6 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
             </Section>
           </>
         )}
-
-        {footer}
       </ScrollView>
     </>
   )

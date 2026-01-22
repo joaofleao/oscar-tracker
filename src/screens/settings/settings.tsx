@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
-import { Authenticated, Unauthenticated, useAction, useMutation, useQuery } from 'convex/react'
+import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
 import * as SecureStore from 'expo-secure-store'
@@ -34,6 +34,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const { signOut } = useAuthActions()
   const user = useQuery(api.user.getCurrentUser)
   const updateUser = useMutation(api.user.updateUser)
+  const generateUploadUrl = useMutation(api.user.generateUploadUrl)
 
   const [name, setName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
@@ -43,7 +44,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const [deletedModal, setDeletedModal] = useState<boolean>(false)
   const deleteAccount = useAction(api.user.deleteAccount)
   const catchConvexError = useConvexErrorHandler()
-  const generateUploadUrl = useMutation(api.user.generateUploadUrl)
 
   const pickImage = async (): Promise<ImagePicker.ImagePickerAsset | undefined> => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()

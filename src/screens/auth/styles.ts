@@ -3,13 +3,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   root: ViewStyle
-  header: ViewStyle
   content: ViewStyle
-  footer: ViewStyle
   buttons: ViewStyle
   logo: ViewStyle
-
-  passwordWithForget: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -21,25 +17,22 @@ const useStyles = (): StylesReturn => {
       paddingTop: 40,
       paddingRight: right + 20,
       paddingLeft: left + 20,
-      justifyContent: 'center',
       alignItems: 'center',
       gap: 20,
-    },
-
-    header: {
-      justifyContent: 'center',
-      alignItems: 'center',
     },
 
     content: {
       gap: 20,
+      minWidth: '80%',
     },
     logo: {
       alignItems: 'center',
       gap: 8,
+      paddingVertical: 20,
     },
 
     buttons: {
+      paddingTop: 40,
       gap: 12,
       alignItems: 'center',
     },
@@ -48,11 +41,6 @@ const useStyles = (): StylesReturn => {
       justifyContent: 'center',
       alignItems: 'center',
       gap: 12,
-    },
-
-    passwordWithForget: {
-      alignItems: 'center',
-      gap: 8,
     },
   })
 }

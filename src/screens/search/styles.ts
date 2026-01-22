@@ -5,43 +5,33 @@ import { useTheme } from '@providers/theme'
 type StylesReturn = {
   root: ViewStyle
   content: ViewStyle
-  noContent: ViewStyle
-  noResults: ViewStyle
+  empty: ViewStyle
   input: ViewStyle
-  footer: ViewStyle
   header: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
+
   return StyleSheet.create({
     root: {
-      paddingHorizontal: 20,
       overflow: 'visible',
+      paddingHorizontal: 20,
     },
     content: {
       gap: 12,
-      justifyContent: 'center',
     },
-    noResults: {
+    empty: {
       gap: 12,
       justifyContent: 'center',
-      paddingBottom: 40,
-    },
-    noContent: {
-      justifyContent: 'center',
-      paddingVertical: 40,
+      paddingVertical: 20,
     },
     input: {
       flex: 1,
     },
-    footer: {
-      flexDirection: 'row',
-      gap: 8,
-      backgroundColor: semantics.container.base.default,
-    },
     header: {
       padding: 20,
+      gap: 20,
       backgroundColor: semantics.container.base.default,
       width: '100%',
       zIndex: 1,

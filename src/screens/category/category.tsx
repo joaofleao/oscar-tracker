@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import ReorderableList, { ReorderableListProps } from 'react-native-reorderable-list'
-import { useMutation, useQuery } from 'convex/react'
+import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -26,6 +26,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const unwish = useMutation(api.oscars.unwishOscarNomination)
   const wish = useMutation(api.oscars.wishOscarNomination)
   const rankNominations = useMutation(api.oscars.rankNomination)
+  const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
 
   const data = useQuery(api.oscars.getNominationsByCategory, {
@@ -108,6 +109,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
       {
         icon: <IconFingersCrossed />,
         onPress: async (): Promise<void> => {
+          if (!isAuthenticated) return navigation.navigate('auth')
           if (wishLoading) return
           setWishLoading(item.nominationId)
           try {

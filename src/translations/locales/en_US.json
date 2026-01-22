@@ -1,10 +1,10 @@
 {
   "overall": {
     "winner": "Winner",
-    "search_placeholder": "search",
-    "email_placeholder": "email",
-    "password_placeholder": "password",
-    "password_confirmation_placeholder": "confirm password",
+    "search_placeholder": "Search",
+    "email_placeholder": "Email",
+    "password_placeholder": "Password",
+    "password_confirmation_placeholder": "Confirm password",
     "password_requirements": "your passwords need to have: ",
     "password_digit": "one digit and ",
     "password_uppercase": "one uppercase letter.",
@@ -87,12 +87,15 @@
     "watched_by": "Watched by"
   },
   "auth": {
+    "details": "Fill in details",
     "sign_in": "Sign In",
     "sign_up": "Register",
     "continue_with": "Continue with",
     "forgot_password": "Forgot password?",
-    "verify": "verify your email by providing the 4 digit code that was sent.",
-    "spam": "Remember to verify the spam inbox as well.",
+    "fill_details": "Confirm",
+    "start_watching": "Start watching",
+    "verify": "verify your email",
+    "spam": "A 4 digit code was sent. Remember to verify the spam inbox as well.",
     "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage."
   },
   "profile": {
@@ -135,8 +138,8 @@
     "preferences": "Preferences",
     "language": "Language",
     "name": "Name",
+    "username": "Usuário",
     "name_placeholder": "Steven Spielberg",
-    "username": "Username",
     "username_placeholder": "steven_spielberg",
     "yes": "Yes",
     "no": "No",

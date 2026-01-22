@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
+import { createAnimatedComponent } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
@@ -8,6 +9,7 @@ import { IconLocket, IconOscar } from '@components/icon'
 import Tag from '@components/tag'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
+const AnimatedTouchableOpacity = createAnimatedComponent(TouchableOpacity)
 
 const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: MediumCardProps): React.ReactElement => {
   const styles = useStyles()
@@ -16,7 +18,7 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
   const hasImage = image !== undefined
 
   return (
-    <TouchableOpacity
+    <AnimatedTouchableOpacity
       style={styles.root}
       {...props}
     >
@@ -52,7 +54,7 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
       )}
 
       <Typography body>{label}</Typography>
-    </TouchableOpacity>
+    </AnimatedTouchableOpacity>
   )
 }
 
