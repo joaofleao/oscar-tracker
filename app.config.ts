@@ -58,7 +58,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         backgroundColor: '#0D0D0D',
       },
       edgeToEdgeEnabled: true,
-      package: isDev ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
+      package: isDev ? 'com.joaofleao.oscartracker.dev' : 'com.joaofleao.oscartracker',
     },
     web: {
       favicon: './src/assets/app/favicon.png',
