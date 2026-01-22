@@ -100,7 +100,10 @@
     "name_valid": "Valid name",
     "name_invalid": "Please enter your full name.",
     "username_valid": "Username available",
-    "username_invalid": "Username unavailable"
+    "username_invalid": "Username unavailable",
+    "name": "Full Name",
+    "username": "Username",
+    "remove": "Remove"
   },
   "profile": {
     "followers": "Followers",
@@ -144,8 +147,6 @@
     "language": "Language",
     "name": "Name",
     "username": "Usuário",
-    "name_placeholder": "Steven Spielberg",
-    "username_placeholder": "steven_spielberg",
     "yes": "Yes",
     "no": "No",
     "cast_spoiler": "Is casting a spoiler?",
