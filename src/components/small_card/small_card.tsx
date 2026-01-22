@@ -28,6 +28,7 @@ const SmallCard = ({ _id, image, squared, winner, button, title, description, ad
           />
           {watched === false && (
             <BlurView
+              experimentalBlurMethod="dimezisBlurView"
               style={styles.spoiler}
               intensity={spoiler && !watched ? 8 : 0}
             >

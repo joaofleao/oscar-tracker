@@ -62,6 +62,7 @@ const ListItem = ({ id, title, watched = false, spoiler = false, winner = false,
         )}
         {!watched && hasImage && (
           <BlurView
+            experimentalBlurMethod="dimezisBlurView"
             style={styles.spoiler}
             intensity={spoiler && !watched ? 10 : 0}
           />

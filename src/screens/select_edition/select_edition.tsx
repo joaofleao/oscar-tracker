@@ -64,6 +64,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
         })}
       />
       <BlurView
+        experimentalBlurMethod="dimezisBlurView"
         collapsable={false}
         intensity={8}
         style={styles.header}

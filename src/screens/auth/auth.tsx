@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Alert, Linking, View } from 'react-native'
+import { Alert, Linking, ScrollView, View } from 'react-native'
 import { FadeIn, FadeOut } from 'react-native-reanimated'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
@@ -365,12 +365,15 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   )
 
   return (
-    <View style={styles.root}>
+    <ScrollView
+      style={styles.root}
+      alwaysBounceVertical={false}
+    >
       {flow === 'signIn' && signInContent}
       {flow === 'signUp' && signUpContent}
       {flow === 'email-verification' && verificationContent}
       {flow === 'details' && detailsContent}
-    </View>
+    </ScrollView>
   )
 }
 

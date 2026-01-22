@@ -5,6 +5,7 @@ import useTheme from '@providers/theme/useTheme'
 
 type StylesReturn = {
   root: ViewStyle
+  scrollContent: ViewStyle
   content: ViewStyle
   buttons: ViewStyle
   logo: ViewStyle
@@ -21,8 +22,10 @@ const useStyles = (): StylesReturn => {
       paddingTop: 40,
       paddingRight: right + 20,
       paddingLeft: left + 20,
-      alignItems: 'center',
+    },
+    scrollContent: {
       gap: 20,
+      alignItems: 'center',
     },
 
     content: {

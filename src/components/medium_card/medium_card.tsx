@@ -30,6 +30,7 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
           />
           {!watched && (
             <BlurView
+              experimentalBlurMethod="dimezisBlurView"
               style={styles.spoiler}
               intensity={spoiler && !watched ? 10 : 0}
             >

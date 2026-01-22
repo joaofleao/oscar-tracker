@@ -94,6 +94,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     <View style={styles.header}>
       <Animated.View style={[styles.headerBackground, headerAnimatedStyle]}>
         <BlurView
+          experimentalBlurMethod="dimezisBlurView"
           style={styles.headerBlur}
           intensity={20}
         />
@@ -149,6 +150,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   const leadingArea = (
     <BlurView
+      experimentalBlurMethod="dimezisBlurView"
       intensity={20}
       style={[styles.footer, styles.leading]}
     >
@@ -158,6 +160,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   const trailingArea = (
     <BlurView
+      experimentalBlurMethod="dimezisBlurView"
       intensity={20}
       style={[styles.footer, styles.trailing]}
     >

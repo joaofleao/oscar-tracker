@@ -41,6 +41,7 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
             />
             {!watched && (
               <BlurView
+                experimentalBlurMethod="dimezisBlurView"
                 style={styles.spoiler}
                 intensity={spoiler && !watched ? 20 : 0}
               >

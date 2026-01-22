@@ -51,6 +51,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
 
   const header = (
     <BlurView
+      experimentalBlurMethod="dimezisBlurView"
       collapsable={false}
       intensity={8}
       style={styles.header}
