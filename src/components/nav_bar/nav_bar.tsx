@@ -3,7 +3,6 @@ import { Alert, Linking, TouchableOpacity, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
-import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
 import { deleteItemAsync, getItem, setItem } from 'expo-secure-store'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,7 @@ import packageJson from '../../../package.json'
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
+import Blur from '@components/blur'
 import { IconMagnifyingGlass } from '@components/icon'
 import ProgressBar from '@components/progress_bar'
 import Typography from '@components/typography'
@@ -60,7 +60,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   }, [latest, t])
 
   const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
-  const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : profileAnimatedStyle
+  const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : state.index === 1 ? profileAnimatedStyle : undefined
 
   setTimeout(() => {
     if (user && user?.emailVerificationTime === undefined) navigation.navigate('auth', { flow: 'email-verification' })
@@ -92,11 +92,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
   const header = (
     <View style={styles.header}>
       <Animated.View style={[styles.headerBackground, headerAnimatedStyle]}>
-        <BlurView
-          experimentalBlurMethod="dimezisBlurView"
-          style={styles.headerBlur}
-          intensity={20}
-        />
+        <Blur style={styles.headerBlur} />
       </Animated.View>
 
       <View style={styles.headerContent}>
@@ -135,27 +131,15 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     </View>
   )
 
-  const leadingArea = (
-    <BlurView
-      experimentalBlurMethod="dimezisBlurView"
-      intensity={20}
-      style={[styles.footer, styles.leading]}
-    >
-      {tabs.map(renderTabs)}
-    </BlurView>
-  )
+  const leadingArea = <Blur style={[styles.footer, styles.leading]}>{tabs.map(renderTabs)}</Blur>
 
   const trailingArea = (
-    <BlurView
-      experimentalBlurMethod="dimezisBlurView"
-      intensity={20}
-      style={[styles.footer, styles.trailing]}
-    >
+    <Blur style={[styles.footer, styles.trailing]}>
       <NavBarItem
         onPress={() => navigation.navigate('search')}
         icon={<IconMagnifyingGlass size={24} />}
       />
-    </BlurView>
+    </Blur>
   )
 
   return (

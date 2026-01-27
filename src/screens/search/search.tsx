@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ActivityIndicator, View } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown, FadeInRight, FadeOutDown, FadeOutUp } from 'react-native-reanimated'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
@@ -26,7 +26,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   const { edition, spoilers } = useSettings()
   const styles = useStyles()
   const { i18n, t } = useTranslation()
-  const theme = useTheme()
+  const { semantics } = useTheme()
 
   const [name, setName] = useState<string | undefined>()
   const results = useQuery(api.oscars.search, { name, editionId: edition?._id, language: i18n.language })
@@ -51,7 +51,6 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
 
   const header = (
     <BlurView
-      experimentalBlurMethod="dimezisBlurView"
       collapsable={false}
       intensity={8}
       style={styles.header}
@@ -105,7 +104,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
       entering={FadeInDown}
       exiting={FadeOutUp}
     >
-      <ActivityIndicator />
+      <ActivityIndicator color={semantics.brand.foreground.default} />
     </Animated.View>
   )
 
@@ -117,7 +116,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
     >
       <Typography
         center
-        color={theme.semantics.background.foreground.light}
+        color={semantics.background.foreground.light}
       >
         {t('search:empty_state')}
       </Typography>

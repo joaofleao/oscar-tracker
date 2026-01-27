@@ -1,14 +1,13 @@
 import React from 'react'
 import { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
-import { FlatList } from 'react-native-reanimated/lib/typescript/Animated'
 
 import AnimationsContext from './context'
 import { AnimationsContextType } from './types'
 
 const AnimationsProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
-  const nominationsRef = React.useRef<FlatList>(null)
-  const moviesRef = React.useRef<FlatList>(null)
-  const profileRef = React.useRef<FlatList>(null)
+  const nominationsRef = React.useRef(null)
+  const moviesRef = React.useRef(null)
+  const profileRef = React.useRef(null)
 
   const nominationsScrollY = useSharedValue(0)
   const moviesScrollY = useSharedValue(0)

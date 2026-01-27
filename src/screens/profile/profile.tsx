@@ -117,7 +117,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           additional={item.followsYou ? t('search:follows_you') : undefined}
           button={{
             icon: <TinyX />,
-            disabled: item.following,
             title: t('profile:stop_following'),
             onPress: (): void => {
               stopFollowing({ friendId: item._id })

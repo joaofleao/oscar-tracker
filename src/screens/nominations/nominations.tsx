@@ -14,11 +14,13 @@ import Section from '@components/section'
 import SmallCard from '@components/small_card'
 import useAnimations from '@providers/animations/useAnimations'
 import useSettings from '@providers/settings/useSettings'
+import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { spoilers, edition } = useSettings()
   const { onScrollNominations, nominationsRef } = useAnimations()
+  const { semantics } = useTheme()
 
   const styles = useStyles()
   const { t, i18n } = useTranslation()
@@ -113,7 +115,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
           />
         )
     }
-    return <ActivityIndicator />
+    return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
   return (

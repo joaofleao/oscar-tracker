@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { ActivityIndicator, Pressable, TextInput as RNTextInput, View } from 'react-native'
-import Animated, { FadeIn, FadeOut, ZoomIn, ZoomOut } from 'react-native-reanimated'
+import Animated, { ZoomIn, ZoomOut } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { TextInputProps } from './types'
@@ -96,6 +96,7 @@ const TextInput = ({ value, button, onChangeText, onDebouncedText, success, load
         >
           <ActivityIndicator
             size="small"
+            color={semantics.brand.foreground.default}
             style={{ transform: [{ scale: 0.8 }] }}
           />
         </Animated.View>

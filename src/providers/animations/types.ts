@@ -1,4 +1,4 @@
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
 
 export interface AnimationsContextType {
   onScrollNominations: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
@@ -7,7 +7,7 @@ export interface AnimationsContextType {
   nominationsAnimatedStyle: object
   moviesAnimatedStyle: object
   profileAnimatedStyle: object
-  nominationsRef: React.RefObject<FlatList | null>
-  moviesRef: React.RefObject<FlatList | null>
-  profileRef: React.RefObject<FlatList | null>
+  nominationsRef: React.RefObject<any>
+  moviesRef: React.RefObject<any>
+  profileRef: React.RefObject<any>
 }

@@ -27,7 +27,8 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       paddingBottom: bottom + 20,
-      paddingTop: top,
+      paddingTop: top + 20,
+
       paddingRight: right + 20,
       paddingLeft: left + 20,
       gap: 16,

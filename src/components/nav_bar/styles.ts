@@ -26,6 +26,7 @@ const useStyles = (): StylesReturn => {
     headerContent: {
       flex: 1,
       alignItems: 'center',
+      backgroundColor: 'rgba(0,0,0,.3)',
     },
     header: {
       position: 'absolute',

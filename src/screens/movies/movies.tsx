@@ -10,6 +10,7 @@ import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
+import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
@@ -18,6 +19,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const { onScrollMovies, moviesRef } = useAnimations()
 
   const styles = useStyles()
+  const { semantics } = useTheme()
 
   const movies = useQuery(api.oscars.getMovies, { editionId: edition?._id, language: i18n.language }) || []
 
@@ -67,7 +69,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           />
         )
     }
-    return <ActivityIndicator />
+    return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
   return (

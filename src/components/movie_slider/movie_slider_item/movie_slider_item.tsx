@@ -38,7 +38,6 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
           />
           {!watched && (
             <BlurView
-              experimentalBlurMethod="dimezisBlurView"
               style={styles.spoiler}
               intensity={spoiler && !watched ? 20 : 0}
             >

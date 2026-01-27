@@ -40,7 +40,6 @@ const Paragraph = ({ text, spoiler, toggleSpoiler }: ParagraphProps): React.Reac
 
         <Animated.View style={[styles.spoiler, spoilerStyle]}>
           <BlurView
-            experimentalBlurMethod="dimezisBlurView"
             intensity={10}
             style={styles.blur}
           />

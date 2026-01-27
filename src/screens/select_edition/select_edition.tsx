@@ -42,6 +42,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   return (
     <>
       <FlatList
+        nestedScrollEnabled
         ref={flatlistRef}
         alwaysBounceVertical={false}
         style={styles.list}
@@ -64,7 +65,6 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
         })}
       />
       <BlurView
-        experimentalBlurMethod="dimezisBlurView"
         collapsable={false}
         intensity={8}
         style={styles.header}

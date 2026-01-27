@@ -1,5 +1,5 @@
 import React from 'react'
-import { StatusBar, View } from 'react-native'
+import { Platform, StatusBar, View } from 'react-native'
 import * as Fonts from 'expo-font'
 import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
@@ -155,12 +155,12 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'movie'}
             component={Movie}
-            options={{ presentation: 'pageSheet' }}
+            options={{ presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined }}
           />
           <Stack.Screen
             name={'awards'}
             component={Awards}
-            options={{ presentation: 'pageSheet' }}
+            options={{ presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined }}
           />
 
           <Stack.Screen
@@ -191,7 +191,7 @@ const Router = (): React.ReactNode => {
             name={'category'}
             component={Category}
             options={{
-              presentation: 'pageSheet',
+              presentation: 'modal',
               sheetAllowedDetents: 'fitToContents',
               contentStyle: {
                 backgroundColor: semantics.container.base.original,

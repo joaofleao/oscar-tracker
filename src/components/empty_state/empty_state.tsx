@@ -13,7 +13,7 @@ const EmptyState = ({ title, loading, description, style }: EmptyStateProps): Re
   return (
     <View style={[styles.root, style]}>
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator color={semantics.brand.foreground.default} />
       ) : (
         <>
           <TriangleLogo color={semantics.container.base.pressed} />

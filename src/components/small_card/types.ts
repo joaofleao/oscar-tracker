@@ -8,7 +8,7 @@ export type SmallCardActionProps = {
   title: string
   onPress: (movie: NonNullable<SmallCardProps['_id']>) => void | Promise<void>
   loading?: (movie: NonNullable<SmallCardProps['_id']>) => boolean
-  disabled: boolean
+  disabled?: boolean
 }
 
 export interface SmallCardProps extends TouchableOpacityProps {
