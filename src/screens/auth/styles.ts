@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import useTheme from '@providers/theme/useTheme'
 
 type StylesReturn = {
-  root: ViewStyle
+  scroll: ViewStyle
   scrollContent: ViewStyle
   content: ViewStyle
   buttons: ViewStyle
@@ -17,7 +17,7 @@ const useStyles = (): StylesReturn => {
   const { fonts } = useTheme()
 
   return StyleSheet.create({
-    root: {
+    scroll: {
       paddingBottom: bottom,
       paddingTop: 40,
       paddingRight: right + 20,

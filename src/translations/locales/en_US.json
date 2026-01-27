@@ -106,6 +106,7 @@
     "remove": "Remove"
   },
   "profile": {
+    "settings": "Configurações",
     "followers": "Followers",
     "empty_following_title": "You are not following anyone",
     "empty_following_description": "Start following users to see them here.",
@@ -156,21 +157,6 @@
     "version": "Version"
   },
   "errors": {
-    "wrong_password": {
-      "title": "Incorrect Password",
-      "message": "Make sure you are providing the password you registered with."
-    },
-    "wrong_email": {
-      "title": "Account not found",
-      "message": "There isn't an account assigned to this email."
-    },
-    "already_exists": {
-      "title": "Email already in use",
-      "message": "This email is already assigned to an user, use another email"
-    },
-    "unknown_error": {
-      "title": "Unkown Error"
-    },
     "continue": "Continue",
     "report": "Report"
   },

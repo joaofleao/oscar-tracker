@@ -35,6 +35,7 @@
     "profile": "Perfil"
   },
   "profile": {
+    "settings": "Configurações",
     "followers": "Seguidores",
     "empty_following_title": "Você não segue ninguém",
     "empty_following_description": "Comece a seguir usuários para vê-los aqui.",
@@ -160,21 +161,6 @@
     "version": "versão"
   },
   "errors": {
-    "wrong_password": {
-      "title": "Senha Incorreta",
-      "message": "Verifique se essa é a senha que foi utilizada no registro."
-    },
-    "wrong_email": {
-      "title": "Conta não encontrada",
-      "message": "Não existe uma conta com esse email. "
-    },
-    "already_exists": {
-      "title": "Email em uso",
-      "message": "Este email está associado a uma conta existente."
-    },
-    "unknown_error": {
-      "title": "Erro desconhecido"
-    },
     "continue": "Continuar",
     "report": "Reportar"
   },

@@ -151,7 +151,6 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'settings'}
             component={Settings}
-            options={{ presentation: 'pageSheet' }}
           />
           <Stack.Screen
             name={'movie'}

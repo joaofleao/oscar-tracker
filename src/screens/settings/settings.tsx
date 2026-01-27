@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Alert, ScrollView, View } from 'react-native'
 import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
@@ -17,7 +17,7 @@ import Modal from '@components/modal'
 import Question from '@components/question'
 import Row from '@components/row'
 import Section from '@components/section'
-import { TinyCheckmark, TinyChevron } from '@components/tiny_icon'
+import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { useSettings } from '@providers/settings'
@@ -35,9 +35,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const updateUser = useMutation(api.user.updateUser)
   const generateUploadUrl = useMutation(api.user.generateUploadUrl)
 
-  const [name, setName] = useState<string>('')
-  const [username, setUsername] = useState<string>('')
-  const validUsername = useQuery(api.user.checkUsernameAvailability, { username })
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false)
   const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
@@ -64,12 +61,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     }
   }
 
-  useEffect(() => {
-    if (!user) return
-    setName(user?.name ?? '')
-    setUsername(user?.username ?? '')
-  }, [user])
-
   const handleDelete = async (): Promise<void> => {
     setLoadingDelete(true)
     void deleteAccount()
@@ -86,7 +77,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     void signOut()
       .catch(catchConvexError)
       .then(() => {
-        navigation.navigate('home')
+        navigation.popToTop()
       })
       .finally(() => setLoadingSignOut(false))
   }
@@ -99,7 +90,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     await SecureStore.deleteItemAsync('hideRate')
     await SecureStore.deleteItemAsync('hideCast')
     await SecureStore.deleteItemAsync('version')
-    handleSignOut()
   }
 
   const handleSwitchLanguage = (value: boolean): void => {
@@ -124,13 +114,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     void updateUser({ image: null }).catch(catchConvexError)
   }
 
-  const updateButton = {
-    icon: <TinyCheckmark />,
-    action: (): void => {
-      updateUser({ name, username })
-    },
-  }
-
   return (
     <>
       <ScrollView
@@ -150,90 +133,103 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
           />
         </View>
 
-        <View style={styles.content}>
-          <Authenticated>
-            <View style={styles.avatarContainer}>
-              <Avatar
-                name={user?.name}
-                image={user?.imageURL ?? undefined}
+        <Authenticated>
+          <View style={styles.avatarContainer}>
+            <Avatar
+              name={user?.name}
+              image={user?.imageURL ?? undefined}
+            />
+            <View style={styles.avatarButtons}>
+              <Button
+                onPress={handleRemoveImage}
+                title={t('settings:remove')}
+                icon={<IconTrash />}
               />
-              <View style={styles.avatarButtons}>
-                <Button
-                  onPress={handleRemoveImage}
-                  title={t('settings:remove')}
-                  icon={<IconTrash />}
-                />
-                <Button
-                  onPress={handleChangeImage}
-                  title={t('settings:change')}
-                  icon={<IconImages />}
-                />
-              </View>
+              <Button
+                onPress={handleChangeImage}
+                title={t('settings:change')}
+                icon={<IconImages />}
+              />
             </View>
-
-            <Section
-              title={t('settings:account')}
-              button={{
-                title: t('settings:edit'),
-                action: () => {
-                  navigation.navigate('auth', { flow: 'details' })
-                },
-              }}
-            >
-              <Row between>
-                <Typography body>{t('settings:name')}</Typography>
-                <Typography legend>{user?.name}</Typography>
-              </Row>
-              <Row between>
-                <Typography body>{t('settings:username')}</Typography>
-                <Typography legend>{user?.username}</Typography>
-              </Row>
-            </Section>
-          </Authenticated>
-
-          <Section title={t('settings:general')}>
-            <Question
-              title={t('settings:language')}
-              off={t('settings:ptbr')}
-              on={t('settings:enus')}
-              selected={language === 'en_US'}
-              setSelected={handleSwitchLanguage}
-            />
+          </View>
+          <Section
+            title={t('settings:account')}
+            button={{
+              title: t('settings:edit'),
+              action: () => {
+                navigation.navigate('auth', { flow: 'details' })
+              },
+            }}
+          >
+            <Row between>
+              <Typography body>{t('settings:name')}</Typography>
+              <Typography legend>{user?.name}</Typography>
+            </Row>
+            <Row between>
+              <Typography body>{t('settings:username')}</Typography>
+              <Typography legend>{user?.username}</Typography>
+            </Row>
           </Section>
+        </Authenticated>
 
-          <Section title={t('settings:spoilers')}>
-            <Question
-              title={t('settings:poster_spoiler')}
-              on={t('settings:yes')}
-              off={t('settings:no')}
-              selected={spoilers.hidePoster}
-              setSelected={(value) => setSpoilers('hidePoster', value)}
-            />
-            <Question
-              title={t('settings:cast_spoiler')}
-              on={t('settings:yes')}
-              off={t('settings:no')}
-              selected={spoilers.hideCast}
-              setSelected={(value) => setSpoilers('hideCast', value)}
-            />
-            <Question
-              title={t('settings:rating_spoiler')}
-              on={t('settings:yes')}
-              off={t('settings:no')}
-              selected={spoilers.hideRate}
-              setSelected={(value) => setSpoilers('hideRate', value)}
-            />
-            <Question
-              title={t('settings:plot_spoiler')}
-              on={t('settings:yes')}
-              off={t('settings:no')}
-              selected={spoilers.hidePlot}
-              setSelected={(value) => setSpoilers('hidePlot', value)}
-            />
-          </Section>
-        </View>
+        <Section title={t('settings:general')}>
+          <Question
+            title={t('settings:language')}
+            off={t('settings:ptbr')}
+            on={t('settings:enus')}
+            selected={language === 'en_US'}
+            setSelected={handleSwitchLanguage}
+          />
+        </Section>
+
+        <Section title={t('settings:spoilers')}>
+          <Question
+            title={t('settings:poster_spoiler')}
+            on={t('settings:yes')}
+            off={t('settings:no')}
+            selected={spoilers.hidePoster}
+            setSelected={(value) => setSpoilers('hidePoster', value)}
+          />
+          <Question
+            title={t('settings:cast_spoiler')}
+            on={t('settings:yes')}
+            off={t('settings:no')}
+            selected={spoilers.hideCast}
+            setSelected={(value) => setSpoilers('hideCast', value)}
+          />
+          <Question
+            title={t('settings:rating_spoiler')}
+            on={t('settings:yes')}
+            off={t('settings:no')}
+            selected={spoilers.hideRate}
+            setSelected={(value) => setSpoilers('hideRate', value)}
+          />
+          <Question
+            title={t('settings:plot_spoiler')}
+            on={t('settings:yes')}
+            off={t('settings:no')}
+            selected={spoilers.hidePlot}
+            setSelected={(value) => setSpoilers('hidePlot', value)}
+          />
+        </Section>
 
         <View style={styles.footer}>
+          <Button
+            variant="ghost"
+            onPress={handleCleanCache}
+            title={t('settings:clean_cache')}
+            icon={<IconBroom />}
+          />
+
+          <Authenticated>
+            <Button
+              loading={loadingSignOut}
+              onPress={handleSignOut}
+              title={t('settings:sign_out')}
+              icon={<IconDoor />}
+            />
+          </Authenticated>
+
           <Typography legend>
             {t('settings:version')}{' '}
             <Typography
@@ -243,24 +239,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
               {packageJson.version}
             </Typography>
           </Typography>
-
-          <Row>
-            <Button
-              onPress={handleCleanCache}
-              title={t('settings:clean_cache')}
-              icon={<IconBroom />}
-            />
-
-            <Authenticated>
-              <Button
-                loading={loadingSignOut}
-                onPress={handleSignOut}
-                title={t('settings:sign_out')}
-                icon={<IconDoor />}
-              />
-            </Authenticated>
-          </Row>
-
           <Authenticated>
             <Button
               variant="negative"

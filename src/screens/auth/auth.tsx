@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Alert, Linking, ScrollView, View } from 'react-native'
-import { FadeIn, FadeOut } from 'react-native-reanimated'
+import { FadeInLeft, FadeOut } from 'react-native-reanimated'
 import { useMutation, useQuery } from 'convex/react'
+import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
 import { useTranslation } from 'react-i18next'
@@ -21,14 +22,11 @@ import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
 import { useTheme } from '@providers/theme'
-import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
 const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
-  const [name, setName] = useState<string>('')
-  const [username, setUsername] = useState<string>('')
   const { signIn } = useAuthActions()
   const { semantics } = useTheme()
   const user = useQuery(api.user.getCurrentUser)
@@ -40,15 +38,19 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const catchConvexError = useConvexErrorHandler()
   const updateUser = useMutation(api.user.updateUser)
   const generateUploadUrl = useMutation(api.user.generateUploadUrl)
-  const usernameAvailable = useQuery(api.user.checkUsernameAvailability, { username })
+  const [pendingName, setPendingName] = useState<string | null>(null)
+  const [pendingUsername, setPendingUsername] = useState<string | null>(null)
   const [loadingUsername, setLoadingUsername] = useState(false)
-  const [nameValid, setNameValid] = useState<boolean>()
+  const [pendingImage, setPendingImage] = useState<ImagePicker.ImagePickerAsset | null>(null)
+  const usernameAvailable = useQuery(api.user.checkUsernameAvailability, { username: pendingUsername ?? undefined })
+  const usernameValid = usernameAvailable
+  const nameValid = pendingName !== null ? pendingName.trim().split(' ').length >= 2 : null
 
   useEffect(() => {
     if (usernameAvailable !== undefined) {
       setLoadingUsername(false)
     }
-  }, [usernameAvailable, username])
+  }, [usernameAvailable, pendingUsername])
 
   const flows = {
     signIn: t('auth:sign_in'),
@@ -56,8 +58,6 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   } as const
 
   const [flow, setFlow] = useState((route.params?.flow as string) ?? 'signIn')
-
-  // usePreventRemove(flow === 'email-verification' || flow === 'details', ({ data }) => {})
 
   const handleSignUp = async (): Promise<void> => {
     setLoading(true)
@@ -100,16 +100,36 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
       })
       .finally(() => setLoading(false))
   }
+
   const handleDetails = async (): Promise<void> => {
     setLoading(true)
-    updateUser({ name, username })
-      .then(() => {
-        navigation.pop()
+    try {
+      let storageId: string | null = null
+
+      // Upload image if one was selected
+      if (pendingImage) {
+        const postUrl = await generateUploadUrl()
+        const result = await fetch(postUrl, {
+          method: 'POST',
+          body: pendingImage as unknown as Blob,
+        })
+        const { storageId: uploadedId } = await result.json()
+        storageId = uploadedId
+      }
+
+      // Update user with all details
+      await updateUser({
+        name: pendingName ?? undefined,
+        // username,
+        ...(storageId && { image: storageId as GenericId<'_storage'> }),
       })
-      .catch(catchConvexError)
-      .finally(() => {
-        setLoading(false)
-      })
+
+      navigation.pop()
+    } catch (error) {
+      catchConvexError(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const pickImage = async (): Promise<ImagePicker.ImagePickerAsset | undefined> => {
@@ -135,14 +155,12 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
     const pickedImage = await pickImage()
 
     if (pickedImage) {
-      const postUrl = await generateUploadUrl()
-      const result = await fetch(postUrl, {
-        method: 'POST',
-        body: pickedImage as unknown as Blob,
-      })
-      const { storageId } = await result.json()
-      await updateUser({ image: storageId }).catch(catchConvexError)
+      setPendingImage(pickedImage)
     }
+  }
+
+  const handleRemoveImage = (): void => {
+    setPendingImage(null)
   }
 
   const header = (
@@ -271,6 +289,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
       </Row>
     </View>
   )
+
+  const displayImage = pendingImage ? pendingImage.uri : user?.imageURL
+
   const detailsContent = (
     <View style={styles.content}>
       <Typography
@@ -279,82 +300,100 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
       >
         {t('auth:details')}
       </Typography>
-
       <Column middle>
         <Avatar
           onPress={handleChangeImage}
           name={user?.name}
-          image={user?.imageURL ?? undefined}
+          image={displayImage ?? undefined}
           icon={<IconImages />}
         />
-        {user?.imageURL && (
+        {displayImage && (
           <Button
-            onPress={() => updateUser({ image: null }).catch(catchConvexError)}
+            onPress={handleRemoveImage}
             title={t('auth:remove')}
             variant="ghost"
           />
         )}
       </Column>
-
       <Column trailing>
         <TextInput
           defaultValue={user?.name}
-          onChangeText={(text) => {
-            if (text.trim() === '') setNameValid(undefined)
-          }}
           onDebouncedText={(text) => {
-            if (text.trim() === '') return setNameValid(undefined)
-            const isValid = text.trim().split(' ').length >= 2
-            setNameValid(isValid)
-            setName(text.trim())
+            if (text.trim() !== '') setPendingName(text)
           }}
           debounce={1000}
           placeholder={t('auth:name')}
-          error={nameValid !== undefined && nameValid === false}
-          success={nameValid !== undefined && nameValid === true}
+          error={nameValid === false}
+          success={nameValid === true}
         />
 
-        {nameValid !== undefined && (
+        {nameValid !== undefined && nameValid === false && (
           <Typography
             legend
-            entering={FadeIn}
+            entering={FadeInLeft}
             exiting={FadeOut}
-            color={semantics[nameValid === false ? 'negative' : 'positive'].foreground.default}
+            color={semantics.negative.foreground.default}
           >
-            {nameValid === false ? t('auth:name_invalid') : t('auth:name_valid')}
+            {t('auth:name_invalid')}
+          </Typography>
+        )}
+        {nameValid !== undefined && nameValid === true && (
+          <Typography
+            legend
+            entering={FadeInLeft}
+            exiting={FadeOut}
+            color={semantics.positive.foreground.default}
+          >
+            {t('auth:name_valid')}
           </Typography>
         )}
       </Column>
-
       <Column trailing>
         <TextInput
+          textContentType="username"
           defaultValue={user?.username}
-          onChangeText={() => {
+          onChangeText={(text) => {
             setLoadingUsername(true)
           }}
-          onDebouncedText={setUsername}
+          onDebouncedText={(text) => {
+            if (text.trim() !== '') setPendingUsername(text)
+          }}
           debounce={2000}
           placeholder={t('auth:username')}
           loading={loadingUsername}
-          error={!loadingUsername && usernameAvailable !== null && usernameAvailable === false}
-          success={!loadingUsername && usernameAvailable !== null && usernameAvailable === true}
+          error={!loadingUsername && usernameValid === false}
+          success={!loadingUsername && usernameValid === true}
         />
 
-        {!loadingUsername && usernameAvailable !== null && (
+        {!loadingUsername && usernameValid !== undefined && usernameValid === false && (
           <Typography
             legend
-            entering={FadeIn}
+            entering={FadeInLeft}
             exiting={FadeOut}
-            color={semantics[usernameAvailable === false ? 'negative' : 'positive'].foreground.default}
+            color={semantics.negative.foreground.default}
           >
-            {usernameAvailable === false ? t('auth:username_invalid') : t('auth:username_valid')}
+            {t('auth:username_invalid')}
+          </Typography>
+        )}
+        {!loadingUsername && usernameValid !== undefined && usernameValid === true && (
+          <Typography
+            legend
+            entering={FadeInLeft}
+            exiting={FadeOut}
+            color={semantics.positive.foreground.default}
+          >
+            {t('auth:username_valid')}
           </Typography>
         )}
       </Column>
 
       <Row center>
         <Button
-          disabled={loadingUsername || !nameValid || usernameAvailable !== true}
+          title={t('auth:cancel')}
+          onPress={() => navigation.pop()}
+        />
+        <Button
+          disabled={!(nameValid === true && usernameValid === true) && loadingUsername}
           loading={loading}
           title={t('auth:save')}
           variant="brand"
@@ -366,7 +405,8 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   return (
     <ScrollView
-      style={styles.root}
+      style={styles.scroll}
+      contentContainerStyle={styles.scrollContent}
       alwaysBounceVertical={false}
     >
       {flow === 'signIn' && signInContent}

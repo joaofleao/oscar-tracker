@@ -15,13 +15,13 @@ const Question = ({ title, on, off, selected, setSelected }: QuestionProps): Rea
           small
           onPress={() => setSelected(false)}
           title={off}
-          variant={selected ? 'ghost' : 'accent'}
+          variant={selected ? 'ghost' : 'brand'}
         />
         <Button
           small
           onPress={() => setSelected(true)}
           title={on}
-          variant={selected ? 'accent' : 'ghost'}
+          variant={selected ? 'brand' : 'ghost'}
         />
       </Row>
     </Row>

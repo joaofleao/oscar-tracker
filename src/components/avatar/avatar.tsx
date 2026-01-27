@@ -40,7 +40,7 @@ const Avatar = ({ icon = <IconPerson />, image, name, style, onPress }: AvatarPr
         style={[styles.root, style]}
       >
         {content}
-        <View style={styles.iconContainer}>{!hasName && React.cloneElement(<IconImages />, { size: 20 })}</View>
+        <View style={styles.iconContainer}>{React.cloneElement(<IconImages />, { size: 20 })}</View>
       </TouchableOpacity>
     )
 

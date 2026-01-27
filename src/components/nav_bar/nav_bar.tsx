@@ -12,8 +12,7 @@ import packageJson from '../../../package.json'
 import NavBarItem from './nav_bar_item'
 import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
-import { IconMagnifyingGlass, IconSettings } from '@components/icon'
-import IconButton from '@components/icon_button'
+import { IconMagnifyingGlass } from '@components/icon'
 import ProgressBar from '@components/progress_bar'
 import Typography from '@components/typography'
 import useAnimations from '@providers/animations/useAnimations'
@@ -65,7 +64,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   setTimeout(() => {
     if (user && user?.emailVerificationTime === undefined) navigation.navigate('auth', { flow: 'email-verification' })
-    if (user && (user?.image === undefined || user?.username === undefined || user?.name === undefined)) navigation.navigate('auth', { flow: 'details' })
+    if (user && (user?.username === undefined || user?.name === undefined)) navigation.navigate('auth', { flow: 'details' })
   }, 2000)
 
   const renderTabs = (tab: TabType, index: number): React.ReactElement => {
@@ -100,11 +99,6 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
         />
       </Animated.View>
 
-      <IconButton
-        icon={<IconSettings />}
-        placeholder
-      />
-
       <View style={styles.headerContent}>
         <TouchableOpacity onPress={() => navigation.navigate('select_edition')}>
           <Typography
@@ -129,13 +123,6 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
           maxValue={edition?.moviesNominated ?? 0}
         />
       </View>
-
-      <IconButton
-        placeholder={state.index !== 2}
-        icon={<IconSettings />}
-        variant={'container'}
-        onPress={() => navigation.navigate('settings')}
-      />
 
       {/* {state.index !== 2 && (
         <IconButton

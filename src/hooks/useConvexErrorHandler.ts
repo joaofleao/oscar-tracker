@@ -3,30 +3,31 @@ import { useAction } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
-const map: Record<string, string> = {
-  InvalidSecret: 'wrong_password',
-  InvalidAccountId: 'wrong_email',
-  'already exists': 'already_exists',
-}
+import { authErrorCatalog, type AuthErrorCode, getAuthErrorMessage } from './error_catalog'
 
-const parseError = (errorMessage: string): string => {
-  for (const key of Object.keys(map)) {
-    if (errorMessage.includes(key)) {
-      return map[key]
+const parseError = (errorMessage: string): AuthErrorCode => {
+  const errorLower = errorMessage.toLowerCase()
+
+  for (const code of Object.keys(authErrorCatalog) as AuthErrorCode[]) {
+    if (errorLower.includes(code.toLowerCase()) || (errorLower.includes('invalid') && code === 'invalid-credentials') || (errorLower.includes('not found') && code === 'account-not-found') || (errorLower.includes('password') && errorLower.includes('required') && code === 'password-missing-signin') || (errorLower.includes('weak') && code === 'password-weak') || (errorLower.includes('reset') && code === 'reset-not-enabled') || (errorLower.includes('verify') && code === 'verify-not-enabled')) {
+      return code
     }
   }
-  return 'unknown_error'
+
+  return 'auth-generic'
 }
 
 const useConvexErrorHandler = (): ((error: any) => void) => {
   const { t } = useTranslation()
+  const { i18n } = useTranslation()
   const reportError = useAction(api.user.reportError)
 
   const catchConvexError = (error: { message: string }): void => {
-    const code = parseError(error.message)
+    const errorCode = parseError(error.message)
+    const title = getAuthErrorMessage(errorCode, i18n.language)
 
-    if (code === 'unknown_error')
-      Alert.alert(t(`errors:${code}.title`), error.message, [
+    if (errorCode === 'auth-generic')
+      Alert.alert(title, error.message, [
         { text: t('errors:continue') },
         {
           text: t('errors:report'),
@@ -34,7 +35,7 @@ const useConvexErrorHandler = (): ((error: any) => void) => {
           isPreferred: true,
         },
       ])
-    else Alert.alert(t(`errors:${code}.title`), t(`errors:${code}.message`), [{ text: t('errors:continue') }])
+    else Alert.alert(title, undefined, [{ text: t('errors:continue') }])
   }
 
   return catchConvexError

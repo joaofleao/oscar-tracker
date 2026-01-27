@@ -8,7 +8,8 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
-import { IconOscar } from '@components/icon'
+import { IconOscar, IconSettings } from '@components/icon'
+import Row from '@components/row'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import { TinyCheckmark, TinyPlus, TinyX } from '@components/tiny_icon'
@@ -55,14 +56,23 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           <Typography description>{user?.username}</Typography>
         </View>
       </Authenticated>
-      <Unauthenticated>
+
+      <Row>
         <Button
-          icon={<IconOscar />}
-          variant="brand"
-          title={t('profile:sign_in')}
-          onPress={() => navigation.navigate('auth')}
+          icon={<IconSettings />}
+          title={t('profile:settings')}
+          onPress={() => navigation.navigate('settings')}
         />
-      </Unauthenticated>
+
+        <Unauthenticated>
+          <Button
+            icon={<IconOscar />}
+            variant="brand"
+            title={t('profile:sign_in')}
+            onPress={() => navigation.navigate('auth')}
+          />
+        </Unauthenticated>
+      </Row>
 
       <View style={styles.centerContainer}>
         <SegmentedControl

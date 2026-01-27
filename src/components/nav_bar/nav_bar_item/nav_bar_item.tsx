@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
+import { FadeInLeft } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { NavBarItemProps } from './types'
@@ -23,7 +24,14 @@ const NavBarItem = ({ first = false, last = false, icon, label, selected, style,
         filled: selected ?? false,
         ...icon.props,
       })}
-      {selected && label && <Typography color={semantics.accent.base.default}>{label}</Typography>}
+      {selected && label && (
+        <Typography
+          entering={FadeInLeft}
+          color={semantics.accent.base.default}
+        >
+          {label}
+        </Typography>
+      )}
     </TouchableOpacity>
   )
 }
