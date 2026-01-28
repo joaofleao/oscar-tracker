@@ -1,36 +1,34 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   header: ViewStyle
-  watched: ViewStyle
-  watchedContent: ViewStyle
-  unwatched: ViewStyle
+  root: ViewStyle
+  content: ViewStyle
+
   gap: ViewStyle
   footer: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { bottom, right, left } = useSafeAreaInsets()
+  const { bottom, right, left, top } = useSafeAreaInsets()
 
   return StyleSheet.create({
     header: {
-      paddingBottom: 20,
-      gap: 8,
+      paddingTop: Platform.OS === 'android' ? top + 20 : 20,
+      padding: 20,
+      gap: 20,
+      zIndex: 1,
     },
-    watched: {
-      paddingTop: 40,
-      paddingRight: right,
-      paddingLeft: left,
+    root: {
+      overflow: 'visible',
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
     },
-    watchedContent: {
-      paddingHorizontal: 20,
+    content: {
       paddingBottom: bottom + 20 + 40 + 20,
     },
-    unwatched: {
-      paddingTop: 20,
-      gap: 20,
-    },
+
     gap: {
       height: 20,
     },

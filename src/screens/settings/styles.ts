@@ -1,13 +1,14 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   root: ViewStyle
+  content: ViewStyle
   header: ViewStyle
 
   footer: ViewStyle
   section: ViewStyle
-  hide: ViewStyle
+
   avatarButtons: ViewStyle
   avatarContainer: ViewStyle
 }
@@ -17,10 +18,12 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
+      overflow: 'visible',
       paddingBottom: bottom + 20,
-      paddingTop: top + 20,
       paddingRight: right + 20,
       paddingLeft: left + 20,
+    },
+    content: {
       justifyContent: 'center',
       gap: 32,
     },
@@ -39,14 +42,9 @@ const useStyles = (): StylesReturn => {
     },
 
     header: {
-      justifyContent: 'space-between',
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 16,
-    },
-
-    hide: {
-      opacity: 0,
+      marginTop: Platform.OS === 'android' ? 20 + top : 0,
+      padding: 20,
+      zIndex: 1,
     },
 
     footer: {

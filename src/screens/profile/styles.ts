@@ -20,9 +20,6 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      paddingTop: top + 120,
-      paddingRight: right + 20,
-      paddingLeft: left + 20,
       justifyContent: 'center',
       gap: 24,
       alignItems: 'center',
@@ -56,13 +53,14 @@ const useStyles = (): StylesReturn => {
     },
 
     list: {
-      width: '100%',
-      paddingHorizontal: 20,
+      overflow: 'visible',
     },
 
     content: {
-      gap: 16,
-      paddingBottom: bottom + 60,
+      paddingTop: 20,
+      paddingBottom: bottom + 40,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
     },
 
     gradient: {

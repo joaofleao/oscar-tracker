@@ -15,6 +15,7 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       width: '60%',
+      maxWidth: 240,
       aspectRatio: 2 / 3,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,

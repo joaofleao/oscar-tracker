@@ -60,7 +60,6 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
   const renderBestPictureCard: ListRenderItem<(typeof nominations)[0]> = ({ item, index }) => {
     return (
       <BigCard
-        delayPressIn={50}
         image={item.image}
         onPress={
           index === activeElement

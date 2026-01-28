@@ -2,8 +2,8 @@ import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
-  flatlists: ViewStyle
-  header: ViewStyle
+  root: ViewStyle
+  content: ViewStyle
   empty: ViewStyle
 }
 
@@ -11,17 +11,17 @@ const useStyles = (): StylesReturn => {
   const { top, bottom, right, left } = useSafeAreaInsets()
 
   return StyleSheet.create({
-    flatlists: {
-      gap: 16,
-      paddingTop: top + 160,
+    root: {
+      overflow: 'visible',
+      paddingTop: 20,
       paddingBottom: bottom + 40,
       paddingRight: right + 20,
       paddingLeft: left + 20,
     },
-    header: {
-      alignSelf: 'center',
-      marginBottom: 80,
+    content: {
+      gap: 16,
     },
+
     empty: {
       marginBottom: -80,
     },

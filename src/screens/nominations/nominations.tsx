@@ -9,17 +9,18 @@ import useStyles from './styles'
 import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
+import Header from '@components/header'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
-import useAnimations from '@providers/animations/useAnimations'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import useSettings from '@providers/settings/useSettings'
 import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { spoilers, edition } = useSettings()
-  const { onScrollNominations, nominationsRef } = useAnimations()
+  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
   const { semantics } = useTheme()
 
   const styles = useStyles()
@@ -119,14 +120,18 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
   }
 
   return (
-    <FlatList
-      ref={nominationsRef}
-      onScroll={onScrollNominations}
-      contentContainerStyle={styles.flatlists}
-      data={nominations}
-      renderItem={renderCaroussel}
-      ListEmptyComponent={emptyState()}
-    />
+    <>
+      <Header animatedStyle={animatedStyle} />
+      <FlatList
+        ref={ref}
+        onScroll={onScroll}
+        style={styles.root}
+        contentContainerStyle={styles.content}
+        data={nominations}
+        renderItem={renderCaroussel}
+        ListEmptyComponent={emptyState()}
+      />
+    </>
   )
 }
 

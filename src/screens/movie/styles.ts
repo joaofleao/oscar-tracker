@@ -1,11 +1,12 @@
-import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
+import { ImageStyle, Platform, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   root: ViewStyle
+  content: ViewStyle
+
   posterContainer: ViewStyle
   header: ViewStyle
-  content: ViewStyle
   animation: ViewStyle
   bottom: ViewStyle
   backdropContainer: ViewStyle
@@ -26,13 +27,15 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
+      paddingTop: Platform.OS === 'android' ? top + 20 : 40,
       paddingBottom: bottom + 20,
-      paddingTop: top + 20,
-
       paddingRight: right + 20,
       paddingLeft: left + 20,
+    },
+    content: {
       gap: 16,
     },
+
     section: {
       gap: 8,
     },
@@ -78,9 +81,7 @@ const useStyles = (): StylesReturn => {
 
       gap: 16,
     },
-    content: {
-      gap: 16,
-    },
+
     main: {
       gap: 24,
       alignItems: 'center',

@@ -8,13 +8,13 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
 import EmptyState from '@components/empty_state'
+import Header from '@components/header'
 import { IconOscar, IconSettings } from '@components/icon'
-import Row from '@components/row'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import { TinyCheckmark, TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
-import useAnimations from '@providers/animations/useAnimations'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
@@ -22,7 +22,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const { t } = useTranslation()
 
   const { isAuthenticated, isLoading } = useConvexAuth()
-  const { onScrollProfile, profileRef } = useAnimations()
+  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
   const startFollowing = useMutation(api.user.startFollowing)
   const stopFollowing = useMutation(api.user.stopFollowing)
 
@@ -56,53 +56,54 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           <Typography description>{user?.username}</Typography>
         </View>
       </Authenticated>
+      <Button
+        icon={<IconSettings />}
+        title={t('profile:settings')}
+        onPress={() => navigation.navigate('settings')}
+      />
 
-      <Row>
+      <Unauthenticated>
         <Button
-          icon={<IconSettings />}
-          title={t('profile:settings')}
-          onPress={() => navigation.navigate('settings')}
+          icon={<IconOscar />}
+          variant="brand"
+          title={t('profile:sign_in')}
+          onPress={() => navigation.navigate('auth')}
         />
+      </Unauthenticated>
 
-        <Unauthenticated>
-          <Button
-            icon={<IconOscar />}
-            variant="brand"
-            title={t('profile:sign_in')}
-            onPress={() => navigation.navigate('auth')}
+      <Authenticated>
+        <View style={styles.centerContainer}>
+          <SegmentedControl
+            selected={flow}
+            onChange={setFlow}
+            options={sections}
           />
-        </Unauthenticated>
-      </Row>
+        </View>
+      </Authenticated>
 
-      <View style={styles.centerContainer}>
-        <SegmentedControl
-          selected={flow}
-          onChange={setFlow}
-          options={sections}
+      <Unauthenticated>
+        <EmptyState
+          loading={isLoading}
+          title={t('profile:empty_title_unauthenticated')}
+          description={t('profile:empty_description_unauthenticated')}
         />
-      </View>
+      </Unauthenticated>
     </View>
   )
 
   const renderFollowing = (
     <FlatList
-      onScroll={onScrollProfile}
-      ref={profileRef}
+      onScroll={onScroll}
+      ref={ref}
       ListHeaderComponent={header}
       ListEmptyComponent={
-        isAuthenticated ? (
+        <Authenticated>
           <EmptyState
             loading={isLoading}
             title={t('profile:empty_following_title')}
             description={t('profile:empty_following_description')}
           />
-        ) : (
-          <EmptyState
-            loading={isLoading}
-            title={t('profile:empty_title_unauthenticated')}
-            description={t('profile:empty_description_unauthenticated')}
-          />
-        )
+        </Authenticated>
       }
       data={following}
       style={styles.list}
@@ -129,23 +130,17 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const renderFollowers = (
     <FlatList
-      onScroll={onScrollProfile}
-      ref={profileRef}
+      onScroll={onScroll}
+      ref={ref}
       ListHeaderComponent={header}
       ListEmptyComponent={
-        isAuthenticated ? (
+        <Authenticated>
           <EmptyState
             loading={isLoading}
             title={t('profile:empty_followers_title')}
             description={t('profile:empty_followers_description')}
           />
-        ) : (
-          <EmptyState
-            loading={isLoading}
-            title={t('profile:empty_title_unauthenticated')}
-            description={t('profile:empty_description_unauthenticated')}
-          />
-        )
+        </Authenticated>
       }
       data={followers}
       style={styles.list}
@@ -172,6 +167,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   return (
     <>
+      <Header animatedStyle={animatedStyle} />
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
     </>

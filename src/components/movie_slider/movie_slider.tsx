@@ -43,7 +43,7 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
         showsVerticalScrollIndicator={false}
         style={[styles.list, activeElement === data.length - 1 && styles.listActive]}
         contentContainerStyle={styles.listContent}
-        initialNumToRender={40}
+        initialNumToRender={60}
         scrollEventThrottle={0}
         snapToInterval={SNAP}
         decelerationRate="fast"

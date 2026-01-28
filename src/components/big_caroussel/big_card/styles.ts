@@ -5,6 +5,7 @@ import { useTheme } from '@providers/theme'
 type StylesReturn = {
   root: ViewStyle
   spoiler: ViewStyle
+  blur: ViewStyle
   image: ImageStyle
   overlay: ImageStyle
   container: ViewStyle
@@ -36,14 +37,18 @@ const useStyles = (): StylesReturn => {
       height: '100%',
     },
     spoiler: {
+      height: '100%',
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: semantics.background.base.tint,
+    },
+    blur: {
       position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: semantics.background.base.tint,
     },
     overlay: {
       backgroundColor: '#000',

@@ -15,7 +15,6 @@ import Blur from '@components/blur'
 import { IconMagnifyingGlass } from '@components/icon'
 import ProgressBar from '@components/progress_bar'
 import Typography from '@components/typography'
-import useAnimations from '@providers/animations/useAnimations'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ordinal } from '@utils/ordinals'
@@ -59,9 +58,6 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       )
   }, [latest, t])
 
-  const { moviesAnimatedStyle, nominationsAnimatedStyle, profileAnimatedStyle, nominationsRef, moviesRef, profileRef } = useAnimations()
-  const headerAnimatedStyle = state.index === 0 ? nominationsAnimatedStyle : state.index === 1 ? moviesAnimatedStyle : state.index === 1 ? profileAnimatedStyle : undefined
-
   setTimeout(() => {
     if (user && user?.emailVerificationTime === undefined) navigation.navigate('auth', { flow: 'email-verification' })
     if (user && (user?.username === undefined || user?.name === undefined)) navigation.navigate('auth', { flow: 'details' })
@@ -71,9 +67,9 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     const handleTabPress = (): void => {
       navigation.navigate(tab.id)
 
-      if (state.index === 0 && index === 0) nominationsRef.current?.scrollToOffset({ offset: 0, animated: true })
-      if (state.index === 1 && index === 1) moviesRef.current?.scrollToOffset({ offset: 0, animated: true })
-      if (state.index === 2 && index === 2) profileRef.current?.scrollToOffset({ offset: 0, animated: true })
+      // if (state.index === 0 && index === 0) nominationsRef.current?.scrollToOffset({ offset: 0, animated: true })
+      // if (state.index === 1 && index === 1) moviesRef.current?.scrollToOffset({ offset: 0, animated: true })
+      // if (state.index === 2 && index === 2) profileRef.current?.scrollToOffset({ offset: 0, animated: true })
     }
 
     return (
@@ -89,48 +85,6 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     )
   }
 
-  const header = (
-    <View style={styles.header}>
-      <Animated.View style={[styles.headerBackground, headerAnimatedStyle]}>
-        <Blur style={styles.headerBlur} />
-      </Animated.View>
-
-      <View style={styles.headerContent}>
-        <TouchableOpacity onPress={() => navigation.navigate('select_edition')}>
-          <Typography
-            center
-            color={semantics.accent.base.default}
-          >
-            academy tracker
-          </Typography>
-
-          {editions.length > 0 && (
-            <Typography
-              center
-              legend
-              color={semantics.background.foreground.light}
-            >
-              {`${ordinal(edition?.number ?? 0, i18n.language, true)} ${t('home:edition')} - ${edition?.year}`}
-            </Typography>
-          )}
-        </TouchableOpacity>
-        <ProgressBar
-          value={edition?.moviesWatched ?? 0}
-          maxValue={edition?.moviesNominated ?? 0}
-        />
-      </View>
-
-      {/* {state.index !== 2 && (
-        <IconButton
-          placeholder={!edition?.complete}
-          icon={edition?.hasVoted ? <IconTrophy /> : <IconInformation />}
-          variant={edition?.hasVoted ? 'brand' : 'container'}
-          onPress={() => navigation.navigate('awards')}
-        />
-      )} */}
-    </View>
-  )
-
   const leadingArea = <Blur style={[styles.footer, styles.leading]}>{tabs.map(renderTabs)}</Blur>
 
   const trailingArea = (
@@ -144,18 +98,18 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   return (
     <>
-      <LinearGradient
+      {/* <LinearGradient
         colors={semantics.background.base.gradient as any}
         style={styles.gradientTop}
-      />
+      /> */}
       <LinearGradient
         colors={semantics.background.base.gradient.toReversed() as any}
         style={styles.gradientBottom}
       />
-      {header}
+      {/* {header} */}
 
-      {leadingArea}
-      {trailingArea}
+      {/* {leadingArea}
+      {trailingArea} */}
     </>
   )
 }

@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import EmptyState from '@components/empty_state'
+import Header from '@components/header'
 import MovieSlider from '@components/movie_slider'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
-import useAnimations from '@providers/animations/useAnimations'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { TabType } from '@router/types'
@@ -16,7 +17,7 @@ import { TabType } from '@router/types'
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t, i18n } = useTranslation()
   const { edition, spoilers } = useSettings()
-  const { onScrollMovies, moviesRef } = useAnimations()
+  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
 
   const styles = useStyles()
   const { semantics } = useTheme()
@@ -73,36 +74,39 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   }
 
   return (
-    <MovieSlider
-      ListEmptyComponent={emptyState}
-      ref={moviesRef}
-      onScroll={onScrollMovies}
-      data={movies.map((movie) => ({
-        watched: movie.watched,
-        spoiler: spoilers.hidePoster,
-        title: movie.title,
-        image: `https://image.tmdb.org/t/p/w300${movie.posterPath}`,
-        description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
-        bottomArea:
-          movie.friends_who_watched.length > 0 ? (
-            <View style={styles.bottomArea}>
-              <Typography legend>{t('movies:watched_by')}</Typography>
-              <FlatList
-                alwaysBounceHorizontal={false}
-                horizontal
-                data={movie.friends_who_watched}
-                renderItem={({ item }) => (
-                  <TinyAvatar
-                    image={item.imageURL}
-                    label={item.name}
-                  />
-                )}
-              />
-            </View>
-          ) : undefined,
-        onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
-      }))}
-    />
+    <>
+      <Header animatedStyle={animatedStyle} />
+      <MovieSlider
+        ListEmptyComponent={emptyState}
+        ref={ref}
+        onScroll={onScroll}
+        data={movies.map((movie) => ({
+          watched: movie.watched,
+          spoiler: spoilers.hidePoster,
+          title: movie.title,
+          image: `https://image.tmdb.org/t/p/w300${movie.posterPath}`,
+          description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
+          bottomArea:
+            movie.friends_who_watched.length > 0 ? (
+              <View style={styles.bottomArea}>
+                <Typography legend>{t('movies:watched_by')}</Typography>
+                <FlatList
+                  alwaysBounceHorizontal={false}
+                  horizontal
+                  data={movie.friends_who_watched}
+                  renderItem={({ item }) => (
+                    <TinyAvatar
+                      image={item.imageURL}
+                      label={item.name}
+                    />
+                  )}
+                />
+              </View>
+            ) : undefined,
+          onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
+        }))}
+      />
+    </>
   )
 }
 

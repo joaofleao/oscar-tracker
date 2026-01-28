@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Platform } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown, FadeInRight, FadeOutDown, FadeOutUp } from 'react-native-reanimated'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
-import { BlurView } from 'expo-blur'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Blur from '@components/blur'
 import Caroussel from '@components/caroussel'
 import { IconX } from '@components/icon'
 import IconButton from '@components/icon_button'
@@ -18,6 +18,7 @@ import Section from '@components/section'
 import SmallCard from '@components/small_card'
 import { TinyPlus } from '@components/tiny_icon'
 import Typography from '@components/typography'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
@@ -32,6 +33,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   const results = useQuery(api.oscars.search, { name, editionId: edition?._id, language: i18n.language })
   const startFollowing = useMutation(api.user.startFollowing)
   const { isAuthenticated } = useConvexAuth()
+  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const [loading, setLoading] = useState(false)
 
@@ -50,10 +52,9 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   }
 
   const header = (
-    <BlurView
-      collapsable={false}
-      intensity={8}
-      style={styles.header}
+    <Blur
+      style={[styles.header]}
+      animatedStyle={animatedStyle}
     >
       <Typography center>{t('search:title')}</Typography>
 
@@ -80,12 +81,14 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
             setName(undefined)
           }}
         />
-        <IconButton
-          onPress={navigation.goBack}
-          icon={<IconX />}
-        />
+        {Platform.OS === 'ios' && (
+          <IconButton
+            onPress={navigation.goBack}
+            icon={<IconX />}
+          />
+        )}
       </Row>
-    </BlurView>
+    </Blur>
   )
 
   const noResultsState = (
@@ -104,7 +107,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
       entering={FadeInDown}
       exiting={FadeOutUp}
     >
-      <ActivityIndicator color={semantics.brand.foreground.default} />
+      <ActivityIndicator color={semantics.container.foreground.default} />
     </Animated.View>
   )
 
@@ -127,9 +130,10 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
     <>
       {header}
       <ScrollView
-        keyboardShouldPersistTaps="always"
-        style={[styles.root]}
-        contentContainerStyle={[styles.content]}
+        onScroll={onScroll}
+        automaticallyAdjustKeyboardInsets
+        style={styles.root}
+        contentContainerStyle={styles.content}
       >
         {loading && loadingState}
         {!loading && name === undefined && emptyState}

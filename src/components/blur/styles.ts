@@ -4,6 +4,8 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  android: ViewStyle
+  blur: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -11,16 +13,21 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      // borderRadius: 12,
-      // borderWidth: 1,
-      // borderColor: semantics.container.stroke.default,
-      // backgroundColor: semantics.container.base.default,
-      // flexDirection: 'row',
-      // overflow: 'hidden',
-      // width: 96,
-      // height: 96,
-      // justifyContent: 'center',
-      // alignItems: 'center',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+
+      opacity: 0,
+      backgroundColor: semantics.background.base.tint,
+    },
+    android: {
+      backgroundColor: semantics.background.base.darken,
+    },
+    blur: {
+      width: '100%',
+      height: '100%',
     },
   })
 }

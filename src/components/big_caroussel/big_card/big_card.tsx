@@ -1,7 +1,7 @@
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, Pressable, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
+import { BlurTargetView, BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { BigCardProps } from './types'
@@ -23,36 +23,47 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
     }
 
     const inputRange = [(index - 1) * (CARD_WIDTH + CARD_SPACING), index * (CARD_WIDTH + CARD_SPACING), (index + 1) * (CARD_WIDTH + CARD_SPACING)]
-    const scale = interpolate(scrollX.value, inputRange, [0.85, 1.15, 0.85], Extrapolation.CLAMP)
+    const scale = interpolate(scrollX.value, inputRange, [0.75, 1, 0.75], Extrapolation.CLAMP)
     return { transform: [{ scale }] }
   })
 
+  const something = React.useRef(null)
+
   return (
-    <Animated.View style={animatedStyle}>
-      <TouchableOpacity
+    <Animated.View style={Platform.OS === 'ios' ? animatedStyle : undefined}>
+      <Pressable
         style={styles.root}
         {...props}
       >
         {hasImage && (
           <View style={[styles.container, winner && styles.winner]}>
-            <Image
-              source={{ uri: image }}
-              style={styles.image}
-            />
+            <BlurTargetView ref={something}>
+              <Image
+                source={{ uri: image }}
+                style={styles.image}
+              />
+            </BlurTargetView>
+
             {!watched && (
               <BlurView
-                style={styles.spoiler}
-                intensity={spoiler && !watched ? 20 : 0}
+                blurTarget={something}
+                style={styles.blur}
+                blurReductionFactor={10}
+                intensity={spoiler && !watched ? 40 : 0}
+                tint="dark"
+                blurMethod="dimezisBlurView"
               >
-                <IconLocket
-                  color={semantics.container.foreground.light}
-                  size={16}
-                />
+                <View style={styles.spoiler}>
+                  <IconLocket
+                    color={semantics.container.foreground.default}
+                    size={16}
+                  />
+                </View>
               </BlurView>
             )}
           </View>
         )}
-      </TouchableOpacity>
+      </Pressable>
     </Animated.View>
   )
 }

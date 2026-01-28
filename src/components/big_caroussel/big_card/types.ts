@@ -1,7 +1,7 @@
-import { TouchableOpacityProps } from 'react-native'
+import { PressableProps } from 'react-native'
 import { SharedValue } from 'react-native-reanimated'
 
-export interface BigCardProps extends TouchableOpacityProps {
+export interface BigCardProps extends PressableProps {
   image?: string
   index: number
   scrollX?: SharedValue<number>

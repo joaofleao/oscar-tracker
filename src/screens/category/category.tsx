@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, View } from 'react-native'
+import { Alert, Platform, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import ReorderableList, { ReorderableListProps } from 'react-native-reorderable-list'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
@@ -7,12 +8,16 @@ import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Blur from '@components/blur'
 import Button from '@components/button'
 import DraggableListItem from '@components/dragable_list_item'
 import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
 import IconButton from '@components/icon_button'
 import ListItem, { ListItemProps } from '@components/list_item'
+import Row from '@components/row/row'
+import TinyChevron from '@components/tiny_icon/scripts/tiny-chevron'
 import Typography from '@components/typography'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
@@ -28,6 +33,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const rankNominations = useMutation(api.oscars.rankNomination)
   const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
+  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const data = useQuery(api.oscars.getNominationsByCategory, {
     editionId: edition?._id,
@@ -88,12 +94,6 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
 
   if (!data) return <></>
 
-  const header = (
-    <View style={styles.header}>
-      <Typography center>{data.category.name}</Typography>
-    </View>
-  )
-
   const overlapingProps = (item: Nomination, index: number): ListItemProps => ({
     id: item.nominationId,
     title: item.title,
@@ -129,12 +129,32 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
 
   return (
     <>
+      <Blur
+        style={[styles.header]}
+        animatedStyle={animatedStyle}
+      >
+        <Row
+          middle
+          between
+        >
+          <IconButton
+            placeholder={Platform.OS === 'ios'}
+            icon={<TinyChevron orientation="left" />}
+            onPress={navigation.goBack}
+          />
+          <Typography>{data.category.name}</Typography>
+          <IconButton
+            placeholder
+            icon={<TinyChevron />}
+          />
+        </Row>
+      </Blur>
       <ReorderableList
+        onScroll={(e) => console.log(e)}
         onReorder={handleReorder}
-        style={styles.watched}
-        contentContainerStyle={styles.watchedContent}
+        style={styles.root}
+        contentContainerStyle={styles.content}
         data={localNominations}
-        ListHeaderComponent={header}
         ItemSeparatorComponent={() => <View style={styles.gap} />}
         renderItem={({ item, index }) => {
           if (edition?.complete && distanceFromNow > 0)

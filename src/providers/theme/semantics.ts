@@ -47,6 +47,7 @@ const semantics = {
       default: color(primitives.neutral[0], 1),
       inverse: color(primitives.neutral[95], 1),
       tint: color(primitives.neutral[0], 0.6),
+      darken: color(primitives.neutral[0], 0.9),
       gradient: [hslaToRGBa(color(primitives.neutral[0], 1)), hslaToRGBa(color(primitives.neutral[0], 0.6)), hslaToRGBa(color(primitives.neutral[0], 0.2)), hslaToRGBa(color(primitives.neutral[0], 0.0))],
     },
     foreground: {
@@ -64,6 +65,7 @@ const semantics = {
       original: color(primitives.neutral[5], 1),
       default: color(primitives.neutral[5], 0.7),
       pressed: color(primitives.neutral[15], 0.7),
+      gradient: [hslaToRGBa(color(primitives.neutral[5], 1)), hslaToRGBa(color(primitives.neutral[5], 0.6)), hslaToRGBa(color(primitives.neutral[5], 0.2)), hslaToRGBa(color(primitives.neutral[5], 0.0))],
     },
     foreground: {
       default: color(primitives.neutral[95], 1),

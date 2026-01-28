@@ -1,4 +1,4 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import useTheme from '@providers/theme/useTheme'
@@ -7,27 +7,25 @@ type StylesReturn = {
   scroll: ViewStyle
   scrollContent: ViewStyle
   content: ViewStyle
-  buttons: ViewStyle
   logo: ViewStyle
   logoText: TextStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { bottom, right, left } = useSafeAreaInsets()
+  const { bottom, right, left, top } = useSafeAreaInsets()
   const { fonts } = useTheme()
 
   return StyleSheet.create({
     scroll: {
-      paddingBottom: bottom,
-      paddingTop: 40,
+      paddingTop: Platform.OS === 'android' ? top + 20 : 40,
       paddingRight: right + 20,
       paddingLeft: left + 20,
+      paddingBottom: bottom,
     },
     scrollContent: {
       gap: 20,
       alignItems: 'center',
     },
-
     content: {
       gap: 20,
       minWidth: '80%',
@@ -39,18 +37,6 @@ const useStyles = (): StylesReturn => {
     },
     logoText: {
       fontFamily: fonts.quaternary.light,
-    },
-
-    buttons: {
-      paddingTop: 40,
-      gap: 12,
-      alignItems: 'center',
-    },
-
-    footer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: 12,
     },
   })
 }

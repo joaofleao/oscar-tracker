@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, ScrollView, View } from 'react-native'
+import { Alert, Platform, ScrollView, View } from 'react-native'
 import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
@@ -10,6 +10,7 @@ import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 import packageJson from '../../../package.json'
 import useStyles from './styles'
 import Avatar from '@components/avatar'
+import Blur from '@components/blur'
 import Button from '@components/button'
 import { IconBroom, IconDoor, IconImages, IconTrash } from '@components/icon'
 import IconButton from '@components/icon_button'
@@ -20,6 +21,7 @@ import Section from '@components/section'
 import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
+import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
@@ -29,6 +31,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { semantics } = useTheme()
   const { spoilers, setSpoilers, language, setLanguage } = useSettings()
+  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const { signOut } = useAuthActions()
   const user = useQuery(api.user.getCurrentUser)
@@ -116,23 +119,32 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   return (
     <>
-      <ScrollView
-        contentContainerStyle={styles.root}
-        alwaysBounceVertical={false}
+      <Blur
+        style={styles.header}
+        animatedStyle={animatedStyle}
       >
-        <View style={styles.header}>
+        <Row
+          middle
+          between
+        >
           <IconButton
+            placeholder={Platform.OS === 'ios'}
             icon={<TinyChevron orientation="left" />}
             onPress={navigation.goBack}
           />
           <Typography>{t('settings:settings')}</Typography>
           <IconButton
-            style={styles.hide}
-            icon={<TinyChevron orientation="left" />}
-            onPress={navigation.goBack}
+            placeholder
+            icon={<TinyChevron />}
           />
-        </View>
+        </Row>
+      </Blur>
 
+      <ScrollView
+        onScroll={onScroll}
+        style={styles.root}
+        contentContainerStyle={styles.content}
+      >
         <Authenticated>
           <View style={styles.avatarContainer}>
             <Avatar

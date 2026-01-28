@@ -121,11 +121,11 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           style={styles.backdropImage}
         />
         <LinearGradient
-          colors={semantics.background.base.gradient as any}
+          colors={semantics.container.base.gradient as any}
           style={[styles.backdropGradient, styles.backdropGradientTop]}
         />
         <LinearGradient
-          colors={semantics.background.base.gradient.toReversed() as any}
+          colors={semantics.container.base.gradient.toReversed() as any}
           style={styles.backdropGradient}
         />
         {movie.originCountry?.some((e) => e.code === 'BR') && (
@@ -138,8 +138,10 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
         )}
       </View>
-
-      <ScrollView contentContainerStyle={styles.root}>
+      <ScrollView
+        style={styles.root}
+        contentContainerStyle={styles.content}
+      >
         <View style={styles.main}>
           <View style={styles.posterContainer}>
             <IconButton

@@ -8,7 +8,7 @@ type StylesReturn = {
   headerBackground: ViewStyle
   headerBlur: ViewStyle
   headerContent: ViewStyle
-  hide: ViewStyle
+
   footer: ViewStyle
   leading: ViewStyle
   trailing: ViewStyle
@@ -20,13 +20,9 @@ const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
   const { bottom, left, right, top } = useSafeAreaInsets()
   return StyleSheet.create({
-    hide: {
-      // opacity: 0,
-    },
     headerContent: {
       flex: 1,
       alignItems: 'center',
-      backgroundColor: 'rgba(0,0,0,.3)',
     },
     header: {
       position: 'absolute',
@@ -45,7 +41,6 @@ const useStyles = (): StylesReturn => {
       right: 0,
       bottom: 0,
       position: 'absolute',
-      backgroundColor: semantics.background.base.tint,
     },
     headerBlur: {
       height: '100%',
@@ -60,7 +55,6 @@ const useStyles = (): StylesReturn => {
       zIndex: 10,
       bottom: bottom,
       flexDirection: 'row',
-      backgroundColor: semantics.background.base.tint,
       borderColor: semantics.container.stroke.default,
     },
 

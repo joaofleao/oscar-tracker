@@ -196,7 +196,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
           value={password}
           onChangeText={setPassword}
         />
-        <View style={styles.buttons}>
+        <Column middle>
           <Button
             variant="ghost"
             small
@@ -213,7 +213,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
             title={t('auth:sign_in')}
             onPress={handleSignIn}
           />
-        </View>
+        </Column>
       </View>
     </>
   )

@@ -1,6 +1,5 @@
-import { StyleSheet, ViewStyle } from 'react-native'
-
-import { useTheme } from '@providers/theme'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
   root: ViewStyle
@@ -11,12 +10,16 @@ type StylesReturn = {
 }
 
 const useStyles = (): StylesReturn => {
-  const { semantics } = useTheme()
+  const { bottom, top, left, right } = useSafeAreaInsets()
 
   return StyleSheet.create({
     root: {
       overflow: 'visible',
       paddingHorizontal: 20,
+      paddingTop: 20,
+      paddingRight: right + 20,
+      paddingLeft: left + 20,
+      marginBottom: bottom,
     },
     content: {
       gap: 12,
@@ -24,16 +27,14 @@ const useStyles = (): StylesReturn => {
     empty: {
       gap: 12,
       justifyContent: 'center',
-      paddingVertical: 20,
     },
     input: {
       flex: 1,
     },
     header: {
+      paddingTop: Platform.OS === 'android' ? top + 20 : 20,
       padding: 20,
       gap: 20,
-      backgroundColor: semantics.container.base.default,
-      width: '100%',
       zIndex: 1,
     },
   })

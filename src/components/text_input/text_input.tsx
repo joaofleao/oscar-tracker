@@ -96,7 +96,7 @@ const TextInput = ({ value, button, onChangeText, onDebouncedText, success, load
         >
           <ActivityIndicator
             size="small"
-            color={semantics.brand.foreground.default}
+            color={semantics.container.foreground.default}
             style={{ transform: [{ scale: 0.8 }] }}
           />
         </Animated.View>
