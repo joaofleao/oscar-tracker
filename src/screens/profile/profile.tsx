@@ -57,6 +57,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
         </View>
       </Authenticated>
       <Button
+        variant="ghost"
         icon={<IconSettings />}
         title={t('profile:settings')}
         onPress={() => navigation.navigate('settings')}

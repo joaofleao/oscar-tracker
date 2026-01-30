@@ -80,10 +80,20 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     )
   }
 
-  const leadingArea = <Blur style={styles.footerContainer}>{tabs.map(renderTabs)}</Blur>
+  const leadingArea = (
+    <Blur
+      variant="background"
+      style={styles.footerContainer}
+    >
+      {tabs.map(renderTabs)}
+    </Blur>
+  )
 
   const trailingArea = (
-    <Blur style={[styles.footerContainer]}>
+    <Blur
+      style={[styles.footerContainer]}
+      variant="background"
+    >
       <NavBarItem
         onPress={() => navigation.navigate('search')}
         icon={<IconMagnifyingGlass size={24} />}
