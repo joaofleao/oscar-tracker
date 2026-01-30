@@ -18,7 +18,7 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      overflow: 'visible',
+      // overflow: 'visible',
       paddingBottom: bottom + 20,
       paddingRight: right + 20,
       paddingLeft: left + 20,
@@ -43,8 +43,8 @@ const useStyles = (): StylesReturn => {
 
     header: {
       marginTop: Platform.OS === 'android' ? 20 + top : 0,
+      alignItems: 'center',
       padding: 20,
-      zIndex: 1,
     },
 
     footer: {

@@ -3,7 +3,7 @@ import { interpolate, useAnimatedStyle, useSharedValue } from 'react-native-rean
 
 export interface useHeaderAnimationProps {
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-  animatedStyle: object
+  animation: object
 }
 
 const useHeaderAnimation = (): useHeaderAnimationProps => {
@@ -13,13 +13,13 @@ const useHeaderAnimation = (): useHeaderAnimationProps => {
     scrollY.set(event.nativeEvent.contentOffset.y)
   }
 
-  const animatedStyle = useAnimatedStyle(() => {
+  const animation = useAnimatedStyle(() => {
     const opacity = interpolate(scrollY.value, [0, 60], [0, 1])
     return { opacity: opacity }
   })
   return {
     onScroll,
-    animatedStyle,
+    animation,
   }
 }
 

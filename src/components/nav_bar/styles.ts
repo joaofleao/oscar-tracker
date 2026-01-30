@@ -10,8 +10,7 @@ type StylesReturn = {
   headerContent: ViewStyle
 
   footer: ViewStyle
-  leading: ViewStyle
-  trailing: ViewStyle
+  footerContainer: ViewStyle
   gradientTop: ViewStyle
   gradientBottom: ViewStyle
 }
@@ -47,23 +46,22 @@ const useStyles = (): StylesReturn => {
       width: '100%',
     },
     footer: {
-      alignSelf: 'center',
-      borderWidth: 1,
-      borderRadius: 30,
       position: 'absolute',
-      overflow: 'hidden',
-      zIndex: 10,
       bottom: bottom,
+      left: 20,
+      right: 20,
+      justifyContent: 'space-between',
       flexDirection: 'row',
+      alignItems: 'center',
+    },
+    footerContainer: {
+      flexDirection: 'row',
+
+      borderWidth: 1,
       borderColor: semantics.container.stroke.default,
+      borderRadius: 30,
     },
 
-    leading: {
-      left: left + 20,
-    },
-    trailing: {
-      right: right + 20,
-    },
     gradientTop: {
       pointerEvents: 'none',
       position: 'absolute',

@@ -19,7 +19,7 @@ const useStyles = (): StylesReturn => {
       width: '100%',
     },
     content: {
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
       borderRadius: 8,

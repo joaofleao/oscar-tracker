@@ -21,7 +21,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
     root: {
       position: 'relative',
       borderRadius: 20,
-      backgroundColor: semantics[variant].base.default,
+      backgroundColor: semantics[variant].base.tint,
       borderColor: semantics[variant].stroke.default,
       borderWidth: 1,
     },

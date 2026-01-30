@@ -27,7 +27,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
 
       borderRadius: 12,
       borderWidth: 1,
-      backgroundColor: semantics[variant].base.default,
+      backgroundColor: semantics[variant].base.tint,
       borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
     },
@@ -64,7 +64,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
 
     tooltip: {
       padding: 12,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       borderRadius: 8,

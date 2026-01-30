@@ -19,7 +19,7 @@ const useStyles = (): StylesReturn => {
     root: {
       flexDirection: 'row',
 
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       alignItems: 'center',

@@ -8,13 +8,13 @@ type StylesReturn = {
 }
 
 const useStyles = (): StylesReturn => {
-  const { top, bottom, right, left } = useSafeAreaInsets()
+  const { bottom, right, left } = useSafeAreaInsets()
 
   return StyleSheet.create({
     root: {
       overflow: 'visible',
       paddingTop: 20,
-      paddingBottom: bottom + 40,
+      marginBottom: bottom + 40,
       paddingRight: right + 20,
       paddingLeft: left + 20,
     },

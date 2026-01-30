@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Alert, Linking, TouchableOpacity, View } from 'react-native'
-import Animated from 'react-native-reanimated'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -10,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import packageJson from '../../../package.json'
 import useStyles from './styles'
 import { HeaderProps } from './types'
-import Blur from '@components/blur'
+import HeaderBlur from '@components/header_blur'
 import ProgressBar from '@components/progress_bar'
 import Typography from '@components/typography'
 import { useSettings } from '@providers/settings'
@@ -18,7 +17,7 @@ import { useTheme } from '@providers/theme'
 import { useNavigation } from '@react-navigation/native'
 import { ordinal } from '@utils/ordinals'
 
-const Header = ({ animatedStyle }: HeaderProps): React.ReactElement => {
+const Header = ({ animation }: HeaderProps): React.ReactElement => {
   const styles = useStyles()
   const navigation = useNavigation()
   const { semantics } = useTheme()
@@ -63,37 +62,41 @@ const Header = ({ animatedStyle }: HeaderProps): React.ReactElement => {
         colors={semantics.background.base.gradient as any}
         style={styles.gradient}
       />
-      <View style={styles.root}>
-        <Animated.View style={[styles.background, animatedStyle]}>
-          <Blur style={styles.blur} />
-        </Animated.View>
+      <HeaderBlur
+        // style={styles.blur}
+        animation={animation}
+        variant="background"
+      >
+        <View style={styles.root}>
+          {/* <Animated.View style={[styles.background, animation]}> */}
+          {/* </Animated.View> */}
 
-        <View style={styles.content}>
-          <TouchableOpacity onPress={() => navigation.navigate('select_edition' as never)}>
-            <Typography
-              center
-              color={semantics.accent.base.default}
-            >
-              academy tracker
-            </Typography>
-
-            {editions.length > 0 && (
+          <View style={styles.content}>
+            <TouchableOpacity onPress={() => navigation.navigate('select_edition' as never)}>
               <Typography
                 center
-                legend
-                color={semantics.background.foreground.light}
+                color={semantics.accent.base.default}
               >
-                {`${ordinal(edition?.number ?? 0, i18n.language, true)} ${t('home:edition')} - ${edition?.year}`}
+                academy tracker
               </Typography>
-            )}
-          </TouchableOpacity>
-          <ProgressBar
-            value={edition?.moviesWatched ?? 0}
-            maxValue={edition?.moviesNominated ?? 0}
-          />
-        </View>
 
-        {/* {state.index !== 2 && (
+              {editions.length > 0 && (
+                <Typography
+                  center
+                  legend
+                  color={semantics.background.foreground.light}
+                >
+                  {`${ordinal(edition?.number ?? 0, i18n.language, true)} ${t('home:edition')} - ${edition?.year}`}
+                </Typography>
+              )}
+            </TouchableOpacity>
+            <ProgressBar
+              value={edition?.moviesWatched ?? 0}
+              maxValue={edition?.moviesNominated ?? 0}
+            />
+          </View>
+
+          {/* {state.index !== 2 && (
         <IconButton
         placeholder={!edition?.complete}
         icon={edition?.hasVoted ? <IconTrophy /> : <IconInformation />}
@@ -101,7 +104,8 @@ const Header = ({ animatedStyle }: HeaderProps): React.ReactElement => {
         onPress={() => navigation.navigate('awards')}
         />
         )} */}
-      </View>
+        </View>
+      </HeaderBlur>
     </>
   )
 }

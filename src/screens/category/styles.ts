@@ -5,6 +5,7 @@ type StylesReturn = {
   header: ViewStyle
   root: ViewStyle
   content: ViewStyle
+  contentCompensation: ViewStyle
 
   gap: ViewStyle
   footer: ViewStyle
@@ -15,17 +16,19 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     header: {
-      paddingTop: Platform.OS === 'android' ? top + 20 : 20,
+      marginTop: Platform.OS === 'android' ? 20 + top : 0,
+      alignItems: 'center',
       padding: 20,
-      gap: 20,
-      zIndex: 1,
     },
     root: {
-      overflow: 'visible',
+      paddingTop: 8,
       paddingRight: right + 20,
       paddingLeft: left + 20,
     },
     content: {
+      paddingBottom: bottom,
+    },
+    contentCompensation: {
       paddingBottom: bottom + 20 + 40 + 20,
     },
 

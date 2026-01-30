@@ -23,7 +23,7 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
   const { semantics } = useTheme()
   const styles = useStyles({
     sidePadding,
-    minHeight: SCREEN_HEIGHT * 0.65,
+    height: SCREEN_HEIGHT * 0.65,
     cardSpacing: CARD_SPACING,
   })
 
@@ -89,7 +89,7 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
         {nominations.map((el, index) => (
           <Animated.Image
             key={el.title}
-            blurRadius={5}
+            blurRadius={8}
             source={{ uri: `https://image.tmdb.org/t/p/w200${el.image}` }}
             style={[styles.backgroundImage, index === activeElement ? styles.backgroundImageActive : styles.backgroundImageInactive]}
           />

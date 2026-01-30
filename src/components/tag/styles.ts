@@ -21,7 +21,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       paddingVertical: 4,
       borderRadius: 8,
       borderWidth: 1,
-      backgroundColor: semantics[variant].base.default,
+      backgroundColor: semantics[variant].base.tint,
       borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
       flexDirection: 'row',

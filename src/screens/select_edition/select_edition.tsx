@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import Blur from '@components/blur'
 import Button from '@components/button'
 import Typography from '@components/typography'
-import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { ScreenType } from '@router/types'
 import { ordinal } from '@utils/ordinals'
@@ -16,7 +15,6 @@ const ITEM_HEIGHT = 42 // Adjust based on your Button height
 const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
-  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const { editions, edition, setEdition } = useSettings()
   const flatlistRef = useRef<FlatList>(null)
@@ -42,15 +40,12 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   }, [options, edition])
 
   return (
-    <View>
-      <Blur
-        style={styles.header}
-        animatedStyle={animatedStyle}
-      >
+    <>
+      <Blur style={styles.header}>
         <Typography center>{t('select_edition:select_edition')}</Typography>
       </Blur>
+
       <FlatList
-        onScroll={onScroll}
         nestedScrollEnabled
         ref={flatlistRef}
         style={styles.scroll}
@@ -58,7 +53,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
         renderItem={({ item }) => (
           <Button
             title={item.name}
-            variant={item.selected ? 'brand' : 'container'}
+            variant={item.selected ? 'brand' : 'ghost'}
             onPress={(): void => {
               setEdition(item.id)
               navigation.goBack()
@@ -72,7 +67,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
           index,
         })}
       />
-    </View>
+    </>
   )
 }
 

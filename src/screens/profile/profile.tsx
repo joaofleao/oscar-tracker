@@ -22,7 +22,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const { t } = useTranslation()
 
   const { isAuthenticated, isLoading } = useConvexAuth()
-  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
+  const { onScroll, animation } = useHeaderAnimation()
   const startFollowing = useMutation(api.user.startFollowing)
   const stopFollowing = useMutation(api.user.stopFollowing)
 
@@ -94,7 +94,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const renderFollowing = (
     <FlatList
       onScroll={onScroll}
-      ref={ref}
       ListHeaderComponent={header}
       ListEmptyComponent={
         <Authenticated>
@@ -131,7 +130,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const renderFollowers = (
     <FlatList
       onScroll={onScroll}
-      ref={ref}
       ListHeaderComponent={header}
       ListEmptyComponent={
         <Authenticated>
@@ -167,7 +165,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   return (
     <>
-      <Header animatedStyle={animatedStyle} />
+      <Header animation={animation} />
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
     </>

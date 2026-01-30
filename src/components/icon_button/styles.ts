@@ -25,7 +25,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       alignSelf: 'flex-start',
 
       borderColor: semantics[variant].stroke.default,
-      backgroundColor: semantics[variant].base.default,
+      backgroundColor: semantics[variant].base.tint,
       flexDirection: 'row',
       gap: 8,
     },

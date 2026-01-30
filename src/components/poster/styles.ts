@@ -23,7 +23,7 @@ const useStyles = (): StylesReturn => {
     image: {
       width: '100%',
       height: '100%',
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
     },
 
     spoiler: {

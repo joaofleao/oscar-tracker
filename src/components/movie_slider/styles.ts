@@ -3,7 +3,6 @@ import { StyleSheet, ViewStyle } from 'react-native'
 type StylesReturn = {
   root: ViewStyle
   list: ViewStyle
-  listActive: ViewStyle
   listContent: ViewStyle
   chevron: ViewStyle
 }
@@ -16,25 +15,21 @@ type StyleParams = {
 const useStyles = ({ height, spacing }: StyleParams): StylesReturn => {
   return StyleSheet.create({
     root: {
+      marginVertical: 40,
       position: 'relative',
-      height,
-      paddingVertical: 20,
-      overflow: 'visible',
     },
     list: {
+      height,
       overflow: 'visible',
     },
-    listActive: {
-      marginBottom: -height,
-    },
     listContent: {
-      gap: spacing,
       paddingHorizontal: 40,
+      gap: spacing,
     },
     chevron: {
       position: 'absolute',
       left: 8,
-      top: height - 12,
+      top: height / 2 - 12,
     },
   })
 }

@@ -19,7 +19,7 @@ const useStyles = (): StylesReturn => {
       borderWidth: 1,
       width: '100%',
       borderRadius: 12,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       flexDirection: 'row',
       alignItems: 'center',
     },

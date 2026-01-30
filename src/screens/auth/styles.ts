@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { Dimensions, Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import useTheme from '@providers/theme/useTheme'
@@ -33,7 +33,9 @@ const useStyles = (): StylesReturn => {
     logo: {
       alignItems: 'center',
       gap: 8,
-      paddingVertical: 20,
+
+      minHeight: Dimensions.get('window').height * 0.3,
+      justifyContent: 'center',
     },
     logoText: {
       fontFamily: fonts.quaternary.light,

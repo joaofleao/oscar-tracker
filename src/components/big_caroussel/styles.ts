@@ -17,11 +17,11 @@ type StylesReturn = {
 
 type StyleParams = {
   sidePadding: number
-  minHeight: number
+  height: number
   cardSpacing: number
 }
 
-const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): StylesReturn => {
+const useStyles = ({ sidePadding, height, cardSpacing }: StyleParams): StylesReturn => {
   return StyleSheet.create({
     backgroundContainer: {
       zIndex: -1,
@@ -63,7 +63,6 @@ const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): Styles
     },
 
     container: {
-      minHeight,
       paddingBottom: 20,
       marginHorizontal: -20,
     },
@@ -85,6 +84,7 @@ const useStyles = ({ sidePadding, minHeight, cardSpacing }: StyleParams): Styles
       alignItems: 'center',
       gap: 8,
       paddingHorizontal: 16,
+      minHeight: 200,
     },
 
     infoTextContainer: {

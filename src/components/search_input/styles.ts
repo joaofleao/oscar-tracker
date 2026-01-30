@@ -16,7 +16,7 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       borderColor: semantics.container.stroke.default,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
       width: '100%',
       borderRadius: 12,

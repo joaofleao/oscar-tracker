@@ -14,7 +14,6 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      overflow: 'visible',
       paddingHorizontal: 20,
       paddingTop: 20,
       paddingRight: right + 20,
@@ -35,7 +34,6 @@ const useStyles = (): StylesReturn => {
       paddingTop: Platform.OS === 'android' ? top + 20 : 20,
       padding: 20,
       gap: 20,
-      zIndex: 1,
     },
   })
 }

@@ -18,7 +18,6 @@ import Section from '@components/section'
 import SmallCard from '@components/small_card'
 import { TinyPlus } from '@components/tiny_icon'
 import Typography from '@components/typography'
-import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
@@ -33,7 +32,6 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   const results = useQuery(api.oscars.search, { name, editionId: edition?._id, language: i18n.language })
   const startFollowing = useMutation(api.user.startFollowing)
   const { isAuthenticated } = useConvexAuth()
-  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const [loading, setLoading] = useState(false)
 
@@ -52,10 +50,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   }
 
   const header = (
-    <Blur
-      style={[styles.header]}
-      animatedStyle={animatedStyle}
-    >
+    <Blur style={[styles.header]}>
       <Typography center>{t('search:title')}</Typography>
 
       <Row>
@@ -130,7 +125,6 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
     <>
       {header}
       <ScrollView
-        onScroll={onScroll}
         automaticallyAdjustKeyboardInsets
         style={styles.root}
         contentContainerStyle={styles.content}

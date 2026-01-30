@@ -21,7 +21,6 @@ import Section from '@components/section'
 import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
-import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
@@ -31,7 +30,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { semantics } = useTheme()
   const { spoilers, setSpoilers, language, setLanguage } = useSettings()
-  const { onScroll, animatedStyle } = useHeaderAnimation()
 
   const { signOut } = useAuthActions()
   const user = useQuery(api.user.getCurrentUser)
@@ -119,29 +117,11 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   return (
     <>
-      <Blur
-        style={styles.header}
-        animatedStyle={animatedStyle}
-      >
-        <Row
-          middle
-          between
-        >
-          <IconButton
-            placeholder={Platform.OS === 'ios'}
-            icon={<TinyChevron orientation="left" />}
-            onPress={navigation.goBack}
-          />
-          <Typography>{t('settings:settings')}</Typography>
-          <IconButton
-            placeholder
-            icon={<TinyChevron />}
-          />
-        </Row>
+      <Blur style={styles.header}>
+        <Typography>{t('settings:settings')}</Typography>
       </Blur>
 
       <ScrollView
-        onScroll={onScroll}
         style={styles.root}
         contentContainerStyle={styles.content}
       >

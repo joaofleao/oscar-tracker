@@ -11,7 +11,6 @@ const useStyles = (): StylesReturn => {
   const { bottom, left, right } = useSafeAreaInsets()
   return StyleSheet.create({
     scroll: {
-      // zIndex: -1,
       // overflow: 'visible',
     },
     content: {
@@ -22,6 +21,8 @@ const useStyles = (): StylesReturn => {
     },
     header: {
       padding: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   })
 }

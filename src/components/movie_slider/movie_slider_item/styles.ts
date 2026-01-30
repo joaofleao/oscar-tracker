@@ -8,8 +8,11 @@ type StylesReturn = {
   content: ViewStyle
   spoiler: ViewStyle
 }
+type StylesProps = {
+  height?: number
+}
 
-const useStyles = (): StylesReturn => {
+const useStyles = ({ height }: StylesProps): StylesReturn => {
   const { semantics } = useTheme()
 
   return StyleSheet.create({
@@ -18,9 +21,10 @@ const useStyles = (): StylesReturn => {
       gap: 20,
     },
     image: {
+      height: height ?? 112,
       aspectRatio: 2 / 3,
       borderWidth: 1,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
     },
     content: {

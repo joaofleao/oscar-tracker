@@ -21,7 +21,7 @@ const useStyles = (): StylesReturn => {
       paddingHorizontal: 16,
       paddingTop: 8,
       borderWidth: 1,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
       overflow: 'hidden',
     },

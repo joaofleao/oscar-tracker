@@ -123,80 +123,80 @@ const Router = (): React.ReactNode => {
         barStyle={'light-content'}
       />
 
-      {/* <View
+      <View
         style={styles.container}
         onLayout={SplashScreen.hideAsync}
-      > */}
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: semantics.background.base.default,
-          },
-        }}
       >
-        <Stack.Screen name={'home'}>{renderTabs}</Stack.Screen>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: semantics.background.base.default,
+            },
+          }}
+        >
+          <Stack.Screen name={'home'}>{renderTabs}</Stack.Screen>
 
-        <Stack.Screen
-          name={'auth'}
-          component={Auth}
-          options={{
-            presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-            sheetAllowedDetents: 'fitToContents',
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
-        <Stack.Screen
-          name={'settings'}
-          component={Settings}
-          options={{
-            presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
-        <Stack.Screen
-          name={'movie'}
-          component={Movie}
-          options={{
-            presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
-        <Stack.Screen
-          name={'awards'}
-          component={Awards}
-        />
+          <Stack.Screen
+            name={'auth'}
+            component={Auth}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'settings'}
+            component={Settings}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'movie'}
+            component={Movie}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'awards'}
+            component={Awards}
+          />
 
-        <Stack.Screen
-          name={'select_edition'}
-          component={SelectEdition}
-          options={{
-            presentation: 'formSheet',
-            sheetAllowedDetents: [0.5],
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
-        <Stack.Screen
-          name={'search'}
-          component={Search}
-          options={{
-            presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-            sheetAllowedDetents: 'fitToContents',
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
+          <Stack.Screen
+            name={'select_edition'}
+            component={SelectEdition}
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: [0.5],
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'search'}
+            component={Search}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
 
-        <Stack.Screen
-          name={'category'}
-          component={Category}
-          options={{
-            presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-            sheetAllowedDetents: 'fitToContents',
-            contentStyle: { backgroundColor: semantics.container.base.original },
-          }}
-        />
-      </Stack.Navigator>
-      {/* </View> */}
+          <Stack.Screen
+            name={'category'}
+            component={Category}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+        </Stack.Navigator>
+      </View>
     </NavigationContainer>
   )
 }

@@ -30,7 +30,7 @@ const useStyles = (): StylesReturn => {
     },
 
     avatar: {
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       width: 120,
@@ -38,7 +38,7 @@ const useStyles = (): StylesReturn => {
       borderRadius: 60,
     },
     avatarPlaceholder: {
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       width: 120,
@@ -54,13 +54,13 @@ const useStyles = (): StylesReturn => {
 
     list: {
       overflow: 'visible',
-    },
-
-    content: {
       paddingTop: 20,
-      paddingBottom: bottom + 40,
+      marginBottom: bottom + 60,
       paddingRight: right + 20,
       paddingLeft: left + 20,
+    },
+    content: {
+      gap: 16,
     },
 
     gradient: {

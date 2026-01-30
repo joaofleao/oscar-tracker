@@ -22,7 +22,7 @@ const useStyles = (): StylesReturn => {
     codeContainer: {
       borderWidth: 1,
       borderRadius: 12,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
 
       height: 60,

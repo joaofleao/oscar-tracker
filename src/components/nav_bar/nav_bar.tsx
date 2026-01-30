@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { Alert, Linking, TouchableOpacity, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import { Alert, Linking, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -13,16 +12,12 @@ import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
 import Blur from '@components/blur'
 import { IconMagnifyingGlass } from '@components/icon'
-import ProgressBar from '@components/progress_bar'
-import Typography from '@components/typography'
-import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
-import { ordinal } from '@utils/ordinals'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
-  const { edition, editions } = useSettings()
+
   const { t, i18n } = useTranslation()
   const user = useQuery(api.user.getCurrentUser)
 
@@ -85,10 +80,10 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     )
   }
 
-  const leadingArea = <Blur style={[styles.footer, styles.leading]}>{tabs.map(renderTabs)}</Blur>
+  const leadingArea = <Blur style={styles.footerContainer}>{tabs.map(renderTabs)}</Blur>
 
   const trailingArea = (
-    <Blur style={[styles.footer, styles.trailing]}>
+    <Blur style={[styles.footerContainer]}>
       <NavBarItem
         onPress={() => navigation.navigate('search')}
         icon={<IconMagnifyingGlass size={24} />}
@@ -98,18 +93,15 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   return (
     <>
-      {/* <LinearGradient
-        colors={semantics.background.base.gradient as any}
-        style={styles.gradientTop}
-      /> */}
       <LinearGradient
         colors={semantics.background.base.gradient.toReversed() as any}
         style={styles.gradientBottom}
       />
-      {/* {header} */}
 
-      {/* {leadingArea}
-      {trailingArea} */}
+      <View style={styles.footer}>
+        {leadingArea}
+        {trailingArea}
+      </View>
     </>
   )
 }

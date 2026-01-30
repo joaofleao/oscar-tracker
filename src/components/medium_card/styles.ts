@@ -23,7 +23,7 @@ const useStyles = (): StylesReturn => {
       aspectRatio: 2 / 3,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
     },
     image: {
       width: '100%',

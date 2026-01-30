@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import Animated, { FadeInDown, interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { Image, TouchableOpacity, View } from 'react-native'
+import { FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
@@ -9,8 +9,8 @@ import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, isActive, ...props }: MovieSliderItemProps): React.ReactElement => {
-  const styles = useStyles()
+const MovieSliderItem = ({ height, title, description, image, spoiler, watched, bottomArea, isActive, ...props }: MovieSliderItemProps): React.ReactElement => {
+  const styles = useStyles({ height })
   const { semantics } = useTheme()
   const hasImage = image !== undefined
 
@@ -20,11 +20,6 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
     animationProgress.value = withTiming(isActive ? 1 : 0, { duration: 300 })
   }, [animationProgress, isActive])
 
-  const animatedImageStyle = useAnimatedStyle(() => {
-    const height = interpolate(animationProgress.value, [0, 1], [56, 112])
-    return { height }
-  })
-
   return (
     <TouchableOpacity
       style={styles.root}
@@ -32,9 +27,9 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
     >
       {hasImage && (
         <View>
-          <Animated.Image
+          <Image
             source={{ uri: image }}
-            style={[styles.image, animatedImageStyle]}
+            style={[styles.image]}
           />
           {!watched && (
             <BlurView
@@ -49,12 +44,18 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
           )}
         </View>
       )}
-      <Animated.View style={[styles.content, animatedImageStyle]}>
+      <View style={[styles.content]}>
         <View>
-          <Typography color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}>{title}</Typography>
+          <Typography
+            layout={LinearTransition}
+            color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}
+          >
+            {title}
+          </Typography>
+
           {isActive && description && (
             <Typography
-              entering={FadeInDown}
+              entering={FadeInUp.delay(100)}
               legend
               color={semantics.background.foreground.light}
             >
@@ -63,9 +64,9 @@ const MovieSlider = ({ title, description, image, spoiler, watched, bottomArea, 
           )}
         </View>
         {isActive && bottomArea}
-      </Animated.View>
+      </View>
     </TouchableOpacity>
   )
 }
 
-export default MovieSlider
+export default MovieSliderItem

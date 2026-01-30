@@ -18,7 +18,7 @@ const useStyles = (): StylesReturn => {
       borderRadius: 4,
       borderWidth: 1,
       height: 40,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
       aspectRatio: 2 / 3,
       overflow: 'hidden',

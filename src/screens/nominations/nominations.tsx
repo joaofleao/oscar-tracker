@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, FlatList, ListRenderItem } from 'react-native'
+import { ActivityIndicator, FlatList, ListRenderItem, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -20,7 +20,7 @@ import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const { spoilers, edition } = useSettings()
-  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
+  const { onScroll, animation } = useHeaderAnimation()
   const { semantics } = useTheme()
 
   const styles = useStyles()
@@ -121,15 +121,14 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
   return (
     <>
-      <Header animatedStyle={animatedStyle} />
+      <Header animation={animation} />
+      {nominations.length === 0 && emptyState()}
       <FlatList
-        ref={ref}
         onScroll={onScroll}
         style={styles.root}
         contentContainerStyle={styles.content}
         data={nominations}
         renderItem={renderCaroussel}
-        ListEmptyComponent={emptyState()}
       />
     </>
   )

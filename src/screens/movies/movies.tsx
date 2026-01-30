@@ -1,4 +1,5 @@
-import { ActivityIndicator, FlatList, View } from 'react-native'
+import { ActivityIndicator, FlatList } from 'react-native'
+import Animated, { FadeInUp } from 'react-native-reanimated'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +18,7 @@ import { TabType } from '@router/types'
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t, i18n } = useTranslation()
   const { edition, spoilers } = useSettings()
-  const { onScroll, ref, animatedStyle } = useHeaderAnimation()
+  const { onScroll, animation } = useHeaderAnimation()
 
   const styles = useStyles()
   const { semantics } = useTheme()
@@ -75,10 +76,9 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   return (
     <>
-      <Header animatedStyle={animatedStyle} />
+      <Header animation={animation} />
+      {movies.length === 0 && emptyState()}
       <MovieSlider
-        ListEmptyComponent={emptyState}
-        ref={ref}
         onScroll={onScroll}
         data={movies.map((movie) => ({
           watched: movie.watched,
@@ -88,7 +88,10 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
           bottomArea:
             movie.friends_who_watched.length > 0 ? (
-              <View style={styles.bottomArea}>
+              <Animated.View
+                style={styles.bottomArea}
+                entering={FadeInUp.delay(200)}
+              >
                 <Typography legend>{t('movies:watched_by')}</Typography>
                 <FlatList
                   alwaysBounceHorizontal={false}
@@ -101,7 +104,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
                     />
                   )}
                 />
-              </View>
+              </Animated.View>
             ) : undefined,
           onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
         }))}

@@ -4,8 +4,9 @@ import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  android: ViewStyle
   blur: ViewStyle
-  background: ViewStyle
+  floating: ViewStyle
 }
 type StylesProps = {
   variant: keyof SemanticsType
@@ -16,19 +17,28 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      overflow: 'hidden',
-    },
-    background: {
       position: 'absolute',
-      backgroundColor: semantics[variant].base.darken,
-      width: '100%',
-      height: '100%',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+
+      opacity: 1,
+      backgroundColor: semantics[variant].base.tint,
+    },
+    android: {
+      // backgroundColor: semantics.background.base.darken,
     },
     blur: {
-      position: 'absolute',
-      backgroundColor: semantics[variant].base.tint,
       width: '100%',
       height: '100%',
+    },
+    floating: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 10,
     },
   })
 }

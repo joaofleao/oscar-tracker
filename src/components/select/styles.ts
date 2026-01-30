@@ -35,7 +35,7 @@ const useStyles = (): StylesReturn => {
       fontSize: 16,
     },
     content: {
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
       borderRadius: 8,
@@ -79,7 +79,7 @@ const useStyles = (): StylesReturn => {
     },
 
     selectedItemContainer: {
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
     },
     separator: {
       height: 8,

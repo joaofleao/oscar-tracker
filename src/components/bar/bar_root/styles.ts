@@ -15,7 +15,7 @@ const useStyles = (): StylesReturn => {
       flexDirection: 'row',
       alignItems: 'center',
       gap: 12,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
       borderRadius: 12,

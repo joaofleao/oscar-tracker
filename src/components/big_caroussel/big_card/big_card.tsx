@@ -27,7 +27,7 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
     return { transform: [{ scale }] }
   })
 
-  const something = React.useRef(null)
+  const blurReference = React.useRef(null)
 
   return (
     <Animated.View style={Platform.OS === 'ios' ? animatedStyle : undefined}>
@@ -37,7 +37,7 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
       >
         {hasImage && (
           <View style={[styles.container, winner && styles.winner]}>
-            <BlurTargetView ref={something}>
+            <BlurTargetView ref={blurReference}>
               <Image
                 source={{ uri: image }}
                 style={styles.image}
@@ -46,7 +46,7 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
 
             {!watched && (
               <BlurView
-                blurTarget={something}
+                blurTarget={blurReference}
                 style={styles.blur}
                 blurReductionFactor={10}
                 intensity={spoiler && !watched ? 40 : 0}

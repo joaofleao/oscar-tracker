@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import Animated, { BounceIn } from 'react-native-reanimated'
 import { useReorderableDrag } from 'react-native-reorderable-list'
 
@@ -16,7 +15,7 @@ const DraggableListItem = ({ index, secondaryActions = [], mainAction, ...props 
   const { semantics } = useTheme()
 
   return (
-    <View style={styles.root}>
+    <Animated.View style={styles.root}>
       <ListItem
         {...props}
         secondaryActions={[{ icon: <TinyMove />, onPressIn: drag }, ...secondaryActions]}
@@ -33,7 +32,7 @@ const DraggableListItem = ({ index, secondaryActions = [], mainAction, ...props 
           <Typography color={semantics.accent.foreground.default}>{index}</Typography>
         </Animated.View>
       )}
-    </View>
+    </Animated.View>
   )
 }
 

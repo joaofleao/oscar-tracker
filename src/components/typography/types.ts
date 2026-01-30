@@ -21,4 +21,5 @@ export interface TypographyProps extends TextProps {
 
   entering?: AnimatedProps<Text>['entering']
   exiting?: AnimatedProps<Text>['exiting']
+  layout?: AnimatedProps<Text>['layout']
 }

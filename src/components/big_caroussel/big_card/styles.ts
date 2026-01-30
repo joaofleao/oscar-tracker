@@ -25,7 +25,7 @@ const useStyles = (): StylesReturn => {
       aspectRatio: 2 / 3,
       width: 200,
       borderColor: semantics.container.stroke.default,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       borderWidth: 1,
     },
     winner: {

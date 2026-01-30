@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 type StylesReturn = {
   root: ViewStyle
   background: ViewStyle
-  blur: ViewStyle
+  // blur: ViewStyle
   content: ViewStyle
   gradient: ViewStyle
 }
@@ -30,10 +30,10 @@ const useStyles = (): StylesReturn => {
       bottom: 0,
       position: 'absolute',
     },
-    blur: {
-      height: '100%',
-      width: '100%',
-    },
+    // blur: {
+    //   height: '100%',
+    //   width: '100%',
+    // },
 
     gradient: {
       pointerEvents: 'none',

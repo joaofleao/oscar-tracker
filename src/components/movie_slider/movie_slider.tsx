@@ -1,21 +1,22 @@
 import React from 'react'
-import { FlatList, FlatListProps, ListRenderItem, View } from 'react-native'
+import { FlatListProps, ListRenderItem, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 
 import MovieSliderItem, { MovieSliderItemProps } from './movie_slider_item'
 import useStyles from './styles'
 import { MovieSliderProps } from './types'
 import { TinyChevron } from '@components/tiny_icon'
 
-const ITEM_HEIGHT = 56
-const ITEM_SPACING = 28
-const SNAP = ITEM_HEIGHT + ITEM_SPACING
+const HEIGHT = 96
+const SPACING = 20
+const SNAP = HEIGHT + SPACING
 
 const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSliderProps): React.ReactElement => {
   const [activeElement, setActiveElement] = React.useState(0)
-  const styles = useStyles({ height: ITEM_HEIGHT, spacing: ITEM_SPACING })
-
+  const styles = useStyles({ height: HEIGHT, spacing: SPACING })
   const renderItem: ListRenderItem<MovieSliderItemProps> = ({ item, index }) => (
     <MovieSliderItem
+      height={HEIGHT}
       title={item.title}
       description={item.description}
       image={item.image}
@@ -40,15 +41,14 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
   return (
     <View style={styles.root}>
       <FlatList
+        removeClippedSubviews={false}
         showsVerticalScrollIndicator={false}
-        style={[styles.list, activeElement === data.length - 1 && styles.listActive]}
+        style={styles.list}
         contentContainerStyle={styles.listContent}
         initialNumToRender={60}
         scrollEventThrottle={0}
         snapToInterval={SNAP}
-        decelerationRate="fast"
         renderItem={renderItem}
-        showsHorizontalScrollIndicator={false}
         data={data}
         onScroll={onScroll}
         {...props}

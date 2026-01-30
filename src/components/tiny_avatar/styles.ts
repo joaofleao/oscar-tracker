@@ -16,7 +16,7 @@ const useStyles = (): StylesReturn => {
       borderRadius: 12,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
-      backgroundColor: semantics.container.base.default,
+      backgroundColor: semantics.container.base.tint,
       flexDirection: 'row',
       overflow: 'hidden',
 
