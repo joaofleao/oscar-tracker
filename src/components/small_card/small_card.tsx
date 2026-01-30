@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import Animated, { createAnimatedComponent } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { SmallCardProps } from './types'
@@ -23,19 +22,17 @@ const SmallCard = ({ _id, image, squared, winner, button, title, description, ad
       {hasImage && (
         <View style={styles.imageContainer}>
           <Image
+            blurRadius={spoiler && !watched ? 10 : 0}
             source={{ uri: image }}
             style={[styles.image, squared && styles.squared]}
           />
           {watched === false && (
-            <BlurView
-              style={styles.spoiler}
-              intensity={spoiler && !watched ? 8 : 0}
-            >
+            <View style={styles.spoiler}>
               <IconLocket
                 color={semantics.container.foreground.light}
                 size={16}
               />
-            </BlurView>
+            </View>
           )}
         </View>
       )}

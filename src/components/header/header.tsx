@@ -63,7 +63,6 @@ const Header = ({ animation }: HeaderProps): React.ReactElement => {
         style={styles.gradient}
       />
       <HeaderBlur
-        // style={styles.blur}
         animation={animation}
         variant="background"
       >

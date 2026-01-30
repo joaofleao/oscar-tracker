@@ -1,5 +1,7 @@
 import React from 'react'
-import { ActivityIndicator, FlatList, ListRenderItem, View } from 'react-native'
+import { ActivityIndicator, ListRenderItem } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import { LinearTransition } from 'react-native-reanimated'
 import { useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -42,7 +44,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         winner: el.winner,
         image: `https://image.tmdb.org/t/p/w500${el.posterPath}`,
         onPress: (): void => navigation.navigate('movie', { tmdbId: el.tmdbId }),
-        spoiler: item.type === 'person' ? !spoilers.hidePlot : spoilers.hidePoster,
+        spoiler: item.type === 'person' ? spoilers.hideCast : spoilers.hidePoster,
       }
     })
 
@@ -59,6 +61,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     if (item.type === 'person' || item.type === 'song')
       return (
         <Section
+          layout={LinearTransition}
           title={item.category.name}
           button={button}
         >
@@ -71,6 +74,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
     return (
       <Section
+        layout={LinearTransition}
         title={item.category.name}
         button={button}
       >
@@ -124,6 +128,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       <Header animation={animation} />
       {nominations.length === 0 && emptyState()}
       <FlatList
+        overScrollMode="never"
         onScroll={onScroll}
         style={styles.root}
         contentContainerStyle={styles.content}

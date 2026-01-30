@@ -6,7 +6,10 @@ type StylesReturn = {
   root: ViewStyle
   blur: ViewStyle
   background: ViewStyle
+  android: ViewStyle
+  apple: ViewStyle
 }
+
 type StylesProps = {
   variant: keyof SemanticsType
 }
@@ -20,13 +23,16 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
     },
     background: {
       position: 'absolute',
-      backgroundColor: semantics[variant].base.darken,
       width: '100%',
       height: '100%',
     },
+    apple: {
+      backgroundColor: semantics[variant].base.darken,
+    },
+    android: {
+      backgroundColor: semantics[variant].base.darken,
+    },
     blur: {
-      position: 'absolute',
-      backgroundColor: semantics[variant].base.tint,
       width: '100%',
       height: '100%',
     },

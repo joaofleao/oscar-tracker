@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image, Platform, Pressable, View } from 'react-native'
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
-import { BlurTargetView, BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { BigCardProps } from './types'
@@ -27,8 +26,6 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
     return { transform: [{ scale }] }
   })
 
-  const blurReference = React.useRef(null)
-
   return (
     <Animated.View style={Platform.OS === 'ios' ? animatedStyle : undefined}>
       <Pressable
@@ -37,29 +34,19 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
       >
         {hasImage && (
           <View style={[styles.container, winner && styles.winner]}>
-            <BlurTargetView ref={blurReference}>
-              <Image
-                source={{ uri: image }}
-                style={styles.image}
-              />
-            </BlurTargetView>
+            <Image
+              blurRadius={spoiler && !watched ? 20 : 0}
+              source={{ uri: image }}
+              style={styles.image}
+            />
 
             {!watched && (
-              <BlurView
-                blurTarget={blurReference}
-                style={styles.blur}
-                blurReductionFactor={10}
-                intensity={spoiler && !watched ? 40 : 0}
-                tint="dark"
-                blurMethod="dimezisBlurView"
-              >
-                <View style={styles.spoiler}>
-                  <IconLocket
-                    color={semantics.container.foreground.default}
-                    size={16}
-                  />
-                </View>
-              </BlurView>
+              <View style={styles.spoiler}>
+                <IconLocket
+                  color={semantics.container.foreground.default}
+                  size={16}
+                />
+              </View>
             )}
           </View>
         )}

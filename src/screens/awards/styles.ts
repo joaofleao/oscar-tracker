@@ -19,7 +19,6 @@ const useStyles = (): StylesReturn => {
 
   return StyleSheet.create({
     root: {
-      // padding: 20,
       width: '100%',
       gap: 60,
       flex: 1,
@@ -38,7 +37,7 @@ const useStyles = (): StylesReturn => {
       bottom: bottom + 20,
     },
     curtain: {
-      backgroundColor: semantics.container.base.original,
+      backgroundColor: semantics.container.base.default,
       width: '50%',
       position: 'absolute',
       bottom: 0,

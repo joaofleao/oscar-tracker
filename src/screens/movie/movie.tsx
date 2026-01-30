@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Alert, Image, Linking, ScrollView, View } from 'react-native'
+import { LinearTransition } from 'react-native-reanimated'
 import { SvgUri } from 'react-native-svg'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
@@ -139,8 +140,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
         )}
       </View>
       <ScrollView
-        style={styles.root}
-        contentContainerStyle={styles.content}
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.main}>
           <View style={styles.posterContainer}>
@@ -182,12 +183,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             )}
           </View>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            alwaysBounceHorizontal={false}
-            contentContainerStyle={styles.chips}
-          >
+          <View style={styles.chips}>
             {movie.releaseDate && (
               <Chip
                 icon={<IconCalendar />}
@@ -217,7 +213,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
                 title={runtime(movie.runtime)}
               />
             )}
-          </ScrollView>
+          </View>
 
           <Button
             variant={watched ? 'container' : 'accent'}
@@ -289,6 +285,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
         <View style={styles.footer}>
           <Button
+            layout={LinearTransition}
             onPress={() => Linking.openURL(`https://www.imdb.com/title/${movie.imdbId}`)}
             title={t('movie:imdb')}
             icon={<IconIMDB />}

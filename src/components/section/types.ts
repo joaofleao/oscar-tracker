@@ -6,6 +6,7 @@ export interface SectionProps {
   children: React.ReactNode
   title: string
   entering?: AnimatedProps<View>['entering']
+  layout?: AnimatedProps<View>['layout']
   exiting?: AnimatedProps<View>['exiting']
 
   legend?: boolean

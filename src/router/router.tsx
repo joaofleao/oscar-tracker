@@ -141,8 +141,8 @@ const Router = (): React.ReactNode => {
             name={'auth'}
             component={Auth}
             options={{
-              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-              sheetAllowedDetents: 'fitToContents',
+              presentation: 'formSheet',
+              sheetAllowedDetents: Platform.OS === 'ios' ? 'fitToContents' : [0.6],
               contentStyle: { backgroundColor: semantics.container.base.default },
             }}
           />

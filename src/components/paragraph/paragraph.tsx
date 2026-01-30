@@ -1,50 +1,64 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Pressable } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { ParagraphProps } from './types'
+import Blur from '@components/blur'
 import { IconEyeClosed } from '@components/icon'
 import Typography from '@components/typography'
 
 const Paragraph = ({ text, spoiler, toggleSpoiler }: ParagraphProps): React.ReactElement => {
   const styles = useStyles()
-
-  const animation = useSharedValue(1)
-
-  useEffect(() => {
-    animation.value = withTiming(spoiler ? 1 : 0, { duration: 250 })
-  }, [spoiler, animation])
-
-  const spoilerStyle = useAnimatedStyle(() => {
-    return { opacity: animation.value }
-  })
+  const shuffle = (str: string): string =>
+    str
+      .split(' ')
+      .sort(() => Math.random() - 0.5)
+      .join(' ')
 
   const content = (
     <Typography
+      key={'paragraph'}
+      entering={FadeIn}
+      exiting={FadeOut}
       justify
       body
     >
       {text}
     </Typography>
   )
+  const shuffledText = (
+    <Typography
+      key={'spoiler'}
+      entering={FadeIn}
+      exiting={FadeOut}
+      justify
+      body
+    >
+      {shuffle(text)}
+    </Typography>
+  )
 
   if (toggleSpoiler)
     return (
       <Pressable
-        onPress={() => toggleSpoiler('hidePlot')}
+        onPress={() => {
+          toggleSpoiler('hidePlot')
+        }}
         style={styles.root}
       >
-        {content}
+        {!spoiler ? content : shuffledText}
 
-        <Animated.View style={[styles.spoiler, spoilerStyle]}>
-          <BlurView
-            intensity={10}
-            style={styles.blur}
-          />
-          <IconEyeClosed />
-        </Animated.View>
+        {spoiler && (
+          <Animated.View
+            style={[styles.spoiler]}
+            entering={FadeIn}
+            exiting={FadeOut}
+          >
+            <Blur style={styles.blur} />
+            <IconEyeClosed />
+          </Animated.View>
+        )}
       </Pressable>
     )
 

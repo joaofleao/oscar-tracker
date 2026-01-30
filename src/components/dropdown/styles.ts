@@ -30,7 +30,7 @@ const useStyles = (): StylesReturn => {
       paddingBottom: 16,
       position: 'absolute',
       borderRadius: 16,
-      backgroundColor: semantics.container.base.original,
+      backgroundColor: semantics.container.base.default,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
     },

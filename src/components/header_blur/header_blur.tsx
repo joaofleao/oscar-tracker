@@ -1,12 +1,11 @@
 import React from 'react'
 import { View } from 'react-native'
-import Animated from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { BlurProps } from './types'
+import Blur from '@components/blur'
 
-const Blur = ({ style, children, animation, variant = 'container', ...props }: BlurProps): React.ReactElement => {
+const HeaderBlur = ({ style, children, animation, variant = 'container', ...props }: BlurProps): React.ReactElement => {
   const styles = useStyles({ variant })
 
   const [headerHeight, setHeaderHeight] = React.useState<number>(0)
@@ -14,24 +13,21 @@ const Blur = ({ style, children, animation, variant = 'container', ...props }: B
   return (
     <>
       <View style={{ height: headerHeight }} />
-      <Animated.View
+
+      <Blur
+        variant="background"
         onLayout={(e) => {
           const { height } = e.nativeEvent.layout
           setHeaderHeight(height)
         }}
         style={[styles.floating, style]}
+        animation={animation}
         {...props}
       >
-        <Animated.View style={[styles.root, animation]}>
-          <BlurView
-            intensity={10}
-            style={styles.blur}
-          />
-        </Animated.View>
         {children}
-      </Animated.View>
+      </Blur>
     </>
   )
 }
 
-export default Blur
+export default HeaderBlur

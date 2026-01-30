@@ -31,7 +31,7 @@ const useStyles = (): StylesReturn => {
       margin: 16,
       padding: 16,
       borderRadius: 16,
-      backgroundColor: semantics.container.base.original,
+      backgroundColor: semantics.container.base.default,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
     },

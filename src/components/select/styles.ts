@@ -56,7 +56,7 @@ const useStyles = (): StylesReturn => {
       padding: 16,
       position: 'absolute',
       borderRadius: 12,
-      backgroundColor: semantics.container.base.original,
+      backgroundColor: semantics.container.base.default,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
     },
@@ -73,7 +73,7 @@ const useStyles = (): StylesReturn => {
       paddingVertical: 10,
       height: 44,
 
-      backgroundColor: semantics.container.base.original,
+      backgroundColor: semantics.container.base.default,
       borderColor: semantics.container.stroke.default,
       borderWidth: 1,
     },

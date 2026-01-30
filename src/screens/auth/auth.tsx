@@ -405,9 +405,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   return (
     <ScrollView
+      keyboardShouldPersistTaps="always"
       style={styles.scroll}
       contentContainerStyle={styles.scrollContent}
-      alwaysBounceVertical={false}
     >
       {flow === 'signIn' && signInContent}
       {flow === 'signUp' && signUpContent}

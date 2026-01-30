@@ -10,6 +10,7 @@ import { useTheme } from '@providers/theme'
 
 const TOOLTIP_DELAY = 500 // Show tooltip after 500ms
 const HOLD_DURATION = 2000 // 3 second countdown
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
 
 const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
@@ -58,7 +59,7 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
 
   return (
     <>
-      <TouchableOpacity
+      <AnimatedTouchableOpacity
         delayLongPress={3000}
         style={[styles.root, isGhost && styles.ghost, small && styles.small, style]}
         onPressIn={handlePressIn}
@@ -96,7 +97,7 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
         <View style={[styles.loading, !loading && styles.hide]}>
           <ActivityIndicator color={theme.semantics[variant].foreground.default} />
         </View>
-      </TouchableOpacity>
+      </AnimatedTouchableOpacity>
 
       {showTooltip && (
         <Animated.View

@@ -7,13 +7,14 @@ import Button from '@components/button'
 import Row from '@components/row'
 import Typography from '@components/typography'
 
-const Section = ({ children, entering, exiting, button, title, legend }: SectionProps): React.ReactElement => {
+const Section = ({ children, entering, exiting, layout, button, title, legend }: SectionProps): React.ReactElement => {
   const styles = useStyles()
   return (
     <Animated.View
       style={styles.root}
       entering={entering}
       exiting={exiting}
+      layout={layout}
     >
       <Row between>
         <Typography

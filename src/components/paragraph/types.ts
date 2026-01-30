@@ -1,5 +1,5 @@
 export interface ParagraphProps {
-  text?: string
+  text: string
   spoiler?: boolean
   toggleSpoiler?: (spoiler: string) => void
 }

@@ -95,12 +95,12 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
           />
         ))}
         <LinearGradient
-          colors={semantics.background.base.gradient.toReversed() as any}
-          style={styles.gradientBottom}
-        />
-        <LinearGradient
           colors={semantics.background.base.gradient as any}
           style={styles.gradientTop}
+        />
+        <LinearGradient
+          colors={semantics.background.base.gradient.toReversed() as any}
+          style={styles.gradientBottom}
         />
       </Animated.View>
       <View style={styles.container}>

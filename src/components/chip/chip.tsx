@@ -5,6 +5,7 @@ import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { ChipProps } from './types'
+import Blur from '@components/blur'
 import { IconEyeClosed } from '@components/icon'
 import { IconProps } from '@components/icon/types'
 import Typography from '@components/typography'
@@ -52,10 +53,7 @@ const Chip = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', ente
       >
         {content}
         <Animated.View style={[styles.spoiler, spoilerStyle]}>
-          <BlurView
-            intensity={10}
-            style={styles.blur}
-          />
+          <Blur style={styles.blur} />
           <IconEyeClosed size={16} />
         </Animated.View>
       </Pressable>

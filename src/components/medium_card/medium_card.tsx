@@ -1,7 +1,6 @@
 import React from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { createAnimatedComponent } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { MediumCardProps } from './types'
@@ -25,19 +24,17 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
       {hasImage && (
         <View style={styles.container}>
           <Image
+            blurRadius={spoiler && !watched ? 10 : 0}
             source={{ uri: image }}
             style={styles.image}
           />
           {!watched && (
-            <BlurView
-              style={styles.spoiler}
-              intensity={spoiler && !watched ? 10 : 0}
-            >
+            <View style={styles.spoiler}>
               <IconLocket
                 color={semantics.container.foreground.light}
                 size={16}
               />
-            </BlurView>
+            </View>
           )}
           {winner && (
             <Tag

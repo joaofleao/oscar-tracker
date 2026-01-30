@@ -58,7 +58,7 @@ const useStyles = ({ sidePadding, height, cardSpacing }: StyleParams): StylesRet
       pointerEvents: 'none',
       position: 'absolute',
       bottom: 0,
-      height: 300,
+      height: 500,
       width: '100%',
     },
 
@@ -84,7 +84,7 @@ const useStyles = ({ sidePadding, height, cardSpacing }: StyleParams): StylesRet
       alignItems: 'center',
       gap: 8,
       paddingHorizontal: 16,
-      minHeight: 200,
+      // minHeight: 200,
     },
 
     infoTextContainer: {
