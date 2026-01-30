@@ -18,8 +18,13 @@ const EmptyState = ({ title, loading, description, style }: EmptyStateProps): Re
         <>
           <TriangleLogo color={semantics.container.base.pressed} />
           <View style={styles.content}>
-            <Typography>{title}</Typography>
-            <Typography description>{description}</Typography>
+            <Typography center>{title}</Typography>
+            <Typography
+              center
+              description
+            >
+              {description}
+            </Typography>
           </View>
         </>
       )}
