@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { MovieSliderItemProps } from './types'
+import Blur from '@components/blur'
 import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
@@ -28,19 +28,17 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
       {hasImage && (
         <View>
           <Image
+            blurRadius={spoiler && !watched ? 20 : 0}
             source={{ uri: image }}
             style={[styles.image]}
           />
           {!watched && (
-            <BlurView
-              style={styles.spoiler}
-              intensity={spoiler && !watched ? 20 : 0}
-            >
+            <View style={styles.spoiler}>
               <IconLocket
                 color={semantics.container.foreground.light}
                 size={16}
               />
-            </BlurView>
+            </View>
           )}
         </View>
       )}

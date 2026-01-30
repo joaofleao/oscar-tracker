@@ -41,12 +41,12 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
   return (
     <View style={styles.root}>
       <FlatList
+        overScrollMode="never"
         removeClippedSubviews={false}
         showsVerticalScrollIndicator={false}
         style={styles.list}
         contentContainerStyle={styles.listContent}
         initialNumToRender={60}
-        scrollEventThrottle={0}
         snapToInterval={SNAP}
         renderItem={renderItem}
         data={data}

@@ -1,7 +1,7 @@
 import { ConfigContext, ExpoConfig } from 'expo/config'
 
 export default ({ config }: ConfigContext): ExpoConfig => {
-  const appName = process.env.APP_NAME || 'Oscar Tracker'
+  const appName = process.env.APP_NAME || 'Academy Tracker'
   const appSlug = process.env.APP_SLUG || 'oscar-tracker'
   const isDev = appSlug.includes('dev')
 
