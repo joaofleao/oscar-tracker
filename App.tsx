@@ -32,13 +32,13 @@ export default function App(): React.ReactElement {
               storage={secureStorage}
             >
               <ConvexProvider client={convex}>
-                <UserProvider>
-                  <EditionProvider>
+                <EditionProvider>
+                  <UserProvider>
                     <StringsProvider>
                       <Router />
                     </StringsProvider>
-                  </EditionProvider>
-                </UserProvider>
+                  </UserProvider>
+                </EditionProvider>
               </ConvexProvider>
             </ConvexAuthProvider>
           </SafeAreaProvider>

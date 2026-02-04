@@ -15,9 +15,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const [allEditions, setAllEditions] = useMMKVObject<EditionContextType['editions']>('editions.all')
   const [edition, setEdition] = useMMKVObject<EditionContextType['edition']>('editions.current')
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
-
-  const [friendWatches, setFriendWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('editions.all')
-
+  const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('editions.all')
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
@@ -36,8 +34,8 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const refreshFriendsWatches: EditionContextType['refreshEditionData'] = async () => {
     print('Friend Watches', 'Server Fetched', 'yellow')
 
-    const friendWatches = (await convex.query(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) })) || []
-    setFriendWatches(friendWatches)
+    const friendsWatches = (await convex.query(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) })) || []
+    setFriendsWatches(friendsWatches)
   }
 
   useEffect(() => {
@@ -46,7 +44,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       else print('Edition Data', 'Local Fetched', 'green')
     }
     const fetchFriendsWatches = async (): Promise<void> => {
-      if (friendWatches === undefined) await refreshFriendsWatches()
+      if (friendsWatches === undefined) await refreshFriendsWatches()
       else print('Friend Watches', 'Local Fetched', 'green')
     }
 
@@ -87,7 +85,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const moviesWithWatches = movies.map((movie) => ({
     ...movie,
     watched: userWatches.some((watch) => watch === movie._id),
-    friends_who_watched: (friendWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
+    friends_who_watched: (friendsWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
   }))
 
   const nominationsWithWatches = nominations.map((nomination) => ({
@@ -109,6 +107,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
         nominations: nominationsWithWatches,
         movies: moviesWithWatches,
         userWatches: userWatches,
+        friendsWatches: friendsWatches || [],
       }}
     >
       {children}

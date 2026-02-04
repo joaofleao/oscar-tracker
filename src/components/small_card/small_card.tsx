@@ -1,17 +1,18 @@
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Animated, { createAnimatedComponent, FadeIn } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { SmallCardProps } from './types'
 import Button from '@components/button'
+import Chip from '@components/chip'
 import { IconLocket, IconOscar } from '@components/icon'
 import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 const AnimatedTouchableOpacity = createAnimatedComponent(TouchableOpacity)
 
-const SmallCard = ({ _id, image, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
+const SmallCard = ({ _id, image, chip, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -99,12 +100,22 @@ const SmallCard = ({ _id, image, squared, winner, button, title, description, ad
     )
   else
     return (
-      <Animated.View
-        {...props}
-        style={[styles.root, style]}
-      >
-        {content}
-      </Animated.View>
+      <>
+        <Animated.View
+          {...props}
+          style={[styles.root, style]}
+        >
+          {content}
+        </Animated.View>
+        {chip && (
+          <View style={styles.floatingChip}>
+            <Chip
+              title={chip.title}
+              variant={chip.variant}
+            />
+          </View>
+        )}
+      </>
     )
 }
 

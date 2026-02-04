@@ -7,6 +7,9 @@ import BigCard from './big_card'
 import useStyles from './styles'
 import { BigCarousselProps } from './types'
 import Button from '@components/button'
+import Chip from '@components/chip'
+import Column from '@components/column'
+import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
@@ -15,7 +18,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
-const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselProps): React.ReactElement => {
+const BigCaroussel = ({ nominations = [], button, extra, title, chip }: BigCarousselProps): React.ReactElement => {
   const scrollX = useSharedValue(0)
   const flatListRef = React.useRef<FlatList>(null)
   const sidePadding = (SCREEN_WIDTH - CARD_WIDTH) / 2
@@ -123,6 +126,7 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
             onMomentumScrollEnd={handleMomentumEnd}
             onScrollBeginDrag={handleMomentumStart}
           />
+
           <Animated.View
             key={nominations[activeElement]?.title}
             style={[styles.infoContainer]}
@@ -144,12 +148,21 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
                   {extra}
                 </Typography>
               )}
-              <Typography
-                body
-                center
-              >
-                {title}
-              </Typography>
+              <Row middle>
+                <Typography
+                  body
+                  center
+                >
+                  {title}
+                </Typography>
+                {chip && (
+                  <Chip
+                    title={chip.title}
+                    variant={chip.variant}
+                  />
+                )}
+              </Row>
+
               <Button
                 small
                 title={button.title}

@@ -4,10 +4,11 @@ import Animated from 'react-native-reanimated'
 import useStyles from './styles'
 import { SectionProps } from './types'
 import Button from '@components/button'
+import Chip from '@components/chip/chip'
 import Row from '@components/row'
 import Typography from '@components/typography'
 
-const Section = ({ children, entering, exiting, layout, button, title, legend }: SectionProps): React.ReactElement => {
+const Section = ({ children, entering, exiting, layout, button, title, legend, chip }: SectionProps): React.ReactElement => {
   const styles = useStyles()
   return (
     <Animated.View
@@ -23,6 +24,12 @@ const Section = ({ children, entering, exiting, layout, button, title, legend }:
         >
           {title}
         </Typography>
+        {chip && (
+          <Chip
+            title={chip.title}
+            variant={chip.variant}
+          />
+        )}
 
         {button && (
           <Button

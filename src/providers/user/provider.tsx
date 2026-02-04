@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react'
 import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv'
 import { useConvex, useMutation } from 'convex/react'
-import { api } from 'convex_api'
+import { api, PublicApiType } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import UserContext from './context'
 import { type UserContextType } from './types'
+import { useEdition } from '@providers/edition'
 import print from '@utils/print'
 
 const UserProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
   const convex = useConvex()
   const { i18n } = useTranslation()
+  const { friendsWatches, movies } = useEdition()
 
   const updateUser = useMutation(api.user.updateUser)
   const [user, setUser] = useMMKVObject<UserContextType['user']>('user.data')
-  const [following, setFollowing] = useMMKVObject<UserContextType['following']>('user.following')
+  const [following, setFollowing] = useMMKVObject<PublicApiType['user']['getFollowing']['_returnType']>('user.following')
   const [followers, setFollowers] = useMMKVObject<UserContextType['followers']>('user.followers')
   const [hideCast, setHideCast] = useMMKVBoolean('user.hideCast')
   const [hidePlot, setHidePlot] = useMMKVBoolean('user.hidePlot')
@@ -84,6 +86,32 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
     if (user) updateUser({ [name]: value })
   }
 
+  const friendWatchesMap = React.useMemo(() => {
+    const map = new Map<string, string[]>()
+
+    friendsWatches.forEach((watch) => {
+      watch.friends_who_watched.forEach((friend) => {
+        if (!map.has(friend._id)) {
+          map.set(friend._id, [])
+        }
+        if (movies.some((movie) => movie._id === watch.movieId)) {
+          map.get(friend._id)?.push(watch.movieId)
+        }
+      })
+    })
+
+    return map
+  }, [friendsWatches, movies])
+
+  const followingWithWatches: UserContextType['following'] = React.useMemo(() => {
+    if (!following) return []
+
+    return following.map((user) => ({
+      ...user,
+      watched: friendWatchesMap.get(user._id)?.length || 0,
+    }))
+  }, [following, friendWatchesMap])
+
   return (
     <UserContext.Provider
       value={{
@@ -101,7 +129,7 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
 
         followers: followers ?? [],
         refreshFollowers,
-        following: following ?? [],
+        following: followingWithWatches ?? [],
         refreshFollowing,
       }}
     >

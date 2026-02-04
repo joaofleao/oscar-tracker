@@ -19,6 +19,7 @@ import SmallCard from '@components/small_card'
 import { TinyCheckmark, TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
+import { useEdition } from '@providers/edition'
 import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
 
@@ -26,6 +27,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
   const { user, followers, following, refreshFollowers, refreshFollowing } = useUser()
+  const { movies } = useEdition()
   const [refreshing, setRefreshing] = React.useState(false)
 
   const { isAuthenticated, isLoading } = useConvexAuth()
@@ -161,6 +163,10 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           squared
           image={item.imageURL}
           title={item.name}
+          chip={{
+            title: ` ${item.watched}/${movies.length} `,
+            variant: item.watched === movies.length ? 'brand' : 'container',
+          }}
           description={item.username}
           additional={item.followsYou ? t('search:follows_you') : undefined}
           button={{

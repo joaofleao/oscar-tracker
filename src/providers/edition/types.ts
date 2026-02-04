@@ -19,6 +19,7 @@ export interface EditionContextType {
   editions: PublicApiType['oscar']['getAllEditions']['_returnType']
   edition?: PublicApiType['oscar']['getEdition']['_returnType']
   userWatches: PublicApiType['oscar']['getUserWatches']['_returnType']
+  friendsWatches: PublicApiType['oscar']['getFriendsWatches']['_returnType']
 
   refreshEditionData: () => Promise<void>
   refreshFriendsWatches: () => Promise<void>

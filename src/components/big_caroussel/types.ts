@@ -11,6 +11,10 @@ export interface BigCarousselProps {
   title?: string
   extra?: string
 
+  chip?: {
+    title: string
+    variant: 'brand' | 'container'
+  }
   button: {
     title: string
     action: () => void

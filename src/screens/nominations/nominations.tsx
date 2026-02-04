@@ -45,6 +45,8 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         spoiler: item.type === 'person' ? spoilers.hideCast : spoilers.hidePoster,
       }
     })
+    const progress = enrichedNominations.filter((nom) => nom.watched).length
+    const total = enrichedNominations.length
 
     if (item.type === 'picture')
       return (
@@ -52,6 +54,10 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
           extra={t('overall:winner')}
           nominations={enrichedNominations}
           title={item.category.name}
+          chip={{
+            title: ` ${progress}/${total} `,
+            variant: progress === total ? 'brand' : 'container',
+          }}
           button={button}
         />
       )
@@ -61,6 +67,10 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         <Section
           layout={LinearTransition}
           title={item.category.name}
+          chip={{
+            title: ` ${progress}/${total} `,
+            variant: progress === total ? 'brand' : 'container',
+          }}
           button={button}
         >
           <Caroussel
@@ -74,6 +84,10 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       <Section
         layout={LinearTransition}
         title={item.category.name}
+        chip={{
+          title: ` ${progress}/${total} `,
+          variant: progress === total ? 'brand' : 'container',
+        }}
         button={button}
       >
         <Caroussel

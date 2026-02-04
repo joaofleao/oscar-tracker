@@ -4,6 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  floatingChip: ViewStyle
   squared: ImageStyle
   spoiler: ViewStyle
   imageContainer: ViewStyle
@@ -23,6 +24,11 @@ const useStyles = (): StylesReturn => {
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       alignItems: 'center',
+    },
+    floatingChip: {
+      position: 'absolute',
+      top: -10,
+      right: -10,
     },
     image: {
       width: 44,
