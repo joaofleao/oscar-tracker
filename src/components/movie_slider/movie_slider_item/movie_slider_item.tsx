@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import { FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeInDown, FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { MovieSliderItemProps } from './types'
-import Blur from '@components/blur'
 import { IconLocket } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
@@ -43,25 +42,26 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
         </View>
       )}
       <View style={[styles.content]}>
-        <View>
-          <Typography
-            layout={LinearTransition}
-            color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}
-          >
-            {title}
-          </Typography>
+        <Typography
+          layout={LinearTransition}
+          color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}
+        >
+          {title}
+        </Typography>
 
-          {isActive && description && (
-            <Typography
-              entering={FadeInUp.delay(100)}
-              legend
-              color={semantics.background.foreground.light}
-            >
-              {description}
-            </Typography>
-          )}
-        </View>
-        {isActive && bottomArea}
+        {isActive && (bottomArea || description) && (
+          <Animated.View entering={FadeInUp.delay(0)}>
+            {description && (
+              <Typography
+                legend
+                color={semantics.background.foreground.light}
+              >
+                {description}
+              </Typography>
+            )}
+            {bottomArea && bottomArea}
+          </Animated.View>
+        )}
       </View>
     </TouchableOpacity>
   )

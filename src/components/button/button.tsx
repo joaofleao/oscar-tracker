@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { ActivityIndicator, GestureResponderEvent, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, GestureResponderEvent, Platform, TouchableOpacity, View } from 'react-native'
 import Animated, { FadeInDown } from 'react-native-reanimated'
+import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
 import { ButtonProps } from './types'
@@ -11,6 +12,7 @@ import { useTheme } from '@providers/theme'
 const TOOLTIP_DELAY = 500 // Show tooltip after 500ms
 const HOLD_DURATION = 2000 // 3 second countdown
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
 const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
@@ -57,6 +59,21 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
 
   const [position, setPosition] = useState<{ x: number; y: number; width: number; height: number }>({ x: 0, y: 0, width: 0, height: 0 })
 
+  const tooltipContent = (
+    <Typography
+      body
+      color={theme.semantics.container.foreground.default}
+    >
+      {tooltip}{' '}
+      <Typography
+        legend
+        color={theme.semantics.accent.base.default}
+      >
+        {holdCountdown}
+      </Typography>
+    </Typography>
+  )
+
   return (
     <>
       <AnimatedTouchableOpacity
@@ -99,24 +116,21 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
         </View>
       </AnimatedTouchableOpacity>
 
-      {showTooltip && (
+      {showTooltip && Platform.OS === 'android' && (
         <Animated.View
           style={[styles.tooltip, { top: position.y - position.height - 16 }]}
           entering={FadeInDown}
         >
-          <Typography
-            body
-            color={theme.semantics.container.foreground.default}
-          >
-            {tooltip}{' '}
-            <Typography
-              legend
-              color={theme.semantics.accent.base.default}
-            >
-              {holdCountdown}
-            </Typography>
-          </Typography>
+          {tooltipContent}
         </Animated.View>
+      )}
+      {showTooltip && Platform.OS === 'ios' && (
+        <AnimatedBlurView
+          style={[styles.tooltip, { top: position.y - position.height - 16 }]}
+          entering={FadeInDown}
+        >
+          {tooltipContent}
+        </AnimatedBlurView>
       )}
     </>
   )

@@ -23,8 +23,6 @@ const useStyles = (): StylesReturn => {
       gap: 24,
     },
     empty: {
-      paddingTop: 20,
-      gap: 12,
       justifyContent: 'center',
     },
     input: {

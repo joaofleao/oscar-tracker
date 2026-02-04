@@ -1,25 +1,32 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
-import { Authenticated, Unauthenticated, useConvexAuth, useMutation, useQuery } from 'convex/react'
+import { RefreshControl } from 'react-native-gesture-handler'
+import { Authenticated, Unauthenticated, useConvexAuth, useMutation } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
+import Column from '@components/column'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
 import { IconOscar, IconSettings } from '@components/icon'
+import IconButton from '@components/icon_button'
+import Row from '@components/row'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
 import { TinyCheckmark, TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
+import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
+  const { user, followers, following, refreshFollowers, refreshFollowing } = useUser()
+  const [refreshing, setRefreshing] = React.useState(false)
 
   const { isAuthenticated, isLoading } = useConvexAuth()
   const { onScroll, animation } = useHeaderAnimation()
@@ -28,15 +35,20 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const [flow, setFlow] = useState('following')
 
-  const followers = useQuery(api.user.getFollowers) || []
-  const following = useQuery(api.user.getFollowing) || []
-
-  const user = useQuery(api.user.getCurrentUser)
-
   useEffect(() => {
     if (!isAuthenticated && !isLoading) navigation.navigate('auth')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true)
+
+    if (flow === 'followers') refreshFollowers()
+    if (flow === 'following') refreshFollowing()
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000)
+  }, [refreshFollowers, refreshFollowing, flow])
 
   const sections = {
     following: t('profile:following'),
@@ -45,41 +57,46 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const header = (
     <View style={styles.root}>
-      <Avatar
-        image={user?.imageURL}
-        name={user?.name}
-      />
-
-      <Authenticated>
-        <View style={styles.profile}>
-          <Typography>{user?.name}</Typography>
-          <Typography description>{user?.username}</Typography>
-        </View>
-      </Authenticated>
-      <Button
-        variant="ghost"
-        icon={<IconSettings />}
-        title={t('profile:settings')}
-        onPress={() => navigation.navigate('settings')}
-      />
-
-      <Unauthenticated>
-        <Button
-          icon={<IconOscar />}
-          variant="brand"
-          title={t('profile:sign_in')}
-          onPress={() => navigation.navigate('auth')}
+      <Row between>
+        <IconButton
+          icon={<IconSettings />}
+          placeholder
         />
-      </Unauthenticated>
+        <Column
+          style={styles.avatar}
+          middle
+        >
+          <Avatar
+            image={user?.imageURL}
+            name={user?.name}
+          />
+
+          <Authenticated>
+            <View>
+              <Typography center>{user?.name}</Typography>
+              <Typography
+                center
+                description
+              >
+                {user?.username}
+              </Typography>
+            </View>
+          </Authenticated>
+        </Column>
+        <IconButton
+          icon={<IconSettings />}
+          onPress={() => navigation.navigate('settings')}
+        />
+      </Row>
 
       <Authenticated>
-        <View style={styles.centerContainer}>
+        <Row center>
           <SegmentedControl
             selected={flow}
             onChange={setFlow}
             options={sections}
           />
-        </View>
+        </Row>
       </Authenticated>
 
       <Unauthenticated>
@@ -94,8 +111,38 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const renderFollowing = (
     <FlatList
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
       onScroll={onScroll}
       ListHeaderComponent={header}
+      ListFooterComponent={
+        <>
+          <Unauthenticated>
+            <Row center>
+              <Button
+                icon={<IconOscar />}
+                variant="brand"
+                title={t('profile:sign_in')}
+                onPress={() => navigation.navigate('auth')}
+              />
+            </Row>
+          </Unauthenticated>
+          <Authenticated>
+            <Button
+              variant="ghost"
+              onPress={() => navigation.navigate('search_friends')}
+              title={t('profile:add_friends')}
+              icon={<TinyPlus />}
+            />
+          </Authenticated>
+        </>
+      }
       ListEmptyComponent={
         <Authenticated>
           <EmptyState
@@ -130,6 +177,14 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const renderFollowers = (
     <FlatList
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
       onScroll={onScroll}
       ListHeaderComponent={header}
       ListEmptyComponent={

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
-import { Alert, Image, Linking, ScrollView, View } from 'react-native'
+import { Alert, Image, Linking, Platform, ScrollView, View } from 'react-native'
 import { LinearTransition } from 'react-native-reanimated'
 import { SvgUri } from 'react-native-svg'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
@@ -26,8 +26,8 @@ import Tag from '@components/tag'
 import { TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
-import { useSettings } from '@providers/settings'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
 import { TabType } from '@router/types'
 import { runtime } from '@utils/runtime'
 
@@ -35,7 +35,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const { tmdbId } = route.params
   const styles = useStyles()
   const { t, i18n } = useTranslation()
-  const { spoilers } = useSettings()
+  const { spoilers } = useUser()
   const catchConvexError = useConvexErrorHandler()
   const { isAuthenticated } = useConvexAuth()
 
@@ -117,7 +117,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
     <>
       <View style={styles.backdropContainer}>
         <Image
-          blurRadius={1}
+          blurRadius={2}
           source={{ uri: `https://image.tmdb.org/t/p/w200${movie.backdropPath}` }}
           style={styles.backdropImage}
         />
@@ -220,8 +220,10 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             title={watched ? t('movie:unwatch') : t('movie:watch')}
             icon={watched ? <TinyX /> : <TinyPlus />}
             onPress={() => (!isAuthenticated ? navigation.navigate('auth') : watched ? setUnwatchModal(true) : watchMovie())}
-            onLongPress={() => setCalendarModal(true)}
-            tooltip={t('movie:hold_to_choose_date')}
+            onLongPress={() => {
+              Platform.OS === 'ios' && setCalendarModal(true)
+            }}
+            tooltip={Platform.OS === 'ios' ? t('movie:hold_to_choose_date') : undefined}
           />
         </View>
 
@@ -301,7 +303,8 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           maximumDate={new Date(Date.now())}
           style={styles.datepicker}
           themeVariant="dark"
-          display="inline"
+          display="spinner"
+          design="material"
           value={date}
           onChange={(_, date) => {
             if (date) setDate(date)
@@ -315,7 +318,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
           <Button
             title={t('movie:submit')}
-            variant="accent"
+            variant="brand"
             onPress={watchMovie}
           />
         </Row>

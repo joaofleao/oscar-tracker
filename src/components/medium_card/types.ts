@@ -10,4 +10,5 @@ export interface MediumCardProps extends TouchableOpacityProps {
   index?: number
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
+  layout?: AnimatedProps<View>['layout']
 }

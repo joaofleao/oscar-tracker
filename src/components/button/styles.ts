@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 
 import { SemanticsType, useTheme } from '@providers/theme'
 
@@ -27,7 +27,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
 
       borderRadius: 12,
       borderWidth: 1,
-      backgroundColor: semantics[variant].base.tint,
+      backgroundColor: semantics[variant].base.default,
       borderColor: semantics[variant].stroke.default,
       alignItems: 'center',
     },
@@ -63,10 +63,11 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
     },
 
     tooltip: {
+      overflow: 'hidden',
       padding: 12,
-      backgroundColor: semantics.container.base.tint,
+      backgroundColor: semantics.background.base[Platform.OS === 'ios' ? 'tint' : 'darken'],
       borderWidth: 1,
-      borderColor: semantics.container.stroke.default,
+      borderColor: semantics.background.stroke.default,
       borderRadius: 8,
       alignSelf: 'center',
       position: 'absolute',

@@ -6,7 +6,7 @@ import useStyles from './styles'
 import Blur from '@components/blur'
 import Button from '@components/button'
 import Typography from '@components/typography'
-import { useSettings } from '@providers/settings'
+import { useEdition } from '@providers/edition'
 import { ScreenType } from '@router/types'
 import { ordinal } from '@utils/ordinals'
 
@@ -16,7 +16,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
 
-  const { editions, edition, setEdition } = useSettings()
+  const { editions, edition, selectEdition } = useEdition()
   const flatlistRef = useRef<FlatList>(null)
 
   const options = useMemo(
@@ -55,7 +55,7 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
             title={item.name}
             variant={item.selected ? 'brand' : 'ghost'}
             onPress={(): void => {
-              setEdition(item.id)
+              void selectEdition(item.id)
               navigation.goBack()
             }}
           />

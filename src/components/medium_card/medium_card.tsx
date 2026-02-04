@@ -1,6 +1,6 @@
 import React from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
-import { createAnimatedComponent } from 'react-native-reanimated'
+import { TouchableOpacity, View } from 'react-native'
+import Animated, { createAnimatedComponent, FadeIn } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { MediumCardProps } from './types'
@@ -23,7 +23,8 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
     >
       {hasImage && (
         <View style={styles.container}>
-          <Image
+          <Animated.Image
+            entering={FadeIn}
             blurRadius={spoiler && !watched ? 10 : 0}
             source={{ uri: image }}
             style={styles.image}

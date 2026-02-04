@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Alert, Linking, ScrollView, View } from 'react-native'
-import { FadeInLeft, FadeOut } from 'react-native-reanimated'
+import { Alert, Linking, Platform, ScrollView, View } from 'react-native'
+import { FadeInLeft, FadeOut, LinearTransition } from 'react-native-reanimated'
 import { useMutation, useQuery } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -22,6 +22,7 @@ import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import useConvexErrorHandler from '@hooks/useConvexErrorHandler'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
 
 const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
@@ -29,7 +30,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const { t } = useTranslation()
   const { signIn } = useAuthActions()
   const { semantics } = useTheme()
-  const user = useQuery(api.user.getCurrentUser)
+  const { user } = useUser()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState<string>('')
   const [code, setCode] = useState<string>('')
@@ -117,10 +118,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         storageId = uploadedId
       }
 
-      // Update user with all details
       await updateUser({
         name: pendingName ?? undefined,
-        // username,
+        username: pendingUsername ?? undefined,
         ...(storageId && { image: storageId as GenericId<'_storage'> }),
       })
 
@@ -301,12 +301,14 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         {t('auth:details')}
       </Typography>
       <Column middle>
-        <Avatar
-          onPress={handleChangeImage}
-          name={user?.name}
-          image={displayImage ?? undefined}
-          icon={<IconImages />}
-        />
+        {Platform.OS === 'ios' && (
+          <Avatar
+            onPress={handleChangeImage}
+            name={user?.name}
+            image={displayImage ?? undefined}
+            icon={<IconImages />}
+          />
+        )}
         {displayImage && (
           <Button
             onPress={handleRemoveImage}
@@ -387,7 +389,10 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         )}
       </Column>
 
-      <Row center>
+      <Row
+        center
+        layout={LinearTransition}
+      >
         <Button
           title={t('auth:cancel')}
           onPress={() => navigation.pop()}

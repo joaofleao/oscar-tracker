@@ -2,9 +2,6 @@ import React from 'react'
 import { ActivityIndicator, ListRenderItem } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { LinearTransition } from 'react-native-reanimated'
-import { useQuery } from 'convex/react'
-import { GenericId } from 'convex/values'
-import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -16,18 +13,19 @@ import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
-import useSettings from '@providers/settings/useSettings'
+import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
 import { TabType } from '@router/types'
 
 const Nominations: TabType<'nominations'> = ({ navigation }) => {
-  const { spoilers, edition } = useSettings()
+  const { edition, nominations } = useEdition()
+  const { spoilers } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
   const { semantics } = useTheme()
 
   const styles = useStyles()
-  const { t, i18n } = useTranslation()
-  const nominations = useQuery(api.oscars.getNominations, { editionId: edition?._id as GenericId<'oscarEditions'>, language: i18n.language }) || []
+  const { t } = useTranslation()
 
   const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
     const button = {

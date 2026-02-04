@@ -3,7 +3,6 @@ import { Alert, Linking, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
-import { deleteItemAsync, getItem, setItem } from 'expo-secure-store'
 import { useTranslation } from 'react-i18next'
 
 import packageJson from '../../../package.json'
@@ -13,13 +12,15 @@ import { NavBarProps, TabType } from './types'
 import Blur from '@components/blur'
 import { IconMagnifyingGlass } from '@components/icon'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
+import { storage } from '@router/router'
 
 const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
   const { t, i18n } = useTranslation()
-  const user = useQuery(api.user.getCurrentUser)
+  const { user } = useUser()
 
   const latest = useQuery(api.user.getLatestVersion, {
     app: 'oscar-tracker',
@@ -28,10 +29,10 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
 
   useEffect(() => {
     if (latest === undefined) return
-    const ver = getItem('version')
+    const ver = storage.getString('version')
 
-    if (ver === null) {
-      setItem('version', packageJson.version)
+    if (ver === undefined) {
+      storage.set('version', packageJson.version)
       return
     }
 
@@ -44,7 +45,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
             text: t('home:update_now'),
             isPreferred: true,
             onPress: (): void => {
-              deleteItemAsync('version')
+              storage.remove('version')
               Linking.openURL(latest.url)
             },
           },

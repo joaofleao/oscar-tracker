@@ -80,20 +80,22 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
 
   return (
     <>
-      <Animated.View
-        key={activeElement}
-        style={[styles.backgroundContainer]}
-        entering={FadeIn}
-        exiting={FadeOut}
-      >
-        {nominations.map((el, index) => (
-          <Animated.Image
-            key={el.title}
-            blurRadius={8}
-            source={{ uri: `https://image.tmdb.org/t/p/w200${el.image}` }}
-            style={[styles.backgroundImage, index === activeElement ? styles.backgroundImageActive : styles.backgroundImageInactive]}
-          />
-        ))}
+      <View style={[styles.backgroundContainer]}>
+        <Animated.View
+          key={activeElement}
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={[styles.backgroundAnimated]}
+        >
+          {nominations.map((el, index) => (
+            <Animated.Image
+              key={el.title}
+              blurRadius={8}
+              source={{ uri: `https://image.tmdb.org/t/p/w200${el.image}` }}
+              style={[styles.backgroundImage, index === activeElement ? styles.backgroundImageActive : styles.backgroundImageInactive]}
+            />
+          ))}
+        </Animated.View>
         <LinearGradient
           colors={semantics.background.base.gradient as any}
           style={styles.gradientTop}
@@ -102,7 +104,7 @@ const BigCaroussel = ({ nominations = [], button, extra, title }: BigCarousselPr
           colors={semantics.background.base.gradient.toReversed() as any}
           style={styles.gradientBottom}
         />
-      </Animated.View>
+      </View>
       <View style={styles.container}>
         <View style={styles.contentWrapper}>
           <Animated.FlatList

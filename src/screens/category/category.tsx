@@ -14,7 +14,7 @@ import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
 import IconButton from '@components/icon_button'
 import ListItem, { ListItemProps } from '@components/list_item'
 import Typography from '@components/typography'
-import { useSettings } from '@providers/settings'
+import { useEdition } from '@providers/edition'
 import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
@@ -23,7 +23,7 @@ type Nomination = (typeof api.oscars.getNominationsByCategory._returnType.nomina
 const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
-  const { edition } = useSettings()
+  const { edition } = useEdition()
   const unwish = useMutation(api.oscars.unwishOscarNomination)
   const wish = useMutation(api.oscars.wishOscarNomination)
   const rankNominations = useMutation(api.oscars.rankNomination)

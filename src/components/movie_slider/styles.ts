@@ -15,7 +15,7 @@ type StyleParams = {
 const useStyles = ({ height, spacing }: StyleParams): StylesReturn => {
   return StyleSheet.create({
     root: {
-      marginVertical: 40,
+      marginVertical: 20,
       position: 'relative',
     },
     list: {

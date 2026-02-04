@@ -41,4 +41,6 @@ android
 temporary
 
 *.ipa
+*.apk
+*.aab
 keys.json

@@ -2,6 +2,7 @@ import { ImageStyle, StyleSheet, ViewStyle } from 'react-native'
 
 type StylesReturn = {
   backgroundContainer: ViewStyle
+  backgroundAnimated: ViewStyle
   backgroundImage: ImageStyle
   backgroundImageActive: ImageStyle
   backgroundImageInactive: ImageStyle
@@ -30,6 +31,11 @@ const useStyles = ({ sidePadding, height, cardSpacing }: StyleParams): StylesRet
       width: '120%',
       aspectRatio: 2 / 3,
       alignSelf: 'center',
+    },
+    backgroundAnimated: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
     },
 
     backgroundImage: {

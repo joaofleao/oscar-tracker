@@ -11,6 +11,7 @@ type StylesReturn = {
   body: TextStyle
   description: TextStyle
   legend: TextStyle
+  flex: TextStyle
 }
 
 type StylesProps = {
@@ -86,6 +87,9 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
       lineHeight: 16,
       letterSpacing: 1,
       textTransform: 'uppercase',
+    },
+    flex: {
+      flex: 1,
     },
   })
 }

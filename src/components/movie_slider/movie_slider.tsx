@@ -1,6 +1,7 @@
 import React from 'react'
 import { FlatListProps, ListRenderItem, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { createAnimatedComponent, FadeIn, FadeOut } from 'react-native-reanimated'
 
 import MovieSliderItem, { MovieSliderItemProps } from './movie_slider_item'
 import useStyles from './styles'
@@ -10,6 +11,8 @@ import { TinyChevron } from '@components/tiny_icon'
 const HEIGHT = 96
 const SPACING = 20
 const SNAP = HEIGHT + SPACING
+
+const AnimatedTinyChevron = createAnimatedComponent(TinyChevron)
 
 const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSliderProps): React.ReactElement => {
   const [activeElement, setActiveElement] = React.useState(0)
@@ -53,8 +56,10 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
         onScroll={onScroll}
         {...props}
       />
-      {data.length > 0 && (
-        <TinyChevron
+      {data.length > 0 && !props.refreshing && (
+        <AnimatedTinyChevron
+          entering={FadeIn}
+          exiting={FadeOut}
           orientation="right"
           style={styles.chevron}
         />

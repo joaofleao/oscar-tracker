@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, Platform, Pressable, View } from 'react-native'
-import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import Animated, { Extrapolation, FadeIn, interpolate, useAnimatedStyle } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { BigCardProps } from './types'
@@ -34,7 +34,8 @@ const BigCard = ({ image, spoiler, winner, watched, index, scrollX, ...props }: 
       >
         {hasImage && (
           <View style={[styles.container, winner && styles.winner]}>
-            <Image
+            <Animated.Image
+              entering={FadeIn}
               blurRadius={spoiler && !watched ? 20 : 0}
               source={{ uri: image }}
               style={styles.image}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Image, Pressable, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { Pressable, View } from 'react-native'
+import Animated, { FadeIn, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import { BlurView } from 'expo-blur'
 
 import useStyles from './styles'
@@ -21,7 +21,8 @@ const Poster = ({ spoiler, toggleSpoiler, placeholder, style, ...props }: Poster
   })
 
   const content = (
-    <Image
+    <Animated.Image
+      entering={FadeIn}
       {...props}
       style={[styles.image, style]}
     />
@@ -36,7 +37,7 @@ const Poster = ({ spoiler, toggleSpoiler, placeholder, style, ...props }: Poster
         {content}
         <Animated.View style={[styles.spoiler, spoilerStyle]}>
           <BlurView
-            intensity={20}
+            intensity={50}
             style={styles.blur}
           />
           <IconEyeClosed />

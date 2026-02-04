@@ -1,7 +1,6 @@
-import { ActivityIndicator, FlatList } from 'react-native'
-import Animated, { FadeInUp } from 'react-native-reanimated'
-import { useQuery } from 'convex/react'
-import { api } from 'convex_api'
+import React from 'react'
+import { ActivityIndicator, FlatList, View } from 'react-native'
+import { RefreshControl } from 'react-native-gesture-handler'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -11,21 +10,29 @@ import MovieSlider from '@components/movie_slider'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
-import { useSettings } from '@providers/settings'
+import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
-  const { t, i18n } = useTranslation()
-  const { edition, spoilers } = useSettings()
+  const { t } = useTranslation()
+  const { edition, movies, refreshFriendsWatches } = useEdition()
+  const { spoilers } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
+  const [refreshing, setRefreshing] = React.useState(false)
 
   const styles = useStyles()
   const { semantics } = useTheme()
 
-  const movies = useQuery(api.oscars.getMovies, { editionId: edition?._id, language: i18n.language }) || []
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true)
 
-  //TODO
+    refreshFriendsWatches()
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 2000)
+  }, [refreshFriendsWatches])
 
   // sort
   // by Nominations
@@ -77,8 +84,16 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   return (
     <>
       <Header animation={animation} />
-      {movies.length === 0 && emptyState()}
+      {movies?.length === 0 && emptyState()}
       <MovieSlider
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
         onScroll={onScroll}
         data={movies.map((movie) => ({
           watched: movie.watched,
@@ -88,12 +103,10 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           description: `${movie.nominationCount} ${movie.nominationCount === 1 ? t('movies:nomination') : t('movies:nominations_plural')}`,
           bottomArea:
             movie.friends_who_watched.length > 0 ? (
-              <Animated.View
-                style={styles.bottomArea}
-                entering={FadeInUp.delay(200)}
-              >
+              <View style={styles.bottomArea}>
                 <Typography legend>{t('movies:watched_by')}</Typography>
                 <FlatList
+                  contentContainerStyle={styles.friendsList}
                   alwaysBounceHorizontal={false}
                   horizontal
                   data={movie.friends_who_watched}
@@ -104,7 +117,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
                     />
                   )}
                 />
-              </Animated.View>
+              </View>
             ) : undefined,
           onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
         }))}

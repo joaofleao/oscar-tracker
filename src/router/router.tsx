@@ -1,7 +1,7 @@
 import React from 'react'
 import { Platform, StatusBar, View } from 'react-native'
+import { createMMKV } from 'react-native-mmkv'
 import * as Fonts from 'expo-font'
-import * as SecureStore from 'expo-secure-store'
 import * as SplashScreen from 'expo-splash-screen'
 import { use as run } from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
@@ -22,17 +22,19 @@ import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
 import Search from '@screens/search'
+import SearchFriends from '@screens/search_friends'
 import SelectEdition from '@screens/select_edition'
 import Settings from '@screens/settings'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
 
+export const storage = createMMKV()
 const Stack = createNativeStackNavigator<StackProps>()
 const Tabs = createBottomTabNavigator<StackProps>()
 
 const initI18n = async (): Promise<void> => {
-  const lng = SecureStore.getItem('language') ?? 'en_US'
+  const lng = storage.getString('user.language') ?? 'en_US'
   run(initReactI18next).init({
     resources: {
       pt_BR: ptBR,
@@ -179,6 +181,15 @@ const Router = (): React.ReactNode => {
           <Stack.Screen
             name={'search'}
             component={Search}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
+              sheetAllowedDetents: 'fitToContents',
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'search_friends'}
+            component={SearchFriends}
             options={{
               presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
               sheetAllowedDetents: 'fitToContents',

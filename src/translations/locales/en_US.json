@@ -58,6 +58,14 @@
     "users": "Users",
     "movies": "Movies"
   },
+  "search_friends": {
+    "title": "Add Friend",
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+    "no_results": "No results",
+    "empty_state": "Type the username to add friends."
+  },
   "movie": {
     "error_title": "Error",
     "watch_error": "Failed to mark movie as watched. Please try again.",
@@ -106,6 +114,7 @@
     "remove": "Remove"
   },
   "profile": {
+    "add_friends": "Add Friends",
     "settings": "Settings",
     "followers": "Followers",
     "empty_following_title": "You are not following anyone",
@@ -125,7 +134,7 @@
   },
   "settings": {
     "edit": "edit",
-    "clean_cache": "clean cache",
+    "clean_cache": "Hold to clear cache",
     "remove": "remove",
     "change": "change",
     "settings": "Settings",

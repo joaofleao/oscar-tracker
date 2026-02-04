@@ -27,7 +27,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       height: '100%',
     },
     apple: {
-      backgroundColor: semantics[variant].base.darken,
+      backgroundColor: semantics[variant].base.tint,
     },
     android: {
       backgroundColor: semantics[variant].base.darken,

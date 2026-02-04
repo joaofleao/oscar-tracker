@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import Animated, { LinearTransition } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { ProgressBarProps } from './types'
@@ -13,7 +14,10 @@ const ProgressBar = ({ value, maxValue, style }: ProgressBarProps): React.ReactE
     <View style={[styles.root, style]}>
       <Typography legend>{String(value).padStart(2, '0')}</Typography>
       <View style={styles.placeholder}>
-        <View style={styles.progress} />
+        <Animated.View
+          layout={LinearTransition.springify()}
+          style={styles.progress}
+        />
       </View>
       <Typography legend>{String(maxValue).padStart(2, '0')}</Typography>
     </View>

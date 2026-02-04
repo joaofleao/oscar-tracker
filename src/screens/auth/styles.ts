@@ -28,6 +28,7 @@ const useStyles = (): StylesReturn => {
     },
     content: {
       gap: 20,
+      width: '80%',
     },
     logo: {
       alignItems: 'center',

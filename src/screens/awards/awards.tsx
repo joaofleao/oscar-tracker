@@ -14,7 +14,7 @@ import { TriangleLogo } from '@components/logo'
 import Row from '@components/row'
 import { TinyArrow } from '@components/tiny_icon'
 import Typography from '@components/typography'
-import { useSettings } from '@providers/settings'
+import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
 import { ordinal } from '@utils/ordinals'
@@ -23,7 +23,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
   const styles = useStyles()
   const curtainsOpen = useSharedValue(0)
   const { width } = Dimensions.get('window')
-  const { edition } = useSettings()
+  const { edition } = useEdition()
 
   const [showing, setShowing] = React.useState(0)
   const { semantics } = useTheme()

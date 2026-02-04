@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Alert, Platform, ScrollView, View } from 'react-native'
-import { Authenticated, useAction, useMutation, useQuery } from 'convex/react'
+import { Authenticated, useAction, useMutation } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
-import * as SecureStore from 'expo-secure-store'
 import { useTranslation } from 'react-i18next'
 import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 
@@ -12,27 +11,29 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Blur from '@components/blur'
 import Button from '@components/button'
-import { IconBroom, IconDoor, IconImages, IconTrash } from '@components/icon'
-import IconButton from '@components/icon_button'
+import { IconDoor, IconImages, IconTrash } from '@components/icon'
 import Modal from '@components/modal'
 import Question from '@components/question'
 import Row from '@components/row'
 import Section from '@components/section'
-import { TinyChevron } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
-import { useSettings } from '@providers/settings'
+import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
+import { storage } from '@router/router'
 import { ScreenType } from '@router/types'
 
 const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { semantics } = useTheme()
-  const { spoilers, setSpoilers, language, setLanguage } = useSettings()
+  const { refreshEditionData } = useEdition()
+
+  const { spoilers, setSpoilers, setLanguage, user } = useUser()
 
   const { signOut } = useAuthActions()
-  const user = useQuery(api.user.getCurrentUser)
+
   const updateUser = useMutation(api.user.updateUser)
   const generateUploadUrl = useMutation(api.user.generateUploadUrl)
 
@@ -40,6 +41,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const [loadingSignOut, setLoadingSignOut] = useState<boolean>(false)
   const [deleteModal, setDeleteModal] = useState<boolean>(false)
   const [deletedModal, setDeletedModal] = useState<boolean>(false)
+
   const deleteAccount = useAction(api.user.deleteAccount)
   const catchConvexError = useConvexErrorHandler()
 
@@ -75,6 +77,10 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   const handleSignOut = async (): Promise<void> => {
     setLoadingSignOut(true)
+    storage.remove('user.data')
+    storage.remove('user.following')
+    storage.remove('user.followers')
+
     void signOut()
       .catch(catchConvexError)
       .then(() => {
@@ -84,17 +90,12 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   }
 
   const handleCleanCache = async (): Promise<void> => {
-    await SecureStore.deleteItemAsync('language')
-    await SecureStore.deleteItemAsync('currentEdition')
-    await SecureStore.deleteItemAsync('hidePoster')
-    await SecureStore.deleteItemAsync('hidePlot')
-    await SecureStore.deleteItemAsync('hideRate')
-    await SecureStore.deleteItemAsync('hideCast')
-    await SecureStore.deleteItemAsync('version')
+    storage.clearAll()
   }
 
   const handleSwitchLanguage = (value: boolean): void => {
     setLanguage(value ? 'en_US' : 'pt_BR')
+    refreshEditionData()
   }
 
   const handleChangeImage = async (): Promise<void> => {
@@ -126,24 +127,26 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
         contentContainerStyle={styles.content}
       >
         <Authenticated>
-          <View style={styles.avatarContainer}>
-            <Avatar
-              name={user?.name}
-              image={user?.imageURL ?? undefined}
-            />
-            <View style={styles.avatarButtons}>
-              <Button
-                onPress={handleRemoveImage}
-                title={t('settings:remove')}
-                icon={<IconTrash />}
+          {Platform.OS === 'ios' && (
+            <View style={styles.avatarContainer}>
+              <Avatar
+                name={user?.name}
+                image={user?.imageURL ?? undefined}
               />
-              <Button
-                onPress={handleChangeImage}
-                title={t('settings:change')}
-                icon={<IconImages />}
-              />
+              <View style={styles.avatarButtons}>
+                <Button
+                  onPress={handleRemoveImage}
+                  title={t('settings:remove')}
+                  icon={<IconTrash />}
+                />
+                <Button
+                  onPress={handleChangeImage}
+                  title={t('settings:change')}
+                  icon={<IconImages />}
+                />
+              </View>
             </View>
-          </View>
+          )}
           <Section
             title={t('settings:account')}
             button={{
@@ -169,7 +172,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             title={t('settings:language')}
             off={t('settings:ptbr')}
             on={t('settings:enus')}
-            selected={language === 'en_US'}
+            selected={i18n.language === 'en_US'}
             setSelected={handleSwitchLanguage}
           />
         </Section>
@@ -206,15 +209,10 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
         </Section>
 
         <View style={styles.footer}>
-          <Button
-            variant="ghost"
-            onPress={handleCleanCache}
-            title={t('settings:clean_cache')}
-            icon={<IconBroom />}
-          />
-
           <Authenticated>
             <Button
+              onLongPress={handleCleanCache}
+              tooltip={t('settings:clean_cache')}
               loading={loadingSignOut}
               onPress={handleSignOut}
               title={t('settings:sign_out')}

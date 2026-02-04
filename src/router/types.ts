@@ -19,6 +19,7 @@ export type StackProps = {
   preferences: undefined
   profile: undefined
   search: undefined
+  search_friends: undefined
   settings: undefined
   movie: { tmdbId: number }
   category: { categoryId: GenericId<'oscarCategories'> }
