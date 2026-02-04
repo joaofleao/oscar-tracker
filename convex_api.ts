@@ -566,6 +566,7 @@ export type PublicApiType = {
       {
         _id: Id<'oscarEditions'>
         announcement?: number
+        complete?: boolean
         date: number
         number: number
         year: number

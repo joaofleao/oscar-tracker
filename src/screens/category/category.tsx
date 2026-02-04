@@ -11,7 +11,6 @@ import Blur from '@components/blur'
 import Button from '@components/button'
 import DraggableListItem from '@components/dragable_list_item'
 import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
-import IconButton from '@components/icon_button'
 import ListItem, { ListItemProps } from '@components/list_item'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
@@ -150,7 +149,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
           entering={FadeInDown.delay(300)}
           exiting={FadeOutUp.delay(300)}
         >
-          <IconButton
+          <Button
             icon={<IconDiscard />}
             onPress={handleReset}
           />

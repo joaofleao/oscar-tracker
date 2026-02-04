@@ -14,7 +14,7 @@ const HOLD_DURATION = 2000 // 3 second countdown
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
 
-const Button = ({ small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
+const Button = ({ placeholder = false, small = false, variant: variantProp = 'container', tooltip, title, icon, style, loading = false, onLongPress, onPressIn: onPressInProp, onPressOut: onPressOutProp, iconPosition = 'leading', ...props }: ButtonProps): React.ReactElement => {
   const isGhost = variantProp === 'ghost'
   const variant = isGhost ? 'container' : variantProp
   const styles = useStyles({ variant })
@@ -78,7 +78,7 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
     <>
       <AnimatedTouchableOpacity
         delayLongPress={3000}
-        style={[styles.root, isGhost && styles.ghost, small && styles.small, style]}
+        style={[styles.root, isGhost && styles.ghost, small && styles.smallRoot, placeholder && styles.hide, style]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onLongPress={onLongPress}
@@ -93,10 +93,12 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
               size: 16,
               ...icon.props,
             })}
+
           {title && (
             <Typography
               legend={small}
               color={props.disabled ? theme.semantics[variant].stroke.default : theme.semantics[variant].foreground[isGhost ? 'light' : 'default']}
+              style={[styles.title, small && styles.smallTitle]}
             >
               {title}
             </Typography>
@@ -107,11 +109,12 @@ const Button = ({ small = false, variant: variantProp = 'container', tooltip, ti
             React.cloneElement<IconProps>(icon, {
               color: props.disabled ? theme.semantics[variant].stroke.default : theme.semantics[variant].foreground.default,
               size: 16,
+
               ...icon.props,
             })}
         </View>
 
-        <View style={[styles.loading, !loading && styles.hide]}>
+        <View style={[styles.loading, !loading && styles.hide, small && styles.smallContent]}>
           <ActivityIndicator color={theme.semantics[variant].foreground.default} />
         </View>
       </AnimatedTouchableOpacity>

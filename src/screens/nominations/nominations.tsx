@@ -9,6 +9,7 @@ import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
+import { IconFilter } from '@components/icon'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
@@ -137,7 +138,13 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
 
   return (
     <>
-      <Header animation={animation} />
+      <Header
+        animation={animation}
+        button={{
+          icon: <IconFilter />,
+          onPress: () => navigation.navigate('filter'),
+        }}
+      />
       {nominations.length === 0 && emptyState()}
       <FlatList
         overScrollMode="never"

@@ -14,15 +14,11 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       paddingTop: top + 16,
-      flexDirection: 'row',
       paddingVertical: 16,
       paddingHorizontal: 24,
       zIndex: 20,
     },
-    content: {
-      flex: 1,
-      alignItems: 'center',
-    },
+    content: {},
     background: {
       top: 0,
       left: 0,

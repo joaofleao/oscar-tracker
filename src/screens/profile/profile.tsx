@@ -12,7 +12,6 @@ import Column from '@components/column'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
 import { IconOscar, IconSettings } from '@components/icon'
-import IconButton from '@components/icon_button'
 import Row from '@components/row'
 import SegmentedControl from '@components/segmented_control'
 import SmallCard from '@components/small_card'
@@ -59,37 +58,27 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const header = (
     <View style={styles.root}>
-      <Row between>
-        <IconButton
-          icon={<IconSettings />}
-          placeholder
+      <Column
+        style={styles.avatar}
+        middle
+      >
+        <Avatar
+          image={user?.imageURL}
+          name={user?.name}
         />
-        <Column
-          style={styles.avatar}
-          middle
-        >
-          <Avatar
-            image={user?.imageURL}
-            name={user?.name}
-          />
 
-          <Authenticated>
-            <View>
-              <Typography center>{user?.name}</Typography>
-              <Typography
-                center
-                description
-              >
-                {user?.username}
-              </Typography>
-            </View>
-          </Authenticated>
-        </Column>
-        <IconButton
-          icon={<IconSettings />}
-          onPress={() => navigation.navigate('settings')}
-        />
-      </Row>
+        <Authenticated>
+          <View>
+            <Typography center>{user?.name}</Typography>
+            <Typography
+              center
+              description
+            >
+              {user?.username}
+            </Typography>
+          </View>
+        </Authenticated>
+      </Column>
 
       <Authenticated>
         <Row center>
@@ -227,7 +216,13 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   return (
     <>
-      <Header animation={animation} />
+      <Header
+        animation={animation}
+        button={{
+          icon: <IconSettings />,
+          onPress: () => navigation.navigate('settings'),
+        }}
+      />
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
     </>

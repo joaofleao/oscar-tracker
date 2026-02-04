@@ -52,6 +52,7 @@ const useStyles = (): StylesReturn => {
       justifyContent: 'space-between',
       width: '100%',
       flexDirection: 'row',
+      alignItems: 'flex-start',
     },
     chips: {
       gap: 8,

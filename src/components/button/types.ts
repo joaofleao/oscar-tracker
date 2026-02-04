@@ -5,7 +5,8 @@ import { IconProps } from '@components/icon'
 import { SemanticsType } from '@providers/theme'
 
 export interface ButtonProps extends TouchableOpacityProps {
-  title: string
+  placeholder?: boolean
+  title?: string
   icon?: React.ReactElement<IconProps>
   small?: boolean
   loading?: boolean

@@ -5,15 +5,18 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import { HeaderProps } from './types'
+import Button from '@components/button'
 import HeaderBlur from '@components/header_blur'
+import { IconFilter, IconSettings } from '@components/icon'
 import ProgressBar from '@components/progress_bar'
+import Row from '@components/row'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { useNavigation } from '@react-navigation/native'
 import { ordinal } from '@utils/ordinals'
 
-const Header = ({ animation }: HeaderProps): React.ReactElement => {
+const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
   const styles = useStyles()
   const navigation = useNavigation()
   const { semantics } = useTheme()
@@ -31,7 +34,9 @@ const Header = ({ animation }: HeaderProps): React.ReactElement => {
         variant="background"
       >
         <View style={styles.root}>
-          <View style={styles.content}>
+          <Row between>
+            <Button placeholder />
+
             <TouchableOpacity onPress={() => navigation.navigate('select_edition' as never)}>
               <Typography
                 center
@@ -50,11 +55,17 @@ const Header = ({ animation }: HeaderProps): React.ReactElement => {
                 </Typography>
               )}
             </TouchableOpacity>
-            <ProgressBar
-              value={userWatches.length}
-              maxValue={movies.length}
+
+            <Button
+              variant="ghost"
+              icon={button.icon}
+              onPress={button.onPress}
             />
-          </View>
+          </Row>
+          <ProgressBar
+            value={userWatches.length}
+            maxValue={movies.length}
+          />
         </View>
       </HeaderBlur>
     </>

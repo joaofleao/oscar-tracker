@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import Blur from '@components/blur'
+import Button from '@components/button'
 import Caroussel from '@components/caroussel'
 import { IconX } from '@components/icon'
-import IconButton from '@components/icon_button'
 import Row from '@components/row/row'
 import SearchInput from '@components/search_input'
 import Section from '@components/section'
@@ -75,7 +75,7 @@ const SearchFriends: ScreenType<'search_friends'> = ({ navigation, route }) => {
           }}
         />
         {Platform.OS === 'ios' && (
-          <IconButton
+          <Button
             onPress={navigation.goBack}
             icon={<IconX />}
           />

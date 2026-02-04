@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import Blur from '@components/blur'
+import Button from '@components/button'
 import Caroussel from '@components/caroussel'
 import { IconX } from '@components/icon'
-import IconButton from '@components/icon_button'
 import MediumCard from '@components/medium_card'
 import Row from '@components/row/row'
 import SearchInput from '@components/search_input'
@@ -104,7 +104,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
           }}
         />
         {Platform.OS === 'ios' && (
-          <IconButton
+          <Button
             onPress={navigation.goBack}
             icon={<IconX />}
           />

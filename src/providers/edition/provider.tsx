@@ -14,8 +14,9 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   const [allEditions, setAllEditions] = useMMKVObject<EditionContextType['editions']>('editions.all')
   const [edition, setEdition] = useMMKVObject<EditionContextType['edition']>('editions.current')
+
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
-  const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('editions.all')
+  const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
@@ -107,7 +108,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
         nominations: nominationsWithWatches,
         movies: moviesWithWatches,
         userWatches: userWatches,
-        friendsWatches: friendsWatches || [],
+        friendsWatches: [],
       }}
     >
       {children}

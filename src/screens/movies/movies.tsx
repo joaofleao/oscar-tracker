@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import useStyles from './styles'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
+import { IconFilter } from '@components/icon'
 import MovieSlider from '@components/movie_slider'
 import TinyAvatar from '@components/tiny_avatar'
 import Typography from '@components/typography'
@@ -83,7 +84,13 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   return (
     <>
-      <Header animation={animation} />
+      <Header
+        animation={animation}
+        button={{
+          icon: <IconFilter />,
+          onPress: () => navigation.navigate('filter'),
+        }}
+      />
       {movies?.length === 0 && emptyState()}
       <MovieSlider
         refreshing={refreshing}

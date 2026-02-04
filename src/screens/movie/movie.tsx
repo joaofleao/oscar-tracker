@@ -15,7 +15,6 @@ import Caroussel from '@components/caroussel'
 import Chip from '@components/chip'
 import Dropdown from '@components/dropdown'
 import { IconCalendar, IconEyeClosed, IconEyeOpen, IconIMDB, IconLanguages, IconOscar, IconRuntime, IconStar } from '@components/icon'
-import IconButton from '@components/icon_button'
 import Modal from '@components/modal'
 import Paragraph from '@components/paragraph'
 import Poster from '@components/poster'
@@ -145,11 +144,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
       >
         <View style={styles.main}>
           <View style={styles.posterContainer}>
-            <IconButton
-              placeholder
-              icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
-              onPress={() => setHideInfo((prev) => !prev)}
-            />
+            <Button placeholder />
 
             <Poster
               source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath}` }}
@@ -157,7 +152,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
               spoiler={!watched && hideInfo && localSpoiler.hidePoster}
             />
 
-            <IconButton
+            <Button
               placeholder={!!watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
               icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
               onPress={() => setHideInfo((prev) => !prev)}
