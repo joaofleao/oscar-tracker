@@ -141,7 +141,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       <Header
         animation={animation}
         button={{
-          icon: <IconFilter />,
+          icon: <IconFilter color={semantics.container.foreground.light} />,
           onPress: () => navigation.navigate('filter'),
         }}
       />

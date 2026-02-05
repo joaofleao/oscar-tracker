@@ -40,8 +40,6 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   // by Name
 
   // filters
-  // by categories
-  // by types (live/animated/documentary long/short)
   // by watched/unwatched/all
   // streaming on
 
@@ -87,7 +85,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       <Header
         animation={animation}
         button={{
-          icon: <IconFilter />,
+          icon: <IconFilter color={semantics.container.foreground.light} />,
           onPress: () => navigation.navigate('filter'),
         }}
       />

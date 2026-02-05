@@ -138,7 +138,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
         nominations: enrichedNominations,
         movies: moviesWithWatches,
         userWatches: userWatches,
-        friendsWatches: [],
+        friendsWatches: friendsWatches ?? [],
 
         hiddenCategories: hiddenCategories ?? [],
         orderedCategories: orderedCategories ?? [],
