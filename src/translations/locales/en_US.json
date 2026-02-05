@@ -188,5 +188,11 @@
     "coming_soon": "coming soon",
     "your_rank": "your rank",
     "not_ranked": "not ranked"
+  },
+  "filter": {
+    "save": "Save",
+    "filter": "Filter",
+    "categories": "Categories",
+    "restore_defaults": "Restore Defaults"
   }
 }

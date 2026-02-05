@@ -192,5 +192,11 @@
     "coming_soon": "em breve",
     "your_rank": "sua classificação",
     "not_ranked": "não classificado"
+  },
+  "filter": {
+    "save": "Salvar",
+    "filter": "Filtrar",
+    "categories": "Categorias",
+    "restore_defaults": "Restaurar Padrões"
   }
 }

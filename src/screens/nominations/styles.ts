@@ -19,7 +19,7 @@ const useStyles = (): StylesReturn => {
       paddingLeft: left + 20,
     },
     content: {
-      gap: 16,
+      gap: 32,
     },
 
     empty: {

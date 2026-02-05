@@ -3,7 +3,7 @@ import { AnimatedProps } from 'react-native-reanimated'
 
 import { IconProps } from '@components/icon'
 
-export interface ListItemSecondaryActionProps extends Omit<PressableProps, 'onPress'> {
+export interface SmallListItemSecondaryActionProps extends Omit<PressableProps, 'onPress'> {
   icon?: React.ReactElement<IconProps>
   selectedIcon?: React.ReactElement<IconProps>
   title?: string
@@ -13,17 +13,17 @@ export interface ListItemSecondaryActionProps extends Omit<PressableProps, 'onPr
   selected?: boolean
 }
 
-export interface ListItemPrimaryActionProps extends Omit<PressableProps, 'onPress' | 'onLongPress'> {
+export interface SmallListItemPrimaryActionProps extends Omit<PressableProps, 'onPress' | 'onLongPress'> {
   onPress?: (e: GestureResponderEvent, id: string) => void
   onLongPress?: (e: GestureResponderEvent, id: string) => void
 }
 
-export interface ListItemProps {
+export interface SmallListItemProps {
   layout?: AnimatedProps<View>['layout']
   id: string
   image?: string
   watched?: boolean
-  spoiler?: boolean
+  ghost?: boolean
   winner?: boolean
 
   title?: string
@@ -32,6 +32,6 @@ export interface ListItemProps {
 
   bottomArea?: React.ReactElement
 
-  mainAction?: ListItemPrimaryActionProps
-  secondaryActions?: ListItemSecondaryActionProps[]
+  mainAction?: SmallListItemPrimaryActionProps
+  secondaryActions?: SmallListItemSecondaryActionProps[]
 }

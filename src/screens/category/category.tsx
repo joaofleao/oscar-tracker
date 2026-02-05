@@ -11,7 +11,6 @@ import Blur from '@components/blur'
 import Button from '@components/button'
 import DraggableListItem from '@components/dragable_list_item'
 import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
-import ListItem, { ListItemProps } from '@components/list_item'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { usePreventRemove } from '@react-navigation/native'
@@ -26,6 +25,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const unwish = useMutation(api.oscars.unwishOscarNomination)
   const wish = useMutation(api.oscars.wishOscarNomination)
   const rankNominations = useMutation(api.oscars.rankNomination)
+
   const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
 
@@ -88,37 +88,6 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
 
   if (!data) return <></>
 
-  const overlapingProps = (item: Nomination, index: number): ListItemProps => ({
-    id: item.nominationId,
-    title: item.title,
-    watched: item.watched,
-    image: `https://image.tmdb.org/t/p/w200${item.image}`,
-    description: item.description,
-    extra: item.extra,
-    winner: item.winner,
-    mainAction: {
-      onPress: () => navigation.navigate('movie', { tmdbId: item.tmdbId }),
-    },
-    secondaryActions: [
-      {
-        icon: <IconFingersCrossed />,
-        onPress: async (): Promise<void> => {
-          if (!isAuthenticated) return navigation.navigate('auth')
-          if (wishLoading) return
-          setWishLoading(item.nominationId)
-          try {
-            if (item.wish) await unwish({ nominationId: item.nominationId })
-            else await wish({ nominationId: item.nominationId })
-          } finally {
-            setWishLoading(undefined)
-          }
-        },
-        filled: item.wish,
-        disabled: wishLoading === item.nominationId,
-      },
-    ],
-  })
-
   const distanceFromNow = new Date(edition?.date ?? 0).getTime() - new Date().getTime()
 
   return (
@@ -132,15 +101,43 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
         contentContainerStyle={hasChanges ? styles.contentCompensation : styles.content}
         data={localNominations}
         ItemSeparatorComponent={() => <View style={styles.gap} />}
-        renderItem={({ item, index }) => {
-          if (edition?.complete && distanceFromNow > 0)
-            return (
-              <DraggableListItem
-                index={item.rank}
-                {...overlapingProps(item, index)}
-              />
-            )
-          return <ListItem {...overlapingProps(item, index)} />
+        renderItem={({ item }) => {
+          return (
+            <DraggableListItem
+              disabled={!edition?.complete || distanceFromNow < 0}
+              index={item.rank}
+              id={item.nominationId}
+              title={item.title}
+              watched={item.watched}
+              image={`https://image.tmdb.org/t/p/w200${item.image}`}
+              description={item.description}
+              extra={item.extra}
+              winner={item.winner}
+              mainAction={{
+                onPress: () => navigation.navigate('movie', { tmdbId: item.tmdbId }),
+              }}
+              secondaryActions={[
+                {
+                  icon: <IconFingersCrossed />,
+                  selectedIcon: <IconFingersCrossed filled />,
+                  selected: item.wish,
+
+                  onPress: async (): Promise<void> => {
+                    if (!isAuthenticated) return navigation.navigate('auth')
+                    if (wishLoading) return
+                    setWishLoading(item.nominationId)
+                    try {
+                      if (item.wish) await unwish({ nominationId: item.nominationId })
+                      else await wish({ nominationId: item.nominationId })
+                    } finally {
+                      setWishLoading(undefined)
+                    }
+                  },
+                  disabled: wishLoading === item.nominationId,
+                },
+              ]}
+            />
+          )
         }}
       />
       {hasChanges && (

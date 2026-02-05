@@ -17,6 +17,10 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
   const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
+
+  const [hiddenCategories, setHiddenCategories] = useMMKVObject<string[]>('categories.hidden')
+  const [orderedCategories, setOrderedCategories] = useMMKVObject<string[]>('categories.ordered')
+
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
@@ -83,19 +87,44 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const moviesWithWatches = movies.map((movie) => ({
-    ...movie,
-    watched: userWatches.some((watch) => watch === movie._id),
-    friends_who_watched: (friendsWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
-  }))
+  const moviesWithWatches = movies
+    .map((movie) => ({
+      ...movie,
+      watched: userWatches.some((watch) => watch === movie._id),
+      friends_who_watched: (friendsWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
+    }))
+    .filter((movie) => {
+      const movieCategories = nominations.filter((nomination) => nomination.nominations.some((nominatedMovie) => nominatedMovie.movieId === movie._id)).map((nomination) => nomination.category._id)
+      return movieCategories.some((categoryId) => !(hiddenCategories ?? []).includes(categoryId))
+    })
 
-  const nominationsWithWatches = nominations.map((nomination) => ({
-    ...nomination,
-    nominations: nomination.nominations.map((nominatedMovie) => ({
-      ...nominatedMovie,
-      watched: userWatches.some((watch) => watch === nominatedMovie.movieId),
-    })),
-  }))
+  const clearCategoriesSettings: EditionContextType['clearCategoriesSettings'] = () => {
+    setHiddenCategories([])
+    setOrderedCategories([])
+  }
+
+  const enrichedNominations = nominations
+    .map((nomination) => ({
+      ...nomination,
+      category: { ...nomination.category, hide: (hiddenCategories ?? []).includes(nomination.category._id) },
+      nominations: nomination.nominations.map((nominatedMovie) => ({
+        ...nominatedMovie,
+        watched: userWatches.some((watch) => watch === nominatedMovie.movieId),
+      })),
+    }))
+    .sort((a, b) => {
+      if (!orderedCategories || orderedCategories.length === 0) return 0
+
+      const indexA = orderedCategories.indexOf(a.category._id)
+      const indexB = orderedCategories.indexOf(b.category._id)
+
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB
+      }
+      if (indexA !== -1) return -1
+      if (indexB !== -1) return 1
+      return 0
+    })
 
   return (
     <SettingsContext.Provider
@@ -105,10 +134,19 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
         editions: allEditions ?? [],
         edition,
         selectEdition,
-        nominations: nominationsWithWatches,
+
+        nominations: enrichedNominations,
         movies: moviesWithWatches,
         userWatches: userWatches,
         friendsWatches: [],
+
+        hiddenCategories: hiddenCategories ?? [],
+        orderedCategories: orderedCategories ?? [],
+
+        setOrderedCategories,
+        setHiddenCategories,
+
+        clearCategoriesSettings,
       }}
     >
       {children}

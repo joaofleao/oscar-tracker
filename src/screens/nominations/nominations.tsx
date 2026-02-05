@@ -151,7 +151,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         onScroll={onScroll}
         style={styles.root}
         contentContainerStyle={styles.content}
-        data={nominations}
+        data={nominations.filter((nomination) => !nomination.category.hide)}
         renderItem={renderCaroussel}
       />
     </>

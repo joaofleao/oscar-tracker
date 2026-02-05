@@ -16,7 +16,7 @@ const ListItem = ({ id, title, watched = false, spoiler = false, winner = false,
   const hasSecondaryActions = secondaryActions !== undefined && secondaryActions.length > 0
 
   const renderSecondaryAction = (button: ListItemSecondaryActionProps, index: number): React.ReactElement | undefined => {
-    const { title, icon, onPress, loading = false, disabled = false, filled = false, ...rest } = button
+    const { title, icon, selectedIcon, onPress, loading = false, disabled = false, selected = false, ...rest } = button
 
     return (
       <React.Fragment key={index}>
@@ -30,10 +30,17 @@ const ListItem = ({ id, title, watched = false, spoiler = false, winner = false,
             {title && <Typography color={loading || disabled ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default}>{title}</Typography>}
 
             {icon &&
+              !selected &&
               React.cloneElement<IconProps>(icon, {
                 color: disabled || loading ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default,
                 size: 20,
-                filled: filled,
+              })}
+
+            {selectedIcon &&
+              selected &&
+              React.cloneElement<IconProps>(selectedIcon, {
+                color: disabled || loading ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default,
+                size: 20,
               })}
           </View>
 

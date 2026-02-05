@@ -148,26 +148,26 @@ const BigCaroussel = ({ nominations = [], button, extra, title, chip }: BigCarou
                   {extra}
                 </Typography>
               )}
+              <Typography
+                body
+                center
+              >
+                {title}
+              </Typography>
+
               <Row middle>
-                <Typography
-                  body
-                  center
-                >
-                  {title}
-                </Typography>
                 {chip && (
                   <Chip
                     title={chip.title}
                     variant={chip.variant}
                   />
                 )}
+                <Button
+                  small
+                  title={button.title}
+                  onPress={button.action}
+                />
               </Row>
-
-              <Button
-                small
-                title={button.title}
-                onPress={button.action}
-              />
             </View>
           </Animated.View>
         </View>
