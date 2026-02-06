@@ -88,6 +88,14 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
             options={sections}
           />
         </Row>
+
+        <Button
+          small
+          variant="ghost"
+          onPress={() => navigation.navigate('search_friends')}
+          title={t('profile:add_friends')}
+          icon={<TinyPlus />}
+        />
       </Authenticated>
 
       <Unauthenticated>
@@ -124,14 +132,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
               />
             </Row>
           </Unauthenticated>
-          <Authenticated>
-            <Button
-              variant="ghost"
-              onPress={() => navigation.navigate('search_friends')}
-              title={t('profile:add_friends')}
-              icon={<TinyPlus />}
-            />
-          </Authenticated>
         </>
       }
       ListEmptyComponent={

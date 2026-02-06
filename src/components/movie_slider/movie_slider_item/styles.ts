@@ -5,6 +5,7 @@ import { useTheme } from '@providers/theme'
 type StylesReturn = {
   root: ViewStyle
   image: ImageStyle
+  imageContainer: ImageStyle
   content: ViewStyle
   spoiler: ViewStyle
 }
@@ -20,12 +21,16 @@ const useStyles = ({ height }: StylesProps): StylesReturn => {
       flexDirection: 'row',
       gap: 20,
     },
-    image: {
-      height: height ?? 112,
-      aspectRatio: 2 / 3,
+    imageContainer: {
       borderWidth: 1,
       backgroundColor: semantics.container.base.tint,
       borderColor: semantics.container.stroke.default,
+      height: height ?? 112,
+      aspectRatio: 2 / 3,
+    },
+    image: {
+      height: '100%',
+      width: '100%',
     },
     content: {
       justifyContent: 'center',

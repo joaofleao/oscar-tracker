@@ -130,6 +130,8 @@ const PasswordInput = ({ debounce = 0, value, passwordConfirmation, type = 'pass
           cursorColor={semantics.container.foreground.default}
           style={styles.input}
           value={value}
+          textContentType="password"
+          autoCapitalize={'none'}
           {...props}
         />
 

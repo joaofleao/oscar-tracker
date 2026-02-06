@@ -6,7 +6,6 @@ import useStyles from './styles'
 import { MediumCardProps } from './types'
 import { IconLocket, IconOscar } from '@components/icon'
 import Tag from '@components/tag'
-import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 const AnimatedTouchableOpacity = createAnimatedComponent(TouchableOpacity)
 
@@ -50,8 +49,6 @@ const MediumCard = ({ image, label, spoiler, watched, winner, ...props }: Medium
           )}
         </View>
       )}
-
-      <Typography body>{label}</Typography>
     </AnimatedTouchableOpacity>
   )
 }

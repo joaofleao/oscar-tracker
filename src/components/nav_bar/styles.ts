@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { Platform, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useTheme } from '@providers/theme'
@@ -17,7 +17,7 @@ type StylesReturn = {
 
 const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
-  const { bottom, left, right, top } = useSafeAreaInsets()
+  const { bottom, top } = useSafeAreaInsets()
   return StyleSheet.create({
     headerContent: {
       flex: 1,
@@ -47,7 +47,7 @@ const useStyles = (): StylesReturn => {
     },
     footer: {
       position: 'absolute',
-      bottom: bottom,
+      bottom: Platform.OS === 'ios' ? bottom : bottom + 8,
       left: 20,
       right: 20,
       justifyContent: 'space-between',
@@ -57,7 +57,7 @@ const useStyles = (): StylesReturn => {
     footerContainer: {
       flexDirection: 'row',
 
-      borderWidth: 1,
+      borderWidth: 0.6,
       borderColor: semantics.container.stroke.default,
       borderRadius: 30,
     },

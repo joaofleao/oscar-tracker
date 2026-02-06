@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import Animated, { FadeInDown, FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { FadeInUp, LinearTransition, useSharedValue, withTiming } from 'react-native-reanimated'
 
 import useStyles from './styles'
 import { MovieSliderItemProps } from './types'
@@ -12,7 +12,6 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
   const styles = useStyles({ height })
   const { semantics } = useTheme()
   const hasImage = image !== undefined
-
   const animationProgress = useSharedValue(isActive ? 1 : 0)
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
       {...props}
     >
       {hasImage && (
-        <View>
+        <View style={styles.imageContainer}>
           <Image
             blurRadius={spoiler && !watched ? 20 : 0}
             source={{ uri: image }}
@@ -49,7 +48,7 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
           {title}
         </Typography>
 
-        {isActive && (bottomArea || description) && (
+        {(bottomArea || description) && (
           <Animated.View entering={FadeInUp.delay(0)}>
             {description && (
               <Typography

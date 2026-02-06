@@ -47,7 +47,7 @@ const semantics = {
       default: color(primitives.neutral[0], 1),
       pressed: color(primitives.neutral[10], 1),
       tint: color(primitives.neutral[0], 0.6),
-      darken: color(primitives.neutral[0], 0.9),
+      darken: color(primitives.neutral[0], 0.8),
       gradient: [hslaToRGBa(color(primitives.neutral[0], 1)), hslaToRGBa(color(primitives.neutral[0], 0.6)), hslaToRGBa(color(primitives.neutral[0], 0.2)), hslaToRGBa(color(primitives.neutral[0], 0.0))],
     },
     foreground: {
@@ -64,7 +64,7 @@ const semantics = {
       default: color(primitives.neutral[5], 1),
       pressed: color(primitives.neutral[15], 1),
       tint: color(primitives.neutral[5], 0.6),
-      darken: color(primitives.neutral[5], 0.9),
+      darken: color(primitives.neutral[5], 0.8),
       gradient: [hslaToRGBa(color(primitives.neutral[5], 1)), hslaToRGBa(color(primitives.neutral[5], 0.6)), hslaToRGBa(color(primitives.neutral[5], 0.2)), hslaToRGBa(color(primitives.neutral[5], 0.0))],
     },
     foreground: {
@@ -81,7 +81,7 @@ const semantics = {
       default: color(primitives.brand[50], 1),
       pressed: color(primitives.brand[55], 1),
       tint: color(primitives.brand[50], 0.6),
-      darken: color(primitives.brand[50], 0.9),
+      darken: color(primitives.brand[50], 0.8),
       gradient: [hslaToRGBa(color(primitives.brand[50], 1)), hslaToRGBa(color(primitives.brand[50], 0.6)), hslaToRGBa(color(primitives.brand[50], 0.2)), hslaToRGBa(color(primitives.brand[50], 0.0))],
     },
     foreground: {
@@ -98,7 +98,7 @@ const semantics = {
       default: color(primitives.brand[5], 1),
       pressed: color(primitives.brand[10], 1),
       tint: color(primitives.brand[5], 0.6),
-      darken: color(primitives.brand[5], 0.9),
+      darken: color(primitives.brand[5], 0.8),
       gradient: [hslaToRGBa(color(primitives.brand[5], 1)), hslaToRGBa(color(primitives.brand[5], 0.6)), hslaToRGBa(color(primitives.brand[5], 0.2)), hslaToRGBa(color(primitives.brand[5], 0.0))],
     },
     foreground: {
@@ -114,7 +114,7 @@ const semantics = {
       default: color(primitives.vibrant.jade[5], 1),
       pressed: color(primitives.vibrant.jade[10], 1),
       tint: color(primitives.vibrant.jade[5], 0.6),
-      darken: color(primitives.vibrant.jade[5], 0.9),
+      darken: color(primitives.vibrant.jade[5], 0.8),
       gradient: [hslaToRGBa(color(primitives.vibrant.jade[5], 1)), hslaToRGBa(color(primitives.vibrant.jade[5], 0.6)), hslaToRGBa(color(primitives.vibrant.jade[5], 0.2)), hslaToRGBa(color(primitives.vibrant.jade[5], 0.0))],
     },
     foreground: {
@@ -130,7 +130,7 @@ const semantics = {
       default: color(primitives.vibrant.ruby[5], 1),
       pressed: color(primitives.vibrant.ruby[10], 1),
       tint: color(primitives.vibrant.ruby[5], 0.6),
-      darken: color(primitives.vibrant.ruby[5], 0.9),
+      darken: color(primitives.vibrant.ruby[5], 0.8),
       gradient: [hslaToRGBa(color(primitives.vibrant.ruby[5], 1)), hslaToRGBa(color(primitives.vibrant.ruby[5], 0.6)), hslaToRGBa(color(primitives.vibrant.ruby[5], 0.2)), hslaToRGBa(color(primitives.vibrant.ruby[5], 0.0))],
     },
     foreground: {
@@ -146,7 +146,7 @@ const semantics = {
       default: color(primitives.vibrant.tangerine[5], 1),
       pressed: color(primitives.vibrant.tangerine[10], 1),
       tint: color(primitives.vibrant.tangerine[5], 0.6),
-      darken: color(primitives.vibrant.tangerine[5], 0.9),
+      darken: color(primitives.vibrant.tangerine[5], 0.8),
       gradient: [hslaToRGBa(color(primitives.vibrant.tangerine[5], 1)), hslaToRGBa(color(primitives.vibrant.tangerine[5], 0.6)), hslaToRGBa(color(primitives.vibrant.tangerine[5], 0.2)), hslaToRGBa(color(primitives.vibrant.tangerine[5], 0.0))],
     },
     foreground: {
