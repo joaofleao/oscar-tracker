@@ -19,6 +19,7 @@ export interface ListItemPrimaryActionProps extends Omit<PressableProps, 'onPres
 }
 
 export interface ListItemProps {
+  chip: string
   layout?: AnimatedProps<View>['layout']
   id: string
   image?: string

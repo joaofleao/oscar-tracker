@@ -58,6 +58,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
     <View style={styles.contentHeader}>
       <Section title={t('filter:categories')}>
         <SmallListItem
+          chip={` ${nominations[0].nominations.filter((n) => n.watched).length}/${nominations[0].nominations.length} `}
           id={nominations[0].category._id}
           title={nominations[0].category.name}
           secondaryActions={[
@@ -91,6 +92,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
             small
             id={item._id}
             title={item.name}
+            chip={` ${nominations.find((n) => n.category._id === item._id)?.nominations.filter((n) => n.watched).length}/${nominations.find((n) => n.category._id === item._id)?.nominations.length} `}
             secondaryActions={[
               {
                 icon: <IconEyeOpen size={16} />,

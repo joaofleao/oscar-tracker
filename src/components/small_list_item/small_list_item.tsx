@@ -1,14 +1,16 @@
 import React from 'react'
-import { ActivityIndicator, Pressable, View } from 'react-native'
+import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import useStyle from './styles'
 import { SmallListItemProps, SmallListItemSecondaryActionProps } from './types'
+import Chip from '@components/chip'
 import { IconProps } from '@components/icon'
+import Row from '@components/row'
 import Typography from '@components/typography'
-import { semantics, useTheme } from '@providers/theme'
+import { useTheme } from '@providers/theme'
 
-const SmallListItem = ({ ghost, id, title, description, extra, secondaryActions, bottomArea, mainAction, layout }: SmallListItemProps): React.ReactElement => {
+const SmallListItem = ({ ghost, id, title, description, chip, secondaryActions, bottomArea, mainAction, layout }: SmallListItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
   const hasSecondaryActions = secondaryActions !== undefined && secondaryActions.length > 0
@@ -67,29 +69,33 @@ const SmallListItem = ({ ghost, id, title, description, extra, secondaryActions,
         style={({ pressed }) => [styles.content, pressed && mainAction?.onPress && styles.contentPressed, ghost && styles.ghost]}
       >
         <View style={styles.texts}>
-          <View>
-            <Typography body>{typeof title === 'string' ? title : title}</Typography>
-
-            {description && (
-              <Typography
-                body
-                color={semantics.container.foreground.light}
+          <Row middle>
+            {title && (
+              <ScrollView
+                horizontal
+                scrollEnabled
+                showsHorizontalScrollIndicator={false}
+                style={styles.titleScroll}
               >
-                {description}
-              </Typography>
+                <Typography
+                  numberOfLines={1}
+                  body
+                  style={styles.title}
+                >
+                  {title + title + title}
+                </Typography>
+              </ScrollView>
             )}
-            {extra && (
-              <Typography
-                body
-                color={semantics.accent.base.default}
-              >
-                {extra}
-              </Typography>
+            {chip && (
+              <Chip
+                title={chip}
+                variant={chip.split('/')[0] === chip.split('/')[1] ? 'brand' : 'container'}
+              />
             )}
-          </View>
-
-          {bottomArea}
+          </Row>
         </View>
+
+        {bottomArea}
       </Pressable>
 
       {hasSecondaryActions && (

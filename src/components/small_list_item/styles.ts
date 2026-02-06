@@ -4,6 +4,8 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
+  title: ViewStyle
+  titleScroll: ViewStyle
   ghost: ViewStyle
   texts: ViewStyle
   content: ViewStyle
@@ -33,12 +35,17 @@ const useStyles = (): StylesReturn => {
     ghost: {
       opacity: 0.5,
     },
+    title: {
+      flex: 1,
+    },
+    titleScroll: {
+      paddingHorizontal: 16,
+      flex: 1,
+    },
     texts: {
       flex: 1,
       gap: 4,
       justifyContent: 'center',
-
-      paddingHorizontal: 16,
     },
     content: {
       flex: 1,

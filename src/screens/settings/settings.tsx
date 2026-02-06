@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Alert, Platform, ScrollView, View } from 'react-native'
-import { Authenticated, useAction, useMutation } from 'convex/react'
+import { Authenticated, Unauthenticated, useAction, useMutation } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Blur from '@components/blur'
 import Button from '@components/button'
-import { IconDoor, IconImages, IconTrash } from '@components/icon'
+import { IconBroom, IconDoor, IconImages, IconTrash } from '@components/icon'
 import Modal from '@components/modal'
 import Question from '@components/question'
 import Row from '@components/row'
@@ -80,7 +80,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     storage.remove('user.data')
     storage.remove('user.following')
     storage.remove('user.followers')
-
     void signOut()
       .catch(catchConvexError)
       .then(() => {
@@ -219,6 +218,15 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
               icon={<IconDoor />}
             />
           </Authenticated>
+          <Unauthenticated>
+            <Button
+              variant="ghost"
+              onLongPress={handleCleanCache}
+              tooltip={t('settings:clean_cache')}
+              title={t('settings:clean_cache')}
+              icon={<IconBroom />}
+            />
+          </Unauthenticated>
 
           <Typography legend>
             {t('settings:version')}{' '}

@@ -28,7 +28,7 @@ export interface SmallListItemProps {
 
   title?: string
   description?: string
-  extra?: string
+  chip?: string
 
   bottomArea?: React.ReactElement
 
