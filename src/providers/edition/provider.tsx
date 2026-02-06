@@ -113,7 +113,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       })),
     }))
     .sort((a, b) => {
-      if (!orderedCategories || orderedCategories.length === 0) return 0
+      if (!orderedCategories || (orderedCategories ?? []).length === 0) return 0
 
       const indexA = orderedCategories.indexOf(a.category._id)
       const indexB = orderedCategories.indexOf(b.category._id)
