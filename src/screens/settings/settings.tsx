@@ -83,7 +83,7 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     void signOut()
       .catch(catchConvexError)
       .then(() => {
-        navigation.popToTop()
+        navigation.pop()
       })
       .finally(() => setLoadingSignOut(false))
   }
@@ -208,6 +208,15 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
         </Section>
 
         <View style={styles.footer}>
+          <Typography legend>
+            {t('settings:version')}{' '}
+            <Typography
+              color={semantics.accent.base.default}
+              legend
+            >
+              {packageJson.version}
+            </Typography>
+          </Typography>
           <Authenticated>
             <Button
               onLongPress={handleCleanCache}
@@ -228,15 +237,6 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             />
           </Unauthenticated>
 
-          <Typography legend>
-            {t('settings:version')}{' '}
-            <Typography
-              color={semantics.accent.base.default}
-              legend
-            >
-              {packageJson.version}
-            </Typography>
-          </Typography>
           <Authenticated>
             <Button
               variant="negative"

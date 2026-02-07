@@ -67,6 +67,17 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           name={user?.name}
         />
 
+        <Unauthenticated>
+          <Row center>
+            <Button
+              icon={<IconOscar />}
+              variant="brand"
+              title={t('profile:sign_in')}
+              onPress={() => navigation.navigate('auth')}
+            />
+          </Row>
+        </Unauthenticated>
+
         <Authenticated>
           <View>
             <Typography center>{user?.name}</Typography>
@@ -120,20 +131,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       }
       onScroll={onScroll}
       ListHeaderComponent={header}
-      ListFooterComponent={
-        <>
-          <Unauthenticated>
-            <Row center>
-              <Button
-                icon={<IconOscar />}
-                variant="brand"
-                title={t('profile:sign_in')}
-                onPress={() => navigation.navigate('auth')}
-              />
-            </Row>
-          </Unauthenticated>
-        </>
-      }
       ListEmptyComponent={
         <Authenticated>
           <EmptyState

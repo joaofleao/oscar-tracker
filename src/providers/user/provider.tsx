@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv'
-import { useConvex, useMutation } from 'convex/react'
+import { useConvex, useConvexAuth, useMutation } from 'convex/react'
 import { api, PublicApiType } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -41,26 +41,28 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
     setFollowing(fetched)
   }
 
+  const { isAuthenticated, isLoading } = useConvexAuth()
+
   useEffect(() => {
     const fetchUser = async (): Promise<void> => {
-      if (user === undefined) refreshUser()
-      else print('Current User', 'Local Fetched', 'green')
+      refreshUser()
+      print('Current User', 'Local Fetched', 'green')
     }
     const fetchFollowing = async (): Promise<void> => {
-      if (following === undefined) refreshFollowing()
-      else print('Following', 'Local Fetched', 'green')
+      refreshFollowing()
+      print('Following', 'Local Fetched', 'green')
     }
     const fetchFollowers = async (): Promise<void> => {
-      if (followers === undefined) refreshFollowers()
-      else print('Followers', 'Local Fetched', 'green')
+      refreshFollowers()
+      print('Followers', 'Local Fetched', 'green')
     }
 
-    void fetchUser()
-    void fetchFollowers()
-    void fetchFollowing()
+    if (!isLoading && isAuthenticated && followers === undefined) void fetchFollowers()
+    if (!isLoading && isAuthenticated && following === undefined) void fetchFollowing()
+    if (!isLoading && isAuthenticated && user === undefined) void fetchUser()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isAuthenticated, isLoading])
 
   const setLanguage: UserContextType['setLanguage'] = (newLanguage): void => {
     i18n.changeLanguage(newLanguage)
