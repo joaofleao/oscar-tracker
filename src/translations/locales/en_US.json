@@ -107,8 +107,10 @@
     "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage.",
     "name_valid": "Valid name",
     "name_invalid": "Please enter your full name.",
-    "username_valid": "Username available",
-    "username_invalid": "Username unavailable",
+    "username_invalid_chars": "Username with invalid characters.",
+    "username_too_short": "Username too short.",
+    "username_taken": "Username already taken.",
+    "username_mandatory": "You must have a username.",
     "name": "Full Name",
     "username": "Username",
     "remove": "Remove"

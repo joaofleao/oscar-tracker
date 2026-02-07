@@ -133,8 +133,10 @@
 
     "name_valid": "Nome válido",
     "name_invalid": "Insira seu nome completo.",
-    "username_valid": "Usuário disponível",
-    "username_invalid": "Usuário indisponível"
+    "username_invalid_chars": "Usuário com caracteres inválidos.",
+    "username_too_short": "Usuário muito curto.",
+    "username_taken": "Usuário já está em uso.",
+    "username_mandatory": "Você precisa ter um username"
   },
   "settings": {
     "edit": "editar",
