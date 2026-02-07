@@ -1,8 +1,10 @@
-import { TextInputProps as RNTextInput } from 'react-native'
+import { TextInput, TextInputProps as RNTextInput } from 'react-native'
 
 import { IconProps } from '@components/icon'
 
 export interface TextInputProps extends RNTextInput {
+  ref?: React.RefObject<TextInput | null>
+  icon?: React.ReactElement<IconProps>
   debounce?: number
   error?: boolean
   success?: boolean

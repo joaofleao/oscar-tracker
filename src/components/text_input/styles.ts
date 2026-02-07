@@ -8,6 +8,8 @@ type StylesReturn = {
   trailing: ViewStyle
   divider: ViewStyle
   input: TextStyle
+  inputWithIcon: TextStyle
+  inputWithButton: TextStyle
 }
 
 const useStyles = (): StylesReturn => {
@@ -24,32 +26,36 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
     },
     leading: {
-      position: 'absolute',
-      left: 8,
+      width: 40,
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     trailing: {
-      right: 0,
-      height: 40,
       width: 40,
+      height: 40,
       alignItems: 'center',
       justifyContent: 'center',
     },
     divider: {
       backgroundColor: semantics.container.stroke.default,
       width: 1,
-      borderRadius: 2,
-      height: 20,
+      height: 40,
     },
     input: {
       height: 40,
       letterSpacing: 1,
       color: semantics.container.foreground.default,
       fontFamily: fonts.secondary.regular,
-      padding: 8,
-      paddingRight: 16,
-      paddingLeft: 16,
       fontSize: 14,
       flex: 1,
+      paddingHorizontal: 12,
+    },
+    inputWithIcon: {
+      paddingLeft: 0,
+    },
+    inputWithButton: {
+      paddingRight: 0,
     },
   })
 }

@@ -105,15 +105,20 @@
     "verify": "verify your email",
     "spam": "A 4 digit code was sent. Remember to verify the spam inbox as well.",
     "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage.",
-    "name_valid": "Valid name",
-    "name_invalid": "Please enter your full name.",
-    "username_invalid_chars": "Username with invalid characters.",
-    "username_too_short": "Username too short.",
-    "username_taken": "Username already taken.",
-    "username_mandatory": "You must have a username.",
+
     "name": "Full Name",
     "username": "Username",
-    "remove": "Remove"
+    "remove": "Remove",
+
+    "invalid_email": "Invalid email",
+    "invalid_password": "Invalid password",
+    "invalid_confirm_password": "Invalid password confirmation",
+    "invalid_code": "Invalid code",
+    "invalid_name": "Full name required",
+    "invalid_username": "Invalid username",
+    "invalid_username_characters": "Username with invalid characters",
+    "invalid_username_too_short": "Username too short",
+    "invalid_username_taken": "Username already taken"
   },
   "profile": {
     "add_friends": "Add Friends",

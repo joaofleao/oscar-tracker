@@ -1,5 +1,3 @@
-import { TextInputProps } from 'react-native'
+import { TextInputProps } from '@components/text_input'
 
-export interface EmailInputProps extends TextInputProps {
-  debounce?: number
-}
+export interface EmailInputProps extends TextInputProps {}

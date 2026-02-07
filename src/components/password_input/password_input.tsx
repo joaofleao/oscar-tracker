@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react'
-import { Pressable, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
+import { View } from 'react-native'
 
 import useStyles from './styles'
 import { PasswordInputProps } from './types'
 import { IconAlert, IconCheckCircle, IconEyeClosed, IconEyeOpen, IconLock } from '@components/icon'
+import TextInput from '@components/text_input'
 import Typography from '@components/typography'
 import { useStrings } from '@providers/strings'
 import { useTheme } from '@providers/theme'
 
-const passwordValidation = (
+export const validatePassword = (
   password: string,
   confirmPassword: string,
 ): {
@@ -16,6 +17,7 @@ const passwordValidation = (
   oneDigit: boolean
   passwordValid: boolean
   match: boolean
+  overall: boolean
 } => {
   const match = password === confirmPassword && password !== ''
   const oneUpperCase = /(?=.*[A-Z])/.test(password)
@@ -27,17 +29,17 @@ const passwordValidation = (
     oneDigit,
     passwordValid,
     match,
+    overall: match && passwordValid,
   }
 }
 
-const PasswordInput = ({ debounce = 0, value, passwordConfirmation, type = 'password', ...props }: PasswordInputProps): React.ReactElement => {
-  const inputRef = useRef<TextInput>(null)
+const PasswordInput = ({ value, passwordConfirmation, type = 'password', ...props }: PasswordInputProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
   const strings = useStrings()
   const [showPassword, setShowPassword] = useState(false)
 
-  const { match, oneDigit, oneUpperCase, passwordValid } = passwordValidation(value ?? '', passwordConfirmation ?? '')
+  const { match, oneDigit, oneUpperCase, passwordValid } = validatePassword(value ?? '', passwordConfirmation ?? '')
 
   const handleShow = (): void => {
     setShowPassword((prev) => !prev)
@@ -48,14 +50,12 @@ const PasswordInput = ({ debounce = 0, value, passwordConfirmation, type = 'pass
       {match ? (
         <IconCheckCircle
           color={semantics.positive.foreground.default}
-          width={16}
-          height={16}
+          size={16}
         />
       ) : (
         <IconAlert
           color={semantics.background.foreground.light}
-          width={16}
-          height={16}
+          size={16}
         />
       )}
 
@@ -108,51 +108,22 @@ const PasswordInput = ({ debounce = 0, value, passwordConfirmation, type = 'pass
 
   return (
     <>
-      <View style={styles.root}>
-        <Pressable
-          onPress={() => inputRef.current?.focus()}
-          style={styles.leading}
-        >
-          <IconLock
-            color={semantics.container.foreground.light}
-            size={16}
-          />
-        </Pressable>
-        <TextInput
-          passwordRules={'minlength: 6;  required: upper; required: digit;'}
-          autoComplete={type === 'password' ? 'current-password' : 'new-password'}
-          autoCorrect={false}
-          secureTextEntry={!showPassword}
-          ref={inputRef}
-          placeholder={type === 'confirm_password' ? strings.password.confirmationPlaceholder : strings.password.placeholder}
-          placeholderTextColor={semantics.container.foreground.light}
-          selectionColor={semantics.container.foreground.light}
-          cursorColor={semantics.container.foreground.default}
-          style={styles.input}
-          value={value}
-          textContentType="password"
-          autoCapitalize={'none'}
-          {...props}
-        />
+      <TextInput
+        icon={<IconLock />}
+        button={{
+          icon: showPassword ? <IconEyeClosed /> : <IconEyeOpen />,
+          action: handleShow,
+        }}
+        passwordRules={'minlength: 6;  required: upper; required: digit;'}
+        autoComplete={type === 'password' ? 'current-password' : 'new-password'}
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry={!showPassword}
+        placeholder={type === 'confirm_password' ? strings.password.confirmationPlaceholder : strings.password.placeholder}
+        value={value}
+        {...props}
+      />
 
-        <View style={styles.divider} />
-        <Pressable
-          onPress={handleShow}
-          style={styles.trailing}
-        >
-          {showPassword ? (
-            <IconEyeClosed
-              color={semantics.container.foreground.default}
-              size={16}
-            />
-          ) : (
-            <IconEyeOpen
-              color={semantics.container.foreground.default}
-              size={16}
-            />
-          )}
-        </Pressable>
-      </View>
       {renderConfirmPassword}
       {renderRequirements}
     </>

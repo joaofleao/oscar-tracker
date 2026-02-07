@@ -131,12 +131,15 @@
     "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
     "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade.",
 
-    "name_valid": "Nome válido",
-    "name_invalid": "Insira seu nome completo.",
-    "username_invalid_chars": "Usuário com caracteres inválidos.",
-    "username_too_short": "Usuário muito curto.",
-    "username_taken": "Usuário já está em uso.",
-    "username_mandatory": "Você precisa ter um username"
+    "invalid_email": "Email inválido",
+    "invalid_password": "Senha inválida",
+    "invalid_confirm_password": "Confirmação de senha inválida",
+    "invalid_code": "Código inválido",
+    "invalid_name": "Nome e Sobrenome obrigatório",
+    "invalid_username": "Usuário inválido",
+    "invalid_username_characters": "Usuário com caracteres inválidos",
+    "invalid_username_too_short": "Usuário muito curto",
+    "invalid_username_taken": "Usuário já está em uso"
   },
   "settings": {
     "edit": "editar",

@@ -62,17 +62,12 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
   const startFollowing = useMutation(api.user.startFollowing)
   const { isAuthenticated } = useConvexAuth()
 
-  // useEffect(() => {
-  //   if (results.categories !== undefined || results.movies !== undefined || results.users !== undefined) setLoading(false)
-  // }, [results])
-
   const handleSearch = async (query: string): Promise<void> => {
     if (query.trim() === '') {
-      // setLoading(false)
       setQuery('')
       return
     }
-    // setLoading(true)
+
     setQuery(query.trim())
   }
 
@@ -90,18 +85,10 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
           style={styles.input}
           debounce={200}
           onChangeText={(text) => {
-            if (text.trim() !== '') {
-              // setLoading(true)
-            } else {
-              // setLoading(false)
-              setQuery('')
-            }
+            if (text.trim() === '') setQuery('')
           }}
           onDebouncedText={handleSearch}
-          onClear={() => {
-            // setLoading(false)
-            setQuery('')
-          }}
+          onClear={() => setQuery('')}
         />
         {Platform.OS === 'ios' && (
           <Button

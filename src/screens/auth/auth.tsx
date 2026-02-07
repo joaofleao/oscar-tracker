@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Alert, Linking, Platform, ScrollView, View } from 'react-native'
 import { FadeInUp, FadeOutUp, LinearTransition } from 'react-native-reanimated'
-import { useConvex, useConvexAuth, useMutation } from 'convex/react'
+import { useConvex, useMutation } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
@@ -11,10 +11,10 @@ import useStyles from './styles'
 import Avatar from '@components/avatar'
 import Button from '@components/button'
 import Column from '@components/column'
-import EmailInput from '@components/email_input'
+import EmailInput, { validateEmail } from '@components/email_input'
 import { IconImages } from '@components/icon'
 import OTPInput from '@components/otp_input'
-import PasswordInput from '@components/password_input'
+import PasswordInput, { validatePassword } from '@components/password_input'
 import Row from '@components/row'
 import SegmentedControl from '@components/segmented_control'
 import TextInput from '@components/text_input'
@@ -45,7 +45,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const convex = useConvex()
 
   const [error, setError] = useState<{
-    field: 'name' | 'username'
+    field: 'name' | 'username' | 'email' | 'password' | 'confirm_password' | 'code'
     message: string
   }>()
 
@@ -56,59 +56,47 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   const [flow, setFlow] = useState((route.params?.flow as string) ?? 'signIn')
 
-  const handleSignUp = async (): Promise<void> => {
+  const handleSignIn = async (): Promise<void> => {
+    if (!validateEmail(email.trim())) return setError({ field: 'email', message: t('auth:invalid_email') })
+    if (password.trim() === '') return setError({ field: 'password', message: t('auth:invalid_password') })
     setLoading(true)
-    void signIn('password', {
-      flow,
-      email,
-      password,
-    })
-      .then(() => {
-        setFlow('email-verification')
-      })
+    void signIn('password', { flow, email, password })
+      .then(() => navigation.pop())
       .catch(catchConvexError)
       .finally(() => setLoading(false))
   }
 
-  const handleSignIn = async (): Promise<void> => {
+  const handleSignUp = async (): Promise<void> => {
+    if (!validateEmail(email.trim())) return setError({ field: 'email', message: t('auth:invalid_email') })
+    if (password.trim() === '' || confirmPassword.trim() === '') return setError({ field: 'password', message: t('auth:invalid_password') })
+    if (!validatePassword(password, confirmPassword).passwordValid) return setError({ field: 'password', message: t('auth:invalid_password') })
+    if (!validatePassword(password, confirmPassword).match) return setError({ field: 'confirm_password', message: t('auth:invalid_confirm_password') })
     setLoading(true)
-    void signIn('password', {
-      flow,
-      email,
-      password,
-    })
-      .then(() => {
-        navigation.pop()
-      })
+    void signIn('password', { flow, email, password })
+      .then(() => setFlow('email-verification'))
       .catch(catchConvexError)
       .finally(() => setLoading(false))
   }
 
   const handleVerify = async (): Promise<void> => {
+    if (code.trim() === '' || code.trim().length < 4) return setError({ field: 'code', message: t('auth:invalid_code') })
+
     setLoading(true)
-    void signIn('password', {
-      flow,
-      email,
-      code,
-    })
+    void signIn('password', { flow, email, code })
       .catch(catchConvexError)
-      .then(() => {
-        setFlow('details')
-      })
+      .then(() => setFlow('details'))
       .finally(() => setLoading(false))
   }
 
   const handleDetails = async (): Promise<void> => {
-    if (pendingName.trim() === '') return setError({ field: 'name', message: t('auth:name_mandatory') })
-    if (pendingName.trim().split(' ').length < 2) return setError({ field: 'name', message: t('auth:name_invalid') })
+    if (pendingName.trim() === '' || pendingName.trim().split(' ').length < 2) return setError({ field: 'name', message: t('auth:invalid_name') })
 
-    if (pendingUsername.trim() === '') return setError({ field: 'username', message: t('auth:username_mandatory') })
-    if (pendingUsername.trim().length < 3) return setError({ field: 'username', message: t('auth:username_too_short') })
-    if (!/^[A-Za-z]+$/.test(pendingUsername)) return setError({ field: 'username', message: t('auth:username_invalid_chars') })
+    if (pendingUsername.trim() === '') return setError({ field: 'username', message: t('auth:invalid_username') })
+    if (pendingUsername.trim().length < 3) return setError({ field: 'username', message: t('auth:invalid_username_too_short') })
+    if (!/^[A-Za-z]+$/.test(pendingUsername)) return setError({ field: 'username', message: t('auth:invalid_username_characters') })
 
-    // const useQuery(api.user.checkUsernameAvailability, { username: pendingUsername ?? undefined })
     const available = await convex.query(api.user.checkUsernameAvailability, { username: pendingUsername })
-    if (!available && user?.username !== pendingUsername) return setError({ field: 'username', message: t('auth:username_taken') })
+    if (!available && user?.username !== pendingUsername) return setError({ field: 'username', message: t('auth:invalid_username_taken') })
 
     setLoading(true)
     try {
@@ -159,15 +147,28 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
   const handleChangeImage = async (): Promise<void> => {
     const pickedImage = await pickImage()
-
-    if (pickedImage) {
-      setPendingImage(pickedImage)
-    }
+    if (pickedImage) setPendingImage(pickedImage)
   }
 
   const handleRemoveImage = (): void => {
     setPendingImage(null)
   }
+
+  const errorMessage = (
+    <>
+      {error !== undefined && (
+        <Typography
+          legend
+          center
+          entering={FadeInUp}
+          exiting={FadeOutUp}
+          color={semantics.negative.foreground.default}
+        >
+          {error?.message}
+        </Typography>
+      )}
+    </>
+  )
 
   const header = (
     <>
@@ -196,12 +197,15 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         <EmailInput
           value={email}
           onChangeText={setEmail}
+          error={error?.field === 'email'}
         />
 
         <PasswordInput
           value={password}
           onChangeText={setPassword}
+          error={error?.field === 'password'}
         />
+
         <Column middle>
           <Button
             variant="ghost"
@@ -212,9 +216,9 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
             }}
           />
 
+          {errorMessage}
           <Button
             variant="brand"
-            disabled={email.length === 0 || password.length === 0}
             loading={loading}
             title={t('auth:sign_in')}
             onPress={handleSignIn}
@@ -231,27 +235,31 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         <EmailInput
           value={email}
           onChangeText={setEmail}
+          error={error?.field === 'email'}
         />
         <PasswordInput
           type="new_password"
           value={password}
           onChangeText={setPassword}
+          error={error?.field === 'password'}
         />
         <PasswordInput
           type="confirm_password"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           passwordConfirmation={password}
+          error={error?.field === 'confirm_password'}
         />
-        <Row center>
+        <Column middle>
+          {errorMessage}
+
           <Button
             variant="brand"
-            disabled={email.length === 0 || password.length === 0 || password !== confirmPassword}
             loading={loading}
             title={t('auth:sign_up')}
             onPress={handleSignUp}
           />
-        </Row>
+        </Column>
 
         <Typography
           description
@@ -285,14 +293,15 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         {t('auth:spam')}
       </Typography>
 
-      <Row center>
+      <Column middle>
+        {errorMessage}
         <Button
           loading={loading}
           title={t('auth:fill_details')}
           variant="brand"
           onPress={handleVerify}
         />
-      </Row>
+      </Column>
     </View>
   )
 
@@ -344,17 +353,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         />
       </Column>
 
-      {error !== undefined && (
-        <Typography
-          legend
-          center
-          entering={FadeInUp}
-          exiting={FadeOutUp}
-          color={semantics.negative.foreground.default}
-        >
-          {error?.message}
-        </Typography>
-      )}
+      {errorMessage}
       <Row
         center
         layout={LinearTransition}
