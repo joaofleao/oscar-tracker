@@ -69,30 +69,28 @@ const SmallListItem = ({ ghost, id, title, description, chip, secondaryActions, 
         style={({ pressed }) => [styles.content, pressed && mainAction?.onPress && styles.contentPressed, ghost && styles.ghost]}
       >
         <View style={styles.texts}>
-          <Row middle>
-            {title && (
-              <ScrollView
-                horizontal
-                scrollEnabled
-                showsHorizontalScrollIndicator={false}
-                style={styles.titleScroll}
+          {title && (
+            <ScrollView
+              horizontal
+              scrollEnabled
+              showsHorizontalScrollIndicator={false}
+              style={styles.titleScroll}
+            >
+              <Typography
+                numberOfLines={1}
+                body
+                style={styles.title}
               >
-                <Typography
-                  numberOfLines={1}
-                  body
-                  style={styles.title}
-                >
-                  {title + title + title}
-                </Typography>
-              </ScrollView>
-            )}
-            {chip && (
-              <Chip
-                title={chip}
-                variant={chip.split('/')[0] === chip.split('/')[1] ? 'brand' : 'container'}
-              />
-            )}
-          </Row>
+                {title}
+              </Typography>
+            </ScrollView>
+          )}
+          {chip && (
+            <Chip
+              title={chip}
+              variant={chip.split('/')[0] === chip.split('/')[1] ? 'brand' : 'container'}
+            />
+          )}
         </View>
 
         {bottomArea}

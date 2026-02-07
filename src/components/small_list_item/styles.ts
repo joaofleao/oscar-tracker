@@ -44,7 +44,9 @@ const useStyles = (): StylesReturn => {
     },
     texts: {
       flex: 1,
-      gap: 4,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingRight: 8,
       justifyContent: 'center',
     },
     content: {

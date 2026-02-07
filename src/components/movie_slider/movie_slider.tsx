@@ -56,7 +56,6 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
       initialNumToRender={60}
       snapToInterval={Platform.OS === 'ios' ? SNAP : undefined}
       renderItem={renderItem}
-      decelerationRate={Platform.OS === 'ios' ? 'fast' : undefined}
       data={data}
       onScroll={Platform.OS === 'ios' ? onScroll : onScrollProp}
       {...props}
