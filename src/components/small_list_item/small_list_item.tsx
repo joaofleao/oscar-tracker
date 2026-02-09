@@ -6,7 +6,6 @@ import useStyle from './styles'
 import { SmallListItemProps, SmallListItemSecondaryActionProps } from './types'
 import Chip from '@components/chip'
 import { IconProps } from '@components/icon'
-import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 

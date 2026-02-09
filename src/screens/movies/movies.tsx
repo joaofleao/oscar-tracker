@@ -109,11 +109,17 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           bottomArea:
             movie.friends_who_watched.length > 0 ? (
               <View style={styles.bottomArea}>
-                <Typography legend>{t('movies:watched_by')}</Typography>
+                <Typography
+                  style={styles.title}
+                  legend
+                >
+                  {t('movies:watched_by')}
+                </Typography>
                 <FlatList
                   contentContainerStyle={styles.friendsList}
                   alwaysBounceHorizontal={false}
                   horizontal
+                  showsHorizontalScrollIndicator={false}
                   data={movie.friends_who_watched}
                   renderItem={({ item }) => (
                     <TinyAvatar
