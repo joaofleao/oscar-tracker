@@ -37,7 +37,7 @@
     "expo-web-browser": "~55.0.8",
     "google-auth-library": "^10.5.0",
     "i18next": "^25.3.6",
-    "lottie-react-native": "^7.3.4",
+    "lottie-react-native": "^7.2.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-i18next": "^15.6.1",
