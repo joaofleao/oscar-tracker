@@ -72,13 +72,7 @@
     "no_results": "Nenhum resultado",
     "empty_state": "Escreva o nome de usuário para adicionar amigos."
   },
-  "movies": {
-    "watch": "Assistir",
-    "no_movies_title": "Em breve",
-    "no_movies_description": "Nenhum filme por enquanto.",
-    "nomination": "indicação",
-    "nominations_plural": "indicações"
-  },
+
   "nominations": {
     "expand": "Expandir",
 
@@ -114,7 +108,6 @@
     "continue": "Continuar",
     "unwatch_description": "Tem certeza que deseja marcar %movie como não assistido?",
     "hold_to_choose_date": "Continue segurando para escolher uma data",
-    "watched_by": "Assistido por",
 
     "providers": "Assistir",
     "provider_empty": "Não disponível em sua região",
@@ -205,6 +198,12 @@
     "your_rank": "sua classificação",
     "not_ranked": "não classificado"
   },
+
+  "movies": {
+    "nomination": "indicação",
+    "nominations_plural": "indicações",
+    "watched_by": "Assistido por"
+  },
   "filter_nominations": {
     "save": "Salvar",
     "filter": "Filtrar Categorias",
@@ -212,16 +211,14 @@
     "restore_defaults": "Restaurar Padrões"
   },
   "filter_movies": {
-    "save": "Salvar",
-
-    "categories": "Categorias",
-    "restore_defaults": "Restaurar Padrões",
     "filter": "Filtrar Filmes",
     "with_status": "Com status",
-    "by_friends": "Por amigos",
-    "by_provider": "Por plataforma",
     "all": "Todos",
     "watched": "Assistidos",
-    "unwatched": "Não assistidos"
+    "unwatched": "Não assistidos",
+    "by_friends": "Por amigos",
+    "by_provider": "Por provedor",
+    "save": "Salvar",
+    "restore_defaults": "Restaurar Padrões"
   }
 }

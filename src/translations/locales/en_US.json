@@ -93,18 +93,7 @@
     "provider_rent": "Rent",
     "provider_flatrate": "Stream"
   },
-  "movies": {
-    "watch": "Watch",
-    "no_movies_title": "Coming soon",
-    "no_movies_description": "No movies yet.",
-    "nomination": "nomination",
-    "nominations_plural": "nominations",
-    "watched_by": "Watched by",
-    "with_status": "With status",
-    "all": "All",
-    "watched": "Watched",
-    "unwatched": "Unwatched"
-  },
+
   "auth": {
     "details": "Account Details",
     "sign_in": "Sign In",
@@ -207,6 +196,11 @@
     "your_rank": "your rank",
     "not_ranked": "not ranked"
   },
+  "movies": {
+    "nomination": "nomination",
+    "nominations_plural": "nominations",
+    "watched_by": "Watched by"
+  },
   "filter_nominations": {
     "save": "Save",
     "filter": "Filter",
@@ -214,14 +208,14 @@
     "restore_defaults": "Restore Defaults"
   },
   "filter_movies": {
-    "save": "Save",
-    "categories": "Categories",
-    "restore_defaults": "Restore Defaults",
+    "filter": "Filter Movies",
     "with_status": "With status",
-    "by_friends": "By friends",
-    "by_provider": "By provider",
     "all": "All",
     "watched": "Watched",
-    "unwatched": "Unwatched"
+    "unwatched": "Unwatched",
+    "by_friends": "By friends",
+    "by_provider": "By provider",
+    "save": "Save",
+    "restore_defaults": "Restore Defaults"
   }
 }
