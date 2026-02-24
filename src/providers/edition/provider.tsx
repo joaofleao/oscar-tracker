@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useMMKVObject } from 'react-native-mmkv'
+import { useMMKVObject, useMMKVString } from 'react-native-mmkv'
 import { useConvex, useQuery } from 'convex/react'
 import { api, PublicApiType } from 'convex_api'
 import { useTranslation } from 'react-i18next'
@@ -16,14 +16,21 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const [edition, setEdition] = useMMKVObject<EditionContextType['edition']>('editions.current')
 
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
-  const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
+  // const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
+  const [moviesProviders, setMoviesProviders] = useMMKVObject<typeof api.providers.getProviders._returnType>('user.movies_providers')
 
   const [hiddenCategories, setHiddenCategories] = useMMKVObject<string[]>('categories.hidden')
   const [orderedCategories, setOrderedCategories] = useMMKVObject<string[]>('categories.ordered')
 
+  const [providersFilter, setProvidersFilter] = useMMKVObject<number[]>('movies.providers')
+  const [friendFilter, setFriendFilter] = useMMKVObject<string[]>('movies.friends')
+
+  const [statusFilter, setStatusFilter] = useMMKVString('movies.status')
+
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
+  const friendsWatches = useQuery(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) }) ?? []
 
   const refreshEditionData: EditionContextType['refreshEditionData'] = async () => {
     print('Edition Data', 'Server Fetched', 'yellow')
@@ -36,11 +43,11 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
     }
     setEditionsMap(newMap)
   }
-  const refreshFriendsWatches: EditionContextType['refreshEditionData'] = async () => {
-    print('Friend Watches', 'Server Fetched', 'yellow')
 
-    const friendsWatches = (await convex.query(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) })) || []
-    setFriendsWatches(friendsWatches)
+  const refreshMoviesProviders: EditionContextType['refreshMoviesProviders'] = async () => {
+    print('Movies Providers', 'Server Fetched', 'yellow')
+    const moviesProviders = (await convex.action(api.providers.getProviders, { movies: movies.map((movie) => movie.tmdbId), country: 'BR' })) || []
+    setMoviesProviders(moviesProviders)
   }
 
   useEffect(() => {
@@ -48,12 +55,13 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       if (editionsMap?.[edition?.number ?? ''] === undefined) await refreshEditionData()
       else print('Edition Data', 'Local Fetched', 'green')
     }
-    const fetchFriendsWatches = async (): Promise<void> => {
-      if (friendsWatches === undefined) await refreshFriendsWatches()
-      else print('Friend Watches', 'Local Fetched', 'green')
+
+    const fetchMoviesProviders = async (): Promise<void> => {
+      if (moviesProviders === undefined) await refreshMoviesProviders()
+      else print('Movies Providers', 'Local Fetched', 'green')
     }
 
-    void fetchFriendsWatches()
+    void fetchMoviesProviders()
     void fetchEditionData()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,66 +95,50 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const moviesWithWatches = movies
-    .map((movie) => ({
-      ...movie,
-      watched: userWatches.some((watch) => watch === movie._id),
-      friends_who_watched: (friendsWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
-    }))
-    .filter((movie) => {
-      const movieCategories = nominations.filter((nomination) => nomination.nominations.some((nominatedMovie) => nominatedMovie.movieId === movie._id)).map((nomination) => nomination.category._id)
-      return movieCategories.some((categoryId) => !(hiddenCategories ?? []).includes(categoryId))
-    })
+  const enrichedMovies = movies.map((movie) => ({
+    ...movie,
+    watched: userWatches.some((watch) => watch === movie._id),
+    friends_who_watched: (friendsWatches ?? []).find((watch) => watch.movieId === movie._id)?.friends_who_watched || [],
+    providers: moviesProviders?.find((mp) => mp.movieId === movie.tmdbId)?.providers || [],
+  }))
 
-  const clearCategoriesSettings: EditionContextType['clearCategoriesSettings'] = () => {
-    setHiddenCategories([])
-    setOrderedCategories([])
-  }
-
-  const enrichedNominations = nominations
-    .map((nomination) => ({
-      ...nomination,
-      category: { ...nomination.category, hide: (hiddenCategories ?? []).includes(nomination.category._id) },
-      nominations: nomination.nominations.map((nominatedMovie) => ({
-        ...nominatedMovie,
-        watched: userWatches.some((watch) => watch === nominatedMovie.movieId),
-      })),
-    }))
-    .sort((a, b) => {
-      if (!orderedCategories || (orderedCategories ?? []).length === 0) return 0
-
-      const indexA = orderedCategories.indexOf(a.category._id)
-      const indexB = orderedCategories.indexOf(b.category._id)
-
-      if (indexA !== -1 && indexB !== -1) {
-        return indexA - indexB
-      }
-      if (indexA !== -1) return -1
-      if (indexB !== -1) return 1
-      return 0
-    })
+  const enrichedNominations = nominations.map((nomination) => ({
+    ...nomination,
+    category: { ...nomination.category, hide: (hiddenCategories ?? []).includes(nomination.category._id) },
+    nominations: nomination.nominations.map((nominatedMovie) => ({
+      ...nominatedMovie,
+      watched: userWatches.some((watch) => watch === nominatedMovie.movieId),
+    })),
+  }))
 
   return (
     <SettingsContext.Provider
       value={{
         refreshEditionData,
-        refreshFriendsWatches,
+        refreshMoviesProviders,
         editions: allEditions ?? [],
         edition,
         selectEdition,
 
         nominations: enrichedNominations,
-        movies: moviesWithWatches,
+        movies: enrichedMovies,
         userWatches: userWatches,
         friendsWatches: friendsWatches ?? [],
 
-        hiddenCategories: hiddenCategories ?? [],
         orderedCategories: orderedCategories ?? [],
-
         setOrderedCategories,
+
+        hiddenCategories: hiddenCategories ?? [],
         setHiddenCategories,
 
-        clearCategoriesSettings,
+        friendFilter: friendFilter ?? [],
+        setFriendFilter,
+
+        providersFilter: providersFilter ?? [],
+        setProvidersFilter,
+
+        statusFilter: (statusFilter as 'all' | 'watched' | 'unwatched') ?? 'all',
+        setStatusFilter,
       }}
     >
       {children}

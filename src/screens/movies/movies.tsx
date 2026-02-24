@@ -18,8 +18,8 @@ import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { edition, movies, refreshFriendsWatches } = useEdition()
-  const { spoilers } = useUser()
+  const { edition, movies, refreshMoviesProviders, statusFilter, friendFilter, providersFilter } = useEdition()
+  const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
   const [refreshing, setRefreshing] = React.useState(false)
 
@@ -29,19 +29,12 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
 
-    refreshFriendsWatches()
+    refreshMoviesProviders()
+
     setTimeout(() => {
       setRefreshing(false)
     }, 2000)
-  }, [refreshFriendsWatches])
-
-  // sort
-  // by Nominations
-  // by Name
-
-  // filters
-  // by watched/unwatched/all
-  // streaming on
+  }, [refreshMoviesProviders])
 
   const daysUntilAnnouncement = edition?.announcement ? Math.ceil((new Date(edition.announcement).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
   const daysUntilEdition = edition?.date ? Math.ceil((new Date(edition.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
@@ -80,16 +73,30 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
     return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
+  const filteredMovies = movies
+    .filter((movie) => {
+      if (statusFilter.length === 0 || friendFilter.length === 0) return true
+      const usersWhoWatched = [movie.friends_who_watched, ...(movie.watched ? [{ _id: user?._id, name: user?.name, imageURL: user?.imageURL }] : [])].flat()
+      const userFilter = friendFilter.every((userId) => usersWhoWatched.some((friend) => friend._id === userId))
+      if (statusFilter === 'watched') return userFilter
+      if (statusFilter === 'unwatched') return !userFilter && friendFilter.every((userId) => !usersWhoWatched.some((friend) => friend._id === userId))
+      return true
+    })
+    .filter((movie) => {
+      if (providersFilter.length === 0) return true
+      return movie.providers.some((provider) => providersFilter.includes(provider.provider_id))
+    })
+
   return (
     <>
       <Header
         animation={animation}
         button={{
           icon: <IconFilter color={semantics.container.foreground.light} />,
-          onPress: () => navigation.navigate('filter'),
+          onPress: () => navigation.navigate('filter_movies'),
         }}
       />
-      {movies?.length === 0 && emptyState()}
+      {filteredMovies?.length === 0 && emptyState()}
       <MovieSlider
         refreshing={refreshing}
         onRefresh={onRefresh}
@@ -100,7 +107,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           />
         }
         onScroll={onScroll}
-        data={movies.map((movie) => ({
+        data={filteredMovies.map((movie) => ({
           watched: movie.watched,
           spoiler: spoilers.hidePoster,
           title: movie.title,

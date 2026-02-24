@@ -11,7 +11,7 @@ export interface BigCarousselProps {
   title?: string
   extra?: string
 
-  chip?: {
+  badge?: {
     title: string
     variant: 'brand' | 'container'
   }

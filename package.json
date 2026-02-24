@@ -1,6 +1,6 @@
 {
   "name": "oscar-tracker",
-  "version": "5.0",
+  "version": "5.1",
   "main": "index.ts",
   "scripts": {
     "cvx": "npx convex-helpers ts-api-spec --output-file convex_api; prettier --write ./convex_api.ts",

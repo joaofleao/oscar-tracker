@@ -17,7 +17,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
 import Awards from '@screens/awards'
 import Category from '@screens/category'
-import Filter from '@screens/filter'
+import FilterMovies from '@screens/filter_movies'
+import FilterNominations from '@screens/filter_nominations'
 import Movie from '@screens/movie'
 import Movies from '@screens/movies'
 import Nominations from '@screens/nominations'
@@ -158,10 +159,19 @@ const Router = (): React.ReactNode => {
             }}
           />
           <Stack.Screen
-            name={'filter'}
-            component={Filter}
+            name={'filter_nominations'}
+            component={FilterNominations}
             options={{
               presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'filter_movies'}
+            component={FilterMovies}
+            options={{
+              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
+              sheetAllowedDetents: 'fitToContents',
               contentStyle: { backgroundColor: semantics.container.base.default },
             }}
           />

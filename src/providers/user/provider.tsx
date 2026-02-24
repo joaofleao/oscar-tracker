@@ -15,7 +15,6 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
   const { friendsWatches, movies } = useEdition()
 
   const updateUser = useMutation(api.user.updateUser)
-
   const user = useQuery(api.user.getCurrentUser)
   const [following, setFollowing] = useMMKVObject<PublicApiType['user']['getFollowing']['_returnType']>('user.following')
   const [followers, setFollowers] = useMMKVObject<UserContextType['followers']>('user.followers')

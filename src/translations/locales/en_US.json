@@ -31,7 +31,8 @@
     "select_edition": "Select Edition",
     "nominations": "Nominations",
     "movies": "Movies",
-    "profile": "Profile"
+    "profile": "Profile",
+    "days_until_edition": "days until the edition"
   },
   "nominations": {
     "expand": "Expand",
@@ -84,7 +85,13 @@
     "submit": "Submit",
     "continue": "Continue",
     "unwatch_description": "Are you sure you want to mark %movie as unwatched?",
-    "hold_to_choose_date": "Keep holding to choose a date"
+    "hold_to_choose_date": "Keep holding to choose a date",
+
+    "providers": "Watch",
+    "provider_empty": "Not available in your region",
+    "provider_buy": "Buy",
+    "provider_rent": "Rent",
+    "provider_flatrate": "Stream"
   },
   "movies": {
     "watch": "Watch",
@@ -92,7 +99,11 @@
     "no_movies_description": "No movies yet.",
     "nomination": "nomination",
     "nominations_plural": "nominations",
-    "watched_by": "Watched by"
+    "watched_by": "Watched by",
+    "with_status": "With status",
+    "all": "All",
+    "watched": "Watched",
+    "unwatched": "Unwatched"
   },
   "auth": {
     "details": "Account Details",
@@ -196,10 +207,21 @@
     "your_rank": "your rank",
     "not_ranked": "not ranked"
   },
-  "filter": {
+  "filter_nominations": {
     "save": "Save",
     "filter": "Filter",
     "categories": "Categories",
     "restore_defaults": "Restore Defaults"
+  },
+  "filter_movies": {
+    "save": "Save",
+    "categories": "Categories",
+    "restore_defaults": "Restore Defaults",
+    "with_status": "With status",
+    "by_friends": "By friends",
+    "by_provider": "By provider",
+    "all": "All",
+    "watched": "Watched",
+    "unwatched": "Unwatched"
   }
 }

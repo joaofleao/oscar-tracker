@@ -32,7 +32,8 @@
     "select_edition": "Selecione a edição",
     "nominations": "indicações",
     "movies": "Filmes",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "days_until_edition": "dias para a edição"
   },
   "profile": {
     "add_friends": "Adicionar amigos",
@@ -76,8 +77,7 @@
     "no_movies_title": "Em breve",
     "no_movies_description": "Nenhum filme por enquanto.",
     "nomination": "indicação",
-    "nominations_plural": "indicações",
-    "watched_by": "Assistido por"
+    "nominations_plural": "indicações"
   },
   "nominations": {
     "expand": "Expandir",
@@ -113,7 +113,14 @@
     "submit": "Enviar",
     "continue": "Continuar",
     "unwatch_description": "Tem certeza que deseja marcar %movie como não assistido?",
-    "hold_to_choose_date": "Continue segurando para escolher uma data"
+    "hold_to_choose_date": "Continue segurando para escolher uma data",
+    "watched_by": "Assistido por",
+
+    "providers": "Assistir",
+    "provider_empty": "Não disponível em sua região",
+    "provider_buy": "Comprar",
+    "provider_rent": "Alugar",
+    "provider_flatrate": "Streaming"
   },
 
   "auth": {
@@ -198,10 +205,23 @@
     "your_rank": "sua classificação",
     "not_ranked": "não classificado"
   },
-  "filter": {
+  "filter_nominations": {
     "save": "Salvar",
-    "filter": "Filtrar",
+    "filter": "Filtrar Categorias",
     "categories": "Categorias",
     "restore_defaults": "Restaurar Padrões"
+  },
+  "filter_movies": {
+    "save": "Salvar",
+
+    "categories": "Categorias",
+    "restore_defaults": "Restaurar Padrões",
+    "filter": "Filtrar Filmes",
+    "with_status": "Com status",
+    "by_friends": "Por amigos",
+    "by_provider": "Por plataforma",
+    "all": "Todos",
+    "watched": "Assistidos",
+    "unwatched": "Não assistidos"
   }
 }

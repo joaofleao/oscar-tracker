@@ -1,14 +1,40 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 
 import useStyles from './styles'
 import { CarousselProps } from './types'
+import Row from '@components/row'
 import Typography from '@components/typography'
 
-const Caroussel = <T,>({ data, item, style, empty, contentContainerStyle, ...props }: CarousselProps<T>): React.ReactElement => {
+function Caroussel<T>({ render, data, style, group, empty, contentContainerStyle, ...props }: CarousselProps<T>): React.ReactElement {
   const styles = useStyles()
 
-  const ItemComponent = item as any
+  const sectiontitle = (title: string): React.ReactElement => (
+    <Row middle>
+      <Typography legend>{title}</Typography>
+    </Row>
+  )
+
+  const renderItem: ListRenderItem<T> = ({ item, index }) => {
+    if (!data || data.length === 0) return <></>
+
+    if (group !== undefined) {
+      const refinedItem = item as T & { [group]: string }
+      const refinedData = data as (T & { [group]: string })[]
+
+      if (refinedData[index - 1]?.[group] !== refinedItem[group])
+        return (
+          <Row middle>
+            {sectiontitle(String(refinedItem[group]))}
+            {render ? render(refinedItem, index) : <Typography>{String(refinedItem)}</Typography>}
+          </Row>
+        )
+    }
+
+    if (render) return render(item, index)
+
+    return <Typography>{String(item)}</Typography>
+  }
 
   return (
     <FlatList
@@ -16,7 +42,8 @@ const Caroussel = <T,>({ data, item, style, empty, contentContainerStyle, ...pro
       showsHorizontalScrollIndicator={false}
       horizontal
       data={data}
-      renderItem={({ item }) => <ItemComponent {...item} />}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => ((item as any).__section ? `section-${(item as any).title}-${index}` : ((item as any).id ?? (item as any).key ?? index.toString()))}
       style={[styles.root, style]}
       contentContainerStyle={[styles.content, contentContainerStyle]}
       {...props}

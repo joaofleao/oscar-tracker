@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: appName,
     slug: appSlug,
     scheme: appSlug,
-    version: '5.0',
+    version: '5.1',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable } from 'react-native'
+import { Platform, Pressable } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import useStyles from './styles'
@@ -47,7 +47,7 @@ const Paragraph = ({ text, spoiler, toggleSpoiler }: ParagraphProps): React.Reac
         }}
         style={styles.root}
       >
-        {!spoiler ? content : shuffledText}
+        {spoiler && Platform.OS === 'android' ? shuffledText : content}
 
         {spoiler && (
           <Animated.View

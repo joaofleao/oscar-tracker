@@ -11,7 +11,7 @@ const useStyles = (): StylesReturn => {
       marginHorizontal: -20,
     },
     content: {
-      gap: 16,
+      gap: 8,
       paddingHorizontal: 20,
     },
   })

@@ -149,7 +149,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           squared
           image={item.imageURL}
           title={item.name}
-          chip={{
+          badge={{
             title: ` ${item.watched}/${movies.length} `,
             variant: item.watched === movies.length ? 'brand' : 'container',
           }}

@@ -3,13 +3,13 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Alert, Image, Linking, Platform, ScrollView, View } from 'react-native'
 import { LinearTransition } from 'react-native-reanimated'
-import { SvgUri } from 'react-native-svg'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Badge from '@components/badge'
 import Button from '@components/button'
 import Caroussel from '@components/caroussel'
 import Chip from '@components/chip'
@@ -20,7 +20,6 @@ import Paragraph from '@components/paragraph'
 import Poster from '@components/poster'
 import Row from '@components/row'
 import Section from '@components/section'
-import SmallCard, { SmallCardProps } from '@components/small_card'
 import Tag from '@components/tag'
 import { TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
@@ -40,7 +39,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   const [confetti, setConfetti] = useState(false)
 
-  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language })
+  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language, country: 'BR' })
 
   const { semantics } = useTheme()
   const [hideInfo, setHideInfo] = useState(true)
@@ -52,7 +51,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const [calendarModal, setCalendarModal] = useState(false)
   const [unwatchModal, setUnwatchModal] = useState(false)
 
-  // Optimistic state
   const [optimisticWatched, setOptimisticWatched] = useState<number | null>(null)
 
   const [localSpoiler, setLocalSpoiler] = useState(spoilers)
@@ -78,8 +76,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   const unwatchMovie = async (): Promise<void> => {
     if (!movie || !movie.latestWatch) return
-
-    // Optimistic update
     const previousWatchId = movie.latestWatch
     setOptimisticWatched(0)
     setUnwatchModal(false)
@@ -87,7 +83,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
     try {
       await markAsUnWatched({ watchId: previousWatchId })
     } catch (error) {
-      // Revert optimistic update
       setOptimisticWatched(null)
       catchConvexError(error)
       Alert.alert(t('movie:error_title') || 'Error', t('movie:unwatch_error') || 'Failed to unwatch movie. Please try again.', [{ text: t('movie:ok') || 'OK' }])
@@ -178,16 +173,19 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             )}
           </View>
 
-          <View style={styles.chips}>
+          <Row
+            wrap
+            center
+          >
             {movie.releaseDate && (
-              <Chip
+              <Badge
                 icon={<IconCalendar />}
                 title={new Date(movie.releaseDate).toLocaleDateString()}
               />
             )}
 
             {movie.voteAverage && (
-              <Chip
+              <Badge
                 icon={<IconStar />}
                 title={movie.voteAverage.toFixed(2)}
                 toggleSpoiler={spoilers.hideRate ? toggleSpoiler : undefined}
@@ -196,19 +194,19 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             )}
 
             {movie.originalLanguage && (
-              <Chip
+              <Badge
                 icon={<IconLanguages />}
                 title={movie.originalLanguage}
               />
             )}
 
             {movie.runtime && (
-              <Chip
+              <Badge
                 icon={<IconRuntime />}
                 title={runtime(movie.runtime)}
               />
             )}
-          </View>
+          </Row>
 
           <Button
             variant={watched ? 'container' : 'accent'}
@@ -225,49 +223,57 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
         <View style={styles.content}>
           <Section title={t('movie:nominations')}>
             <Caroussel
-              data={movie.nominations.map((nomination) => ({
-                title: nomination.categoryName,
-                variant: nomination.winner ? ('brand' as const) : ('container' as const),
-                icon: nomination.winner ? <IconOscar filled /> : undefined,
-                onPress: () => navigation.navigate('category', { categoryId: nomination.categoryId }),
-              }))}
-              item={Tag}
+              data={movie.nominations}
+              render={(nomination) => (
+                <Tag
+                  title={nomination.categoryName}
+                  variant={nomination.winner ? ('brand' as const) : ('container' as const)}
+                  icon={nomination.winner ? <IconOscar filled /> : undefined}
+                  onPress={() => navigation.navigate('category', { categoryId: nomination.categoryId })}
+                />
+              )}
             />
           </Section>
 
           <Section title={t('movie:country')}>
             <Caroussel
-              data={movie.originCountry?.map((country) => ({
-                title: country.name,
-                icon: (
-                  <SvgUri
-                    style={styles.flag}
-                    uri={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
-                    width={20}
-                    height={20}
-                  />
-                ),
-              }))}
-              item={Chip}
+              data={movie.originCountry}
+              render={(country) => (
+                <Chip
+                  title={country.name}
+                  image={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
+                />
+              )}
+            />
+          </Section>
+
+          <Section title={t('movie:providers')}>
+            <Caroussel
+              data={movie.providers ?? []}
+              group="type"
+              empty={t('movie:provider_empty')}
+              render={(provider) => (
+                <Chip
+                  title={provider.provider_name}
+                  image={`https://media.themoviedb.org/t/p/original/${provider.logo_path}`}
+                />
+              )}
             />
           </Section>
 
           <Section title={t('movie:friends')}>
-            <Caroussel<SmallCardProps>
+            <Caroussel
+              data={movie.friends}
               empty={t('movie:friends_empty')}
-              item={SmallCard}
-              data={movie.friends.map((friend) => ({
-                _id: friend._id,
-                title: friend.name?.split(' ')[0],
-                description: friend.username,
-                image: friend.imageURL,
-                squared: true,
-              }))}
+              render={(friend) => (
+                <Chip
+                  title={friend.name}
+                  image={friend.imageURL ?? ''}
+                />
+              )}
             />
           </Section>
 
-          {/* <Typography>{t('movie:streaming')}</Typography>
-          <Typography>{t('movie:cast')}</Typography> */}
           {movie.plot && (
             <>
               <Typography>{t('movie:plot')}</Typography>

@@ -5,105 +5,6 @@ export const api: PublicApiType = anyApi as unknown as PublicApiType
 export const internal: InternalApiType = anyApi as unknown as InternalApiType
 
 export type PublicApiType = {
-  user: {
-    generateUploadUrl: FunctionReference<'mutation', 'public', Record<string, never>, any>
-    getLatestVersion: FunctionReference<
-      'query',
-      'public',
-      {
-        app: 'absolute-cinema' | 'oscar-tracker'
-        language?: 'en_US' | 'pt_BR'
-      },
-      {
-        _creationTime: number
-        _id: Id<'versions'>
-        app?: 'absolute-cinema' | 'oscar-tracker'
-        changelog: string
-        url: string
-        version: string
-      }
-    >
-    checkUsernameAvailability: FunctionReference<'query', 'public', { username?: string }, boolean | null>
-    updateUser: FunctionReference<
-      'mutation',
-      'public',
-      {
-        hideCast?: boolean
-        hidePlot?: boolean
-        hidePoster?: boolean
-        hideRate?: boolean
-        image?: Id<'_storage'> | null
-        language?: 'pt_BR' | 'en_US'
-        name?: string
-        username?: string
-      },
-      null
-    >
-    getCurrentUser: FunctionReference<
-      'query',
-      'public',
-      Record<string, never>,
-      {
-        _creationTime: number
-        _id: Id<'users'>
-        email?: string
-        emailVerificationTime?: number
-        hideCast?: boolean
-        hidePlot?: boolean
-        hidePoster?: boolean
-        hideRate?: boolean
-        image?: Id<'_storage'>
-        imageURL?: string
-        isAnonymous?: boolean
-        language?: 'pt_BR' | 'en_US'
-        name?: string
-        phone?: string
-        phoneVerificationTime?: number
-        username?: string
-      } | null
-    >
-    deleteAccount: FunctionReference<'action', 'public', Record<string, never>, null>
-    reportError: FunctionReference<'action', 'public', { message: string }, null>
-    searchUsers: FunctionReference<
-      'query',
-      'public',
-      { name: string },
-      Array<{
-        _id: Id<'users'>
-        following: boolean
-        follows: boolean
-        imageURL?: string
-        name?: string
-        username?: string
-      }>
-    >
-    startFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
-    stopFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
-    getFollowing: FunctionReference<
-      'query',
-      'public',
-      Record<string, never>,
-      Array<{
-        _id: Id<'users'>
-        followsYou: boolean
-        imageURL?: string
-        name?: string
-        username?: string
-      }>
-    >
-    getFollowers: FunctionReference<
-      'query',
-      'public',
-      Record<string, never>,
-      Array<{
-        _id: Id<'users'>
-        following: boolean
-        imageURL?: string
-        name?: string
-        username?: string
-      }>
-    >
-  }
   actors: {
     searchActors: FunctionReference<
       'action',
@@ -169,10 +70,20 @@ export type PublicApiType = {
         _id: Id<'movies'>
         backdropPath?: string
         imdbId?: string
+        last_update?: number
         originCountry?: Array<{ code: string; name: string; url: string }>
         originalLanguage?: string
         plot?: string
         posterPath?: string
+        providers?: Record<
+          string,
+          Array<{
+            logo_path: string
+            provider_id: number
+            provider_name: string
+            type: 'buy' | 'flatrate' | 'rent'
+          }>
+        >
         releaseDate?: string
         runtime?: number
         status?: string
@@ -236,6 +147,134 @@ export type PublicApiType = {
     >
     isInWatchlist: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean>
     hasWatchedMovie: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean>
+  }
+  oscar: {
+    getAllEditions: FunctionReference<'query', 'public', { public?: boolean }, Array<{ _id: Id<'oscarEditions'>; number: number; year: number }>>
+    getEdition: FunctionReference<
+      'query',
+      'public',
+      { _id?: Id<'oscarEditions'> },
+      {
+        _id: Id<'oscarEditions'>
+        announcement?: number
+        complete?: boolean
+        date: number
+        number: number
+        year: number
+      }
+    >
+    getEditionMovies: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      Array<{
+        _id: Id<'movies'>
+        nominationCount: number
+        posterPath?: string
+        title: string
+        tmdbId: number
+      }>
+    >
+    getUserWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean | null>
+    getUserWatches: FunctionReference<'query', 'public', { movies: Array<Id<'movies'>> }, Array<Id<'movies'>>>
+    getFriendsWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, Array<Id<'users'>>>
+    getFriendsData: FunctionReference<'query', 'public', Record<string, never>, Array<{ _id: Id<'users'>; imageURL?: string; name?: string }>>
+    getFriendsWatches: FunctionReference<
+      'query',
+      'public',
+      { movies: Array<Id<'movies'>> },
+      Array<{
+        friends_who_watched: Array<{
+          _id: Id<'users'>
+          imageURL?: string
+          name?: string
+        }>
+        movieId: Id<'movies'>
+      }>
+    >
+    getNominations: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      Array<{
+        category: { _id: Id<'oscarCategories'>; name: string; order: number }
+        nominations: Array<{
+          description?: string
+          movieId: Id<'movies'>
+          nominationId: Id<'oscarNomination'>
+          posterPath?: string
+          title: string
+          tmdbId: number
+          winner?: boolean
+        }>
+        type: 'person' | 'song' | 'movie' | 'picture'
+      }>
+    >
+    getMovies: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      Array<{
+        _id: Id<'movies'>
+        nominationCount: number
+        posterPath?: string
+        title: string
+        tmdbId: number
+      }>
+    >
+  }
+  oscar_movies: {
+    getEditionMovies: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      Array<{
+        _id: Id<'movies'>
+        nominationCount: number
+        posterPath?: string
+        title: string
+        tmdbId: number
+      }>
+    >
+    getUserWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean | null>
+    getUserWatches: FunctionReference<'query', 'public', { movies: Array<Id<'movies'>> }, Array<Id<'movies'>>>
+    getFriendsWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, Array<Id<'users'>>>
+    getFriendsData: FunctionReference<'query', 'public', Record<string, never>, Array<{ _id: Id<'users'>; imageURL?: string; name?: string }>>
+    getFriendsWatches: FunctionReference<
+      'query',
+      'public',
+      { movies: Array<Id<'movies'>> },
+      Array<{
+        friends_who_watched: Array<{
+          _id: Id<'users'>
+          imageURL?: string
+          name?: string
+        }>
+        movieId: Id<'movies'>
+      }>
+    >
+    getNominations: FunctionReference<
+      'query',
+      'public',
+      {
+        categoryId?: Id<'oscarCategories'>
+        editionId?: Id<'oscarEditions'>
+        language?: 'pt_BR' | 'en_US'
+      },
+      Array<{
+        category: { _id: Id<'oscarCategories'>; name: string; order: number }
+        nominations: Array<{
+          description?: string
+          movieId: Id<'movies'>
+          nominationId: Id<'oscarNomination'>
+          posterPath?: string
+          title: string
+          tmdbId: number
+          winner?: boolean
+        }>
+        type: 'person' | 'song' | 'movie' | 'picture'
+      }>
+    >
   }
   oscars: {
     getOscarEditions: FunctionReference<
@@ -466,7 +505,7 @@ export type PublicApiType = {
     getMovieDetail: FunctionReference<
       'query',
       'public',
-      { language?: 'pt_BR' | 'en_US'; tmdbId: number },
+      { country?: string; language?: 'pt_BR' | 'en_US'; tmdbId: number },
       {
         _creationTime: number
         _id: Id<'movies'>
@@ -478,6 +517,7 @@ export type PublicApiType = {
           username?: string
         }>
         imdbId?: string
+        last_update?: number
         latestWatch?: Id<'watchedMovies'>
         nominations: Array<{
           actorId?: Id<'actors'>
@@ -490,6 +530,12 @@ export type PublicApiType = {
         originalLanguage?: string
         plot?: string
         posterPath?: string
+        providers: Array<{
+          logo_path: string
+          provider_id: number
+          provider_name: string
+          type: 'buy' | 'flatrate' | 'rent'
+        }>
         releaseDate?: string
         runtime?: number
         status?: string
@@ -557,131 +603,132 @@ export type PublicApiType = {
       }
     >
   }
-  oscar: {
-    getAllEditions: FunctionReference<'query', 'public', { public?: boolean }, Array<{ _id: Id<'oscarEditions'>; number: number; year: number }>>
-    getEdition: FunctionReference<
-      'query',
+  providers: {
+    getOrUpdateProviders: FunctionReference<
+      'action',
       'public',
-      { _id?: Id<'oscarEditions'> },
-      {
-        _id: Id<'oscarEditions'>
-        announcement?: number
-        complete?: boolean
-        date: number
-        number: number
-        year: number
-      }
-    >
-    getEditionMovies: FunctionReference<
-      'query',
-      'public',
-      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
-      Array<{
-        _id: Id<'movies'>
-        nominationCount: number
-        posterPath?: string
-        title: string
-        tmdbId: number
-      }>
-    >
-    getUserWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean | null>
-    getUserWatches: FunctionReference<'query', 'public', { movies: Array<Id<'movies'>> }, Array<Id<'movies'>>>
-    getFriendsWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, Array<Id<'users'>>>
-    getFriendsData: FunctionReference<'query', 'public', Record<string, never>, Array<{ _id: Id<'users'>; imageURL?: string; name?: string }>>
-    getFriendsWatches: FunctionReference<
-      'query',
-      'public',
-      { movies: Array<Id<'movies'>> },
-      Array<{
-        friends_who_watched: Array<{
-          _id: Id<'users'>
-          imageURL?: string
-          name?: string
+      { tmdbId: number },
+      Record<
+        string,
+        Array<{
+          logo_path: string
+          provider_id: number
+          provider_name: string
+          type: 'buy' | 'flatrate' | 'rent'
         }>
-        movieId: Id<'movies'>
-      }>
+      >
     >
-    getNominations: FunctionReference<
-      'query',
+    getProviders: FunctionReference<
+      'action',
       'public',
-      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
+      { country: string; movies: Array<number> },
       Array<{
-        category: { _id: Id<'oscarCategories'>; name: string; order: number }
-        nominations: Array<{
-          description?: string
-          movieId: Id<'movies'>
-          nominationId: Id<'oscarNomination'>
-          posterPath?: string
-          title: string
-          tmdbId: number
-          winner?: boolean
+        movieId: number
+        providers: Array<{
+          logo_path: string
+          provider_id: number
+          provider_name: string
+          type: 'buy' | 'flatrate' | 'rent'
         }>
-        type: 'person' | 'song' | 'movie' | 'picture'
-      }>
-    >
-    getMovies: FunctionReference<
-      'query',
-      'public',
-      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
-      Array<{
-        _id: Id<'movies'>
-        nominationCount: number
-        posterPath?: string
-        title: string
-        tmdbId: number
       }>
     >
   }
-  oscar_movies: {
-    getEditionMovies: FunctionReference<
-      'query',
-      'public',
-      { editionId?: Id<'oscarEditions'>; language?: 'pt_BR' | 'en_US' },
-      Array<{
-        _id: Id<'movies'>
-        nominationCount: number
-        posterPath?: string
-        title: string
-        tmdbId: number
-      }>
-    >
-    getUserWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, boolean | null>
-    getUserWatches: FunctionReference<'query', 'public', { movies: Array<Id<'movies'>> }, Array<Id<'movies'>>>
-    getFriendsWatch: FunctionReference<'query', 'public', { movieId: Id<'movies'> }, Array<Id<'users'>>>
-    getFriendsData: FunctionReference<'query', 'public', Record<string, never>, Array<{ _id: Id<'users'>; imageURL?: string; name?: string }>>
-    getFriendsWatches: FunctionReference<
-      'query',
-      'public',
-      { movies: Array<Id<'movies'>> },
-      Array<{
-        friends_who_watched: Array<{
-          _id: Id<'users'>
-          imageURL?: string
-          name?: string
-        }>
-        movieId: Id<'movies'>
-      }>
-    >
-    getNominations: FunctionReference<
+  user: {
+    generateUploadUrl: FunctionReference<'mutation', 'public', Record<string, never>, any>
+    getLatestVersion: FunctionReference<
       'query',
       'public',
       {
-        categoryId?: Id<'oscarCategories'>
-        editionId?: Id<'oscarEditions'>
-        language?: 'pt_BR' | 'en_US'
+        app: 'absolute-cinema' | 'oscar-tracker'
+        language?: 'en_US' | 'pt_BR'
       },
+      {
+        _creationTime: number
+        _id: Id<'versions'>
+        app?: 'absolute-cinema' | 'oscar-tracker'
+        changelog: string
+        url: string
+        version: string
+      }
+    >
+    checkUsernameAvailability: FunctionReference<'query', 'public', { username?: string }, boolean | null>
+    updateUser: FunctionReference<
+      'mutation',
+      'public',
+      {
+        hideCast?: boolean
+        hidePlot?: boolean
+        hidePoster?: boolean
+        hideRate?: boolean
+        image?: Id<'_storage'> | null
+        language?: 'pt_BR' | 'en_US'
+        name?: string
+        username?: string
+      },
+      null
+    >
+    getCurrentUser: FunctionReference<
+      'query',
+      'public',
+      Record<string, never>,
+      {
+        _creationTime: number
+        _id: Id<'users'>
+        email?: string
+        emailVerificationTime?: number
+        hideCast?: boolean
+        hidePlot?: boolean
+        hidePoster?: boolean
+        hideRate?: boolean
+        image?: Id<'_storage'>
+        imageURL?: string
+        isAnonymous?: boolean
+        language?: 'pt_BR' | 'en_US'
+        name?: string
+        phone?: string
+        phoneVerificationTime?: number
+        username?: string
+      } | null
+    >
+    deleteAccount: FunctionReference<'action', 'public', Record<string, never>, null>
+    reportError: FunctionReference<'action', 'public', { message: string }, null>
+    searchUsers: FunctionReference<
+      'query',
+      'public',
+      { name: string },
       Array<{
-        category: { _id: Id<'oscarCategories'>; name: string; order: number }
-        nominations: Array<{
-          description?: string
-          movieId: Id<'movies'>
-          nominationId: Id<'oscarNomination'>
-          posterPath?: string
-          title: string
-          tmdbId: number
-          winner?: boolean
-        }>
-        type: 'person' | 'song' | 'movie' | 'picture'
+        _id: Id<'users'>
+        following: boolean
+        follows: boolean
+        imageURL?: string
+        name?: string
+        username?: string
+      }>
+    >
+    startFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
+    stopFollowing: FunctionReference<'mutation', 'public', { friendId: Id<'users'> }, null>
+    getFollowing: FunctionReference<
+      'query',
+      'public',
+      Record<string, never>,
+      Array<{
+        _id: Id<'users'>
+        followsYou: boolean
+        imageURL?: string
+        name?: string
+        username?: string
+      }>
+    >
+    getFollowers: FunctionReference<
+      'query',
+      'public',
+      Record<string, never>,
+      Array<{
+        _id: Id<'users'>
+        following: boolean
+        imageURL?: string
+        name?: string
+        username?: string
       }>
     >
   }

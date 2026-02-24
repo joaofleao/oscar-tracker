@@ -15,11 +15,11 @@ import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { ScreenType } from '@router/types'
 
-const Filter: ScreenType<'filter'> = ({ navigation }) => {
+const FilterNominations: ScreenType<'filter_nominations'> = ({ navigation }) => {
   const styles = useStyles()
   const { t } = useTranslation()
 
-  const { nominations, clearCategoriesSettings, setOrderedCategories, setHiddenCategories, hiddenCategories, orderedCategories } = useEdition()
+  const { nominations, setOrderedCategories, setHiddenCategories, hiddenCategories, orderedCategories } = useEdition()
 
   const [localCategories, setLocalCategories] = useState(nominations.slice(1).map((n) => ({ ...n.category, hide: (hiddenCategories ?? []).includes(n.category._id) })))
 
@@ -46,7 +46,8 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
   }
 
   const handleClear = (): void => {
-    clearCategoriesSettings()
+    setHiddenCategories([])
+    setOrderedCategories([])
     setLocalCategories(nominations.slice(1).map((n) => ({ ...n.category, hide: (hiddenCategories ?? []).includes(n.category._id) })))
     navigation.goBack()
   }
@@ -56,9 +57,9 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
 
   const header = (
     <View style={styles.contentHeader}>
-      <Section title={t('filter:categories')}>
+      <Section title={t('filter_nominations:categories')}>
         <SmallListItem
-          chip={` ${nominations[0].nominations.filter((n) => n.watched).length}/${nominations[0].nominations.length} `}
+          chip={`${nominations[0].nominations.filter((n) => n.watched).length}/${nominations[0].nominations.length}`}
           id={nominations[0].category._id}
           title={nominations[0].category.name}
           secondaryActions={[
@@ -75,7 +76,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
   return (
     <>
       <Blur style={styles.header}>
-        <Typography>{t('filter:filter')}</Typography>
+        <Typography>{t('filter_nominations:filter')}</Typography>
       </Blur>
 
       <ReorderableList
@@ -92,7 +93,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
             small
             id={item._id}
             title={item.name}
-            chip={` ${nominations.find((n) => n.category._id === item._id)?.nominations.filter((n) => n.watched).length}/${nominations.find((n) => n.category._id === item._id)?.nominations.length} `}
+            badge={`${nominations.find((n) => n.category._id === item._id)?.nominations.filter((n) => n.watched).length}/${nominations.find((n) => n.category._id === item._id)?.nominations.length}`}
             secondaryActions={[
               {
                 icon: <IconEyeOpen size={16} />,
@@ -120,7 +121,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
               onPress={handleSave}
               icon={<IconCheckCircle />}
               variant="brand"
-              title={t('filter:save')}
+              title={t('filter_nominations:save')}
             />
           </>
         )}
@@ -129,7 +130,7 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
             onPress={handleClear}
             icon={<IconDiscard />}
             variant="brand"
-            title={t('filter:restore_defaults')}
+            title={t('filter_nominations:restore_defaults')}
           />
         )}
       </Animated.View>
@@ -137,4 +138,4 @@ const Filter: ScreenType<'filter'> = ({ navigation }) => {
   )
 }
 
-export default Filter
+export default FilterNominations

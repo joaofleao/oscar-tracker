@@ -47,7 +47,6 @@ const useStyles = (): StylesReturn => {
       flexDirection: 'row',
       alignItems: 'center',
       paddingRight: 8,
-      justifyContent: 'center',
     },
     content: {
       flex: 1,
