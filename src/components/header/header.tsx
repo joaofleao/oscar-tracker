@@ -33,7 +33,7 @@ const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
       setShowDays((prev) => !prev)
     }, 5000)
 
-    return () => clearInterval(interval)
+    return (): void => clearInterval(interval)
   }, [])
 
   const styles = useStyles({ minWidth })

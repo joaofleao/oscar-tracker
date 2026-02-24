@@ -47,7 +47,7 @@ const Paragraph = ({ text, spoiler, toggleSpoiler }: ParagraphProps): React.Reac
         }}
         style={styles.root}
       >
-        {spoiler && Platform.OS === 'android' ? shuffledText : content}
+        {!spoiler ? content : Platform.OS === 'android' ? shuffledText : content}
 
         {spoiler && (
           <Animated.View

@@ -150,7 +150,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           image={item.imageURL}
           title={item.name}
           badge={{
-            title: ` ${item.watched}/${movies.length} `,
+            title: `${item.watched}/${movies.length}`,
             variant: item.watched === movies.length ? 'brand' : 'container',
           }}
           description={item.username}

@@ -75,7 +75,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
 
   const filteredMovies = movies
     .filter((movie) => {
-      if (statusFilter.length === 0 || friendFilter.length === 0) return true
+      if (statusFilter === 'all' || friendFilter.length === 0) return true
       const usersWhoWatched = [movie.friends_who_watched, ...(movie.watched ? [{ _id: user?._id, name: user?.name, imageURL: user?.imageURL }] : [])].flat()
       const userFilter = friendFilter.every((userId) => usersWhoWatched.some((friend) => friend._id === userId))
       if (statusFilter === 'watched') return userFilter
