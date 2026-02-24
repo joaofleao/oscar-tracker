@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Platform } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Animated, { CurvedTransition, FadeInDown, FadeOutDown, FadeOutUp } from 'react-native-reanimated'
-import { useConvexAuth, useMutation } from 'convex/react'
-import { api } from 'convex_api'
+// import { useConvexAuth, useMutation } from 'convex/react'
+// import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -16,7 +16,7 @@ import Row from '@components/row/row'
 import SearchInput from '@components/search_input'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
-import { TinyPlus } from '@components/tiny_icon'
+// import { TinyPlus } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
@@ -24,7 +24,7 @@ import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
 
 const Search: ScreenType<'search'> = ({ navigation, route }) => {
-  const { spoilers, followers, following } = useUser()
+  const { spoilers } = useUser()
 
   const { movies, nominations, userWatches } = useEdition()
   const styles = useStyles()
@@ -33,34 +33,34 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
 
   const [query, setQuery] = useState<string>('')
 
-  const refinedFollowers = followers.map((user) => ({
-    ...user,
-    followsYou: true,
-  }))
-  const refinedFollowing = following.map((user) => ({
-    ...user,
-    following: true,
-  }))
+  // const refinedFollowers = followers.map((user) => ({
+  //   ...user,
+  //   followsYou: true,
+  // }))
+  // const refinedFollowing = following.map((user) => ({
+  //   ...user,
+  //   following: true,
+  // }))
 
-  const users = [refinedFollowers, refinedFollowing].flat().reduce(
-    (acc, current) => {
-      const x = acc.find((item) => item._id === current._id)
-      if (!x) {
-        return acc.concat([current])
-      }
-      return acc
-    },
-    [] as typeof refinedFollowers,
-  )
+  // const users = [refinedFollowers, refinedFollowing].flat().reduce(
+  //   (acc, current) => {
+  //     const x = acc.find((item) => item._id === current._id)
+  //     if (!x) {
+  //       return acc.concat([current])
+  //     }
+  //     return acc
+  //   },
+  //   [] as typeof refinedFollowers,
+  // )
 
   const results = {
     categories: nominations.filter((item) => item.category.name.toLowerCase().includes(query?.toLowerCase() ?? '')).map((item) => item.category),
     movies: movies.filter((movie) => movie.title.toLowerCase().includes(query?.toLowerCase() ?? '')),
-    users: users.filter((user) => (user.name ? user.name.toLowerCase().includes(query?.toLowerCase() ?? '') : false || user.username ? user.username.toLowerCase().includes(query?.toLowerCase() ?? '') : false)),
+    // users: users.filter((user) => (user.name ? user.name.toLowerCase().includes(query?.toLowerCase() ?? '') : false || user.username ? user.username.toLowerCase().includes(query?.toLowerCase() ?? '') : false)),
   }
 
-  const startFollowing = useMutation(api.user.startFollowing)
-  const { isAuthenticated } = useConvexAuth()
+  // const startFollowing = useMutation(api.user.startFollowing)
+  // const { isAuthenticated } = useConvexAuth()
 
   const handleSearch = async (query: string): Promise<void> => {
     if (query.trim() === '') {
@@ -159,7 +159,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
                 noResultsState
               )}
             </Section>
-            <Section
+            {/* <Section
               title={t('search:users')}
               entering={FadeInDown}
               exiting={FadeOutDown}
@@ -191,7 +191,7 @@ const Search: ScreenType<'search'> = ({ navigation, route }) => {
               ) : (
                 noResultsState
               )}
-            </Section>
+            </Section> */}
             <Section
               title={t('search:movies')}
               entering={FadeInDown}

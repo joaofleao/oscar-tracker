@@ -140,7 +140,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           />
         </Authenticated>
       }
-      data={following}
+      data={following.sort((a, b) => b.watched - a.watched)}
       style={styles.list}
       contentContainerStyle={styles.content}
       renderItem={({ item }) => (

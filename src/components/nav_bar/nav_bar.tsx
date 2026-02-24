@@ -11,6 +11,7 @@ import useStyles from './styles'
 import { NavBarProps, TabType } from './types'
 import Blur from '@components/blur'
 import { IconMagnifyingGlass } from '@components/icon'
+import { TinyPlus } from '@components/tiny_icon'
 import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
 import { storage } from '@router/router'
@@ -96,8 +97,8 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
       variant="background"
     >
       <NavBarItem
-        onPress={() => navigation.navigate('search')}
-        icon={<IconMagnifyingGlass size={24} />}
+        onPress={() => navigation.navigate(state.index === 2 ? 'search_friends' : 'search')}
+        icon={state.index === 2 ? <TinyPlus size={24} /> : <IconMagnifyingGlass size={24} />}
       />
     </Blur>
   )

@@ -35,6 +35,7 @@ const useStyles = ({ height, spacing }: StyleParams): StylesReturn => {
       gap: spacing,
       ...(Platform.OS === 'android' && { paddingTop: HEADER_HEIGHT + 20 }),
       paddingHorizontal: Platform.OS === 'ios' ? 40 : 20,
+
       paddingBottom: Platform.OS === 'ios' ? 0 : bottom + FOOTER_BOTTOM + FOOTER_TOP + FOOTER_HEIGHT,
     },
 

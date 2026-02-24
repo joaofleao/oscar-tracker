@@ -6,7 +6,6 @@ type FollowingWithWatched = PublicApiType['user']['getFollowing']['_returnType']
 
 export interface UserContextType {
   user?: PublicApiType['user']['getCurrentUser']['_returnType']
-  refreshUser: () => void
   spoilers: {
     hidePoster: boolean
     hideCast: boolean

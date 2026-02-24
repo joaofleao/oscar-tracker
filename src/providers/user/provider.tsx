@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv'
-import { useConvex, useConvexAuth, useMutation } from 'convex/react'
+import { useConvex, useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api, PublicApiType } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -15,19 +15,14 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
   const { friendsWatches, movies } = useEdition()
 
   const updateUser = useMutation(api.user.updateUser)
-  const [user, setUser] = useMMKVObject<UserContextType['user']>('user.data')
+
+  const user = useQuery(api.user.getCurrentUser)
   const [following, setFollowing] = useMMKVObject<PublicApiType['user']['getFollowing']['_returnType']>('user.following')
   const [followers, setFollowers] = useMMKVObject<UserContextType['followers']>('user.followers')
   const [hideCast, setHideCast] = useMMKVBoolean('user.hideCast')
   const [hidePlot, setHidePlot] = useMMKVBoolean('user.hidePlot')
   const [hidePoster, setHidePoster] = useMMKVBoolean('user.hidePoster')
   const [hideRate, setHideRate] = useMMKVBoolean('user.hideRate')
-
-  const refreshUser: UserContextType['refreshUser'] = async () => {
-    print('User', 'Server Fetched', 'yellow')
-    const fetched = await convex.query(api.user.getCurrentUser, {})
-    setUser(fetched)
-  }
 
   const refreshFollowers: UserContextType['refreshFollowers'] = async () => {
     print('Followers', 'Server Fetched', 'yellow')
@@ -45,7 +40,6 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
 
   useEffect(() => {
     const fetchUser = async (): Promise<void> => {
-      refreshUser()
       print('Current User', 'Local Fetched', 'green')
     }
     const fetchFollowing = async (): Promise<void> => {
@@ -118,7 +112,6 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
     <UserContext.Provider
       value={{
         user,
-        refreshUser,
         spoilers: {
           hideCast: hideCast ?? false,
           hidePlot: hidePlot ?? false,
