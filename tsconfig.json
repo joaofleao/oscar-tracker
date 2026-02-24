@@ -1,13 +1,26 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "strict": true,
     "types": ["node"],
+
     "baseUrl": ".",
     "paths": {
-      "@*": ["./src/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@translations/*": ["./src/translations/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@components/*": ["./src/components/*"],
+      "@router/*": ["./src/router/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@router": ["./src/router"],
+      "@services/*": ["./src/services/*"],
+      "@animations/*": ["./src/animations/*"],
       "@package.json": ["./package.json"]
     },
     "jsx": "react-jsx"
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules/**"]
 }

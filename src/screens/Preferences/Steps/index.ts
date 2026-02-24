@@ -1,6 +1,0 @@
-export { default as introduction } from './IntroductionStep'
-export { default as conclusion } from './ConclusionStep'
-export { default as poster } from './PosterStep'
-export { default as plot } from './PlotStep'
-export { default as cast } from './CastStep'
-export { default as ratings } from './RatingsStep'

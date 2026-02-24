@@ -1,0 +1,207 @@
+{
+  "overall": {
+    "search_placeholder": "Pesquisar",
+    "email_placeholder": "Email",
+    "winner": "Vencedor",
+    "password_placeholder": "Senha",
+    "password_confirmation_placeholder": "Confirmar senha",
+    "password_requirements": "suas senhas precisam de: ",
+    "password_digit": "um digito e",
+    "password_uppercase": "uma letra maiuscula.",
+    "password_match": "precisam ser iguais ",
+
+    "not_implemented": "Não implementado",
+    "feature_not_implemented": "Este recurso não está implementado ainda.",
+    "permission_required": "Permissão necessária",
+    "permission_media_library": "Permissão para acessar a biblioteca de mídia é necessária."
+  },
+  "category": {
+    "cast_ballot": "Enviar Votos",
+    "discard_title": "Descartar alterações?",
+    "discard_message": "Você tem alterações de classificação não salvas. Tem certeza de que deseja sair?",
+    "discard": "Descartar",
+    "cancel": "Cancelar"
+  },
+
+  "select_edition": {
+    "edition": "Edição",
+    "select_edition": "Selecione a edição"
+  },
+  "home": {
+    "edition": "Edição",
+    "select_edition": "Selecione a edição",
+    "nominations": "indicações",
+    "movies": "Filmes",
+    "profile": "Perfil"
+  },
+  "profile": {
+    "add_friends": "Adicionar amigos",
+    "settings": "Configurações",
+    "followers": "Seguidores",
+    "empty_following_title": "Você não segue ninguém",
+    "empty_following_description": "Comece a seguir usuários para vê-los aqui.",
+    "empty_followers_title": "Sem seguidores",
+    "empty_followers_description": "Quando alguém te seguir, aparecerá aqui.",
+    "empty_movies_title": "Sem filmes",
+    "empty_movies_description": "Nenhum filme assistido nessa edição.",
+    "empty_title_unauthenticated": "Bem-vindo ao Academy Tracker",
+    "empty_description_unauthenticated": "Faça login para começar a acompanhar seus filmes.",
+    "sign_in": "Entrar",
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "follows_you": "Segue você",
+    "stop_following": "Parar de seguir"
+  },
+  "search": {
+    "title": "Pesquisar",
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "follows_you": "Segue você",
+    "no_results": "Nenhum resultado",
+    "empty_state": "Procure amigos, filmes e categorias.",
+    "categories": "Categorias",
+    "users": "Usuários",
+    "movies": "Filmes"
+  },
+  "search_friends": {
+    "title": "Adicionar Amigo",
+    "follow": "Seguir",
+    "following": "Seguindo",
+    "follows_you": "Segue você",
+    "no_results": "Nenhum resultado",
+    "empty_state": "Escreva o nome de usuário para adicionar amigos."
+  },
+  "movies": {
+    "watch": "Assistir",
+    "no_movies_title": "Em breve",
+    "no_movies_description": "Nenhum filme por enquanto.",
+    "nomination": "indicação",
+    "nominations_plural": "indicações",
+    "watched_by": "Assistido por"
+  },
+  "nominations": {
+    "expand": "Expandir",
+
+    "until_announcement_title_singular": "{count} dia para o anúncio",
+    "until_announcement_description_singular": "{count} dia para a cerimônia.",
+
+    "until_announcement_title": "{count} dias para o anúncio",
+    "until_announcement_description": "{count} dias para a cerimônia.",
+
+    "announcement_today_title": "Hoje é o dia do anúncio!",
+    "announcement_today_description": "As indicações serão reveladas em breve.",
+
+    "announcement_made_title": "O anúncio já foi feito",
+    "announcement_made_description": "As indicações serão reveladas em breve."
+  },
+
+  "movie": {
+    "error_title": "Erro",
+    "watch_error": "Falha ao marcar o filme como assistido. Por favor, tente novamente.",
+    "ok": "OK",
+    "country": "Países",
+    "watch": "Marcar como Assistido",
+    "unwatch": "Marcar como Não Assistido",
+    "imdb": "Ver no IMDB",
+    "plot": "Sinopse",
+    "nominations": "indicações",
+    "friends": "Assistido por",
+    "friends_empty": "Nenhum amigo",
+    "cast": "Elenco",
+    "streaming": "Onde assistir",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "continue": "Continuar",
+    "unwatch_description": "Tem certeza que deseja marcar %movie como não assistido?",
+    "hold_to_choose_date": "Continue segurando para escolher uma data"
+  },
+
+  "auth": {
+    "name": "Nome Completo",
+    "username": "Nome de Usuário",
+    "remove": "remover",
+    "details": "Detlhes da Conta",
+    "sign_in": "Entrar",
+    "sign_up": "Registrar",
+    "continue_with": "Continue com",
+    "forgot_password": "Esqueceu a senha?",
+    "fill_details": "Confirmar",
+    "save": "Salvar",
+    "verify": "Verifique seu email",
+    "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
+    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade.",
+
+    "invalid_email": "Email inválido",
+    "invalid_password": "Senha inválida",
+    "invalid_confirm_password": "Confirmação de senha inválida",
+    "invalid_code": "Código inválido",
+    "invalid_name": "Nome e Sobrenome obrigatório",
+    "invalid_username": "Usuário inválido",
+    "invalid_username_characters": "Usuário com caracteres inválidos",
+    "invalid_username_too_short": "Usuário muito curto",
+    "invalid_username_taken": "Usuário já está em uso"
+  },
+  "settings": {
+    "edit": "editar",
+    "remove": "remover",
+    "general": "geral",
+    "clean_cache": "Segure para limpar o cache",
+    "change": "alterar",
+    "settings": "Configurações",
+    "sign_out": "Sair",
+    "ptbr": "Português",
+    "enus": "Inglês",
+    "delete_account": "Excluir conta",
+    "delete_account_title": "Você está prestes a solicitar a exclusão de sua conta",
+    "delete_account_message": "Essa ação não pode ser desfeita, todos os seus dados serão perdidos.",
+    "delete_account_confirm": "excluir contar",
+    "delete_account_deny": "Manter Conta",
+
+    "deleted_account_title": "Você solicitou a exclusão da sua conta",
+    "deleted_account_message": "Seus dados serão removidos em até 24 horas, nenhuma ação é necessária de sua parte.",
+    "deleted_account_confirm": "Sair do Academy Tracker",
+
+    "account": "Conta",
+    "preferences": "Preferências",
+    "language": "Idioma",
+    "name": "Nome Completo",
+    "username": "Nome de Usuário",
+    "yes": "Sim",
+    "no": "Não",
+    "cast_spoiler": "Elenco é spoilers?",
+    "poster_spoiler": "Poster é spoiler?",
+    "rating_spoiler": "Nota é spoiler?",
+    "plot_spoiler": "Sinopse é spoiler?",
+    "version": "versão"
+  },
+  "errors": {
+    "continue": "Continuar",
+    "report": "Reportar"
+  },
+  "awards": {
+    "call": "A {count} cerimônia de",
+    "name": "Prêmios da Academia",
+    "will": "vai acontecer em {countdown} {time_unit}.",
+    "has": "ocorreu dia {date}.",
+
+    "days": "dias",
+    "day": "dia",
+    "hours": "horas",
+    "hour": "hora",
+    "minutes": "minutos",
+    "minute": "minuto",
+    "seconds": "segundos",
+    "second": "segundo",
+
+    "show_me_winners": "mostrar vencedores",
+    "coming_soon": "em breve",
+    "your_rank": "sua classificação",
+    "not_ranked": "não classificado"
+  },
+  "filter": {
+    "save": "Salvar",
+    "filter": "Filtrar",
+    "categories": "Categorias",
+    "restore_defaults": "Restaurar Padrões"
+  }
+}

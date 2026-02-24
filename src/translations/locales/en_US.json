@@ -1,0 +1,205 @@
+{
+  "overall": {
+    "winner": "Winner",
+    "search_placeholder": "Search",
+    "email_placeholder": "Email",
+    "password_placeholder": "Password",
+    "password_confirmation_placeholder": "Confirm password",
+    "password_requirements": "your passwords need to have: ",
+    "password_digit": "one digit and ",
+    "password_uppercase": "one uppercase letter.",
+    "password_match": "passwords need to match",
+    "not_implemented": "Not implemented",
+    "feature_not_implemented": "This feature is not implemented yet.",
+    "permission_required": "Permission required",
+    "permission_media_library": "Permission to access the media library is required."
+  },
+  "category": {
+    "cast_ballot": "Enviar Votos",
+    "discard_title": "Discard changes?",
+    "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
+    "discard": "Discard",
+    "cancel": "Cancel"
+  },
+
+  "select_edition": {
+    "edition": "Edition",
+    "select_edition": "Select Edition"
+  },
+  "home": {
+    "edition": "Edition",
+    "select_edition": "Select Edition",
+    "nominations": "Nominations",
+    "movies": "Movies",
+    "profile": "Profile"
+  },
+  "nominations": {
+    "expand": "Expand",
+    "until_announcement_title_singular": "{count} day until the announcement",
+    "until_announcement_description_singular": "{count} day left until the nominations announcement.",
+
+    "until_announcement_title": "{count} days until the announcement",
+    "until_announcement_description": "{count} days left until the nominations announcement.",
+
+    "announcement_today_title": "Today is the announcement day!",
+    "announcement_today_description": "The nominations will be revealed soon.",
+
+    "announcement_made_title": "The announcement has been made",
+    "announcement_made_description": "The nominations have been revealed."
+  },
+  "search": {
+    "title": "Search",
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+    "no_results": "No results",
+    "empty_state": "Search friends, movies, and categories.",
+    "categories": "Categories",
+    "users": "Users",
+    "movies": "Movies"
+  },
+  "search_friends": {
+    "title": "Add Friend",
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+    "no_results": "No results",
+    "empty_state": "Type the username to add friends."
+  },
+  "movie": {
+    "error_title": "Error",
+    "watch_error": "Failed to mark movie as watched. Please try again.",
+    "ok": "OK",
+    "watch": "Mark as Watched",
+    "country": "Countries",
+    "unwatch": "Mark as Unwatched",
+    "imdb": "Check on IMDB",
+    "plot": "Plot",
+    "nominations": "Nominations",
+    "friends": "Watched by",
+    "friends_empty": "No friends",
+    "cast": "Cast",
+    "streaming": "Where to watch",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "continue": "Continue",
+    "unwatch_description": "Are you sure you want to mark %movie as unwatched?",
+    "hold_to_choose_date": "Keep holding to choose a date"
+  },
+  "movies": {
+    "watch": "Watch",
+    "no_movies_title": "Coming soon",
+    "no_movies_description": "No movies yet.",
+    "nomination": "nomination",
+    "nominations_plural": "nominations",
+    "watched_by": "Watched by"
+  },
+  "auth": {
+    "details": "Account Details",
+    "sign_in": "Sign In",
+    "sign_up": "Register",
+    "continue_with": "Continue with",
+    "forgot_password": "Forgot password?",
+    "fill_details": "Confirm",
+    "save": "Save",
+    "verify": "verify your email",
+    "spam": "A 4 digit code was sent. Remember to verify the spam inbox as well.",
+    "privacy_policy": "by registering, you agree with the privacy policy and the terms of usage.",
+
+    "name": "Full Name",
+    "username": "Username",
+    "remove": "Remove",
+
+    "invalid_email": "Invalid email",
+    "invalid_password": "Invalid password",
+    "invalid_confirm_password": "Invalid password confirmation",
+    "invalid_code": "Invalid code",
+    "invalid_name": "Full name required",
+    "invalid_username": "Invalid username",
+    "invalid_username_characters": "Username with invalid characters",
+    "invalid_username_too_short": "Username too short",
+    "invalid_username_taken": "Username already taken"
+  },
+  "profile": {
+    "add_friends": "Add Friends",
+    "settings": "Settings",
+    "followers": "Followers",
+    "empty_following_title": "You are not following anyone",
+    "empty_following_description": "Start following users to see them here.",
+    "empty_followers_title": "No followers",
+    "empty_followers_description": "When someone follows you, they will appear here.",
+    "empty_movies_title": "No movies",
+    "empty_movies_description": "No movies watched for this edition.",
+
+    "empty_title_unauthenticated": "Welcome to Academy Tracker",
+    "empty_description_unauthenticated": "Sign in to start tracking your movies.",
+    "sign_in": "Sign In",
+    "follow": "Follow",
+    "following": "Following",
+    "follows_you": "Follows you",
+    "stop_following": "Stop Following"
+  },
+  "settings": {
+    "edit": "edit",
+    "clean_cache": "Hold to clear cache",
+    "remove": "remove",
+    "change": "change",
+    "settings": "Settings",
+    "general": "General",
+    "sign_out": "Sign Out",
+    "ptbr": "Portuguese",
+    "enus": "English",
+    "delete_account": "Delete Account",
+    "delete_account_title": "You are about to request the deletion of your account",
+    "delete_account_message": "This action is permanent, all your information will be lost.",
+    "delete_account_confirm": "delete Account",
+    "delete_account_deny": "Keep Account",
+
+    "deleted_account_title": "You have requested the deletion of your account",
+    "deleted_account_message": "Your data will be deleted in 24 hours, no more actions are necessary from your side.",
+    "deleted_account_confirm": "Leave Academy Tracker",
+
+    "account": "Account",
+    "preferences": "Preferences",
+    "language": "Language",
+    "name": "Name",
+    "username": "Usuário",
+    "yes": "Yes",
+    "no": "No",
+    "cast_spoiler": "Is casting a spoiler?",
+    "poster_spoiler": "Is the poster a spoiler?",
+    "rating_spoiler": "Are the Ratings spoilers?",
+    "plot_spoiler": "Is the plot a spoiler?",
+    "version": "Version"
+  },
+  "errors": {
+    "continue": "Continue",
+    "report": "Report"
+  },
+  "awards": {
+    "call": "The {count} ceremony of the",
+    "name": "Academy Awards",
+    "will": "will happen in {countdown} {time_unit}.",
+    "has": "happened on {date}.",
+
+    "days": "days",
+    "day": "day",
+    "hours": "hours",
+    "hour": "hour",
+    "minutes": "minutes",
+    "minute": "minute",
+    "seconds": "seconds",
+    "second": "second",
+
+    "show_me_winners": "show me the winners",
+    "coming_soon": "coming soon",
+    "your_rank": "your rank",
+    "not_ranked": "not ranked"
+  },
+  "filter": {
+    "save": "Save",
+    "filter": "Filter",
+    "categories": "Categories",
+    "restore_defaults": "Restore Defaults"
+  }
+}
