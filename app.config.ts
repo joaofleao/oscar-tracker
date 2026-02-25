@@ -14,6 +14,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
+      '@react-native-community/datetimepicker',
+      'expo-font',
       'expo-apple-authentication',
       'expo-web-browser',
       'expo-secure-store',
