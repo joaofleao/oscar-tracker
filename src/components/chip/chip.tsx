@@ -11,7 +11,7 @@ import { useTheme } from '@providers/theme'
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 
-const Chip = ({ title, icon, image, variant = 'container', entering, exiting, ...props }: ChipProps): React.ReactElement => {
+const Chip = ({ title, icon, image, variant = 'container', ...props }: ChipProps): React.ReactElement => {
   const styles = useStyles({ variant })
   const theme = useTheme()
 
@@ -69,8 +69,6 @@ const Chip = ({ title, icon, image, variant = 'container', entering, exiting, ..
   return (
     <AnimatedPressable
       style={styles.root}
-      entering={entering}
-      exiting={exiting}
       {...props}
     >
       {content}

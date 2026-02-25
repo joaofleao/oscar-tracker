@@ -170,8 +170,7 @@ const Router = (): React.ReactNode => {
             name={'filter_movies'}
             component={FilterMovies}
             options={{
-              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-              sheetAllowedDetents: 'fitToContents',
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
               contentStyle: { backgroundColor: semantics.container.base.default },
             }}
           />

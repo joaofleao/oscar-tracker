@@ -28,6 +28,7 @@
   },
   "home": {
     "edition": "Edition",
+    "edition_finished": "Edition finished",
     "select_edition": "Select Edition",
     "nominations": "Nominations",
     "movies": "Movies",
@@ -216,6 +217,8 @@
     "by_friends": "By friends",
     "by_provider": "By provider",
     "save": "Save",
-    "restore_defaults": "Restore Defaults"
+    "restore_defaults": "Restore Defaults",
+    "show_more": "Show More",
+    "show_less": "Show Less"
   }
 }

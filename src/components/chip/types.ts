@@ -12,4 +12,5 @@ export interface ChipProps extends PressableProps {
   onPress?: () => void
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
+  layout?: AnimatedProps<View>['layout']
 }

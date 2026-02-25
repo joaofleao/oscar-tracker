@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated'
+import Animated, { FadeInDown, FadeInRight, FadeOutLeft, FadeOutUp, LinearTransition } from 'react-native-reanimated'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -25,6 +25,25 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
   const [localStatus, setLocalStatus] = useState(statusFilter)
   const [localFriends, setLocalFriends] = useState<string[]>(friendFilter)
   const [localProviders, setLocalProviders] = useState<number[]>(providersFilter)
+
+  const providers = movies.reduce<
+    {
+      logo_path: string
+      provider_id: number
+      provider_name: string
+      type: 'buy' | 'flatrate' | 'rent'
+    }[]
+  >((providers, movie) => {
+    movie.providers.forEach((provider) => {
+      if (!providers.find((p) => p.provider_id === provider.provider_id)) {
+        providers.push(provider)
+      }
+    })
+    return providers
+  }, [])
+
+  const [showingFriends, setShowingFriends] = useState(Math.min(5, following.length))
+  const [showingProviders, setShowingProviders] = useState(Math.min(5, providers.length))
 
   const handleSave = (): void => {
     setStatusFilter(localStatus)
@@ -108,20 +127,36 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
                 title={user.name ?? ''}
                 variant={localFriends.includes(user._id) ? 'brand' : 'container'}
               />
-              {following.map((friend) => (
+
+              {following
+                .sort((a, b) => (a.name && b.name ? a.name.localeCompare(b.name) : 0))
+                .slice(0, showingFriends)
+                .map((friend, index) => (
+                  <Chip
+                    entering={FadeInRight.delay(10 * index)}
+                    exiting={FadeOutLeft.delay(10 * index)}
+                    image={friend.imageURL ?? ''}
+                    key={friend._id}
+                    onPress={() => setLocalFriends((prev) => (prev.includes(friend._id) ? (prev.length === 1 ? prev : prev.filter((id) => id !== friend._id)) : [...prev, friend._id]))}
+                    title={friend.name}
+                    variant={localFriends.includes(friend._id) ? 'brand' : 'container'}
+                  />
+                ))}
+
+              {following.length > 5 && (
                 <Chip
-                  image={friend.imageURL ?? ''}
-                  key={friend._id}
-                  onPress={() => setLocalFriends((prev) => (prev.includes(friend._id) ? (prev.length === 1 ? prev : prev.filter((id) => id !== friend._id)) : [...prev, friend._id]))}
-                  title={friend.name}
-                  variant={localFriends.includes(friend._id) ? 'brand' : 'container'}
+                  layout={LinearTransition}
+                  key={'more_friends'}
+                  onPress={() => setShowingFriends(showingFriends === 5 ? -1 : 5)}
+                  title={showingFriends === 5 ? t('filter_movies:show_more') : t('filter_movies:show_less')}
+                  variant={'container'}
                 />
-              ))}
+              )}
             </Row>
           </Column>
         )}
 
-        <Column>
+        <Column layout={LinearTransition}>
           <Typography legend>{t('filter_movies:by_provider')}</Typography>
           <Row
             middle
@@ -133,31 +168,26 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
               onPress={() => setLocalProviders([])}
               variant={localProviders.length === 0 ? 'brand' : 'container'}
             />
-            {movies
-              .reduce<
-                {
-                  logo_path: string
-                  provider_id: number
-                  provider_name: string
-                  type: 'buy' | 'flatrate' | 'rent'
-                }[]
-              >((providers, movie) => {
-                movie.providers.forEach((provider) => {
-                  if (!providers.find((p) => p.provider_id === provider.provider_id)) {
-                    providers.push(provider)
-                  }
-                })
-                return providers
-              }, [])
-              .map((provider) => (
-                <Chip
-                  image={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
-                  key={provider.provider_id}
-                  onPress={() => setLocalProviders((prev) => (prev.includes(provider.provider_id) ? prev.filter((p) => p !== provider.provider_id) : [...prev, provider.provider_id]))}
-                  title={provider.provider_name}
-                  variant={localProviders.includes(provider.provider_id) ? 'brand' : 'container'}
-                />
-              ))}
+            {providers.slice(0, showingProviders).map((provider, index) => (
+              <Chip
+                entering={FadeInRight.delay(10 * index)}
+                exiting={FadeOutLeft.delay(10 * index)}
+                image={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                key={provider.provider_id}
+                onPress={() => setLocalProviders((prev) => (prev.includes(provider.provider_id) ? prev.filter((p) => p !== provider.provider_id) : [...prev, provider.provider_id]))}
+                title={provider.provider_name}
+                variant={localProviders.includes(provider.provider_id) ? 'brand' : 'container'}
+              />
+            ))}
+            {providers.length > 5 && (
+              <Chip
+                layout={LinearTransition}
+                key={'more_providers'}
+                onPress={() => setShowingProviders(showingProviders === 5 ? -1 : 5)}
+                title={showingProviders === 5 ? t('filter_movies:show_more') : t('filter_movies:show_less')}
+                variant={'container'}
+              />
+            )}
           </Row>
         </Column>
       </ScrollView>

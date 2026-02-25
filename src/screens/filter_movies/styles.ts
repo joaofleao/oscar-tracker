@@ -37,7 +37,7 @@ const useStyles = (): StylesReturn => {
       justifyContent: 'center',
       gap: 20,
       position: 'absolute',
-      bottom: 0,
+      bottom: bottom,
       right: right,
       left: left,
       alignItems: 'center',

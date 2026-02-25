@@ -29,6 +29,7 @@
   },
   "home": {
     "edition": "Edição",
+    "edition_finished": "Edição finalizada",
     "select_edition": "Selecione a edição",
     "nominations": "indicações",
     "movies": "Filmes",
@@ -219,6 +220,8 @@
     "by_friends": "Por amigos",
     "by_provider": "Por provedor",
     "save": "Salvar",
-    "restore_defaults": "Restaurar Padrões"
+    "restore_defaults": "Restaurar Padrões",
+    "show_more": "Ver Mais",
+    "show_less": "Ver Menos"
   }
 }

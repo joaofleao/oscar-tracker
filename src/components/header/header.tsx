@@ -77,7 +77,7 @@ const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
                         entering={FadeIn.delay(200).duration(500)}
                         exiting={FadeOut}
                       >
-                        {`${daysUntilEdition} ${t('home:days_until_edition')}`}
+                        {daysUntilEdition > 0 ? `${daysUntilEdition} ${t('home:days_until_edition')}` : t('home:edition_finished')}
                       </Typography>
                     ) : (
                       <Typography
