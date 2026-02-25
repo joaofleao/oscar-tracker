@@ -1,6 +1,5 @@
 import React from 'react'
 import { ActivityIndicator, FlatList, View } from 'react-native'
-import { RefreshControl } from 'react-native-gesture-handler'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -18,23 +17,12 @@ import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { edition, movies, refreshMoviesProviders, statusFilter, friendFilter, providersFilter } = useEdition()
+  const { edition, movies, statusFilter, friendFilter, providersFilter } = useEdition()
   const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
-  const [refreshing, setRefreshing] = React.useState(false)
 
   const styles = useStyles()
   const { semantics } = useTheme()
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true)
-
-    refreshMoviesProviders()
-
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 2000)
-  }, [refreshMoviesProviders])
 
   const daysUntilAnnouncement = edition?.announcement ? Math.ceil((new Date(edition.announcement).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
   const daysUntilEdition = edition?.date ? Math.ceil((new Date(edition.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
@@ -98,14 +86,6 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
       />
       {filteredMovies?.length === 0 && emptyState()}
       <MovieSlider
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
         onScroll={onScroll}
         data={filteredMovies.map((movie) => ({
           watched: movie.watched,

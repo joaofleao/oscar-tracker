@@ -25,6 +25,7 @@ import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
 import Search from '@screens/search'
 import SearchFriends from '@screens/search_friends'
+import SelectCountry from '@screens/select_country'
 import SelectEdition from '@screens/select_edition'
 import Settings from '@screens/settings'
 import enUS from '@translations/locales/en_US.json'
@@ -36,7 +37,7 @@ const Stack = createNativeStackNavigator<StackProps>()
 const Tabs = createBottomTabNavigator<StackProps>()
 
 const initI18n = async (): Promise<void> => {
-  const lng = storage.getString('user.language') ?? 'en_US'
+  const lng = storage.getString('user.language') ?? 'pt_BR'
   run(initReactI18next).init({
     resources: {
       pt_BR: ptBR,
@@ -193,6 +194,15 @@ const Router = (): React.ReactNode => {
             options={{
               presentation: 'formSheet',
               sheetAllowedDetents: [0.5],
+              contentStyle: { backgroundColor: semantics.container.base.default },
+            }}
+          />
+          <Stack.Screen
+            name={'select_country'}
+            component={SelectCountry}
+            options={{
+              presentation: 'formSheet',
+              sheetAllowedDetents: [0.5, 0.8],
               contentStyle: { backgroundColor: semantics.container.base.default },
             }}
           />

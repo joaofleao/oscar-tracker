@@ -12,7 +12,11 @@
     "not_implemented": "Not implemented",
     "feature_not_implemented": "This feature is not implemented yet.",
     "permission_required": "Permission required",
-    "permission_media_library": "Permission to access the media library is required."
+    "permission_media_library": "Permission to access the media library is required.",
+
+    "buy": "Buy",
+    "rent": "Rent",
+    "flatrate": "Stream"
   },
   "category": {
     "cast_ballot": "Enviar Votos",
@@ -25,6 +29,9 @@
   "select_edition": {
     "edition": "Edition",
     "select_edition": "Select Edition"
+  },
+  "select_country": {
+    "select_country": "Select Country"
   },
   "home": {
     "edition": "Edition",
@@ -141,6 +148,7 @@
     "stop_following": "Stop Following"
   },
   "settings": {
+    "country": "Country",
     "edit": "edit",
     "clean_cache": "Hold to clear cache",
     "remove": "remove",

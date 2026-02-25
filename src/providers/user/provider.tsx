@@ -118,9 +118,7 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
           hideRate: hideRate ?? false,
         },
         setSpoilers,
-
         setLanguage,
-
         followers: followers ?? [],
         refreshFollowers,
         following: followingWithWatches ?? [],

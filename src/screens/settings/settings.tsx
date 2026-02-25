@@ -23,12 +23,13 @@ import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
 import { storage } from '@router/router'
 import { ScreenType } from '@router/types'
+import { countries } from '@utils/constants'
 
 const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
   const { semantics } = useTheme()
-  const { refreshEditionData } = useEdition()
+  const { refreshEditionData, country } = useEdition()
 
   const { spoilers, setSpoilers, setLanguage, user } = useUser()
 
@@ -174,6 +175,18 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
             selected={i18n.language === 'en_US'}
             setSelected={handleSwitchLanguage}
           />
+
+          <Row between>
+            <Typography body>{t('settings:country')}</Typography>
+            <Row>
+              <Button
+                small
+                onPress={() => navigation.navigate('select_country')}
+                title={countries[country][i18n.language]}
+                variant={'container'}
+              />
+            </Row>
+          </Row>
         </Section>
 
         <Section title={t('settings:spoilers')}>

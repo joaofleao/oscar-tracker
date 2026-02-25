@@ -15,6 +15,7 @@ export type StackProps = {
     | undefined
   awards: undefined
   select_edition: undefined
+  select_country: undefined
   password_recovery: { email: string | undefined }
   preferences: undefined
   profile: undefined

@@ -10,9 +10,7 @@ type StylesReturn = {
 const useStyles = (): StylesReturn => {
   const { bottom, left, right } = useSafeAreaInsets()
   return StyleSheet.create({
-    scroll: {
-      // overflow: 'visible',
-    },
+    scroll: {},
     content: {
       paddingBottom: bottom,
       paddingRight: right + 20,

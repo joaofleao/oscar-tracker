@@ -14,9 +14,9 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   const [allEditions, setAllEditions] = useMMKVObject<EditionContextType['editions']>('editions.all')
   const [edition, setEdition] = useMMKVObject<EditionContextType['edition']>('editions.current')
+  const [country, setCountry] = useMMKVString('user.country')
 
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
-  // const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
   const [moviesProviders, setMoviesProviders] = useMMKVObject<typeof api.providers.getProviders._returnType>('user.movies_providers')
 
   const [hiddenCategories, setHiddenCategories] = useMMKVObject<string[]>('categories.hidden')
@@ -46,7 +46,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
   const refreshMoviesProviders: EditionContextType['refreshMoviesProviders'] = async () => {
     print('Movies Providers', 'Server Fetched', 'yellow')
-    const moviesProviders = (await convex.action(api.providers.getProviders, { movies: movies.map((movie) => movie.tmdbId), country: 'BR' })) || []
+    const moviesProviders = (await convex.action(api.providers.getProviders, { movies: movies.map((movie) => movie.tmdbId), country: country ?? 'BR' })) || []
     setMoviesProviders(moviesProviders)
   }
 
@@ -119,6 +119,9 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
         editions: allEditions ?? [],
         edition,
         selectEdition,
+
+        country: country ?? 'BR',
+        setCountry,
 
         nominations: enrichedNominations,
         movies: enrichedMovies,

@@ -50,4 +50,7 @@ export interface EditionContextType {
 
   statusFilter: 'all' | 'watched' | 'unwatched'
   setStatusFilter: (status: 'all' | 'watched' | 'unwatched') => void
+
+  country: string
+  setCountry: (country: string) => void
 }

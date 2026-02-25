@@ -1,5 +1,6 @@
 import React from 'react'
 import { FlatList, ListRenderItem } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import { CarousselProps } from './types'
@@ -8,6 +9,7 @@ import Typography from '@components/typography'
 
 function Caroussel<T>({ render, data, style, group, empty, contentContainerStyle, ...props }: CarousselProps<T>): React.ReactElement {
   const styles = useStyles()
+  const { t } = useTranslation()
 
   const sectiontitle = (title: string): React.ReactElement => (
     <Row middle>
@@ -25,7 +27,7 @@ function Caroussel<T>({ render, data, style, group, empty, contentContainerStyle
       if (refinedData[index - 1]?.[group] !== refinedItem[group])
         return (
           <Row middle>
-            {sectiontitle(String(refinedItem[group]))}
+            {sectiontitle(String(t(`overall:${refinedItem[group]}`)))}
             {render ? render(refinedItem, index) : <Typography>{String(refinedItem)}</Typography>}
           </Row>
         )
