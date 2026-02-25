@@ -57,7 +57,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: './src/assets/app/adaptive-icon.png',
         backgroundColor: '#0D0D0D',
       },
-      edgeToEdgeEnabled: true,
       package: isDev ? 'com.joaofleao.oscar_tracker.dev' : 'com.joaofleao.oscar_tracker',
     },
     web: {
