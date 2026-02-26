@@ -1,4 +1,4 @@
-import React, { use } from 'react'
+import React from 'react'
 import { ActivityIndicator, FlatList, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
