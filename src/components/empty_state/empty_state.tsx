@@ -16,12 +16,15 @@ const EmptyState = ({ title, loading, description, style }: EmptyStateProps): Re
         <ActivityIndicator color={semantics.container.foreground.default} />
       ) : (
         <>
-          <TriangleLogo color={semantics.container.base.pressed} />
+          <TriangleLogo
+            color={semantics.container.base.pressed}
+            width={80}
+          />
           <View style={styles.content}>
             <Typography center>{title}</Typography>
             <Typography
               center
-              description
+              legend
             >
               {description}
             </Typography>

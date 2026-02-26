@@ -15,13 +15,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
-import Awards from '@screens/awards'
+import Categories from '@screens/categories'
 import Category from '@screens/category'
+import FilterCategories from '@screens/filter_categories'
 import FilterMovies from '@screens/filter_movies'
-import FilterNominations from '@screens/filter_nominations'
 import Movie from '@screens/movie'
 import Movies from '@screens/movies'
-import Nominations from '@screens/nominations'
 import Profile from '@screens/profile'
 import Search from '@screens/search'
 import SearchFriends from '@screens/search_friends'
@@ -91,12 +90,13 @@ const Router = (): React.ReactNode => {
           headerShown: false,
           sceneStyle: {
             backgroundColor: semantics.background.base.default,
+            overflow: 'visible',
           },
         }}
         tabBar={(props) => (
           <NavBar
             tabs={[
-              { icon: <IconOscar />, label: t('home:nominations'), id: 'nominations' },
+              { icon: <IconOscar />, label: t('home:categories'), id: 'categories' },
               { icon: <IconFilm />, label: t('home:movies'), id: 'movies' },
               { icon: <IconPerson />, label: t('home:profile'), id: 'profile' },
             ]}
@@ -105,8 +105,8 @@ const Router = (): React.ReactNode => {
         )}
       >
         <Tabs.Screen
-          name={'nominations'}
-          component={Nominations}
+          name={'categories'}
+          component={Categories}
         />
         <Tabs.Screen
           name={'movies'}
@@ -142,98 +142,92 @@ const Router = (): React.ReactNode => {
         >
           <Stack.Screen name={'home'}>{renderTabs}</Stack.Screen>
 
-          <Stack.Screen
-            name={'auth'}
-            component={Auth}
-            options={{
+          {/* uses keyboard */}
+          <Stack.Group
+            screenOptions={{
               presentation: 'formSheet',
-              sheetAllowedDetents: Platform.OS === 'ios' ? 'fitToContents' : [0.6],
-              contentStyle: { backgroundColor: semantics.container.base.default },
+              sheetAllowedDetents: Platform.OS === 'ios' ? 'fitToContents' : [0.9],
+              contentStyle: {
+                backgroundColor: semantics.container.base.default,
+              },
             }}
-          />
-          <Stack.Screen
-            name={'settings'}
-            component={Settings}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'filter_nominations'}
-            component={FilterNominations}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'filter_movies'}
-            component={FilterMovies}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'movie'}
-            component={Movie}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'awards'}
-            component={Awards}
-          />
+          >
+            <Stack.Screen
+              name={'auth'}
+              component={Auth}
+            />
+            <Stack.Screen
+              name={'search'}
+              component={Search}
+            />
+            <Stack.Screen
+              name={'search_friends'}
+              component={SearchFriends}
+            />
+          </Stack.Group>
 
-          <Stack.Screen
-            name={'select_edition'}
-            component={SelectEdition}
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: [0.5],
-              contentStyle: { backgroundColor: semantics.container.base.default },
+          {/* requires footer */}
+          <Stack.Group
+            screenOptions={{
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : 'formSheet',
+              sheetAllowedDetents: [0.9],
+              contentStyle: {
+                backgroundColor: semantics.container.base.default,
+              },
             }}
-          />
-          <Stack.Screen
-            name={'select_country'}
-            component={SelectCountry}
-            options={{
-              presentation: 'formSheet',
-              sheetAllowedDetents: [0.5, 0.8],
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'search'}
-            component={Search}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-              sheetAllowedDetents: 'fitToContents',
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
-          <Stack.Screen
-            name={'search_friends'}
-            component={SearchFriends}
-            options={{
-              presentation: Platform.OS === 'ios' ? 'formSheet' : undefined,
-              sheetAllowedDetents: 'fitToContents',
-              contentStyle: { backgroundColor: semantics.container.base.default },
-            }}
-          />
+          >
+            <Stack.Screen
+              name={'filter_categories'}
+              component={FilterCategories}
+            />
+            <Stack.Screen
+              name={'filter_movies'}
+              component={FilterMovies}
+            />
+            <Stack.Screen
+              name={'category'}
+              component={Category}
+            />
+          </Stack.Group>
 
-          <Stack.Screen
-            name={'category'}
-            component={Category}
-            options={{
+          {/* fullscreen */}
+          <Stack.Group
+            screenOptions={{
               presentation: Platform.OS === 'ios' ? 'pageSheet' : undefined,
-              sheetAllowedDetents: 'fitToContents',
-              contentStyle: { backgroundColor: semantics.container.base.default },
+              contentStyle: {
+                backgroundColor: semantics.container.base.default,
+              },
             }}
-          />
+          >
+            <Stack.Screen
+              name={'settings'}
+              component={Settings}
+            />
+            <Stack.Screen
+              name={'movie'}
+              component={Movie}
+            />
+          </Stack.Group>
+
+          {/* selectors */}
+          <Stack.Group
+            screenOptions={{
+              presentation: Platform.OS === 'ios' ? 'pageSheet' : 'formSheet',
+              sheetAllowedDetents: [0.5, 0.9],
+              contentStyle: {
+                backgroundColor: semantics.container.base.default,
+              },
+            }}
+          >
+            <Stack.Screen
+              name={'select_edition'}
+              component={SelectEdition}
+            />
+            <Stack.Screen
+              name={'select_country'}
+              component={SelectCountry}
+            />
+          </Stack.Group>
         </Stack.Navigator>
       </View>
     </NavigationContainer>

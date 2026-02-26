@@ -19,7 +19,7 @@
     "flatrate": "Stream"
   },
   "category": {
-    "cast_ballot": "Enviar Votos",
+    "cast_ballot": "Save Ballot",
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
     "discard": "Discard",
@@ -37,7 +37,7 @@
     "edition": "Edition",
     "edition_finished": "Edition finished",
     "select_edition": "Select Edition",
-    "nominations": "Nominations",
+    "categories": "Nominations",
     "movies": "Movies",
     "profile": "Profile",
     "days_until_edition": "days until the edition"
@@ -62,7 +62,7 @@
     "following": "Following",
     "follows_you": "Follows you",
     "no_results": "No results",
-    "empty_state": "Search friends, movies, and categories.",
+    "empty_state": "Search movies and categories.",
     "categories": "Categories",
     "users": "Users",
     "movies": "Movies"
@@ -210,9 +210,9 @@
     "nominations_plural": "nominations",
     "watched_by": "Watched by"
   },
-  "filter_nominations": {
+  "filter_categories": {
     "save": "Save",
-    "filter": "Filter",
+    "filter": "Filter Categories",
     "categories": "Categories",
     "restore_defaults": "Restore Defaults"
   },

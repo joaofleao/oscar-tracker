@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Alert, Linking, Platform, ScrollView, View } from 'react-native'
-import { FadeInUp, FadeOutUp, LinearTransition } from 'react-native-reanimated'
+import { useKeyboardHandler } from 'react-native-keyboard-controller'
+import Animated, { FadeInUp, FadeOutUp, LinearTransition, useSharedValue } from 'react-native-reanimated'
 import { useConvex, useMutation } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -13,6 +14,7 @@ import Button from '@components/button'
 import Column from '@components/column'
 import EmailInput, { validateEmail } from '@components/email_input'
 import { IconImages } from '@components/icon'
+import KeyboardCompensation from '@components/keyboard_compensation'
 import OTPInput from '@components/otp_input'
 import PasswordInput, { validatePassword } from '@components/password_input'
 import Row from '@components/row'
@@ -262,8 +264,8 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         </Column>
 
         <Typography
-          description
           center
+          legend
           onPress={() => Linking.openURL(`${process.env.PRIVACY_POLICY_URL}`)}
         >
           {t('auth:privacy_policy')}
@@ -373,16 +375,19 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   )
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="always"
-      style={styles.scroll}
-      contentContainerStyle={styles.scrollContent}
-    >
-      {flow === 'signIn' && signInContent}
-      {flow === 'signUp' && signUpContent}
-      {flow === 'email-verification' && verificationContent}
-      {flow === 'details' && detailsContent}
-    </ScrollView>
+    <>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {flow === 'signIn' && signInContent}
+        {flow === 'signUp' && signUpContent}
+        {flow === 'email-verification' && verificationContent}
+        {flow === 'details' && detailsContent}
+        <KeyboardCompensation />
+      </ScrollView>
+    </>
   )
 }
 

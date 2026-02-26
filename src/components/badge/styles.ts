@@ -43,7 +43,7 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       justifyContent: 'center',
       position: 'absolute',
       width: '100%',
-      height: '100%',
+      height: 24,
       borderRadius: 20,
       overflow: 'hidden',
     },

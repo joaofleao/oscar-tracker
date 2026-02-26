@@ -1,22 +1,20 @@
 import { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import Animated, { FadeInDown, FadeInRight, FadeOutLeft, FadeOutUp, LinearTransition } from 'react-native-reanimated'
+import { FadeInDown, FadeInRight, FadeOutLeft, FadeOutUp, LinearTransition } from 'react-native-reanimated'
 import { useTranslation } from 'react-i18next'
 
-import useStyles from './styles'
-import Blur from '@components/blur'
 import Button from '@components/button'
 import Chip from '@components/chip'
 import Column from '@components/column'
 import { IconCheckCircle, IconDiscard } from '@components/icon'
 import Row from '@components/row'
+import Sheet from '@components/sheet'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
 
 const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
-  const styles = useStyles()
   const { t } = useTranslation()
   const { user, following } = useUser()
 
@@ -77,15 +75,42 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
   const isDefault = statusFilter === 'all' && friendFilter.length === 1 && providersFilter.length === 0
 
   return (
-    <>
-      <Blur style={styles.header}>
-        <Typography>{t('filter_movies:filter')}</Typography>
-      </Blur>
+    <Sheet
+      header={<Typography>{t('filter_movies:filter')}</Typography>}
+      footer={
+        <>
+          {hasChanges && (
+            <Row
+              entering={FadeInDown.delay(300)}
+              exiting={FadeOutUp.delay(300)}
+            >
+              <Button
+                icon={<IconDiscard />}
+                onPress={handleDiscard}
+              />
 
-      <ScrollView
-        style={styles.root}
-        contentContainerStyle={styles.content}
-      >
+              <Button
+                onPress={handleSave}
+                icon={<IconCheckCircle />}
+                variant="brand"
+                title={t('filter_movies:save')}
+              />
+            </Row>
+          )}
+          {!hasChanges && !isDefault && (
+            <Button
+              entering={FadeInDown.delay(300)}
+              exiting={FadeOutUp.delay(300)}
+              onPress={handleClear}
+              icon={<IconDiscard />}
+              variant="brand"
+              title={t('filter_movies:restore_defaults')}
+            />
+          )}
+        </>
+      }
+    >
+      <ScrollView>
         {user !== undefined && user !== null && (
           <Column>
             <Typography legend>{t('filter_movies:with_status')}</Typography>
@@ -124,7 +149,7 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
                 image={user.imageURL ?? ''}
                 key={user._id}
                 onPress={() => setLocalFriends((prev) => (prev.includes(user._id) ? (prev.length === 1 ? prev : prev.filter((id) => id !== user._id)) : [...prev, user._id]))}
-                title={user.name ?? ''}
+                title={user.name?.split(' ')[0] + ' ' + user.name?.split(' ')[user.name?.split(' ').length - 1]}
                 variant={localFriends.includes(user._id) ? 'brand' : 'container'}
               />
 
@@ -138,7 +163,7 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
                     image={friend.imageURL ?? ''}
                     key={friend._id}
                     onPress={() => setLocalFriends((prev) => (prev.includes(friend._id) ? (prev.length === 1 ? prev : prev.filter((id) => id !== friend._id)) : [...prev, friend._id]))}
-                    title={friend.name}
+                    title={friend.name?.split(' ')[0] + ' ' + friend.name?.split(' ')[friend.name?.split(' ').length - 1]}
                     variant={localFriends.includes(friend._id) ? 'brand' : 'container'}
                   />
                 ))}
@@ -191,37 +216,7 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
           </Row>
         </Column>
       </ScrollView>
-
-      <Animated.View
-        style={styles.footer}
-        entering={FadeInDown.delay(300)}
-        exiting={FadeOutUp.delay(300)}
-      >
-        {hasChanges && (
-          <>
-            <Button
-              icon={<IconDiscard />}
-              onPress={handleDiscard}
-            />
-
-            <Button
-              onPress={handleSave}
-              icon={<IconCheckCircle />}
-              variant="brand"
-              title={t('filter_movies:save')}
-            />
-          </>
-        )}
-        {!hasChanges && !isDefault && (
-          <Button
-            onPress={handleClear}
-            icon={<IconDiscard />}
-            variant="brand"
-            title={t('filter_movies:restore_defaults')}
-          />
-        )}
-      </Animated.View>
-    </>
+    </Sheet>
   )
 }
 

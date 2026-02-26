@@ -2,9 +2,8 @@ import { useEffect, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
-import useStyles from './styles'
-import Blur from '@components/blur'
 import Button from '@components/button'
+import Sheet from '@components/sheet/sheet'
 import Typography from '@components/typography'
 import useEdition from '@providers/edition/useEdition'
 import { ScreenType } from '@router/types'
@@ -13,7 +12,6 @@ import { countries } from '@utils/constants'
 const ITEM_HEIGHT = 42
 
 const SelectCountry: ScreenType<'select_country'> = ({ navigation }) => {
-  const styles = useStyles()
   const { t, i18n } = useTranslation()
 
   const { country, setCountry, refreshMoviesProviders } = useEdition()
@@ -32,17 +30,11 @@ const SelectCountry: ScreenType<'select_country'> = ({ navigation }) => {
   }, [enrichedCountries, country])
 
   return (
-    <>
-      <Blur style={styles.header}>
-        <Typography center>{t('select_country:select_country')}</Typography>
-      </Blur>
-
+    <Sheet header={<Typography center>{t('select_country:select_country')}</Typography>}>
       <FlatList
         initialNumToRender={300}
         nestedScrollEnabled
         ref={flatlistRef}
-        style={styles.scroll}
-        contentContainerStyle={styles.content}
         renderItem={({ item }) => (
           <Button
             title={item[1][i18n.language]}
@@ -61,7 +53,7 @@ const SelectCountry: ScreenType<'select_country'> = ({ navigation }) => {
           index,
         })}
       />
-    </>
+    </Sheet>
   )
 }
 

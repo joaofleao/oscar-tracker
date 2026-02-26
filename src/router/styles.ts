@@ -12,6 +12,7 @@ const useStyles = (): StylesReturn => {
     container: {
       flex: 1,
       backgroundColor: semantics.background.base.default,
+      overflow: 'visible',
     },
   })
 }

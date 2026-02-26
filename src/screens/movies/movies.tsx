@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use } from 'react'
 import { ActivityIndicator, FlatList, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -13,6 +13,7 @@ import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
@@ -20,6 +21,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const { edition, movies, statusFilter, friendFilter, providersFilter } = useEdition()
   const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
+  const tabBarHeight = useBottomTabBarHeight()
 
   const styles = useStyles()
   const { semantics } = useTheme()
@@ -120,6 +122,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
         }))}
       />
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }

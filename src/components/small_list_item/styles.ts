@@ -25,7 +25,6 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
-      flex: 1,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       backgroundColor: semantics.container.base.tint,

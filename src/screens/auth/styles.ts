@@ -12,7 +12,7 @@ type StylesReturn = {
 }
 
 const useStyles = (): StylesReturn => {
-  const { right, left, bottom } = useSafeAreaInsets()
+  const { right, left } = useSafeAreaInsets()
   const { fonts } = useTheme()
 
   return StyleSheet.create({
@@ -24,7 +24,6 @@ const useStyles = (): StylesReturn => {
     scrollContent: {
       gap: 20,
       alignItems: 'center',
-      paddingBottom: bottom,
     },
     content: {
       gap: 20,

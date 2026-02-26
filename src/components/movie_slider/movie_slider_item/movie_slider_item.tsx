@@ -43,15 +43,15 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
         </View>
       )}
       <View style={[styles.content]}>
-        {Platform.OS === 'ios' ? (
+        {Platform.OS === 'android' ? (
+          <Typography>{title}</Typography>
+        ) : (
           <OverflownTypography
             animate={isActive}
             color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}
           >
             {title}
           </OverflownTypography>
-        ) : (
-          <Typography>{title}</Typography>
         )}
 
         {(bottomArea || description) && (

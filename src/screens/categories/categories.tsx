@@ -1,5 +1,5 @@
 import React from 'react'
-import { ActivityIndicator, ListRenderItem } from 'react-native'
+import { ActivityIndicator, ListRenderItem, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { LinearTransition } from 'react-native-reanimated'
 import { useTranslation } from 'react-i18next'
@@ -17,9 +17,10 @@ import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { TabType } from '@router/types'
 
-const Nominations: TabType<'nominations'> = ({ navigation }) => {
+const Categories: TabType<'categories'> = ({ navigation }) => {
   const { edition, nominations, orderedCategories } = useEdition()
 
   const enrichedCategories = nominations
@@ -152,13 +153,15 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
+  const tabBarHeight = useBottomTabBarHeight()
+
   return (
     <>
       <Header
         animation={animation}
         button={{
           icon: <IconFilter color={semantics.container.foreground.light} />,
-          onPress: () => navigation.navigate('filter_nominations'),
+          onPress: () => navigation.navigate('filter_categories'),
         }}
       />
       {enrichedCategories.length === 0 && emptyState()}
@@ -170,8 +173,10 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         data={enrichedCategories}
         renderItem={renderCaroussel}
       />
+
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }
 
-export default Nominations
+export default Categories

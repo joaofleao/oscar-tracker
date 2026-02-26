@@ -8,10 +8,9 @@ type StylesReturn = {
 const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
-      minHeight: 300,
       justifyContent: 'center',
       alignItems: 'center',
-      gap: 20,
+      gap: 8,
     },
     content: {
       alignItems: 'center',

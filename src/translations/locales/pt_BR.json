@@ -6,7 +6,7 @@
     "password_placeholder": "Senha",
     "password_confirmation_placeholder": "Confirmar senha",
     "password_requirements": "suas senhas precisam de: ",
-    "password_digit": "um digito e",
+    "password_digit": "um digito e ",
     "password_uppercase": "uma letra maiuscula.",
     "password_match": "precisam ser iguais ",
 
@@ -20,7 +20,7 @@
     "flatrate": "Streaming"
   },
   "category": {
-    "cast_ballot": "Enviar Votos",
+    "cast_ballot": "Salvar Votos",
     "discard_title": "Descartar alterações?",
     "discard_message": "Você tem alterações de classificação não salvas. Tem certeza de que deseja sair?",
     "discard": "Descartar",
@@ -38,7 +38,7 @@
     "edition": "Edição",
     "edition_finished": "Edição finalizada",
     "select_edition": "Selecione a edição",
-    "nominations": "indicações",
+    "categories": "Indicações",
     "movies": "Filmes",
     "profile": "Perfil",
     "days_until_edition": "dias para a edição"
@@ -67,7 +67,7 @@
     "following": "Seguindo",
     "follows_you": "Segue você",
     "no_results": "Nenhum resultado",
-    "empty_state": "Procure amigos, filmes e categorias.",
+    "empty_state": "Procure filmes e categorias.",
     "categories": "Categorias",
     "users": "Usuários",
     "movies": "Filmes"
@@ -137,7 +137,7 @@
     "save": "Salvar",
     "verify": "Verifique seu email",
     "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
-    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade.",
+    "privacy_policy": "Ao se registrar, você concorda com os termos de uso e a política de privacidade.",
 
     "invalid_email": "Email inválido",
     "invalid_password": "Senha inválida",
@@ -213,7 +213,7 @@
     "nominations_plural": "indicações",
     "watched_by": "Assistido por"
   },
-  "filter_nominations": {
+  "filter_categories": {
     "save": "Salvar",
     "filter": "Filtrar Categorias",
     "categories": "Categorias",

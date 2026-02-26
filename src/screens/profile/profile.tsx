@@ -20,6 +20,7 @@ import Typography from '@components/typography'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
@@ -35,6 +36,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const stopFollowing = useMutation(api.user.stopFollowing)
 
   const [flow, setFlow] = useState('following')
+  const tabBarHeight = useBottomTabBarHeight()
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) navigation.navigate('auth')
@@ -99,14 +101,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
             options={sections}
           />
         </Row>
-
-        <Button
-          small
-          variant="ghost"
-          onPress={() => navigation.navigate('search_friends')}
-          title={t('profile:add_friends')}
-          icon={<TinyPlus />}
-        />
       </Authenticated>
 
       <Unauthenticated>
@@ -222,6 +216,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       />
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }

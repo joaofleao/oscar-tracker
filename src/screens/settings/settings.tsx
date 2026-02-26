@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Alert, Platform, ScrollView, View } from 'react-native'
+import { Alert, Platform, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { Authenticated, Unauthenticated, useAction, useMutation } from 'convex/react'
 import { api } from 'convex_api'
 import * as ImagePicker from 'expo-image-picker'
@@ -9,13 +10,13 @@ import useConvexErrorHandler from 'src/hooks/useConvexErrorHandler'
 import packageJson from '../../../package.json'
 import useStyles from './styles'
 import Avatar from '@components/avatar'
-import Blur from '@components/blur'
 import Button from '@components/button'
 import { IconBroom, IconDoor, IconImages, IconTrash } from '@components/icon'
 import Modal from '@components/modal'
 import Question from '@components/question'
 import Row from '@components/row'
 import Section from '@components/section'
+import Sheet from '@components/sheet'
 import Typography from '@components/typography'
 import { useAuthActions } from '@convex-dev/auth/react'
 import { useEdition } from '@providers/edition'
@@ -118,148 +119,268 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
 
   return (
     <>
-      <Blur style={styles.header}>
-        <Typography>{t('settings:settings')}</Typography>
-      </Blur>
-
-      <ScrollView
-        style={styles.root}
-        contentContainerStyle={styles.content}
-      >
-        <Authenticated>
-          {Platform.OS === 'ios' && (
-            <View style={styles.avatarContainer}>
-              <Avatar
-                name={user?.name}
-                image={user?.imageURL ?? undefined}
+      <Sheet
+        fullscreen={Platform.OS === 'android'}
+        header={<Typography>{t('settings:settings')}</Typography>}
+        footer={
+          <>
+            <Authenticated>
+              <Button
+                variant="negative"
+                onPress={() => setDeleteModal(true)}
+                title={t('settings:delete_account')}
+                icon={<IconTrash />}
               />
-              <View style={styles.avatarButtons}>
-                <Button
-                  onPress={handleRemoveImage}
-                  title={t('settings:remove')}
-                  icon={<IconTrash />}
+            </Authenticated>
+            <Authenticated>
+              <Button
+                onLongPress={handleCleanCache}
+                tooltip={t('settings:clean_cache')}
+                loading={loadingSignOut}
+                onPress={handleSignOut}
+                title={t('settings:sign_out')}
+                icon={<IconDoor />}
+              />
+            </Authenticated>
+            <Unauthenticated>
+              <Button
+                variant="ghost"
+                onLongPress={handleCleanCache}
+                tooltip={t('settings:clean_cache')}
+                title={t('settings:clean_cache')}
+                icon={<IconBroom />}
+              />
+            </Unauthenticated>
+          </>
+        }
+      >
+        <ScrollView>
+          <Authenticated>
+            {Platform.OS === 'ios' && (
+              <View style={styles.avatarContainer}>
+                <Avatar
+                  name={user?.name}
+                  image={user?.imageURL ?? undefined}
                 />
-                <Button
-                  onPress={handleChangeImage}
-                  title={t('settings:change')}
-                  icon={<IconImages />}
-                />
+                <View style={styles.avatarButtons}>
+                  <Button
+                    onPress={handleRemoveImage}
+                    title={t('settings:remove')}
+                    icon={<IconTrash />}
+                  />
+                  <Button
+                    onPress={handleChangeImage}
+                    title={t('settings:change')}
+                    icon={<IconImages />}
+                  />
+                </View>
               </View>
-            </View>
-          )}
-          <Section
-            title={t('settings:account')}
-            button={{
-              title: t('settings:edit'),
-              action: () => {
-                navigation.navigate('auth', { flow: 'details' })
-              },
-            }}
-          >
+            )}
+            <Section
+              title={t('settings:account')}
+              button={{
+                title: t('settings:edit'),
+                action: () => {
+                  navigation.navigate('auth', { flow: 'details' })
+                },
+              }}
+            >
+              <Row between>
+                <Typography body>{t('settings:name')}</Typography>
+                <Typography legend>{user?.name}</Typography>
+              </Row>
+              <Row between>
+                <Typography body>{t('settings:username')}</Typography>
+                <Typography legend>{user?.username}</Typography>
+              </Row>
+            </Section>
+          </Authenticated>
+
+          <Section title={t('settings:general')}>
+            <Question
+              title={t('settings:language')}
+              off={t('settings:ptbr')}
+              on={t('settings:enus')}
+              selected={i18n.language === 'en_US'}
+              setSelected={handleSwitchLanguage}
+            />
+
             <Row between>
-              <Typography body>{t('settings:name')}</Typography>
-              <Typography legend>{user?.name}</Typography>
-            </Row>
-            <Row between>
-              <Typography body>{t('settings:username')}</Typography>
-              <Typography legend>{user?.username}</Typography>
+              <Typography body>{t('settings:country')}</Typography>
+              <Row>
+                <Button
+                  small
+                  onPress={() => navigation.navigate('select_country')}
+                  title={countries[country][i18n.language]}
+                  variant={'container'}
+                />
+              </Row>
             </Row>
           </Section>
-        </Authenticated>
 
-        <Section title={t('settings:general')}>
-          <Question
-            title={t('settings:language')}
-            off={t('settings:ptbr')}
-            on={t('settings:enus')}
-            selected={i18n.language === 'en_US'}
-            setSelected={handleSwitchLanguage}
-          />
-
-          <Row between>
-            <Typography body>{t('settings:country')}</Typography>
-            <Row>
-              <Button
-                small
-                onPress={() => navigation.navigate('select_country')}
-                title={countries[country][i18n.language]}
-                variant={'container'}
-              />
-            </Row>
-          </Row>
-        </Section>
-
-        <Section title={t('settings:spoilers')}>
-          <Question
-            title={t('settings:poster_spoiler')}
-            on={t('settings:yes')}
-            off={t('settings:no')}
-            selected={spoilers.hidePoster}
-            setSelected={(value) => setSpoilers('hidePoster', value)}
-          />
-          <Question
-            title={t('settings:cast_spoiler')}
-            on={t('settings:yes')}
-            off={t('settings:no')}
-            selected={spoilers.hideCast}
-            setSelected={(value) => setSpoilers('hideCast', value)}
-          />
-          <Question
-            title={t('settings:rating_spoiler')}
-            on={t('settings:yes')}
-            off={t('settings:no')}
-            selected={spoilers.hideRate}
-            setSelected={(value) => setSpoilers('hideRate', value)}
-          />
-          <Question
-            title={t('settings:plot_spoiler')}
-            on={t('settings:yes')}
-            off={t('settings:no')}
-            selected={spoilers.hidePlot}
-            setSelected={(value) => setSpoilers('hidePlot', value)}
-          />
-        </Section>
-
-        <View style={styles.footer}>
-          <Typography legend>
-            {t('settings:version')}{' '}
-            <Typography
-              color={semantics.accent.base.default}
-              legend
-            >
-              {packageJson.version}
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Section title={t('settings:spoilers')}>
+            <Question
+              title={t('settings:poster_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePoster}
+              setSelected={(value) => setSpoilers('hidePoster', value)}
+            />
+            <Question
+              title={t('settings:cast_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideCast}
+              setSelected={(value) => setSpoilers('hideCast', value)}
+            />
+            <Question
+              title={t('settings:rating_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hideRate}
+              setSelected={(value) => setSpoilers('hideRate', value)}
+            />
+            <Question
+              title={t('settings:plot_spoiler')}
+              on={t('settings:yes')}
+              off={t('settings:no')}
+              selected={spoilers.hidePlot}
+              setSelected={(value) => setSpoilers('hidePlot', value)}
+            />
+          </Section>
+          <Row center>
+            <Typography legend>
+              {t('settings:version') + ' '}
+              <Typography
+                color={semantics.accent.base.default}
+                legend
+              >
+                {packageJson.version}
+              </Typography>
             </Typography>
-          </Typography>
-          <Authenticated>
-            <Button
-              onLongPress={handleCleanCache}
-              tooltip={t('settings:clean_cache')}
-              loading={loadingSignOut}
-              onPress={handleSignOut}
-              title={t('settings:sign_out')}
-              icon={<IconDoor />}
-            />
-          </Authenticated>
-          <Unauthenticated>
-            <Button
-              variant="ghost"
-              onLongPress={handleCleanCache}
-              tooltip={t('settings:clean_cache')}
-              title={t('settings:clean_cache')}
-              icon={<IconBroom />}
-            />
-          </Unauthenticated>
-
-          <Authenticated>
-            <Button
-              variant="negative"
-              onPress={() => setDeleteModal(true)}
-              title={t('settings:delete_account')}
-              icon={<IconTrash />}
-            />
-          </Authenticated>
-        </View>
-      </ScrollView>
+          </Row>
+        </ScrollView>
+      </Sheet>
 
       <Modal
         setVisible={setDeleteModal}
