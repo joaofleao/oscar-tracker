@@ -645,9 +645,10 @@ export type PublicApiType = {
       {
         _creationTime: number
         _id: Id<'versions'>
-        app?: 'absolute-cinema' | 'oscar-tracker'
+        app: 'absolute-cinema' | 'oscar-tracker'
         changelog: string
-        url: string
+        env: 'test' | 'prod'
+        url: { android: string; ios: string }
         version: string
       }
     >

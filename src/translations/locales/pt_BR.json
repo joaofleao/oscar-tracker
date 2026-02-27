@@ -41,7 +41,11 @@
     "categories": "Indicações",
     "movies": "Filmes",
     "profile": "Perfil",
-    "days_until_edition": "dias para a edição"
+    "days_until_edition": "dias para a edição",
+    "new_version": "Nova versão disponível",
+    "update_later": "Atualizar depois",
+    "update_now": "Atualizar agora",
+    "update": "Atualize para obter os recursos e melhorias mais recentes."
   },
   "profile": {
     "add_friends": "Adicionar amigos",

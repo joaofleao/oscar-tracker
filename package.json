@@ -21,6 +21,7 @@
     "@react-navigation/native-stack": "^7.3.25",
     "buffer": "^6.0.3",
     "convex": "^1.25.4",
+    "convex-helpers": "^0.1.113",
     "expo": "~55.0.2",
     "expo-apple-authentication": "~55.0.8",
     "expo-blur": "~55.0.8",

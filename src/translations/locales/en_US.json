@@ -13,7 +13,6 @@
     "feature_not_implemented": "This feature is not implemented yet.",
     "permission_required": "Permission required",
     "permission_media_library": "Permission to access the media library is required.",
-
     "buy": "Buy",
     "rent": "Rent",
     "flatrate": "Stream"
@@ -40,7 +39,12 @@
     "categories": "Nominations",
     "movies": "Movies",
     "profile": "Profile",
-    "days_until_edition": "days until the edition"
+    "days_until_edition": "days until the edition",
+
+    "new_version": "New version available",
+    "update_later": "Update later",
+    "update_now": "Update now",
+    "update": "Update to get the latest features and improvements."
   },
   "nominations": {
     "expand": "Expand",
