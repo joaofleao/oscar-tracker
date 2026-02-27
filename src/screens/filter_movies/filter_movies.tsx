@@ -9,20 +9,23 @@ import Column from '@components/column'
 import { IconCheckCircle, IconDiscard } from '@components/icon'
 import Row from '@components/row'
 import Sheet from '@components/sheet'
+import { TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { useUser } from '@providers/user'
 import { ScreenType } from '@router/types'
+import { removeBest } from '@utils/functions'
 
 const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
   const { t } = useTranslation()
   const { user, following } = useUser()
 
-  const { movies, statusFilter, setStatusFilter, friendFilter, setFriendFilter, providersFilter, setProvidersFilter } = useEdition()
+  const { movies, statusFilter, setStatusFilter, friendFilter, setFriendFilter, providersFilter, setProvidersFilter, nominations, categoriesFilter, setCategoriesFilter } = useEdition()
 
   const [localStatus, setLocalStatus] = useState(statusFilter)
   const [localFriends, setLocalFriends] = useState<string[]>(friendFilter)
   const [localProviders, setLocalProviders] = useState<number[]>(providersFilter)
+  const [localCategories, setLocalCategories] = useState<string[]>(categoriesFilter)
 
   const providers = movies.reduce<
     {
@@ -39,14 +42,17 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
     })
     return providers
   }, [])
+  const categories = nominations.map((nomination) => nomination.category)
 
-  const [showingFriends, setShowingFriends] = useState(Math.min(5, following.length))
-  const [showingProviders, setShowingProviders] = useState(Math.min(5, providers.length))
+  const [showingFriends, setShowingFriends] = useState<number | undefined>(Math.min(5, following.length))
+  const [showingProviders, setShowingProviders] = useState<number | undefined>(Math.min(5, providers.length))
+  const [showingCategories, setShowingCategories] = useState<number | undefined>(Math.min(5, categories.length))
 
   const handleSave = (): void => {
     setStatusFilter(localStatus)
     setFriendFilter(localFriends)
     setProvidersFilter(localProviders)
+    setCategoriesFilter(localCategories)
     navigation.goBack()
   }
 
@@ -54,6 +60,7 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
     setLocalStatus(statusFilter)
     setLocalFriends(friendFilter)
     setLocalProviders(providersFilter)
+    setLocalCategories(categoriesFilter)
   }
 
   const handleClear = (): void => {
@@ -68,11 +75,13 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
     }
     setLocalProviders([])
     setProvidersFilter([])
+    setLocalCategories([])
+    setCategoriesFilter([])
     navigation.goBack()
   }
 
-  const hasChanges = localStatus !== statusFilter || localFriends !== friendFilter || localProviders !== providersFilter
-  const isDefault = statusFilter === 'all' && friendFilter.length === 1 && providersFilter.length === 0
+  const hasChanges = localStatus !== statusFilter || localFriends.length !== friendFilter.length || localProviders.length !== providersFilter.length || localCategories.length !== categoriesFilter.length
+  const isDefault = statusFilter === 'all' && friendFilter.length === 1 && providersFilter.length === 0 && categoriesFilter.length === 0
 
   return (
     <Sheet
@@ -172,9 +181,9 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
                 <Chip
                   layout={LinearTransition}
                   key={'more_friends'}
-                  onPress={() => setShowingFriends(showingFriends === 5 ? -1 : 5)}
+                  onPress={() => setShowingFriends(showingFriends === 5 ? undefined : 5)}
                   title={showingFriends === 5 ? t('filter_movies:show_more') : t('filter_movies:show_less')}
-                  variant={'container'}
+                  icon={showingFriends === 5 ? <TinyPlus /> : <TinyX />}
                 />
               )}
             </Row>
@@ -208,9 +217,43 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
               <Chip
                 layout={LinearTransition}
                 key={'more_providers'}
-                onPress={() => setShowingProviders(showingProviders === 5 ? -1 : 5)}
+                onPress={() => setShowingProviders(showingProviders === 5 ? undefined : 5)}
                 title={showingProviders === 5 ? t('filter_movies:show_more') : t('filter_movies:show_less')}
-                variant={'container'}
+                icon={showingProviders === 5 ? <TinyPlus /> : <TinyX />}
+              />
+            )}
+          </Row>
+        </Column>
+
+        <Column layout={LinearTransition}>
+          <Typography legend>{t('filter_movies:by_category')}</Typography>
+          <Row
+            middle
+            wrap
+            start
+          >
+            <Chip
+              title={t('filter_movies:all')}
+              onPress={() => setLocalCategories([])}
+              variant={localCategories.length === 0 ? 'brand' : 'container'}
+            />
+            {categories.slice(0, showingCategories).map((category, index) => (
+              <Chip
+                entering={FadeInRight.delay(10 * index)}
+                exiting={FadeOutLeft.delay(10 * index)}
+                key={category._id}
+                onPress={() => setLocalCategories((prev) => (prev.includes(category._id) ? prev.filter((c) => c !== category._id) : [...prev, category._id]))}
+                title={removeBest(category.name)}
+                variant={localCategories.includes(category._id) ? 'brand' : 'container'}
+              />
+            ))}
+            {categories.length > 5 && (
+              <Chip
+                layout={LinearTransition}
+                key={'more_categories'}
+                onPress={() => setShowingCategories(showingCategories === 5 ? undefined : 5)}
+                title={showingCategories === 5 ? t('filter_movies:show_more') : t('filter_movies:show_less')}
+                icon={showingCategories === 5 ? <TinyPlus /> : <TinyX />}
               />
             )}
           </Row>

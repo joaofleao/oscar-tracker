@@ -25,6 +25,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const [hiddenCategories, setHiddenCategories] = useMMKVObject<string[]>('categories.hidden')
   const [orderedCategories, setOrderedCategories] = useMMKVObject<string[]>('categories.ordered')
   const [providersFilter, setProvidersFilter] = useMMKVObject<number[]>('movies.providers')
+  const [categoriesFilter, setCategoriesFilter] = useMMKVObject<string[]>('movies.categories')
   const [friendFilter, setFriendFilter] = useMMKVObject<string[]>('movies.friends')
   const [statusFilter, setStatusFilter] = useMMKVString('movies.status')
 
@@ -161,6 +162,9 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
 
         hiddenCategories: hiddenCategories ?? [],
         setHiddenCategories,
+
+        categoriesFilter: categoriesFilter ?? [],
+        setCategoriesFilter,
 
         friendFilter: friendFilter ?? [],
         setFriendFilter,

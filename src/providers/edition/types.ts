@@ -46,6 +46,9 @@ export interface EditionContextType {
   providersFilter: number[]
   setProvidersFilter: (providers: number[]) => void
 
+  categoriesFilter: string[]
+  setCategoriesFilter: (categories: string[]) => void
+
   friendFilter: string[]
   setFriendFilter: (friends: string[]) => void
 

@@ -18,7 +18,7 @@ import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { edition, movies, statusFilter, friendFilter, providersFilter } = useEdition()
+  const { edition, movies, nominations, statusFilter, friendFilter, providersFilter, categoriesFilter } = useEdition()
   const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
   const tabBarHeight = useBottomTabBarHeight()
@@ -75,6 +75,13 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
     .filter((movie) => {
       if (providersFilter.length === 0) return true
       return movie.providers.some((provider) => providersFilter.includes(provider.provider_id))
+    })
+    .filter((movie) => {
+      if (categoriesFilter.length === 0) return true
+      return nominations.some((nomination) => {
+        if (!categoriesFilter.includes(nomination.category._id)) return false
+        return nomination.nominations.some((nominatedMovie) => nominatedMovie.movieId === movie._id)
+      })
     })
 
   return (

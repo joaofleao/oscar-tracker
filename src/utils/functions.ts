@@ -54,3 +54,10 @@ export const isMoreThanOneDayOld = (day?: string): boolean => {
 
   return diffDays > 1
 }
+
+export const removeBest = (categoryName: string): string => {
+  if (categoryName === 'Best Picture') return categoryName
+  if (categoryName === 'Melhor Filme') return categoryName
+
+  return categoryName.replace('Best ', '').replace('Melhor ', '').replace('Melhores ', '')
+}
