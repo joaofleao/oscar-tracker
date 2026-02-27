@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useMMKVBoolean, useMMKVObject } from 'react-native-mmkv'
+import { useMMKVBoolean, useMMKVObject, useMMKVString } from 'react-native-mmkv'
 import { useConvex, useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api, PublicApiType } from 'convex_api'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import UserContext from './context'
 import { type UserContextType } from './types'
 import { useEdition } from '@providers/edition'
+import { isMoreThanOneDayOld } from '@utils/functions'
 import print from '@utils/print'
 
 const UserProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
@@ -17,7 +18,9 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
   const updateUser = useMutation(api.user.updateUser)
   const user = useQuery(api.user.getCurrentUser)
   const [following, setFollowing] = useMMKVObject<PublicApiType['user']['getFollowing']['_returnType']>('user.following')
+
   const [followers, setFollowers] = useMMKVObject<UserContextType['followers']>('user.followers')
+  const [lastUpdatedDay, setLastUpdatedDay] = useMMKVString('user.last_updated')
   const [hideCast, setHideCast] = useMMKVBoolean('user.hideCast')
   const [hidePlot, setHidePlot] = useMMKVBoolean('user.hidePlot')
   const [hidePoster, setHidePoster] = useMMKVBoolean('user.hidePoster')
@@ -53,6 +56,23 @@ const UserProvider = ({ children }: { children?: React.ReactNode }): React.React
     if (!isLoading && isAuthenticated && followers === undefined) void fetchFollowers()
     if (!isLoading && isAuthenticated && following === undefined) void fetchFollowing()
     if (!isLoading && isAuthenticated && user === undefined) void fetchUser()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, isLoading])
+
+  useEffect(() => {
+    const toDayString = (date: Date): string => date.toISOString().split('T')[0]
+
+    const refreshIfStale = async (): Promise<void> => {
+      if (isLoading || !isAuthenticated) return
+      if (!isMoreThanOneDayOld(lastUpdatedDay)) return
+
+      await refreshFollowing()
+      await refreshFollowers()
+      setLastUpdatedDay(toDayString(new Date()))
+    }
+
+    void refreshIfStale()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isLoading])

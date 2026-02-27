@@ -39,3 +39,18 @@ export const deepEqual = (obj1: unknown, obj2: unknown): boolean => {
 
   return true
 }
+
+export const isMoreThanOneDayOld = (day?: string): boolean => {
+  if (day === undefined) return true
+
+  const lastDate = new Date(day)
+  if (Number.isNaN(lastDate.getTime())) return true
+
+  const today = new Date()
+  const todayAtMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+  const lastAtMidnight = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate())
+  const diffMs = todayAtMidnight.getTime() - lastAtMidnight.getTime()
+  const diffDays = diffMs / (1000 * 60 * 60 * 24)
+
+  return diffDays > 1
+}

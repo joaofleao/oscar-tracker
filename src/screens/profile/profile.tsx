@@ -27,7 +27,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
   const { user, followers, following, refreshFollowers, refreshFollowing } = useUser()
-  const { movies } = useEdition()
+
+  const { movies, refreshMoviesProviders, refreshFriendsWatches } = useEdition()
   const [refreshing, setRefreshing] = React.useState(false)
 
   const { isAuthenticated, isLoading } = useConvexAuth()
@@ -45,13 +46,14 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
-
-    if (flow === 'followers') refreshFollowers()
-    if (flow === 'following') refreshFollowing()
+    refreshFriendsWatches()
+    refreshMoviesProviders()
+    refreshFollowers()
+    refreshFollowing()
     setTimeout(() => {
       setRefreshing(false)
     }, 2000)
-  }, [refreshFollowers, refreshFollowing, flow])
+  }, [refreshFollowers, refreshFollowing, refreshMoviesProviders, refreshFriendsWatches])
 
   const sections = {
     following: t('profile:following'),

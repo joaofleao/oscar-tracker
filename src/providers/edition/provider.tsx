@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import SettingsContext from './context'
 import { type EditionContextType } from './types'
+import { isMoreThanOneDayOld } from '@utils/functions'
 import print from '@utils/print'
 
 const EditionProvider = ({ children }: { children?: React.ReactNode }): React.ReactElement => {
@@ -17,20 +18,19 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const [country, setCountry] = useMMKVString('user.country')
 
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
+  const [friendsWatches, setFriendsWatches] = useMMKVObject<typeof api.oscar.getFriendsWatches._returnType>('user.friends_watches')
   const [moviesProviders, setMoviesProviders] = useMMKVObject<typeof api.providers.getProviders._returnType>('user.movies_providers')
+  const [lastUpdatedDay, setLastUpdatedDay] = useMMKVString('lastUpdated')
 
   const [hiddenCategories, setHiddenCategories] = useMMKVObject<string[]>('categories.hidden')
   const [orderedCategories, setOrderedCategories] = useMMKVObject<string[]>('categories.ordered')
-
   const [providersFilter, setProvidersFilter] = useMMKVObject<number[]>('movies.providers')
   const [friendFilter, setFriendFilter] = useMMKVObject<string[]>('movies.friends')
-
   const [statusFilter, setStatusFilter] = useMMKVString('movies.status')
 
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
-  const friendsWatches = useQuery(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) }) ?? []
 
   const refreshEditionData: EditionContextType['refreshEditionData'] = async () => {
     print('Edition Data', 'Server Fetched', 'yellow')
@@ -42,6 +42,12 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       [edition?.number ?? '']: { movies: fetchedMovies, nominations: fetchedNominations },
     }
     setEditionsMap(newMap)
+  }
+  const refreshFriendsWatches: EditionContextType['refreshEditionData'] = async () => {
+    print('Friend Watches', 'Server Fetched', 'yellow')
+
+    const friendsWatches = (await convex.query(api.oscar.getFriendsWatches, { movies: movies.map((movie) => movie._id) })) || []
+    setFriendsWatches(friendsWatches)
   }
 
   const refreshMoviesProviders: EditionContextType['refreshMoviesProviders'] = async () => {
@@ -60,12 +66,33 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       if (moviesProviders === undefined) await refreshMoviesProviders()
       else print('Movies Providers', 'Local Fetched', 'green')
     }
+    const fetchFriendsWatches = async (): Promise<void> => {
+      if (friendsWatches === undefined) await refreshFriendsWatches()
+      else print('Friend Watches', 'Local Fetched', 'green')
+    }
 
     void fetchMoviesProviders()
+    void fetchFriendsWatches()
     void fetchEditionData()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edition])
+
+  useEffect(() => {
+    const toDayString = (date: Date): string => date.toISOString().split('T')[0]
+
+    const refreshIfStale = async (): Promise<void> => {
+      if (!isMoreThanOneDayOld(lastUpdatedDay)) return
+
+      await refreshMoviesProviders()
+      await refreshFriendsWatches()
+      setLastUpdatedDay(toDayString(new Date()))
+    }
+
+    void refreshIfStale()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const selectEdition: EditionContextType['selectEdition'] = async (editionId) => {
     print('Current Edition', 'Server Fetched', 'yellow')
@@ -116,6 +143,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
       value={{
         refreshEditionData,
         refreshMoviesProviders,
+        refreshFriendsWatches,
         editions: allEditions ?? [],
         edition,
         selectEdition,
