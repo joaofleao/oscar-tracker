@@ -1,15 +1,13 @@
 import { ConfigContext, ExpoConfig } from 'expo/config'
 
-export default ({ config }: ConfigContext): ExpoConfig => {
-  const appName = process.env.APP_NAME || 'Academy Tracker'
-  const appSlug = process.env.APP_SLUG || 'oscar-tracker'
-  const isDev = appSlug.includes('dev')
+const IS_DEV = process.env.APP_VARIANT === 'development'
 
+export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
-    name: appName,
-    slug: appSlug,
-    scheme: appSlug,
+    name: IS_DEV ? 'Academy Dev' : process.env.APP_NAME || 'Academy Tracker',
+    slug: process.env.APP_SLUG || 'oscar-tracker',
+    scheme: process.env.APP_SLUG || 'oscar-tracker',
     version: '5.1',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
@@ -37,7 +35,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       usesAppleSignIn: true,
       supportsTablet: true,
-      bundleIdentifier: isDev ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
+      bundleIdentifier: IS_DEV ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
 
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
@@ -57,7 +55,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: './src/assets/app/adaptive-icon.png',
         backgroundColor: '#0D0D0D',
       },
-      package: isDev ? 'com.joaofleao.oscar_tracker.dev' : 'com.joaofleao.oscar_tracker',
+      package: IS_DEV ? 'com.joaofleao.oscar_tracker.dev' : 'com.joaofleao.oscar_tracker',
     },
     web: {
       favicon: './src/assets/app/favicon.png',

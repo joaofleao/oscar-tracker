@@ -10,14 +10,16 @@
       "distribution": "internal",
       "ios": {
         "simulator": true
+      },
+      "env": {
+        "APP_VARIANT": "development"
       }
     },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "APP_SLUG": "oscar-tracker-dev",
-        "APP_NAME": "Academy Dev"
+        "APP_VARIANT": "development"
       }
     },
     "preview": {
