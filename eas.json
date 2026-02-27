@@ -14,7 +14,11 @@
     },
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "APP_SLUG": "oscar-tracker-dev",
+        "APP_NAME": "Academy Dev"
+      }
     },
     "preview": {
       "distribution": "internal",
@@ -22,7 +26,7 @@
         "buildType": "apk"
       }
     },
-  "production": {
+    "production": {
       "autoIncrement": true
     }
   },
