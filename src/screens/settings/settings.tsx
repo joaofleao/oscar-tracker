@@ -103,13 +103,34 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
     const pickedImage = await pickImage()
 
     if (pickedImage) {
-      const postUrl = await generateUploadUrl()
-      const result = await fetch(postUrl, {
-        method: 'POST',
-        body: pickedImage as unknown as Blob,
-      })
-      const { storageId } = await result.json()
-      await updateUser({ image: storageId }).catch(catchConvexError)
+      try {
+        const postUrl = await generateUploadUrl()
+        const uploadFileName = pickedImage.fileName ?? `image-${Date.now()}.jpg`
+        const form = new FormData()
+
+        form.append('image', {
+          uri: pickedImage.uri,
+          type: pickedImage.mimeType ?? 'image/jpeg',
+          name: uploadFileName,
+        } as unknown as Blob)
+
+        const image = form.get('image')
+
+        const result = await fetch(postUrl, {
+          method: 'POST',
+          body: image,
+        })
+
+        if (!result.ok) {
+          const message = await result.text()
+          throw new Error(message || `Upload failed with status ${result.status}`)
+        }
+
+        const { storageId } = await result.json()
+        await updateUser({ image: storageId })
+      } catch (error) {
+        catchConvexError(error)
+      }
     }
   }
 
@@ -156,26 +177,26 @@ const Settings: ScreenType<'settings'> = ({ navigation, route }) => {
       >
         <ScrollView>
           <Authenticated>
-            {Platform.OS === 'ios' && (
-              <View style={styles.avatarContainer}>
-                <Avatar
-                  name={user?.name}
-                  image={user?.imageURL ?? undefined}
+            {/* {Platform.OS === 'ios' && ( */}
+            <View style={styles.avatarContainer}>
+              <Avatar
+                name={user?.name}
+                image={user?.imageURL ?? undefined}
+              />
+              <View style={styles.avatarButtons}>
+                <Button
+                  onPress={handleRemoveImage}
+                  title={t('settings:remove')}
+                  icon={<IconTrash />}
                 />
-                <View style={styles.avatarButtons}>
-                  <Button
-                    onPress={handleRemoveImage}
-                    title={t('settings:remove')}
-                    icon={<IconTrash />}
-                  />
-                  <Button
-                    onPress={handleChangeImage}
-                    title={t('settings:change')}
-                    icon={<IconImages />}
-                  />
-                </View>
+                <Button
+                  onPress={handleChangeImage}
+                  title={t('settings:change')}
+                  icon={<IconImages />}
+                />
               </View>
-            )}
+            </View>
+            {/* )} */}
             <Section
               title={t('settings:account')}
               button={{

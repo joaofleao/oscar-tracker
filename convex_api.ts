@@ -648,7 +648,7 @@ export type PublicApiType = {
         app: 'absolute-cinema' | 'oscar-tracker'
         changelog: string
         env: 'test' | 'prod'
-        url: { android: string; ios: string }
+        url: { android: string; ios: string } | string
         version: string
       }
     >

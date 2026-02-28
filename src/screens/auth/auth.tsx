@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Linking, Platform, ScrollView, View } from 'react-native'
+import { Alert, Linking, ScrollView, View } from 'react-native'
 import { useKeyboardHandler } from 'react-native-keyboard-controller'
 import Animated, { FadeInUp, FadeOutUp, LinearTransition, useSharedValue } from 'react-native-reanimated'
 import { useConvex, useMutation } from 'convex/react'
@@ -106,10 +106,27 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
       if (pendingImage) {
         const postUrl = await generateUploadUrl()
+        const uploadFileName = pendingImage.fileName ?? `image-${Date.now()}.jpg`
+        const form = new FormData()
+
+        form.append('image', {
+          uri: pendingImage.uri,
+          type: pendingImage.mimeType ?? 'image/jpeg',
+          name: uploadFileName,
+        } as unknown as Blob)
+
+        const image = form.get('image')
+
         const result = await fetch(postUrl, {
           method: 'POST',
-          body: pendingImage as unknown as Blob,
+          body: image,
         })
+
+        if (!result.ok) {
+          const message = await result.text()
+          throw new Error(message || `Upload failed with status ${result.status}`)
+        }
+
         const { storageId: uploadedId } = await result.json()
         storageId = uploadedId
       }
@@ -318,14 +335,13 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         {t('auth:details')}
       </Typography>
       <Column middle>
-        {Platform.OS === 'ios' && (
-          <Avatar
-            onPress={handleChangeImage}
-            name={user?.name}
-            image={displayImage ?? undefined}
-            icon={<IconImages />}
-          />
-        )}
+        <Avatar
+          onPress={handleChangeImage}
+          name={user?.name}
+          image={displayImage ?? undefined}
+          icon={<IconImages />}
+        />
+
         {displayImage && (
           <Button
             onPress={handleRemoveImage}
