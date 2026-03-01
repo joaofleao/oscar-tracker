@@ -4,12 +4,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 type StylesReturn = {
   root: ViewStyle
   background: ViewStyle
-  // blur: ViewStyle
-  content: ViewStyle
   gradient: ViewStyle
+  left: ViewStyle
+  right: ViewStyle
+  center: ViewStyle
 }
 
-const useStyles = (): StylesReturn => {
+type StylesProps = {
+  minWidth: number
+}
+
+const useStyles = ({ minWidth }: StylesProps): StylesReturn => {
   const { top } = useSafeAreaInsets()
   return StyleSheet.create({
     root: {
@@ -18,7 +23,17 @@ const useStyles = (): StylesReturn => {
       paddingHorizontal: 24,
       zIndex: 20,
     },
-    content: {},
+    left: {
+      minWidth,
+      alignItems: 'flex-start',
+    },
+    right: {
+      minWidth,
+      alignItems: 'flex-end',
+    },
+    center: {
+      flex: 1,
+    },
     background: {
       top: 0,
       left: 0,
@@ -26,10 +41,6 @@ const useStyles = (): StylesReturn => {
       bottom: 0,
       position: 'absolute',
     },
-    // blur: {
-    //   height: '100%',
-    //   width: '100%',
-    // },
 
     gradient: {
       pointerEvents: 'none',

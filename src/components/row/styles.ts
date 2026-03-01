@@ -20,8 +20,6 @@ const useStyles = (props: StyleProps): StylesReturn => {
     },
     wrap: {
       flexWrap: 'wrap',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   })
 }

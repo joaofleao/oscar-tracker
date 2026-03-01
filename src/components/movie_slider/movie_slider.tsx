@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatListProps, ListRenderItem, Platform, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { createAnimatedComponent, FadeIn, FadeOut } from 'react-native-reanimated'
+import { createAnimatedComponent, FadeIn, FadeInDown, FadeOut, FadeOutDown } from 'react-native-reanimated'
 import * as Haptics from 'expo-haptics'
 
 import MovieSliderItem, { MovieSliderItemProps } from './movie_slider_item'
@@ -20,6 +20,9 @@ const MovieSlider = ({ data = [], onScroll: onScrollProp, ...props }: MovieSlide
   const styles = useStyles({ height: HEIGHT, spacing: SPACING })
   const renderItem: ListRenderItem<MovieSliderItemProps> = ({ item, index }) => (
     <MovieSliderItem
+      key={`${item.title}-${index}`}
+      exiting={FadeOutDown.delay(100 * index)}
+      entering={FadeInDown.delay(300 + 100 * index)}
       height={HEIGHT}
       title={item.title}
       description={item.description}

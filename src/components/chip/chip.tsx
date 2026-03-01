@@ -1,41 +1,62 @@
-import React, { useEffect } from 'react'
-import { Pressable, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-import { BlurView } from 'expo-blur'
+import React from 'react'
+import { Image, Pressable, View } from 'react-native'
+import Animated from 'react-native-reanimated'
+import { SvgUri } from 'react-native-svg'
 
 import useStyles from './styles'
 import { ChipProps } from './types'
-import Blur from '@components/blur'
-import { IconEyeClosed } from '@components/icon'
 import { IconProps } from '@components/icon/types'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const Chip = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', entering, exiting }: ChipProps): React.ReactElement => {
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
+const Chip = ({ title, icon, image, variant = 'container', ...props }: ChipProps): React.ReactElement => {
   const styles = useStyles({ variant })
   const theme = useTheme()
 
-  const animation = useSharedValue(1)
-
-  useEffect(() => {
-    animation.value = withTiming(spoiler ? 1 : 0, { duration: 250 })
-  }, [spoiler, animation])
-
-  const spoilerStyle = useAnimatedStyle(() => {
-    return { opacity: animation.value }
-  })
-
   const content = (
-    <View style={[styles.content, !!icon && styles.hasIcon]}>
+    <View style={[styles.content, !!icon && styles.icon]}>
+      {image !== undefined && image !== '' && image?.endsWith('.svg') && (
+        <View style={styles.imageContainer}>
+          <SvgUri
+            uri={image}
+            width={20}
+            height={20}
+          />
+        </View>
+      )}
+      {image !== undefined && image !== '' && !image?.endsWith('.svg') && (
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: image }}
+            resizeMode="cover"
+            width={20}
+            height={20}
+          />
+        </View>
+      )}
+
+      {image !== undefined && image === '' && title !== undefined && (
+        <View style={styles.imageContainer}>
+          <Typography
+            legend
+            style={styles.initials}
+          >{`${title.split(' ')[0].charAt(0).toUpperCase()}${title.split(' ')[1].charAt(0).toUpperCase()}`}</Typography>
+        </View>
+      )}
+
       {icon !== undefined &&
         React.cloneElement<IconProps>(icon, {
           color: theme.semantics[variant].foreground.default,
           size: 12,
+
           ...icon.props,
         })}
 
       {title !== undefined && (
         <Typography
+          style={[styles.text, icon !== undefined && image !== undefined && styles.hasVisuals]}
           color={theme.semantics[variant].foreground.default}
           legend
         >
@@ -45,28 +66,13 @@ const Chip = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', ente
     </View>
   )
 
-  if (toggleSpoiler)
-    return (
-      <Pressable
-        onPress={() => toggleSpoiler('hideRate')}
-        style={styles.root}
-      >
-        {content}
-        <Animated.View style={[styles.spoiler, spoilerStyle]}>
-          <Blur style={styles.blur} />
-          <IconEyeClosed size={16} />
-        </Animated.View>
-      </Pressable>
-    )
-
   return (
-    <Animated.View
+    <AnimatedPressable
       style={styles.root}
-      entering={entering}
-      exiting={exiting}
+      {...props}
     >
       {content}
-    </Animated.View>
+    </AnimatedPressable>
   )
 }
 

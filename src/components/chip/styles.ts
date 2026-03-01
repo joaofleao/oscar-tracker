@@ -1,13 +1,19 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 
 import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   content: ViewStyle
   root: ViewStyle
-  hasIcon: ViewStyle
+  icon: ViewStyle
+
   spoiler: ViewStyle
   blur: ViewStyle
+  text: TextStyle
+  initials: TextStyle
+  hasVisuals: TextStyle
+
+  imageContainer: ImageStyle
 }
 
 type StylesProps = {
@@ -26,15 +32,38 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       borderWidth: 1,
     },
     content: {
-      gap: 8,
+      gap: 4,
       alignItems: 'center',
       flexDirection: 'row',
       paddingVertical: 4,
       paddingHorizontal: 4,
     },
-    hasIcon: {
+
+    text: {
+      paddingHorizontal: 4,
+      lineHeight: 20,
+    },
+    icon: {
       paddingHorizontal: 8,
     },
+    initials: {
+      fontSize: 8,
+    },
+    hasVisuals: {
+      lineHeight: 20,
+    },
+    imageContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: semantics[variant].base.tint,
+      borderWidth: 1,
+      borderColor: semantics[variant].stroke.default,
+      borderRadius: 100,
+      overflow: 'hidden',
+      width: 20,
+      height: 20,
+    },
+
     spoiler: {
       alignItems: 'center',
       justifyContent: 'center',

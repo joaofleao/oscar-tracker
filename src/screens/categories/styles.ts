@@ -2,27 +2,27 @@ import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 type StylesReturn = {
-  scroll: ViewStyle
+  root: ViewStyle
   content: ViewStyle
-  header: ViewStyle
+  empty: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { bottom, left, right } = useSafeAreaInsets()
+  const { right, left } = useSafeAreaInsets()
+
   return StyleSheet.create({
-    scroll: {
-      // overflow: 'visible',
-    },
-    content: {
-      paddingBottom: bottom,
+    root: {
       paddingRight: right + 20,
       paddingLeft: left + 20,
-      gap: 16,
+      overflow: 'visible',
     },
-    header: {
-      padding: 20,
-      alignItems: 'center',
-      justifyContent: 'center',
+
+    content: {
+      gap: 32,
+    },
+
+    empty: {
+      marginBottom: -80,
     },
   })
 }

@@ -52,7 +52,6 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: 8,
       minHeight: 24,
       minWidth: 24,
     },

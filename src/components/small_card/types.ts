@@ -23,7 +23,7 @@ export interface SmallCardProps extends TouchableOpacityProps {
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
   layout?: AnimatedProps<View>['layout']
-  chip?: {
+  badge?: {
     title: string
     variant: 'brand' | 'container'
   }

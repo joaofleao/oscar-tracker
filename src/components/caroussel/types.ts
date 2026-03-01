@@ -1,7 +1,8 @@
 import { FlatListProps } from 'react-native'
 
 export type CarousselProps<T> = {
-  item: React.ComponentType<T>
   data?: T[]
   empty?: string
+  group?: string
+  render: (item: T, index: number) => React.ReactElement
 } & Omit<FlatListProps<T>, 'renderItem' | 'data'>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Alert, Linking, Platform, ScrollView, View } from 'react-native'
-import { FadeInUp, FadeOutUp, LinearTransition } from 'react-native-reanimated'
+import { Alert, Linking, ScrollView, View } from 'react-native'
+import { useKeyboardHandler } from 'react-native-keyboard-controller'
+import Animated, { FadeInUp, FadeOutUp, LinearTransition, useSharedValue } from 'react-native-reanimated'
 import { useConvex, useMutation } from 'convex/react'
 import { GenericId } from 'convex/values'
 import { api } from 'convex_api'
@@ -13,6 +14,7 @@ import Button from '@components/button'
 import Column from '@components/column'
 import EmailInput, { validateEmail } from '@components/email_input'
 import { IconImages } from '@components/icon'
+import KeyboardCompensation from '@components/keyboard_compensation'
 import OTPInput from '@components/otp_input'
 import PasswordInput, { validatePassword } from '@components/password_input'
 import Row from '@components/row'
@@ -104,10 +106,27 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
 
       if (pendingImage) {
         const postUrl = await generateUploadUrl()
+        const uploadFileName = pendingImage.fileName ?? `image-${Date.now()}.jpg`
+        const form = new FormData()
+
+        form.append('image', {
+          uri: pendingImage.uri,
+          type: pendingImage.mimeType ?? 'image/jpeg',
+          name: uploadFileName,
+        } as unknown as Blob)
+
+        const image = form.get('image')
+
         const result = await fetch(postUrl, {
           method: 'POST',
-          body: pendingImage as unknown as Blob,
+          body: image,
         })
+
+        if (!result.ok) {
+          const message = await result.text()
+          throw new Error(message || `Upload failed with status ${result.status}`)
+        }
+
         const { storageId: uploadedId } = await result.json()
         storageId = uploadedId
       }
@@ -262,8 +281,8 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         </Column>
 
         <Typography
-          description
           center
+          legend
           onPress={() => Linking.openURL(`${process.env.PRIVACY_POLICY_URL}`)}
         >
           {t('auth:privacy_policy')}
@@ -316,14 +335,13 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
         {t('auth:details')}
       </Typography>
       <Column middle>
-        {Platform.OS === 'ios' && (
-          <Avatar
-            onPress={handleChangeImage}
-            name={user?.name}
-            image={displayImage ?? undefined}
-            icon={<IconImages />}
-          />
-        )}
+        <Avatar
+          onPress={handleChangeImage}
+          name={user?.name}
+          image={displayImage ?? undefined}
+          icon={<IconImages />}
+        />
+
         {displayImage && (
           <Button
             onPress={handleRemoveImage}
@@ -373,16 +391,19 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   )
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="always"
-      style={styles.scroll}
-      contentContainerStyle={styles.scrollContent}
-    >
-      {flow === 'signIn' && signInContent}
-      {flow === 'signUp' && signUpContent}
-      {flow === 'email-verification' && verificationContent}
-      {flow === 'details' && detailsContent}
-    </ScrollView>
+    <>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {flow === 'signIn' && signInContent}
+        {flow === 'signUp' && signUpContent}
+        {flow === 'email-verification' && verificationContent}
+        {flow === 'details' && detailsContent}
+        <KeyboardCompensation />
+      </ScrollView>
+    </>
   )
 }
 

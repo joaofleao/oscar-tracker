@@ -13,7 +13,7 @@ const Tag = ({ title, icon, onPress, variant = 'container', style, ...props }: T
 
   return (
     <TouchableOpacity
-      style={[styles.root, !!title && styles.hasTitle, style]}
+      style={[styles.root, style]}
       onPress={onPress}
       {...props}
     >
@@ -28,6 +28,7 @@ const Tag = ({ title, icon, onPress, variant = 'container', style, ...props }: T
         <Typography
           color={theme.semantics[variant].foreground.light}
           legend
+          style={styles.title}
         >
           {title}
         </Typography>

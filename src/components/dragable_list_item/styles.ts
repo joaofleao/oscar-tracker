@@ -17,7 +17,7 @@ const useStyles = (): StylesReturn => {
       position: 'absolute',
       right: -8,
       top: -8,
-      // zIndex: 10,
+
       backgroundColor: semantics.container.foreground.default,
       minWidth: 26,
       minHeight: 26,

@@ -20,13 +20,15 @@ import Typography from '@components/typography'
 import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { ScreenType } from '@router/types'
 
 const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t } = useTranslation()
   const { user, followers, following, refreshFollowers, refreshFollowing } = useUser()
-  const { movies } = useEdition()
+
+  const { movies, refreshMoviesProviders, refreshFriendsWatches } = useEdition()
   const [refreshing, setRefreshing] = React.useState(false)
 
   const { isAuthenticated, isLoading } = useConvexAuth()
@@ -35,6 +37,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
   const stopFollowing = useMutation(api.user.stopFollowing)
 
   const [flow, setFlow] = useState('following')
+  const tabBarHeight = useBottomTabBarHeight()
 
   useEffect(() => {
     if (!isAuthenticated && !isLoading) navigation.navigate('auth')
@@ -43,13 +46,14 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
-
-    if (flow === 'followers') refreshFollowers()
-    if (flow === 'following') refreshFollowing()
+    refreshFriendsWatches()
+    refreshMoviesProviders()
+    refreshFollowers()
+    refreshFollowing()
     setTimeout(() => {
       setRefreshing(false)
     }, 2000)
-  }, [refreshFollowers, refreshFollowing, flow])
+  }, [refreshFollowers, refreshFollowing, refreshMoviesProviders, refreshFriendsWatches])
 
   const sections = {
     following: t('profile:following'),
@@ -99,14 +103,6 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
             options={sections}
           />
         </Row>
-
-        <Button
-          small
-          variant="ghost"
-          onPress={() => navigation.navigate('search_friends')}
-          title={t('profile:add_friends')}
-          icon={<TinyPlus />}
-        />
       </Authenticated>
 
       <Unauthenticated>
@@ -149,8 +145,8 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
           squared
           image={item.imageURL}
           title={item.name}
-          chip={{
-            title: ` ${item.watched}/${movies.length} `,
+          badge={{
+            title: `${item.watched}/${movies.length}`,
             variant: item.watched === movies.length ? 'brand' : 'container',
           }}
           description={item.username}
@@ -222,6 +218,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
       />
       {flow === 'following' && renderFollowing}
       {flow === 'followers' && renderFollowers}
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }

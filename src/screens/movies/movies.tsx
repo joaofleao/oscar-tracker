@@ -1,6 +1,5 @@
 import React from 'react'
 import { ActivityIndicator, FlatList, View } from 'react-native'
-import { RefreshControl } from 'react-native-gesture-handler'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -14,34 +13,18 @@ import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { TabType } from '@router/types'
 
 const Movies: TabType<'movies'> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { edition, movies, refreshFriendsWatches } = useEdition()
-  const { spoilers } = useUser()
+  const { edition, movies, nominations, statusFilter, friendFilter, providersFilter, categoriesFilter } = useEdition()
+  const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
-  const [refreshing, setRefreshing] = React.useState(false)
+  const tabBarHeight = useBottomTabBarHeight()
 
   const styles = useStyles()
   const { semantics } = useTheme()
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true)
-
-    refreshFriendsWatches()
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 2000)
-  }, [refreshFriendsWatches])
-
-  // sort
-  // by Nominations
-  // by Name
-
-  // filters
-  // by watched/unwatched/all
-  // streaming on
 
   const daysUntilAnnouncement = edition?.announcement ? Math.ceil((new Date(edition.announcement).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
   const daysUntilEdition = edition?.date ? Math.ceil((new Date(edition.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : null
@@ -80,27 +63,40 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
     return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
+  const filteredMovies = movies
+    .filter((movie) => {
+      if (statusFilter === 'all' || friendFilter.length === 0) return true
+      const usersWhoWatched = [movie.friends_who_watched, ...(movie.watched ? [{ _id: user?._id, name: user?.name, imageURL: user?.imageURL }] : [])].flat()
+      const userFilter = friendFilter.every((userId) => usersWhoWatched.some((friend) => friend._id === userId))
+      if (statusFilter === 'watched') return userFilter
+      if (statusFilter === 'unwatched') return !userFilter && friendFilter.every((userId) => !usersWhoWatched.some((friend) => friend._id === userId))
+      return true
+    })
+    .filter((movie) => {
+      if (providersFilter.length === 0) return true
+      return movie.providers.some((provider) => providersFilter.includes(provider.provider_id))
+    })
+    .filter((movie) => {
+      if (categoriesFilter.length === 0) return true
+      return nominations.some((nomination) => {
+        if (!categoriesFilter.includes(nomination.category._id)) return false
+        return nomination.nominations.some((nominatedMovie) => nominatedMovie.movieId === movie._id)
+      })
+    })
+
   return (
     <>
       <Header
         animation={animation}
         button={{
           icon: <IconFilter color={semantics.container.foreground.light} />,
-          onPress: () => navigation.navigate('filter'),
+          onPress: () => navigation.navigate('filter_movies'),
         }}
       />
-      {movies?.length === 0 && emptyState()}
+      {filteredMovies?.length === 0 && emptyState()}
       <MovieSlider
-        refreshing={refreshing}
-        onRefresh={onRefresh}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
         onScroll={onScroll}
-        data={movies.map((movie) => ({
+        data={filteredMovies.map((movie) => ({
           watched: movie.watched,
           spoiler: spoilers.hidePoster,
           title: movie.title,
@@ -133,6 +129,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
           onPress: () => navigation.navigate('movie', { tmdbId: movie.tmdbId }),
         }))}
       />
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }

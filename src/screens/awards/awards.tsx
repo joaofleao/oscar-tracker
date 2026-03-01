@@ -247,7 +247,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
 
                         <Chip
                           key={item.group.groupId}
-                          title={item.categories.reduce((acc, category) => acc + category.points + category.bonus + category.penalty, 0)}
+                          title={`${item.categories.reduce((acc, category) => acc + category.points + category.bonus + category.penalty, 0)}`}
                         />
                       </Row>
                     )

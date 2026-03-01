@@ -6,7 +6,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 export type StackProps = {
   home: undefined
   movies: undefined
-  nominations: undefined
+  categories: undefined
 
   auth:
     | {
@@ -15,13 +15,15 @@ export type StackProps = {
     | undefined
   awards: undefined
   select_edition: undefined
+  select_country: undefined
   password_recovery: { email: string | undefined }
   preferences: undefined
   profile: undefined
   search: undefined
   search_friends: undefined
   settings: undefined
-  filter: undefined
+  filter_movies: undefined
+  filter_categories: undefined
   movie: { tmdbId: number }
   category: { categoryId: GenericId<'oscarCategories'> }
 }
