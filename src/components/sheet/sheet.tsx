@@ -21,12 +21,12 @@ const Sheet = ({ fullscreen = false, headerWithTop = false, reordable = false, c
       )}
 
       {React.cloneElement(children, {
-        style: styles.root,
-        contentContainerStyle: styles.content,
         overScrollMode: Platform.OS === 'android' ? 'never' : 'auto',
         removeClippedSubviews: false,
         ...(reordable && { ItemSeparatorComponent: () => <View style={styles.gap} /> }),
         ...children.props,
+        contentContainerStyle: [styles.content, children.props.contentContainerStyle],
+        style: [styles.root, children.props.style],
       })}
 
       {footer && <View style={styles.footer}>{footer}</View>}

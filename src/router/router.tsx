@@ -27,6 +27,7 @@ import SearchFriends from '@screens/search_friends'
 import SelectCountry from '@screens/select_country'
 import SelectEdition from '@screens/select_edition'
 import Settings from '@screens/settings'
+import ShareStatus from '@screens/share_status'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
@@ -152,6 +153,10 @@ const Router = (): React.ReactNode => {
               },
             }}
           >
+            <Stack.Screen
+              name={'share_status'}
+              component={ShareStatus}
+            />
             <Stack.Screen
               name={'auth'}
               component={Auth}

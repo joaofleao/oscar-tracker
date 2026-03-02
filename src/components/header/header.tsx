@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { FadeIn, FadeOut } from 'react-native-reanimated'
+import { FadeIn, FadeInDown, FadeOut, FadeOutDown, LinearTransition } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
@@ -16,7 +16,7 @@ import { useTheme } from '@providers/theme'
 import { useNavigation } from '@react-navigation/native'
 import { ordinal } from '@utils/ordinals'
 
-const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
+const Header = ({ animation, leadingButton, trailingButton }: HeaderProps): React.ReactElement => {
   const navigation = useNavigation()
   const { semantics } = useTheme()
   const { edition, editions, movies, userWatches } = useEdition()
@@ -54,7 +54,15 @@ const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
             middle
           >
             <View style={styles.left}>
-              <View onLayout={(e) => setLeftWidth(e.nativeEvent.layout.width)} />
+              {leadingButton && (
+                <Button
+                  onLayout={(e) => setLeftWidth(e.nativeEvent.layout.width)}
+                  small
+                  variant="ghost"
+                  icon={leadingButton.icon}
+                  onPress={leadingButton.onPress}
+                />
+              )}
             </View>
 
             <View style={styles.center}>
@@ -97,13 +105,16 @@ const Header = ({ animation, button }: HeaderProps): React.ReactElement => {
             </View>
 
             <View style={styles.right}>
-              <Button
-                onLayout={(e) => setRightWidth(e.nativeEvent.layout.width)}
-                small
-                variant="ghost"
-                icon={button.icon}
-                onPress={button.onPress}
-              />
+              {trailingButton && (
+                <Button
+                  key={navigation.getState()?.index}
+                  onLayout={(e) => setRightWidth(e.nativeEvent.layout.width)}
+                  small
+                  variant="ghost"
+                  icon={trailingButton.icon}
+                  onPress={trailingButton.onPress}
+                />
+              )}
             </View>
           </Row>
           <ProgressBar

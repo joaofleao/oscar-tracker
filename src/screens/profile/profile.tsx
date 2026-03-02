@@ -211,7 +211,7 @@ const Profile: ScreenType<'profile'> = ({ navigation, route }) => {
     <>
       <Header
         animation={animation}
-        button={{
+        trailingButton={{
           icon: <IconSettings />,
           onPress: () => navigation.navigate('settings'),
         }}

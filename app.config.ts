@@ -12,6 +12,22 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
+      [
+        'expo-sharing',
+        {
+          ios: {
+            enabled: true,
+            activationRule: {
+              supportsImageWithMaxCount: 5,
+            },
+          },
+          android: {
+            enabled: true,
+            singleShareMimeTypes: ['image/*'],
+            multipleShareMimeTypes: ['image/*'],
+          },
+        },
+      ],
       '@react-native-community/datetimepicker',
       'expo-font',
       'expo-apple-authentication',

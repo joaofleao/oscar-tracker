@@ -9,7 +9,7 @@ import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
-import { IconFilter } from '@components/icon'
+import { IconSort } from '@components/icon'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
@@ -159,8 +159,8 @@ const Categories: TabType<'categories'> = ({ navigation }) => {
     <>
       <Header
         animation={animation}
-        button={{
-          icon: <IconFilter color={semantics.container.foreground.light} />,
+        trailingButton={{
+          icon: <IconSort color={semantics.container.foreground.light} />,
           onPress: () => navigation.navigate('filter_categories'),
         }}
       />
