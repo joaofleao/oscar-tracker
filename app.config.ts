@@ -1,6 +1,7 @@
 import { ConfigContext, ExpoConfig } from 'expo/config'
 
 const IS_DEV = process.env.APP_VARIANT === 'development'
+const ENABLE_IOS_SHARE_EXTENSION = process.env.IOS_SHARE_EXTENSION === 'true'
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
@@ -12,22 +13,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
-      [
-        'expo-sharing',
-        {
-          ios: {
-            enabled: true,
-            activationRule: {
-              supportsImageWithMaxCount: 5,
-            },
-          },
-          android: {
-            enabled: true,
-            singleShareMimeTypes: ['image/*'],
-            multipleShareMimeTypes: ['image/*'],
-          },
-        },
-      ],
+      ['expo-sharing'],
       '@react-native-community/datetimepicker',
       'expo-font',
       'expo-apple-authentication',
