@@ -1,5 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, FlatList, View } from 'react-native'
+import { useConvexAuth } from 'convex/react'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -22,6 +23,7 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
   const { spoilers, user } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
   const tabBarHeight = useBottomTabBarHeight()
+  const { isAuthenticated, isLoading } = useConvexAuth()
 
   const styles = useStyles()
   const { semantics } = useTheme()
@@ -88,10 +90,14 @@ const Movies: TabType<'movies'> = ({ navigation }) => {
     <>
       <Header
         animation={animation}
-        leadingButton={{
-          icon: <IconShare color={semantics.container.foreground.light} />,
-          onPress: () => navigation.navigate('share_status'),
-        }}
+        leadingButton={
+          isAuthenticated && !isLoading
+            ? {
+                icon: <IconShare color={semantics.container.foreground.light} />,
+                onPress: () => navigation.navigate('share'),
+              }
+            : undefined
+        }
         trailingButton={{
           icon: <IconFilter color={semantics.container.foreground.light} />,
           onPress: () => navigation.navigate('filter_movies'),

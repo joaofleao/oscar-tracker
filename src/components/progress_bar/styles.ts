@@ -1,6 +1,6 @@
 import { StyleSheet, ViewStyle } from 'react-native'
 
-import { useTheme } from '@providers/theme'
+import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
@@ -10,9 +10,12 @@ type StylesReturn = {
 
 type StylesProps = {
   percentage: number
+  thickness: number
+  transparentBackground: boolean
+  variant: keyof SemanticsType
 }
 
-const useStyles = ({ percentage }: StylesProps): StylesReturn => {
+const useStyles = ({ percentage, thickness, transparentBackground, variant }: StylesProps): StylesReturn => {
   const { semantics } = useTheme()
   return StyleSheet.create({
     root: {
@@ -24,15 +27,16 @@ const useStyles = ({ percentage }: StylesProps): StylesReturn => {
       width: '100%',
     },
     placeholder: {
-      height: 4,
+      height: thickness,
       flex: 1,
-      backgroundColor: semantics.accent.stroke.default,
+      backgroundColor: transparentBackground ? 'transparent' : semantics[variant].stroke.default,
+      borderRadius: thickness / 2,
     },
     progress: {
       height: '100%',
       width: `${percentage}%`,
-      backgroundColor: semantics.brand.foreground.light,
-      borderRadius: 2,
+      backgroundColor: semantics[variant].base.default,
+      borderRadius: thickness / 2,
     },
   })
 }

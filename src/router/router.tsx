@@ -15,6 +15,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Auth from '@screens/auth'
+import Awards from '@screens/awards'
 import Categories from '@screens/categories'
 import Category from '@screens/category'
 import FilterCategories from '@screens/filter_categories'
@@ -27,7 +28,7 @@ import SearchFriends from '@screens/search_friends'
 import SelectCountry from '@screens/select_country'
 import SelectEdition from '@screens/select_edition'
 import Settings from '@screens/settings'
-import ShareStatus from '@screens/share_status'
+import Share from '@screens/share'
 import enUS from '@translations/locales/en_US.json'
 import ptBR from '@translations/locales/pt_BR.json'
 import print from '@utils/print'
@@ -143,6 +144,17 @@ const Router = (): React.ReactNode => {
         >
           <Stack.Screen name={'home'}>{renderTabs}</Stack.Screen>
 
+          <Stack.Screen
+            name={'awards'}
+            component={Awards}
+            options={{
+              animation: 'slide_from_bottom',
+              contentStyle: {
+                backgroundColor: semantics.container.base.default,
+              },
+            }}
+          />
+
           {/* uses keyboard */}
           <Stack.Group
             screenOptions={{
@@ -154,8 +166,8 @@ const Router = (): React.ReactNode => {
             }}
           >
             <Stack.Screen
-              name={'share_status'}
-              component={ShareStatus}
+              name={'share'}
+              component={Share}
             />
             <Stack.Screen
               name={'auth'}

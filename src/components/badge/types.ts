@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 import { AnimatedProps } from 'react-native-reanimated'
 
 import { IconProps } from '@components/icon'
@@ -13,4 +13,6 @@ export interface BadgeProps {
   onPress?: () => void
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
+  layout?: AnimatedProps<View>['layout']
+  style?: ViewStyle
 }

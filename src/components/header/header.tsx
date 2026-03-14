@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { FadeIn, FadeInDown, FadeOut, FadeOutDown, LinearTransition } from 'react-native-reanimated'
+import { FadeIn, FadeOut } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
@@ -60,6 +60,7 @@ const Header = ({ animation, leadingButton, trailingButton }: HeaderProps): Reac
                   small
                   variant="ghost"
                   icon={leadingButton.icon}
+                  title={leadingButton.title}
                   onPress={leadingButton.onPress}
                 />
               )}
@@ -110,6 +111,7 @@ const Header = ({ animation, leadingButton, trailingButton }: HeaderProps): Reac
                   key={navigation.getState()?.index}
                   onLayout={(e) => setRightWidth(e.nativeEvent.layout.width)}
                   small
+                  title={trailingButton.title}
                   variant="ghost"
                   icon={trailingButton.icon}
                   onPress={trailingButton.onPress}

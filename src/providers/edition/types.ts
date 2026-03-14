@@ -24,6 +24,7 @@ type Nominations = Omit<PublicApiType['oscar']['getNominations']['_returnType'][
 }
 
 export interface EditionContextType {
+  awards: PublicApiType['ballots']['getResult']['_returnType'] | undefined
   nominations: Nominations[]
   movies: Movies[]
 
@@ -38,7 +39,7 @@ export interface EditionContextType {
   refreshEditionData: () => Promise<void>
   refreshMoviesProviders: () => Promise<void>
   refreshFriendsWatches: () => Promise<void>
-  selectEdition: (editionId?: PublicApiType['oscar']['getEdition']['_returnType']['_id']) => Promise<void>
+  selectEdition: (editionId?: string) => Promise<void>
 
   setOrderedCategories: (categoryIds: string[]) => void
   setHiddenCategories: (categoryIds: string[]) => void

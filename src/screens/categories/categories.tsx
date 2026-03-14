@@ -2,6 +2,7 @@ import React from 'react'
 import { ActivityIndicator, ListRenderItem, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { LinearTransition } from 'react-native-reanimated'
+import { useConvexAuth } from 'convex/react'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -9,7 +10,7 @@ import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
-import { IconSort } from '@components/icon'
+import { IconSort, IconTrophy } from '@components/icon'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
@@ -22,6 +23,7 @@ import { TabType } from '@router/types'
 
 const Categories: TabType<'categories'> = ({ navigation }) => {
   const { edition, nominations, orderedCategories } = useEdition()
+  const { isAuthenticated, isLoading } = useConvexAuth()
 
   const enrichedCategories = nominations
     .filter((nomination) => !nomination.category.hide)
@@ -159,6 +161,14 @@ const Categories: TabType<'categories'> = ({ navigation }) => {
     <>
       <Header
         animation={animation}
+        leadingButton={
+          isAuthenticated && !isLoading
+            ? {
+                icon: <IconTrophy color={semantics.accent.base.default} />,
+                onPress: () => navigation.navigate('awards'),
+              }
+            : undefined
+        }
         trailingButton={{
           icon: <IconSort color={semantics.container.foreground.light} />,
           onPress: () => navigation.navigate('filter_categories'),

@@ -192,12 +192,7 @@ const Auth: ScreenType<'auth'> = ({ navigation, route }) => {
   const header = (
     <>
       <View style={styles.logo}>
-        <Typography
-          onboardingAccent
-          style={styles.logoText}
-        >
-          ACADEMY
-        </Typography>
+        <Typography branded>ACADEMY</Typography>
         <Typography>tracker</Typography>
       </View>
 

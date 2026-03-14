@@ -6,21 +6,21 @@ import useStyles from './styles'
 import { ProgressBarProps } from './types'
 import Typography from '@components/typography'
 
-const ProgressBar = ({ value: valueProp, maxValue, style }: ProgressBarProps): React.ReactElement => {
+const ProgressBar = ({ transparentBackground = false, variant = 'accent', hideNumbers = false, thickness = 4, value: valueProp, maxValue, style }: ProgressBarProps): React.ReactElement => {
   const value = Math.min(valueProp, maxValue)
   const percentage = maxValue === 0 ? 0 : (value / maxValue) * 100
-  const styles = useStyles({ percentage })
+  const styles = useStyles({ percentage, thickness, variant, transparentBackground })
 
   return (
     <View style={[styles.root, style]}>
-      <Typography legend>{String(value).padStart(2, '0')}</Typography>
+      {!hideNumbers && <Typography legend>{String(value).padStart(2, '0')}</Typography>}
       <View style={styles.placeholder}>
         <Animated.View
           layout={LinearTransition.springify()}
           style={styles.progress}
         />
       </View>
-      <Typography legend>{String(maxValue).padStart(2, '0')}</Typography>
+      {!hideNumbers && <Typography legend>{String(maxValue).padStart(2, '0')}</Typography>}
     </View>
   )
 }

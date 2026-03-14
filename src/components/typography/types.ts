@@ -11,6 +11,7 @@ export interface TypographyProps extends TextProps {
   description?: boolean
   legend?: boolean
   flex?: boolean
+  branded?: boolean
 
   color?: string
 

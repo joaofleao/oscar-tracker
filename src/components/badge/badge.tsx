@@ -10,7 +10,7 @@ import { IconProps } from '@components/icon/types'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const Badge = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', entering, exiting }: BadgeProps): React.ReactElement => {
+const Badge = ({ style, title, icon, spoiler, toggleSpoiler, variant = 'container', entering, exiting, layout }: BadgeProps): React.ReactElement => {
   const styles = useStyles({ variant })
   const theme = useTheme()
 
@@ -60,9 +60,10 @@ const Badge = ({ title, icon, spoiler, toggleSpoiler, variant = 'container', ent
 
   return (
     <Animated.View
-      style={styles.root}
+      style={[styles.root, style]}
       entering={entering}
       exiting={exiting}
+      layout={layout}
     >
       {content}
     </Animated.View>

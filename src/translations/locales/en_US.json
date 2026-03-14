@@ -22,7 +22,8 @@
     "discard_title": "Discard changes?",
     "discard_message": "You have unsaved ranking changes. Are you sure you want to leave?",
     "discard": "Discard",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "can_change": "You can change your vote until the ceremony begins."
   },
 
   "select_edition": {
@@ -190,11 +191,14 @@
     "report": "Report"
   },
   "awards": {
+    "did_not_participate": "You did not participate",
+    "unvoted": "Unvoted categories",
+    "done": "Finish",
+    "submit": "Submit your votes before the ceremony begins",
     "call": "The {count} ceremony of the",
     "name": "Academy Awards",
     "will": "will happen in {countdown} {time_unit}.",
     "has": "happened on {date}.",
-
     "days": "days",
     "day": "day",
     "hours": "hours",
@@ -203,11 +207,21 @@
     "minute": "minute",
     "seconds": "seconds",
     "second": "second",
-
     "show_me_winners": "show me the winners",
+    "share": "share",
+    "voltar": "go back",
+    "watched_movies": "movies watched",
+    "finished_categories": "categories finished",
+    "watched_hours": "hours watched",
+    "satisfaction": "satisfaction rate",
+    "leaderboard": "Leaderboard",
+    "points": "points",
+    "place": "place",
     "coming_soon": "coming soon",
     "your_rank": "your rank",
-    "not_ranked": "not ranked"
+    "not_ranked": "didn't participate",
+    "show_all_leaders": "show more",
+    "show_top_leaders": "show less"
   },
   "movies": {
     "nomination": "nomination",

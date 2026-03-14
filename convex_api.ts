@@ -157,8 +157,9 @@ export type PublicApiType = {
       {
         _id: Id<'oscarEditions'>
         announcement?: number
-        complete?: boolean
+        complete: boolean
         date: number
+        finished: boolean
         number: number
         year: number
       }
@@ -218,9 +219,24 @@ export type PublicApiType = {
         _id: Id<'movies'>
         nominationCount: number
         posterPath?: string
+        runtime?: number
         title: string
         tmdbId: number
       }>
+    >
+    getAwards: FunctionReference<
+      'query',
+      'public',
+      { _id?: Id<'oscarEditions'> },
+      {
+        _id: Id<'oscarEditions'>
+        announcement?: number
+        complete: boolean
+        date: number
+        finished: boolean
+        number: number
+        year: number
+      }
     >
   }
   oscar_movies: {
@@ -290,7 +306,6 @@ export type PublicApiType = {
         date: number
         finished: boolean
         number: number
-        public: boolean
         year: number
       }>
     >
@@ -316,7 +331,6 @@ export type PublicApiType = {
         date: number
         finished: boolean
         number: number
-        public: boolean
         year: number
       },
       Id<'oscarEditions'>
@@ -331,7 +345,6 @@ export type PublicApiType = {
         date: number
         finished: boolean
         number: number
-        public: boolean
         year: number
       },
       null
@@ -693,6 +706,7 @@ export type PublicApiType = {
     >
     deleteAccount: FunctionReference<'action', 'public', Record<string, never>, null>
     reportError: FunctionReference<'action', 'public', { message: string }, null>
+    adminResetPassword: FunctionReference<'action', 'public', { email: string }, { email: string; temporaryPassword: string }>
     searchUsers: FunctionReference<
       'query',
       'public',
@@ -731,6 +745,82 @@ export type PublicApiType = {
         name?: string
         username?: string
       }>
+    >
+  }
+  ballots: {
+    rankNomination: FunctionReference<
+      'mutation',
+      'public',
+      {
+        categoryId: Id<'oscarCategories'>
+        editionId: Id<'oscarEditions'>
+        votes: Array<Id<'oscarNomination'>>
+      },
+      null
+    >
+    toggleWishNomination: FunctionReference<
+      'mutation',
+      'public',
+      {
+        categoryId: Id<'oscarCategories'>
+        editionId: Id<'oscarEditions'>
+        nominationId: Id<'oscarNomination'>
+      },
+      null
+    >
+    generateResults: FunctionReference<'action', 'public', { editionId: Id<'oscarEditions'> }, { results: number; users: number }>
+    getCategoriesWithBallots: FunctionReference<
+      'query',
+      'public',
+      {
+        categoryId?: Id<'oscarCategories'>
+        editionId?: Id<'oscarEditions'>
+        language?: 'pt_BR' | 'en_US'
+      },
+      {
+        category: { categoryId: Id<'oscarCategories'>; name: string }
+        nominations: Array<{
+          description?: string
+          extra?: string
+          image?: string
+          nominationId: Id<'oscarNomination'>
+          rank?: number
+          title: string
+          tmdbId: number
+          watched: boolean
+          winner: boolean
+          wish: boolean
+        }>
+      }
+    >
+    getVotedCategories: FunctionReference<'query', 'public', { editionId?: Id<'oscarEditions'> }, Array<Id<'oscarCategories'>>>
+    getResult: FunctionReference<
+      'query',
+      'public',
+      { editionId?: Id<'oscarEditions'> },
+      {
+        leaderboard: Array<{
+          categories: number
+          hours: number
+          imageURL?: string
+          movies: number
+          name?: string
+          participated: boolean
+          points: number
+          rank: number
+          satisfaction: number
+          userId: Id<'users'>
+          username?: string
+        }>
+        personal: {
+          categories: number
+          hours: number
+          movies: number
+          participated: boolean
+          points: number
+          satisfaction: number
+        }
+      }
     >
   }
 }

@@ -14,7 +14,8 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const { i18n } = useTranslation()
 
   const [allEditions, setAllEditions] = useMMKVObject<EditionContextType['editions']>('editions.all')
-  const [edition, setEdition] = useMMKVObject<EditionContextType['edition']>('editions.current')
+  const [editionId, setEditionId] = useMMKVString('editions.id')
+  const edition = useQuery(api.oscar.getEdition, { _id: editionId as any })
   const [country, setCountry] = useMMKVString('user.country')
 
   const [editionsMap, setEditionsMap] = useMMKVObject<Record<string, { nominations: PublicApiType['oscar']['getNominations']['_returnType']; movies: PublicApiType['oscar']['getMovies']['_returnType'] }>>('editions.map')
@@ -32,6 +33,8 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   const nominations = editionsMap?.[edition?.number ?? -1]?.nominations ?? []
   const movies = editionsMap?.[edition?.number ?? -1]?.movies ?? []
   const userWatches = useQuery(api.oscar.getUserWatches, { movies: movies.map((movie) => movie._id) }) ?? []
+
+  const awards = useQuery(api.ballots.getResult, { editionId: edition?._id })
 
   const refreshEditionData: EditionContextType['refreshEditionData'] = async () => {
     print('Edition Data', 'Server Fetched', 'yellow')
@@ -96,9 +99,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   }, [])
 
   const selectEdition: EditionContextType['selectEdition'] = async (editionId) => {
-    print('Current Edition', 'Server Fetched', 'yellow')
-    const fetched = await convex.query(api.oscar.getEdition, { _id: editionId })
-    setEdition(fetched)
+    setEditionId(editionId)
   }
 
   useEffect(() => {
@@ -142,6 +143,7 @@ const EditionProvider = ({ children }: { children?: React.ReactNode }): React.Re
   return (
     <SettingsContext.Provider
       value={{
+        awards,
         refreshEditionData,
         refreshMoviesProviders,
         refreshFriendsWatches,

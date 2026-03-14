@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
 import Button from '@components/button'
+import Column from '@components/column'
 import DraggableListItem from '@components/dragable_list_item'
 import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
 import Row from '@components/row'
@@ -23,14 +24,14 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
   const { edition } = useEdition()
-  const unwish = useMutation(api.oscars.unwishOscarNomination)
-  const wish = useMutation(api.oscars.wishOscarNomination)
-  const rankNominations = useMutation(api.oscars.rankNomination)
+
+  const rankNominations = useMutation(api.ballots.rankNomination)
+  const toggleWish = useMutation(api.ballots.toggleWishNomination)
 
   const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
 
-  const data = useQuery(api.oscars.getNominationsByCategory, {
+  const data = useQuery(api.ballots.getCategoriesWithBallots, {
     editionId: edition?._id,
     categoryId: route.params.categoryId,
     language: i18n.language,
@@ -72,10 +73,9 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   }
   const handleRankNominations = async (): Promise<void> => {
     rankNominations({
-      votes: localNominations.map((nomination) => ({
-        nominationId: nomination.nominationId,
-        rank: nomination.rank,
-      })),
+      categoryId: route.params.categoryId,
+      editionId: edition?._id!,
+      votes: localNominations.map((nomination) => nomination.nominationId),
     })
   }
 
@@ -99,22 +99,32 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
         footer={
           <>
             {hasChanges && (
-              <Row
+              <Column
+                middle
                 entering={FadeInDown.delay(300)}
                 exiting={FadeOutUp.delay(300)}
               >
-                <Button
-                  icon={<IconDiscard />}
-                  onPress={handleReset}
-                />
+                <Typography
+                  center
+                  description
+                >
+                  {t('category:can_change')}
+                </Typography>
 
-                <Button
-                  onPress={handleRankNominations}
-                  icon={<IconVote />}
-                  variant="brand"
-                  title={t('category:cast_ballot')}
-                />
-              </Row>
+                <Row>
+                  <Button
+                    icon={<IconDiscard />}
+                    onPress={handleReset}
+                  />
+
+                  <Button
+                    onPress={handleRankNominations}
+                    icon={<IconVote />}
+                    variant="brand"
+                    title={t('category:cast_ballot')}
+                  />
+                </Row>
+              </Column>
             )}
           </>
         }
@@ -150,8 +160,7 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
                       if (wishLoading) return
                       setWishLoading(item.nominationId)
                       try {
-                        if (item.wish) await unwish({ nominationId: item.nominationId })
-                        else await wish({ nominationId: item.nominationId })
+                        await toggleWish({ nominationId: item.nominationId, categoryId: route.params.categoryId, editionId: edition?._id! })
                       } finally {
                         setWishLoading(undefined)
                       }
