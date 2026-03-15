@@ -7,9 +7,9 @@ import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
-import Badge from '@components/badge'
 import Blur from '@components/blur'
 import Button from '@components/button'
+import Chip from '@components/chip'
 import Column from '@components/column'
 import { IconCheckCircle, IconShare, IconTrophy } from '@components/icon'
 import LeaderboardCard from '@components/leaderboard_card'
@@ -25,7 +25,7 @@ import { ordinal } from '@utils/ordinals'
 
 const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
   const styles = useStyles()
-  const TIMER_SECONDS = 10
+  const TIMER_SECONDS = 5
   const TIMER_TICK_MS = 100
 
   const { edition, nominations, awards } = useEdition()
@@ -146,7 +146,8 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
                 >
                   <Row>
                     {unvotedCategories.map((nomination) => (
-                      <Badge
+                      <Chip
+                        onPress={(): void => navigation.navigate('category', { categoryId: nomination.category._id })}
                         key={nomination.category._id}
                         title={nomination.category.name}
                       />
@@ -166,13 +167,13 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
             {!edition?.finished && <Typography description>{t('awards:submit')}</Typography>}
 
             <Button
-              disabled={!awards?.personal}
+              disabled={!awards?.personal.participated}
               entering={FadeInDown}
               exiting={FadeOutUp}
               layout={LinearTransition}
               variant="brand"
-              icon={!awards?.personal && edition?.finished ? undefined : <IconTrophy />}
-              title={!awards?.personal && edition?.finished ? t('awards:did_not_participate') : t('awards:show_me_winners')}
+              icon={!awards?.personal.participated && edition?.finished ? undefined : <IconTrophy />}
+              title={!awards?.personal.participated && edition?.finished ? t('awards:did_not_participate') : t('awards:show_me_winners')}
               onPress={() => listRef.current?.scrollToOffset({ offset: (focusedIndex + 1) * height, animated: true })}
             />
           </Column>
@@ -428,7 +429,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
   return (
     <>
       <FlatList
-        scrollEnabled={edition?.finished}
+        scrollEnabled={awards?.personal.participated}
         onScroll={(event) => {
           const index = Math.round(event.nativeEvent.contentOffset.y / height)
           setFocusedIndex(index)
@@ -453,6 +454,9 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
         snapToOffsets={pages.map((_, index) => index * height)}
         style={styles.list}
         contentContainerStyle={styles.content}
+        scrollIndicatorInsets={{
+          bottom: 0,
+        }}
         renderItem={({ item, index }) => <View style={[styles.page, item.accent && styles.accent]}>{item.content}</View>}
       />
 

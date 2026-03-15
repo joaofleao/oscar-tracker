@@ -80,8 +80,9 @@ const FilterMovies: ScreenType<'filter_movies'> = ({ navigation }) => {
     navigation.goBack()
   }
 
-  const hasChanges = localStatus !== statusFilter || localFriends.length !== friendFilter.length || localProviders.length !== providersFilter.length || localCategories.length !== categoriesFilter.length
-  const isDefault = statusFilter === 'all' && friendFilter.length === 1 && providersFilter.length === 0 && categoriesFilter.length === 0
+  const arraysEqual = <T,>(a: T[], b: T[]) => a.length === b.length && a.every((v, i) => v === b[i])
+  const hasChanges = localStatus !== statusFilter || !arraysEqual(localFriends, friendFilter) || !arraysEqual(localProviders, providersFilter) || !arraysEqual(localCategories, categoriesFilter)
+  const isDefault = statusFilter === 'all' && friendFilter.length === 1 && friendFilter[0] === user?._id && providersFilter.length === 0 && categoriesFilter.length === 0
 
   return (
     <Sheet
