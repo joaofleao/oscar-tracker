@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, Dimensions, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native'
 import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutUp } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -12,6 +12,7 @@ import Sheet from '@components/sheet'
 import Rank from '@prints/rank'
 import Stats from '@prints/stats/stats'
 import WatchedPosters from '@prints/watched_poster'
+import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { ScreenType } from '@router/types'
 import useStyles from '@screens/share/styles'
@@ -38,19 +39,26 @@ const Share: ScreenType<'share'> = () => {
     rank: false,
   })
   const { t } = useTranslation()
+  const { edition } = useEdition()
   const { semantics } = useTheme()
 
   const { width } = Dimensions.get('window')
 
   const [currentIndex, setCurrentIndex] = useState(0)
+  const availableShareRenderers = edition?.finished ? shareRenderers : shareRenderers.slice(0, 1)
+
+  useEffect(() => {
+    if (currentIndex < availableShareRenderers.length) return
+    setCurrentIndex(0)
+  }, [availableShareRenderers.length, currentIndex])
 
   const handleShare = useCallback(() => {
-    const currentKey = shareRenderers[currentIndex]?.key
+    const currentKey = availableShareRenderers[currentIndex]?.key
     const currentImage = currentKey ? images[currentKey] : undefined
     if (currentImage) {
       Sharing.shareAsync(currentImage, { mimeType: 'image/png', UTI: 'public.png' })
     }
-  }, [images, currentIndex])
+  }, [availableShareRenderers, currentIndex, images])
 
   const handleScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -98,11 +106,11 @@ const Share: ScreenType<'share'> = () => {
           style={styles.list}
           contentContainerStyle={styles.listContent}
           decelerationRate={'fast'}
-          data={shareRenderers}
+          data={availableShareRenderers}
           keyExtractor={(item) => item.key}
           ListHeaderComponent={
             <>
-              {shareRenderers.map(({ key, Component }) => (
+              {availableShareRenderers.map(({ key, Component }) => (
                 <Component
                   key={`renderer-${key}`}
                   setImage={(image) => handleCaptureImage(key, image)}

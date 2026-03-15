@@ -164,7 +164,7 @@ const Categories: TabType<'categories'> = ({ navigation }) => {
         leadingButton={
           isAuthenticated && !isLoading
             ? {
-                icon: <IconTrophy color={semantics.accent.base.default} />,
+                icon: <IconTrophy color={edition?.finished ? semantics.accent.base.default : semantics.container.foreground.light} />,
                 onPress: () => navigation.navigate('awards'),
               }
             : undefined
