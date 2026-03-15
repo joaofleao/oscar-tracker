@@ -9,7 +9,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: IS_DEV ? 'Academy Dev' : process.env.APP_NAME || 'Academy Tracker',
     slug: process.env.APP_SLUG || 'oscar-tracker',
     scheme: process.env.APP_SLUG || 'oscar-tracker',
-    version: '5.1',
+    version: '5.2',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
