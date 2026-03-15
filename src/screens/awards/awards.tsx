@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Dimensions, ScrollView, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { FadeIn, FadeInDown, FadeOut, FadeOutDown, FadeOutUp, LinearTransition } from 'react-native-reanimated'
-import { useQuery } from 'convex/react'
+import { useAction, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
@@ -37,6 +37,8 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
   const votedCategories = useQuery(api.ballots.getVotedCategories, {
     editionId: edition?._id,
   })
+
+  const finishEdition = useAction(api.ballots.generateResults)
 
   const [focusedIndex, setFocusedIndex] = React.useState(0)
   const listRef = React.useRef<FlatList>(null)
@@ -166,6 +168,15 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
           >
             {!edition?.finished && <Typography description>{t('awards:submit')}</Typography>}
 
+            {user?.username === 'joaofleao' && (
+              <Button
+                variant="brand"
+                title={t('awards:finish_edition')}
+                onPress={() => {
+                  finishEdition({ editionId: edition?._id! })
+                }}
+              />
+            )}
             <Button
               disabled={!awards?.personal.participated}
               entering={FadeInDown}

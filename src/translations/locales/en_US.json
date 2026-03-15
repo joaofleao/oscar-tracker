@@ -191,6 +191,7 @@
     "report": "Report"
   },
   "awards": {
+    "finish_edition": "Finish Edition",
     "did_not_participate": "You did not participate",
     "unvoted": "Unvoted categories",
     "done": "Finish",

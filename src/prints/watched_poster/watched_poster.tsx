@@ -20,7 +20,7 @@ const WatchedPosters = ({ setImage }: WatchedPosterProps): React.ReactElement =>
   const [loadedImages, setLoadedImages] = useState<number>(0)
   const styles = useStyles()
 
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
   const { semantics } = useTheme()
 
   const { user } = useUser()
@@ -83,7 +83,7 @@ const WatchedPosters = ({ setImage }: WatchedPosterProps): React.ReactElement =>
           >
             <Row middle>
               <Typography branded>OSCARS</Typography>
-              <Typography legend>{ordinal(edition?.number ?? 0, i18n.language, false)}</Typography>
+              <Typography legend>{`${ordinal(edition?.number ?? 0, i18n.language, true)} edition`}</Typography>
             </Row>
             <Typography title>{edition?.year}</Typography>
           </Row>

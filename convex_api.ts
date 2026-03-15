@@ -238,6 +238,7 @@ export type PublicApiType = {
         year: number
       }
     >
+    markAsWinner: FunctionReference<'mutation', 'public', { nominationId: Id<'oscarNomination'> }, boolean>
   }
   oscar_movies: {
     getEditionMovies: FunctionReference<

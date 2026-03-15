@@ -10,11 +10,12 @@ import useStyles from './styles'
 import Button from '@components/button'
 import Column from '@components/column'
 import DraggableListItem from '@components/dragable_list_item'
-import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
+import { IconDiscard, IconFingersCrossed, IconStar, IconVote } from '@components/icon'
 import Row from '@components/row'
 import Sheet from '@components/sheet'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
+import { useUser } from '@providers/user'
 import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
@@ -23,10 +24,12 @@ type Nomination = (typeof api.oscars.getNominationsByCategory._returnType.nomina
 const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
+  const { user } = useUser()
   const { edition } = useEdition()
 
   const rankNominations = useMutation(api.ballots.rankNomination)
   const toggleWish = useMutation(api.ballots.toggleWishNomination)
+  const markAsWinner = useMutation(api.oscar.markAsWinner)
 
   const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
@@ -167,6 +170,22 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
                     },
                     disabled: wishLoading === item.nominationId,
                   },
+                  ...(user?.username === 'joaofleao'
+                    ? [
+                        {
+                          icon: <IconStar size={16} />,
+                          selectedIcon: <IconStar filled />,
+                          selected: item.winner,
+                          onPress: async (): Promise<void> => {
+                            try {
+                              await markAsWinner({ nominationId: item.nominationId })
+                            } catch {
+                              Alert.alert('erro ao marcar vencedor')
+                            }
+                          },
+                        },
+                      ]
+                    : []),
                 ]}
               />
             )

@@ -193,6 +193,7 @@
     "report": "Reportar"
   },
   "awards": {
+    "finish_edition": "Finalizar Edição",
     "did_not_participate": "Você não participou",
     "done": "Finalizar",
     "unvoted": "Categorias sem votos",
