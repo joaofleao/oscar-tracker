@@ -117,7 +117,7 @@ const WatchedPosters = ({ setImage }: WatchedPosterProps): React.ReactElement =>
               <View>
                 <Row middle>
                   <Typography>
-                    <Typography style={styles.highlight}>Oscar </Typography>TRACKER
+                    <Typography style={styles.highlight}>Academy </Typography>TRACKER
                   </Typography>
                 </Row>
               </View>

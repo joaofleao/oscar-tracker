@@ -22,6 +22,7 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
   return StyleSheet.create({
     title: {
       textShadowOffset: { width: 2, height: 2 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.stroke.default,
       textTransform: 'uppercase',
       fontSize: 50,
@@ -30,17 +31,19 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
     },
     subtitle: {
       textShadowOffset: { width: 1.5, height: 1.5 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.stroke.default,
 
       fontSize: 20,
       lineHeight: 32,
       textTransform: 'uppercase',
-      color: color ?? semantics.background.foreground.default,
+      color: color ?? semantics.container.foreground.default,
       fontFamily: fonts.tertiary.bold,
     },
 
     description: {
       textShadowOffset: { width: 0, height: 0 },
+      textShadowRadius: 1,
       color: color ?? semantics.background.foreground.light,
       fontFamily: fonts.tertiary.bold,
       fontSize: 14,
@@ -51,6 +54,7 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
 
     big: {
       textShadowOffset: { width: 8, height: 8 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.stroke.default,
 
       fontSize: 200,
@@ -59,6 +63,7 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
     },
     medium: {
       textShadowOffset: { width: 6, height: 6 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.base.default,
 
       height: 180,
@@ -68,6 +73,7 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
     },
     small: {
       textShadowOffset: { width: 4, height: 4 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.base.default,
 
       height: 100,
@@ -77,6 +83,7 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
     },
     extrasmall: {
       textShadowOffset: { width: 3, height: 3 },
+      textShadowRadius: 1,
       textShadowColor: semantics.container.base.default,
       height: 52,
       fontSize: 40,

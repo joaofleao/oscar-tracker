@@ -39,13 +39,13 @@ const Share: ScreenType<'share'> = () => {
     rank: false,
   })
   const { t } = useTranslation()
-  const { edition } = useEdition()
+  const { awards } = useEdition()
   const { semantics } = useTheme()
 
   const { width } = Dimensions.get('window')
 
   const [currentIndex, setCurrentIndex] = useState(0)
-  const availableShareRenderers = edition?.finished ? shareRenderers : shareRenderers.slice(0, 1)
+  const availableShareRenderers = awards?.personal.participated ? shareRenderers : shareRenderers.slice(0, 1)
 
   useEffect(() => {
     if (currentIndex < availableShareRenderers.length) return

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, ScrollView, View } from 'react-native'
+import { Dimensions, Platform, ScrollView, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { FadeIn, FadeInDown, FadeOut, FadeOutDown, FadeOutUp, LinearTransition } from 'react-native-reanimated'
 import { useAction, useQuery } from 'convex/react'
@@ -103,7 +103,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
     return t('awards:has').replace('{date}', new Date(edition?.date ?? 0).toLocaleDateString())
   }
 
-  const { height } = Dimensions.get('window')
+  const { height } = Dimensions.get('screen')
 
   const handleUserScrollStart = React.useCallback((): void => {
     scrollStartIndexRef.current = focusedIndex
@@ -133,7 +133,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
               <MegaTypography title>{t('awards:name')}</MegaTypography>
             </Column>
             <MegaTypography description>{getCountdown()}</MegaTypography>
-            {!edition?.finished && (
+            {!edition?.finished && unvotedCategories.length > 0 && (
               <Column middle>
                 <Typography
                   legend
@@ -168,17 +168,16 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
           >
             {!edition?.finished && <Typography description>{t('awards:submit')}</Typography>}
 
-            {user?.username === 'joaofleao' && (
+            {user?.admin && (
               <Button
-                variant="brand"
+                tooltip={t('awards:finish_in')}
+                onLongPress={() => finishEdition({ editionId: edition?._id! })}
+                variant="container"
                 title={t('awards:finish_edition')}
-                onPress={() => {
-                  finishEdition({ editionId: edition?._id! })
-                }}
               />
             )}
             <Button
-              disabled={!awards?.personal.participated}
+              disabled={!awards?.personal.participated || !edition?.finished}
               entering={FadeInDown}
               exiting={FadeOutUp}
               layout={LinearTransition}
@@ -237,13 +236,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
                   exiting={FadeOutDown.delay(400).duration(600)}
                 >
                   {awards?.personal?.satisfaction}
-                  <MegaTypography
-                    entering={FadeInDown.delay(900).duration(600)}
-                    exiting={FadeOutDown.delay(400).duration(600)}
-                    small
-                  >
-                    %
-                  </MegaTypography>
+                  <MegaTypography small>%</MegaTypography>
                 </MegaTypography>
               )}
               {focusedIndex >= 2 && (
@@ -265,13 +258,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
                   small
                 >
                   {awards?.personal?.categories}
-                  <MegaTypography
-                    entering={FadeInDown.delay(900).duration(600)}
-                    exiting={FadeOutDown.delay(400).duration(600)}
-                    extrasmall
-                  >
-                    /{nominations.length}
-                  </MegaTypography>
+                  <MegaTypography extrasmall>/{nominations.length}</MegaTypography>
                 </MegaTypography>
               )}
 
@@ -292,7 +279,7 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
                   exiting={FadeOutDown.delay(400).duration(600)}
                   small
                 >
-                  {awards?.personal?.hours && ((awards.personal.hours / 60) % 1 === 0 ? (awards.personal.hours / 60).toFixed(0) : ((awards.personal.hours - 4) / 60).toFixed(1))}
+                  {awards?.personal?.hours.toFixed(1)}
                 </MegaTypography>
               )}
 
@@ -357,6 +344,8 @@ const Awards: ScreenType<'awards'> = ({ navigation, route }) => {
           </Blur>
 
           <FlatList
+            overScrollMode={Platform.OS !== 'ios' ? 'never' : undefined}
+            removeClippedSubviews={false}
             alwaysBounceVertical={false}
             style={styles.leaderboard}
             contentContainerStyle={styles.leaderboardContent}

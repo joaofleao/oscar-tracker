@@ -37,7 +37,7 @@ const useStyles = ({ variant }: StyleProps): StylesReturn => {
       alignItems: 'flex-end',
     },
     place: {
-      fontSize: 24,
+      fontSize: 16,
       fontFamily: fonts.quaternary.regular,
       color: semantics[variant].foreground.default,
     },

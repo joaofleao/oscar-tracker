@@ -24,7 +24,7 @@ type StylesReturn = {
 const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
   const { bottom, top } = useSafeAreaInsets()
-  const { height } = Dimensions.get('window')
+  const { height } = Dimensions.get('screen')
 
   return StyleSheet.create({
     list: {
@@ -35,7 +35,9 @@ const useStyles = (): StylesReturn => {
       marginHorizontal: -20,
       paddingHorizontal: 20,
     },
-    content: {},
+    content: {
+      backgroundColor: 'red',
+    },
     accent: {
       backgroundColor: semantics.accent.base.default,
     },
@@ -46,17 +48,14 @@ const useStyles = (): StylesReturn => {
     },
 
     page: {
+      overflow: 'hidden',
       backgroundColor: semantics.container.base.default,
       height: height,
-      // gap: 30,
     },
     container: {
       marginHorizontal: 20,
       marginTop: top + 20,
       marginBottom: bottom + 120,
-      // paddingBottom: 120,
-      // paddingTop: 20,34
-
       gap: 40,
       justifyContent: 'center',
       flex: 1,
@@ -70,6 +69,7 @@ const useStyles = (): StylesReturn => {
       zIndex: 2,
     },
     headerContent: {
+      zIndex: 2,
       paddingHorizontal: 20,
       paddingTop: top + 20,
       paddingBottom: 20,
@@ -80,7 +80,6 @@ const useStyles = (): StylesReturn => {
     },
     leaderboard: {
       overflow: 'visible',
-      // flex: 1,
     },
     leaderboardContent: {
       paddingHorizontal: 20,

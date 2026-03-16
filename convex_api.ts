@@ -689,6 +689,7 @@ export type PublicApiType = {
       {
         _creationTime: number
         _id: Id<'users'>
+        admin?: boolean
         email?: string
         emailVerificationTime?: number
         hideCast?: boolean
@@ -770,6 +771,8 @@ export type PublicApiType = {
       null
     >
     generateResults: FunctionReference<'action', 'public', { editionId: Id<'oscarEditions'> }, { results: number; users: number }>
+    convertRankAndWishToBallot: FunctionReference<'action', 'public', Record<string, never>, { ballotsCreated: number; users: number }>
+    convertResultMinutesToHours: FunctionReference<'action', 'public', Record<string, never>, { resultsUpdated: number }>
     getCategoriesWithBallots: FunctionReference<
       'query',
       'public',

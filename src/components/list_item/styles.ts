@@ -32,7 +32,6 @@ const useStyles = (): StylesReturn => {
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
-      // flex: 1,
       borderWidth: 1,
       borderColor: semantics.container.stroke.default,
       backgroundColor: semantics.container.base.tint,
@@ -40,7 +39,7 @@ const useStyles = (): StylesReturn => {
     winner: {
       position: 'absolute',
       top: -8,
-      right: -12,
+      left: -12,
     },
     texts: {
       flex: 1,

@@ -8,9 +8,11 @@ import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const SmallLeaderboardCard = ({ image, label, sublabel, description, badge, points, pointsLabel, variant = 'container', ...props }: SmallLeaderboardCardProps): React.ReactElement => {
+const SmallLeaderboardCard = ({ image, label: labelProp = '', sublabel, description, badge, points, pointsLabel, variant = 'container', ...props }: SmallLeaderboardCardProps): React.ReactElement => {
   const styles = useStyles({ variant })
   const { semantics } = useTheme()
+
+  const label = labelProp.split(' ').slice(0, 2).join(' ')
 
   const hasImage = image !== undefined
 
@@ -31,7 +33,7 @@ const SmallLeaderboardCard = ({ image, label, sublabel, description, badge, poin
         )}
 
         <View style={styles.content}>
-          <Typography>
+          <Typography numberOfLines={1}>
             {label} {sublabel && <Typography legend>{sublabel}</Typography>}
           </Typography>
 
