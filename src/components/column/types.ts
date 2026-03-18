@@ -16,4 +16,5 @@ export interface ColumnProps extends ViewProps {
   baseline?: boolean
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
+  layout?: AnimatedProps<View>['layout']
 }

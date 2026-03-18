@@ -2,8 +2,15 @@ import { IconProps } from '@components/icon'
 
 export interface HeaderProps {
   animation: object
-  button: {
-    icon: React.ReactElement<IconProps>
+
+  trailingButton?: {
+    title?: string
+    icon?: React.ReactElement<IconProps>
+    onPress: () => void
+  }
+  leadingButton?: {
+    title?: string
+    icon?: React.ReactElement<IconProps>
     onPress: () => void
   }
 }

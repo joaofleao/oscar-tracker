@@ -4,9 +4,10 @@ type StylesReturn = {
   row: ViewStyle
   wrap: ViewStyle
 }
+
 type StyleProps = {
   justify?: 'center' | 'flex-start' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly'
-  align?: 'middle'
+  align?: 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline'
 }
 
 const useStyles = (props: StyleProps): StylesReturn => {
@@ -16,12 +17,10 @@ const useStyles = (props: StyleProps): StylesReturn => {
       gap: 8,
       maxWidth: '100%',
       justifyContent: props.justify,
-      alignItems: props.align === 'middle' ? 'center' : 'flex-start',
+      alignItems: props.align,
     },
     wrap: {
       flexWrap: 'wrap',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
   })
 }

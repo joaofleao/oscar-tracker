@@ -4,12 +4,12 @@ import Animated from 'react-native-reanimated'
 
 import useStyle from './styles'
 import { SmallListItemProps, SmallListItemSecondaryActionProps } from './types'
-import Chip from '@components/chip'
+import Badge from '@components/badge'
 import { IconProps } from '@components/icon'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 
-const SmallListItem = ({ ghost, id, title, description, chip, secondaryActions, bottomArea, mainAction, layout }: SmallListItemProps): React.ReactElement => {
+const SmallListItem = ({ ghost, id, title, description, badge, secondaryActions, bottomArea, mainAction, layout }: SmallListItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
   const hasSecondaryActions = secondaryActions !== undefined && secondaryActions.length > 0
@@ -84,10 +84,10 @@ const SmallListItem = ({ ghost, id, title, description, chip, secondaryActions, 
               </Typography>
             </ScrollView>
           )}
-          {chip && (
-            <Chip
-              title={chip}
-              variant={chip.split('/')[0] === chip.split('/')[1] ? 'brand' : 'container'}
+          {badge && (
+            <Badge
+              title={badge}
+              variant={badge.split('/')[0] === badge.split('/')[1] ? 'brand' : 'container'}
             />
           )}
         </View>

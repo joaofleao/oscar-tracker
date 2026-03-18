@@ -3,6 +3,12 @@ import { PublicApiType } from 'convex_api'
 type Movies = PublicApiType['oscar']['getMovies']['_returnType'][0] & {
   watched: boolean
   friends_who_watched: any[]
+  providers: {
+    logo_path: string
+    provider_id: number
+    provider_name: string
+    type: 'buy' | 'flatrate' | 'rent'
+  }[]
 }
 
 type Nomination = PublicApiType['oscar']['getNominations']['_returnType'][0]['nominations'][0] & {
@@ -18,8 +24,10 @@ type Nominations = Omit<PublicApiType['oscar']['getNominations']['_returnType'][
 }
 
 export interface EditionContextType {
+  awards: PublicApiType['ballots']['getResult']['_returnType'] | undefined
   nominations: Nominations[]
   movies: Movies[]
+
   editions: PublicApiType['oscar']['getAllEditions']['_returnType']
   edition?: PublicApiType['oscar']['getEdition']['_returnType']
   userWatches: PublicApiType['oscar']['getUserWatches']['_returnType']
@@ -29,11 +37,25 @@ export interface EditionContextType {
   orderedCategories: string[]
 
   refreshEditionData: () => Promise<void>
+  refreshMoviesProviders: () => Promise<void>
   refreshFriendsWatches: () => Promise<void>
-  selectEdition: (editionId?: PublicApiType['oscar']['getEdition']['_returnType']['_id']) => Promise<void>
+  selectEdition: (editionId?: string) => Promise<void>
 
   setOrderedCategories: (categoryIds: string[]) => void
   setHiddenCategories: (categoryIds: string[]) => void
 
-  clearCategoriesSettings: () => void
+  providersFilter: number[]
+  setProvidersFilter: (providers: number[]) => void
+
+  categoriesFilter: string[]
+  setCategoriesFilter: (categories: string[]) => void
+
+  friendFilter: string[]
+  setFriendFilter: (friends: string[]) => void
+
+  statusFilter: 'all' | 'watched' | 'unwatched'
+  setStatusFilter: (status: 'all' | 'watched' | 'unwatched') => void
+
+  country: string
+  setCountry: (country: string) => void
 }

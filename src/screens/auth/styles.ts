@@ -1,19 +1,15 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-import useTheme from '@providers/theme/useTheme'
 
 type StylesReturn = {
   scroll: ViewStyle
   scrollContent: ViewStyle
   content: ViewStyle
   logo: ViewStyle
-  logoText: TextStyle
 }
 
 const useStyles = (): StylesReturn => {
-  const { right, left, bottom } = useSafeAreaInsets()
-  const { fonts } = useTheme()
+  const { right, left } = useSafeAreaInsets()
 
   return StyleSheet.create({
     scroll: {
@@ -24,7 +20,6 @@ const useStyles = (): StylesReturn => {
     scrollContent: {
       gap: 20,
       alignItems: 'center',
-      paddingBottom: bottom,
     },
     content: {
       gap: 20,
@@ -34,9 +29,6 @@ const useStyles = (): StylesReturn => {
       alignItems: 'center',
       paddingVertical: 20,
       gap: 8,
-    },
-    logoText: {
-      fontFamily: fonts.quaternary.light,
     },
   })
 }

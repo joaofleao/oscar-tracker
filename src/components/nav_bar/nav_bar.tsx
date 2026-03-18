@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Alert, Linking, View } from 'react-native'
+import { Alert, Linking, Platform, View } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -38,21 +38,21 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     }
 
     if (ver !== latest.version)
-      Alert.alert(
-        t('home:new_version'),
-        latest.changelog.length > 0 ? latest.changelog : t('home:update'),
-        [
-          {
-            text: t('home:update_now'),
-            isPreferred: true,
-            onPress: (): void => {
-              storage.remove('version')
-              Linking.openURL(latest.url)
-            },
+      Alert.alert(t('home:new_version'), latest.changelog.length > 0 ? latest.changelog : t('home:update'), [
+        {
+          text: t('home:update_later'),
+          isPreferred: false,
+        },
+        {
+          text: t('home:update_now'),
+          isPreferred: true,
+          onPress: (): void => {
+            storage.remove('version')
+            if (Platform.OS === 'ios') Linking.openURL(latest.url.ios)
+            else if (Platform.OS === 'android') Linking.openURL(latest.url.android)
           },
-        ],
-        { cancelable: false },
-      )
+        },
+      ])
   }, [latest, t])
 
   setTimeout(() => {

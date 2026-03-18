@@ -2,18 +2,16 @@ import { useEffect, useMemo, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
-import useStyles from './styles'
-import Blur from '@components/blur'
 import Button from '@components/button'
+import Sheet from '@components/sheet'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
 import { ScreenType } from '@router/types'
 import { ordinal } from '@utils/ordinals'
 
-const ITEM_HEIGHT = 42 // Adjust based on your Button height
+const ITEM_HEIGHT = 42
 
 const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
-  const styles = useStyles()
   const { t, i18n } = useTranslation()
 
   const { editions, edition, selectEdition } = useEdition()
@@ -40,16 +38,11 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
   }, [options, edition])
 
   return (
-    <>
-      <Blur style={styles.header}>
-        <Typography center>{t('select_edition:select_edition')}</Typography>
-      </Blur>
-
+    <Sheet header={<Typography center>{t('select_edition:select_edition')}</Typography>}>
       <FlatList
         nestedScrollEnabled
         ref={flatlistRef}
-        style={styles.scroll}
-        contentContainerStyle={styles.content}
+        data={options}
         renderItem={({ item }) => (
           <Button
             title={item.name}
@@ -60,14 +53,13 @@ const SelectEdition: ScreenType<'select_edition'> = ({ navigation }) => {
             }}
           />
         )}
-        data={options}
-        getItemLayout={(data, index) => ({
+        getItemLayout={(_, index) => ({
           length: ITEM_HEIGHT,
           offset: ITEM_HEIGHT * index,
           index,
         })}
       />
-    </>
+    </Sheet>
   )
 }
 

@@ -8,6 +8,7 @@ import { IconLocket } from '@components/icon'
 import OverflownTypography from '@components/overflown_typography'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity)
 
 const MovieSliderItem = ({ height, title, description, image, spoiler, watched, bottomArea, isActive, ...props }: MovieSliderItemProps): React.ReactElement => {
   const styles = useStyles({ height })
@@ -20,7 +21,7 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
   }, [animationProgress, isActive])
 
   return (
-    <TouchableOpacity
+    <AnimatedTouchableOpacity
       style={styles.root}
       {...props}
     >
@@ -42,15 +43,15 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
         </View>
       )}
       <View style={[styles.content]}>
-        {Platform.OS === 'ios' ? (
+        {Platform.OS === 'android' ? (
+          <Typography>{title}</Typography>
+        ) : (
           <OverflownTypography
             animate={isActive}
             color={isActive ? semantics.container.foreground.default : semantics.container.foreground.light}
           >
             {title}
           </OverflownTypography>
-        ) : (
-          <Typography>{title}</Typography>
         )}
 
         {(bottomArea || description) && (
@@ -67,7 +68,7 @@ const MovieSliderItem = ({ height, title, description, image, spoiler, watched, 
           </Animated.View>
         )}
       </View>
-    </TouchableOpacity>
+    </AnimatedTouchableOpacity>
   )
 }
 

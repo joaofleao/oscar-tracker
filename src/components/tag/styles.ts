@@ -4,7 +4,7 @@ import { SemanticsType, useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
-  hasTitle: ViewStyle
+  title: ViewStyle
 }
 
 type StylesProps = {
@@ -27,8 +27,8 @@ const useStyles = ({ variant }: StylesProps): StylesReturn => {
       flexDirection: 'row',
       gap: 8,
     },
-    hasTitle: {
-      paddingHorizontal: 8,
+    title: {
+      paddingHorizontal: 4,
     },
   })
 }

@@ -12,6 +12,7 @@
       "@translations/*": ["./src/translations/*"],
       "@providers/*": ["./src/providers/*"],
       "@components/*": ["./src/components/*"],
+      "@prints/*": ["./src/prints/*"],
       "@router/*": ["./src/router/*"],
       "@assets/*": ["./src/assets/*"],
       "@router": ["./src/router"],

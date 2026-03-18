@@ -8,7 +8,7 @@ export interface SectionProps {
   entering?: AnimatedProps<View>['entering']
   layout?: AnimatedProps<View>['layout']
   exiting?: AnimatedProps<View>['exiting']
-  chip?: {
+  badge?: {
     title: string
     variant?: 'brand' | 'container'
   }
