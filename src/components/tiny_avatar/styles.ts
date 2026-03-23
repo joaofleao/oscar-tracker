@@ -19,7 +19,6 @@ const useStyles = (): StylesReturn => {
       backgroundColor: semantics.container.base.tint,
       flexDirection: 'row',
       overflow: 'hidden',
-
       justifyContent: 'center',
       alignItems: 'center',
     },

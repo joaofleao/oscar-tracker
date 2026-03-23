@@ -1,53 +1,96 @@
-import { StyleSheet, ViewStyle } from 'react-native'
+import { Dimensions, StyleSheet, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
-  root: ViewStyle
-
+  list: ViewStyle
+  categories: ViewStyle
+  content: ViewStyle
+  page: ViewStyle
+  container: ViewStyle
+  listContainer: ViewStyle
+  accent: ViewStyle
   footer: ViewStyle
-  curtain: ViewStyle
-  triangle: ViewStyle
-  leftCurtain: ViewStyle
-  rightCurtain: ViewStyle
+  header: ViewStyle
+  headerContent: ViewStyle
+
+  leaderboard: ViewStyle
+  leaderboardContent: ViewStyle
+  expandLeaderboardButton: ViewStyle
+  expandLeaderboardButtonInline: ViewStyle
 }
 
 const useStyles = (): StylesReturn => {
   const { semantics } = useTheme()
-  const { bottom } = useSafeAreaInsets()
+  const { bottom, top } = useSafeAreaInsets()
+  const { height } = Dimensions.get('screen')
 
   return StyleSheet.create({
-    root: {
-      width: '100%',
-      gap: 60,
-      flex: 1,
-      alignItems: 'center',
+    list: {
+      height: '100%',
+      overflow: 'visible',
     },
-    triangle: {
-      marginTop: 120,
-    },
-
-    footer: {
-      flex: 1,
-      gap: 16,
-      alignItems: 'center',
+    categories: {
+      marginHorizontal: -20,
       paddingHorizontal: 20,
-      position: 'absolute',
+    },
+    content: {
+      backgroundColor: 'red',
+    },
+    accent: {
+      backgroundColor: semantics.accent.base.default,
+    },
+    footer: {
+      paddingHorizontal: 40,
+      paddingTop: 20,
       bottom: bottom + 20,
     },
-    curtain: {
+
+    page: {
+      overflow: 'hidden',
       backgroundColor: semantics.container.base.default,
-      width: '50%',
-      position: 'absolute',
-      bottom: 0,
-      top: 0,
+      height: height,
     },
-    leftCurtain: {
-      left: 0,
+    container: {
+      marginHorizontal: 20,
+      marginTop: top + 20,
+      marginBottom: bottom + 120,
+      gap: 40,
+      justifyContent: 'center',
+      flex: 1,
     },
-    rightCurtain: {
-      right: 0,
+    listContainer: {
+      gap: 8,
+      flex: 1,
+      marginBottom: bottom + 20,
+    },
+    header: {
+      zIndex: 2,
+    },
+    headerContent: {
+      zIndex: 2,
+      paddingHorizontal: 20,
+      paddingTop: top + 20,
+      paddingBottom: 20,
+      justifyContent: 'center',
+      alignContent: 'center',
+      flexDirection: 'row',
+      gap: 12,
+    },
+    leaderboard: {
+      overflow: 'visible',
+    },
+    leaderboardContent: {
+      paddingHorizontal: 20,
+      gap: 16,
+    },
+    expandLeaderboardButton: {
+      paddingHorizontal: 20,
+      paddingTop: 12,
+    },
+    expandLeaderboardButtonInline: {
+      marginTop: 16,
     },
   })
 }

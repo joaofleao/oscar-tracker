@@ -6,33 +6,47 @@
     "password_placeholder": "Senha",
     "password_confirmation_placeholder": "Confirmar senha",
     "password_requirements": "suas senhas precisam de: ",
-    "password_digit": "um digito e",
+    "password_digit": "um digito e ",
     "password_uppercase": "uma letra maiuscula.",
     "password_match": "precisam ser iguais ",
 
     "not_implemented": "Não implementado",
     "feature_not_implemented": "Este recurso não está implementado ainda.",
     "permission_required": "Permissão necessária",
-    "permission_media_library": "Permissão para acessar a biblioteca de mídia é necessária."
+    "permission_media_library": "Permissão para acessar a biblioteca de mídia é necessária.",
+
+    "buy": "Comprar",
+    "rent": "Alugar",
+    "flatrate": "Streaming"
   },
   "category": {
-    "cast_ballot": "Enviar Votos",
+    "cast_ballot": "Salvar Votos",
     "discard_title": "Descartar alterações?",
     "discard_message": "Você tem alterações de classificação não salvas. Tem certeza de que deseja sair?",
     "discard": "Descartar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "can_change": "Você pode alterar seu voto até o início da cerimônia."
   },
 
+  "select_country": {
+    "select_country": "Selecione o país"
+  },
   "select_edition": {
     "edition": "Edição",
     "select_edition": "Selecione a edição"
   },
   "home": {
     "edition": "Edição",
+    "edition_finished": "Edição finalizada",
     "select_edition": "Selecione a edição",
-    "nominations": "indicações",
+    "categories": "Indicações",
     "movies": "Filmes",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "days_until_edition": "dias para a edição",
+    "new_version": "Nova versão disponível",
+    "update_later": "Atualizar depois",
+    "update_now": "Atualizar agora",
+    "update": "Atualize para obter os recursos e melhorias mais recentes."
   },
   "profile": {
     "add_friends": "Adicionar amigos",
@@ -58,7 +72,7 @@
     "following": "Seguindo",
     "follows_you": "Segue você",
     "no_results": "Nenhum resultado",
-    "empty_state": "Procure amigos, filmes e categorias.",
+    "empty_state": "Procure filmes e categorias.",
     "categories": "Categorias",
     "users": "Usuários",
     "movies": "Filmes"
@@ -71,14 +85,7 @@
     "no_results": "Nenhum resultado",
     "empty_state": "Escreva o nome de usuário para adicionar amigos."
   },
-  "movies": {
-    "watch": "Assistir",
-    "no_movies_title": "Em breve",
-    "no_movies_description": "Nenhum filme por enquanto.",
-    "nomination": "indicação",
-    "nominations_plural": "indicações",
-    "watched_by": "Assistido por"
-  },
+
   "nominations": {
     "expand": "Expandir",
 
@@ -113,7 +120,13 @@
     "submit": "Enviar",
     "continue": "Continuar",
     "unwatch_description": "Tem certeza que deseja marcar %movie como não assistido?",
-    "hold_to_choose_date": "Continue segurando para escolher uma data"
+    "hold_to_choose_date": "Continue segurando para escolher uma data",
+
+    "providers": "Assistir",
+    "provider_empty": "Não disponível em sua região",
+    "provider_buy": "Comprar",
+    "provider_rent": "Alugar",
+    "provider_flatrate": "Streaming"
   },
 
   "auth": {
@@ -129,7 +142,7 @@
     "save": "Salvar",
     "verify": "Verifique seu email",
     "spam": "Um código de 4 digitos foi enviado. Lembre-se de verificar a caixa de spam também.",
-    "privacy_policy": "Ao se registrar, você concorda com a os ternos de uso e a política de privacidade.",
+    "privacy_policy": "Ao se registrar, você concorda com os termos de uso e a política de privacidade.",
 
     "invalid_email": "Email inválido",
     "invalid_password": "Senha inválida",
@@ -142,6 +155,7 @@
     "invalid_username_taken": "Usuário já está em uso"
   },
   "settings": {
+    "country": "País",
     "edit": "editar",
     "remove": "remover",
     "general": "geral",
@@ -179,11 +193,16 @@
     "report": "Reportar"
   },
   "awards": {
-    "call": "A {count} cerimônia de",
+    "finish_in": "Finalizando em:",
+    "finish_edition": "Finalizar Edição",
+    "did_not_participate": "Você não participou",
+    "done": "Finalizar",
+    "unvoted": "Categorias sem votos",
+    "submit": "Envie seu votos antes da cerimônia começar",
     "name": "Prêmios da Academia",
+    "call": "A {count} cerimônia de",
     "will": "vai acontecer em {countdown} {time_unit}.",
     "has": "ocorreu dia {date}.",
-
     "days": "dias",
     "day": "dia",
     "hours": "horas",
@@ -192,16 +211,56 @@
     "minute": "minuto",
     "seconds": "segundos",
     "second": "segundo",
+    "show_me_winners": "ver vencedores",
+    "share": "compartilhar",
+    "voltar": "Voltar",
+    "watched_movies": "filmes assistidos",
+    "finished_categories": "categorias finalizadas",
+    "watched_hours": "horas assistidas",
+    "satisfaction": "índice de satisfação",
+    "leaderboard": "Classificação",
+    "points": "pontos",
+    "place": "lugar",
 
-    "show_me_winners": "mostrar vencedores",
     "coming_soon": "em breve",
     "your_rank": "sua classificação",
-    "not_ranked": "não classificado"
+    "not_ranked": "não participou",
+    "show_all_leaders": "ver mais",
+    "show_top_leaders": "ver menos"
   },
-  "filter": {
+
+  "movies": {
+    "nomination": "indicação",
+    "nominations_plural": "indicações",
+    "watched_by": "Assistido por"
+  },
+  "filter_categories": {
     "save": "Salvar",
-    "filter": "Filtrar",
+    "filter": "Filtrar Categorias",
     "categories": "Categorias",
     "restore_defaults": "Restaurar Padrões"
+  },
+  "filter_movies": {
+    "filter": "Filtrar Filmes",
+    "with_status": "Com status",
+    "all": "Todos",
+    "watched": "Assistidos",
+    "unwatched": "Não assistidos",
+    "by_friends": "Por amigos",
+    "by_provider": "Por provedor",
+    "by_category": "Por categoria",
+    "save": "Salvar",
+    "restore_defaults": "Restaurar Padrões",
+    "show_more": "Ver Mais",
+    "show_less": "Ver Menos"
+  },
+  "share": {
+    "movies": "Filmes",
+    "categories": "Categorias",
+    "hours": "horas",
+    "watched": "assistidas",
+    "satisfaction": "Satisfação",
+
+    "share": "Compartilhar"
   }
 }

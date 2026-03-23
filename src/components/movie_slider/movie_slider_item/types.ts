@@ -10,4 +10,7 @@ export interface MovieSliderItemProps extends TouchableOpacityProps {
   description?: string
   bottomArea?: React.ReactElement
   isActive?: boolean
+  entering?: any
+  exiting?: any
+  layout?: any
 }

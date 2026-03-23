@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Platform, Pressable, View } from 'react-native'
+import { Platform, Pressable, View } from 'react-native'
 import Animated, { Extrapolation, FadeIn, interpolate, useAnimatedStyle } from 'react-native-reanimated'
 
 import useStyles from './styles'

@@ -6,9 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import BigCard from './big_card'
 import useStyles from './styles'
 import { BigCarousselProps } from './types'
+import Badge from '@components/badge'
 import Button from '@components/button'
-import Chip from '@components/chip'
-import Column from '@components/column'
 import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
@@ -18,7 +17,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const CARD_WIDTH = 200
 const CARD_SPACING = 16
 
-const BigCaroussel = ({ nominations = [], button, extra, title, chip }: BigCarousselProps): React.ReactElement => {
+const BigCaroussel = ({ nominations = [], button, extra, title, badge }: BigCarousselProps): React.ReactElement => {
   const scrollX = useSharedValue(0)
   const flatListRef = React.useRef<FlatList>(null)
   const sidePadding = (SCREEN_WIDTH - CARD_WIDTH) / 2
@@ -156,10 +155,10 @@ const BigCaroussel = ({ nominations = [], button, extra, title, chip }: BigCarou
               </Typography>
 
               <Row middle>
-                {chip && (
-                  <Chip
-                    title={chip.title}
-                    variant={chip.variant}
+                {badge && (
+                  <Badge
+                    title={badge.title}
+                    variant={badge.variant}
                   />
                 )}
                 <Button

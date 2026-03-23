@@ -5,12 +5,11 @@ import { BlurView } from 'expo-blur'
 
 import useStyle from './styles'
 import { ListItemProps, ListItemSecondaryActionProps } from './types'
-import { IconLocket, IconOscar, IconProps } from '@components/icon'
-import Tag from '@components/tag'
+import { IconLocket, IconProps } from '@components/icon'
 import Typography from '@components/typography'
 import { semantics, useTheme } from '@providers/theme'
 
-const ListItem = ({ id, title, watched = false, spoiler = false, winner = false, description, extra, image, secondaryActions, bottomArea, mainAction }: ListItemProps): React.ReactElement => {
+const ListItem = ({ id, title, watched = false, spoiler = false, description, extra, image, secondaryActions, bottomArea, mainAction }: ListItemProps): React.ReactElement => {
   const styles = useStyle()
   const theme = useTheme()
   const hasSecondaryActions = secondaryActions !== undefined && secondaryActions.length > 0
@@ -32,15 +31,17 @@ const ListItem = ({ id, title, watched = false, spoiler = false, winner = false,
             {icon &&
               !selected &&
               React.cloneElement<IconProps>(icon, {
-                color: disabled || loading ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default,
+                color: disabled || loading ? theme.semantics.container.stroke.default : theme.semantics.container.foreground.default,
                 size: 20,
+                ...icon.props,
               })}
 
             {selectedIcon &&
               selected &&
               React.cloneElement<IconProps>(selectedIcon, {
-                color: disabled || loading ? theme.semantics.container.foreground.light : theme.semantics.container.foreground.default,
+                color: disabled || loading ? theme.semantics.container.stroke.default : theme.semantics.container.foreground.default,
                 size: 20,
+                ...selectedIcon.props,
               })}
           </View>
 
@@ -128,18 +129,6 @@ const ListItem = ({ id, title, watched = false, spoiler = false, winner = false,
           <View style={styles.verticalSeparator} />
           <View>{secondaryActions.map(renderSecondaryAction)}</View>
         </>
-      )}
-      {winner && (
-        <Tag
-          title="winner"
-          style={styles.winner}
-          icon={
-            <IconOscar
-              filled
-              color={semantics.brand.foreground.default}
-            />
-          }
-        />
       )}
     </Animated.View>
   )

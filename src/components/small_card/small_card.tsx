@@ -4,15 +4,15 @@ import Animated, { createAnimatedComponent, FadeIn } from 'react-native-reanimat
 
 import useStyles from './styles'
 import { SmallCardProps } from './types'
+import Badge from '@components/badge'
 import Button from '@components/button'
-import Chip from '@components/chip'
 import { IconLocket, IconOscar } from '@components/icon'
 import Row from '@components/row'
 import Typography from '@components/typography'
 import { useTheme } from '@providers/theme'
 const AnimatedTouchableOpacity = createAnimatedComponent(TouchableOpacity)
 
-const SmallCard = ({ _id, image, chip, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
+const SmallCard = ({ _id, image, badge, squared, winner, button, title, description, additional, spoiler, watched, disabled, style, ...props }: SmallCardProps): React.ReactElement => {
   const styles = useStyles()
   const { semantics } = useTheme()
 
@@ -107,11 +107,11 @@ const SmallCard = ({ _id, image, chip, squared, winner, button, title, descripti
         >
           {content}
         </Animated.View>
-        {chip && (
-          <View style={styles.floatingChip}>
-            <Chip
-              title={chip.title}
-              variant={chip.variant}
+        {badge && (
+          <View style={styles.floatingBadge}>
+            <Badge
+              title={badge.title}
+              variant={badge.variant}
             />
           </View>
         )}

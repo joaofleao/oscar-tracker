@@ -1,7 +1,8 @@
 import React from 'react'
-import { ActivityIndicator, ListRenderItem } from 'react-native'
+import { ActivityIndicator, ListRenderItem, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { LinearTransition } from 'react-native-reanimated'
+import { useConvexAuth } from 'convex/react'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
@@ -9,7 +10,7 @@ import BigCaroussel from '@components/big_caroussel'
 import Caroussel from '@components/caroussel'
 import EmptyState from '@components/empty_state'
 import Header from '@components/header'
-import { IconFilter } from '@components/icon'
+import { IconSort, IconTrophy } from '@components/icon'
 import MediumCard from '@components/medium_card'
 import Section from '@components/section'
 import SmallCard from '@components/small_card'
@@ -17,10 +18,28 @@ import useHeaderAnimation from '@hooks/useHeaderAnimation'
 import { useEdition } from '@providers/edition'
 import { useTheme } from '@providers/theme'
 import { useUser } from '@providers/user'
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 import { TabType } from '@router/types'
 
-const Nominations: TabType<'nominations'> = ({ navigation }) => {
-  const { edition, nominations } = useEdition()
+const Categories: TabType<'categories'> = ({ navigation }) => {
+  const { edition, nominations, orderedCategories } = useEdition()
+  const { isAuthenticated, isLoading } = useConvexAuth()
+
+  const enrichedCategories = nominations
+    .filter((nomination) => !nomination.category.hide)
+    .sort((a, b) => {
+      if (!orderedCategories || (orderedCategories ?? []).length === 0) return 0
+
+      const indexA = orderedCategories.indexOf(a.category._id)
+      const indexB = orderedCategories.indexOf(b.category._id)
+
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB
+      }
+      if (indexA !== -1) return -1
+      if (indexB !== -1) return 1
+      return 0
+    })
   const { spoilers } = useUser()
   const { onScroll, animation } = useHeaderAnimation()
   const { semantics } = useTheme()
@@ -28,7 +47,7 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
   const styles = useStyles()
   const { t } = useTranslation()
 
-  const renderCaroussel: ListRenderItem<(typeof nominations)[number]> = ({ item }) => {
+  const renderCaroussel: ListRenderItem<(typeof enrichedCategories)[number]> = ({ item }) => {
     const button = {
       action: (): void => navigation.navigate('category', { categoryId: item.category._id }),
       title: t('nominations:expand'),
@@ -55,8 +74,8 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
           extra={t('overall:winner')}
           nominations={enrichedNominations}
           title={item.category.name}
-          chip={{
-            title: ` ${progress}/${total} `,
+          badge={{
+            title: `${progress}/${total}`,
             variant: progress === total ? 'brand' : 'container',
           }}
           button={button}
@@ -68,15 +87,15 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
         <Section
           layout={LinearTransition}
           title={item.category.name}
-          chip={{
-            title: ` ${progress}/${total} `,
+          badge={{
+            title: `${progress}/${total}`,
             variant: progress === total ? 'brand' : 'container',
           }}
           button={button}
         >
           <Caroussel
             data={enrichedNominations}
-            item={SmallCard}
+            render={(nomination) => <SmallCard {...nomination} />}
           />
         </Section>
       )
@@ -85,15 +104,15 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
       <Section
         layout={LinearTransition}
         title={item.category.name}
-        chip={{
-          title: ` ${progress}/${total} `,
+        badge={{
+          title: `${progress}/${total}`,
           variant: progress === total ? 'brand' : 'container',
         }}
         button={button}
       >
         <Caroussel
           data={enrichedNominations}
-          item={MediumCard}
+          render={(nomination) => <MediumCard {...nomination} />}
         />
       </Section>
     )
@@ -136,26 +155,38 @@ const Nominations: TabType<'nominations'> = ({ navigation }) => {
     return <ActivityIndicator color={semantics.accent.foreground.default} />
   }
 
+  const tabBarHeight = useBottomTabBarHeight()
+
   return (
     <>
       <Header
         animation={animation}
-        button={{
-          icon: <IconFilter color={semantics.container.foreground.light} />,
-          onPress: () => navigation.navigate('filter'),
+        leadingButton={
+          isAuthenticated && !isLoading
+            ? {
+                icon: <IconTrophy color={edition?.finished ? semantics.accent.base.default : semantics.container.foreground.light} />,
+                onPress: () => navigation.navigate('awards'),
+              }
+            : undefined
+        }
+        trailingButton={{
+          icon: <IconSort color={semantics.container.foreground.light} />,
+          onPress: () => navigation.navigate('filter_categories'),
         }}
       />
-      {nominations.length === 0 && emptyState()}
+      {enrichedCategories.length === 0 && emptyState()}
       <FlatList
         overScrollMode="never"
         onScroll={onScroll}
         style={styles.root}
         contentContainerStyle={styles.content}
-        data={nominations.filter((nomination) => !nomination.category.hide)}
+        data={enrichedCategories}
         renderItem={renderCaroussel}
       />
+
+      <View style={{ height: tabBarHeight + 20 }} />
     </>
   )
 }
 
-export default Nominations
+export default Categories

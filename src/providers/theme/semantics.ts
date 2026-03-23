@@ -56,6 +56,7 @@ const semantics = {
     },
     stroke: {
       default: color(primitives.neutral[15], 1),
+      gradient: [hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.brand[20], 1)), hslaToRGBa(color(primitives.brand[20], 1))],
     },
   },
 

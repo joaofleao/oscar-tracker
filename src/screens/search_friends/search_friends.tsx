@@ -137,27 +137,29 @@ const SearchFriends: ScreenType<'search_friends'> = ({ navigation, route }) => {
           >
             {results.length > 0 ? (
               <Caroussel
-                item={SmallCard}
-                data={results.map((user, index) => ({
-                  ...user,
-                  entering: FadeInDown.delay(index * 100),
-                  exiting: FadeOutDown,
-                  layout: CurvedTransition,
-                  squared: true,
-                  image: user.imageURL,
-                  title: user.name,
-                  description: user.username,
-                  additional: user.follows ? t('search_friends:follows_you') : undefined,
-                  button: {
-                    icon: user.following ? undefined : <TinyPlus />,
-                    disabled: user.following,
-                    title: user.following ? t('search_friends:following') : t('search_friends:follow'),
-                    onPress: (): void => {
-                      if (!isAuthenticated) return navigation.navigate('auth')
-                      startFollowing({ friendId: user._id })
-                    },
-                  },
-                }))}
+                data={results}
+                render={(item, index) => (
+                  <SmallCard
+                    _id={item._id}
+                    entering={FadeInDown.delay(index * 100)}
+                    exiting={FadeOutDown}
+                    layout={CurvedTransition}
+                    squared
+                    image={item.imageURL}
+                    title={item.name}
+                    description={item.username}
+                    additional={item.follows ? t('search_friends:follows_you') : undefined}
+                    button={{
+                      icon: item.following ? undefined : <TinyPlus />,
+                      disabled: item.following,
+                      title: item.following ? t('search_friends:following') : t('search_friends:follow'),
+                      onPress: (): void => {
+                        if (!isAuthenticated) return navigation.navigate('auth')
+                        startFollowing({ friendId: item._id })
+                      },
+                    }}
+                  />
+                )}
               />
             ) : (
               noResultsState

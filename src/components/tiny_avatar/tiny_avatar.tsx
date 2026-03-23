@@ -5,7 +5,7 @@ import useStyles from './styles'
 import { AvatarProps } from './types'
 import Typography from '@components/typography'
 
-const TinyAvatar = ({ image, label, ...props }: AvatarProps): React.ReactElement => {
+const TinyAvatar = ({ image, label, onLoadEnd, ...props }: AvatarProps): React.ReactElement => {
   const styles = useStyles()
 
   const hasLabel = label !== undefined
@@ -26,6 +26,7 @@ const TinyAvatar = ({ image, label, ...props }: AvatarProps): React.ReactElement
     >
       {hasImage && (
         <Image
+          onLoadEnd={onLoadEnd}
           style={styles.image}
           source={{ uri: image }}
         />

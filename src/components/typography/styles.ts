@@ -11,6 +11,7 @@ type StylesReturn = {
   body: TextStyle
   description: TextStyle
   legend: TextStyle
+  branded: TextStyle
   flex: TextStyle
 }
 
@@ -90,6 +91,14 @@ const useStyles = ({ color }: StylesProps): StylesReturn => {
     },
     flex: {
       flex: 1,
+    },
+    branded: {
+      color: color ?? semantics.background.foreground.default,
+      fontFamily: fonts.quaternary.regular,
+      fontSize: 24,
+      lineHeight: 28,
+      letterSpacing: 1,
+      textTransform: 'uppercase',
     },
   })
 }

@@ -4,7 +4,7 @@ import { useTheme } from '@providers/theme'
 
 type StylesReturn = {
   root: ViewStyle
-  floatingChip: ViewStyle
+  floatingBadge: ViewStyle
   squared: ImageStyle
   spoiler: ViewStyle
   imageContainer: ViewStyle
@@ -25,7 +25,7 @@ const useStyles = (): StylesReturn => {
       borderColor: semantics.container.stroke.default,
       alignItems: 'center',
     },
-    floatingChip: {
+    floatingBadge: {
       position: 'absolute',
       top: -10,
       right: -10,

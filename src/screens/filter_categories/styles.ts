@@ -22,9 +22,9 @@ const useStyles = (): StylesReturn => {
     },
     contentHeader: {
       gap: 16,
-      paddingBottom: 16,
     },
     root: {
+      overflow: 'visible',
       paddingTop: 8,
       paddingRight: right + 20,
       paddingLeft: left + 20,

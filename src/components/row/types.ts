@@ -10,6 +10,10 @@ export interface RowProps extends ViewProps {
   around?: boolean
   evenly?: boolean
   middle?: boolean
+  leading?: boolean
+  trailing?: boolean
+  stretch?: boolean
+  baseline?: boolean
   entering?: AnimatedProps<View>['entering']
   exiting?: AnimatedProps<View>['exiting']
   layout?: AnimatedProps<View>['layout']

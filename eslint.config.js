@@ -7,6 +7,9 @@ const react = require('eslint-plugin-react')
 const reactNative = require('eslint-plugin-react-native')
 
 module.exports = defineConfig([
+  {
+    ignores: ['convex_api.ts'],
+  },
   expoConfig,
   eslintPluginPrettierRecommended,
 

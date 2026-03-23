@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Alert, View } from 'react-native'
-import Animated, { FadeInDown, FadeOutUp } from 'react-native-reanimated'
+import { FadeInDown, FadeOutUp } from 'react-native-reanimated'
 import ReorderableList, { ReorderableListProps } from 'react-native-reorderable-list'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
-import Blur from '@components/blur'
 import Button from '@components/button'
+import Column from '@components/column'
 import DraggableListItem from '@components/dragable_list_item'
-import { IconDiscard, IconFingersCrossed, IconVote } from '@components/icon'
+import { IconDiscard, IconFingersCrossed, IconOscar, IconVote } from '@components/icon'
+import Row from '@components/row'
+import Sheet from '@components/sheet'
 import Typography from '@components/typography'
 import { useEdition } from '@providers/edition'
+import { useTheme } from '@providers/theme'
+import { useUser } from '@providers/user'
 import { usePreventRemove } from '@react-navigation/native'
 import { ScreenType } from '@router/types'
 
@@ -22,14 +26,17 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   const styles = useStyles()
   const { t, i18n } = useTranslation()
   const { edition } = useEdition()
-  const unwish = useMutation(api.oscars.unwishOscarNomination)
-  const wish = useMutation(api.oscars.wishOscarNomination)
-  const rankNominations = useMutation(api.oscars.rankNomination)
+  const { semantics } = useTheme()
+  const { user } = useUser()
+
+  const rankNominations = useMutation(api.ballots.rankNomination)
+  const toggleWish = useMutation(api.ballots.toggleWishNomination)
+  const markAsWinner = useMutation(api.oscar.markAsWinner)
 
   const { isAuthenticated } = useConvexAuth()
   const [wishLoading, setWishLoading] = React.useState<string | undefined>(undefined)
 
-  const data = useQuery(api.oscars.getNominationsByCategory, {
+  const data = useQuery(api.ballots.getCategoriesWithBallots, {
     editionId: edition?._id,
     categoryId: route.params.categoryId,
     language: i18n.language,
@@ -71,10 +78,9 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
   }
   const handleRankNominations = async (): Promise<void> => {
     rankNominations({
-      votes: localNominations.map((nomination) => ({
-        nominationId: nomination.nominationId,
-        rank: nomination.rank,
-      })),
+      categoryId: route.params.categoryId,
+      editionId: edition?._id!,
+      votes: localNominations.map((nomination) => nomination.nominationId),
     })
   }
 
@@ -92,73 +98,108 @@ const Category: ScreenType<'category'> = ({ navigation, route }) => {
 
   return (
     <>
-      <Blur style={[styles.header]}>
-        <Typography>{data.category.name}</Typography>
-      </Blur>
-      <ReorderableList
-        onReorder={handleReorder}
-        style={styles.root}
-        contentContainerStyle={hasChanges ? styles.contentCompensation : styles.content}
-        data={localNominations}
-        ItemSeparatorComponent={() => <View style={styles.gap} />}
-        renderItem={({ item }) => {
-          return (
-            <DraggableListItem
-              disabled={!edition?.complete || distanceFromNow < 0}
-              index={item.rank}
-              id={item.nominationId}
-              title={item.title}
-              watched={item.watched}
-              image={`https://image.tmdb.org/t/p/w200${item.image}`}
-              description={item.description}
-              extra={item.extra}
-              winner={item.winner}
-              mainAction={{
-                onPress: () => navigation.navigate('movie', { tmdbId: item.tmdbId }),
-              }}
-              secondaryActions={[
-                {
-                  icon: <IconFingersCrossed />,
-                  selectedIcon: <IconFingersCrossed filled />,
-                  selected: item.wish,
+      <Sheet
+        reordable
+        header={<Typography>{data.category.name}</Typography>}
+        footer={
+          <>
+            {hasChanges && (
+              <Column
+                middle
+                entering={FadeInDown.delay(300)}
+                exiting={FadeOutUp.delay(300)}
+              >
+                <Typography
+                  center
+                  description
+                >
+                  {t('category:can_change')}
+                </Typography>
 
-                  onPress: async (): Promise<void> => {
-                    if (!isAuthenticated) return navigation.navigate('auth')
-                    if (wishLoading) return
-                    setWishLoading(item.nominationId)
-                    try {
-                      if (item.wish) await unwish({ nominationId: item.nominationId })
-                      else await wish({ nominationId: item.nominationId })
-                    } finally {
-                      setWishLoading(undefined)
-                    }
+                <Row>
+                  <Button
+                    icon={<IconDiscard />}
+                    onPress={handleReset}
+                  />
+
+                  <Button
+                    onPress={handleRankNominations}
+                    icon={<IconVote />}
+                    variant="brand"
+                    title={t('category:cast_ballot')}
+                  />
+                </Row>
+              </Column>
+            )}
+          </>
+        }
+      >
+        <ReorderableList
+          onReorder={handleReorder}
+          data={localNominations}
+          ListHeaderComponent={() => <View style={styles.gap} />}
+          ItemSeparatorComponent={() => <View style={styles.gap} />}
+          renderItem={({ item }) => {
+            return (
+              <DraggableListItem
+                disabled={distanceFromNow < 0}
+                index={item.rank}
+                id={item.nominationId}
+                title={item.title}
+                watched={item.watched}
+                image={`https://image.tmdb.org/t/p/w200${item.image}`}
+                description={item.description}
+                extra={item.extra}
+                winner={item.winner}
+                mainAction={{
+                  onPress: () => navigation.navigate('movie', { tmdbId: item.tmdbId }),
+                }}
+                secondaryActions={[
+                  ...(distanceFromNow < 0
+                    ? [
+                        {
+                          icon: <IconOscar />,
+                          selectedIcon: (
+                            <IconOscar
+                              filled
+                              color={semantics.brand.foreground.default}
+                            />
+                          ),
+                          selected: item.winner,
+                          disabled: !user?.admin,
+                          onPress: async (): Promise<void> => {
+                            try {
+                              await markAsWinner({ nominationId: item.nominationId })
+                            } catch {
+                              Alert.alert('erro ao marcar vencedor')
+                            }
+                          },
+                        },
+                      ]
+                    : []),
+                  {
+                    icon: <IconFingersCrossed />,
+                    selectedIcon: <IconFingersCrossed filled />,
+                    selected: item.wish,
+                    disabled: wishLoading === item.nominationId || !edition?.complete || distanceFromNow < 0,
+
+                    onPress: async (): Promise<void> => {
+                      if (!isAuthenticated) return navigation.navigate('auth')
+                      if (wishLoading) return
+                      setWishLoading(item.nominationId)
+                      try {
+                        await toggleWish({ nominationId: item.nominationId, categoryId: route.params.categoryId, editionId: edition?._id! })
+                      } finally {
+                        setWishLoading(undefined)
+                      }
+                    },
                   },
-                  disabled: wishLoading === item.nominationId,
-                },
-              ]}
-            />
-          )
-        }}
-      />
-      {hasChanges && (
-        <Animated.View
-          style={styles.footer}
-          entering={FadeInDown.delay(300)}
-          exiting={FadeOutUp.delay(300)}
-        >
-          <Button
-            icon={<IconDiscard />}
-            onPress={handleReset}
-          />
-
-          <Button
-            onPress={handleRankNominations}
-            icon={<IconVote />}
-            variant="brand"
-            title={t('category:cast_ballot')}
-          />
-        </Animated.View>
-      )}
+                ]}
+              />
+            )
+          }}
+        />
+      </Sheet>
     </>
   )
 }

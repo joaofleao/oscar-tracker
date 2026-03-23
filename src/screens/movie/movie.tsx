@@ -3,13 +3,13 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import LottieView from 'lottie-react-native'
 import { Alert, Image, Linking, Platform, ScrollView, View } from 'react-native'
 import { LinearTransition } from 'react-native-reanimated'
-import { SvgUri } from 'react-native-svg'
 import { useConvexAuth, useMutation, useQuery } from 'convex/react'
 import { api } from 'convex_api'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useTranslation } from 'react-i18next'
 
 import useStyles from './styles'
+import Badge from '@components/badge'
 import Button from '@components/button'
 import Caroussel from '@components/caroussel'
 import Chip from '@components/chip'
@@ -20,7 +20,7 @@ import Paragraph from '@components/paragraph'
 import Poster from '@components/poster'
 import Row from '@components/row'
 import Section from '@components/section'
-import SmallCard, { SmallCardProps } from '@components/small_card'
+import Sheet from '@components/sheet'
 import Tag from '@components/tag'
 import { TinyPlus, TinyX } from '@components/tiny_icon'
 import Typography from '@components/typography'
@@ -40,7 +40,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   const [confetti, setConfetti] = useState(false)
 
-  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language })
+  const movie = useQuery(api.oscars.getMovieDetail, { tmdbId, language: i18n.language, country: 'BR' })
 
   const { semantics } = useTheme()
   const [hideInfo, setHideInfo] = useState(true)
@@ -52,7 +52,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
   const [calendarModal, setCalendarModal] = useState(false)
   const [unwatchModal, setUnwatchModal] = useState(false)
 
-  // Optimistic state
   const [optimisticWatched, setOptimisticWatched] = useState<number | null>(null)
 
   const [localSpoiler, setLocalSpoiler] = useState(spoilers)
@@ -78,8 +77,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
 
   const unwatchMovie = async (): Promise<void> => {
     if (!movie || !movie.latestWatch) return
-
-    // Optimistic update
     const previousWatchId = movie.latestWatch
     setOptimisticWatched(0)
     setUnwatchModal(false)
@@ -87,7 +84,6 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
     try {
       await markAsUnWatched({ watchId: previousWatchId })
     } catch (error) {
-      // Revert optimistic update
       setOptimisticWatched(null)
       catchConvexError(error)
       Alert.alert(t('movie:error_title') || 'Error', t('movie:unwatch_error') || 'Failed to unwatch movie. Please try again.', [{ text: t('movie:ok') || 'OK' }])
@@ -138,80 +134,11 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
         )}
       </View>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-      >
-        <View style={styles.main}>
-          <View style={styles.posterContainer}>
-            <Button placeholder />
-
-            <Poster
-              source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath}` }}
-              toggleSpoiler={spoilers.hidePoster ? toggleSpoiler : undefined}
-              spoiler={!watched && hideInfo && localSpoiler.hidePoster}
-            />
-
-            <Button
-              placeholder={!!watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
-              icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
-              onPress={() => setHideInfo((prev) => !prev)}
-            />
-          </View>
-
-          <View>
-            <Typography
-              center
-              display
-            >
-              {translatedTitle}
-            </Typography>
-            {(showAcademyTitle || showOriginalTitle) && (
-              <Typography
-                center
-                legend
-              >
-                {showAcademyTitle && academyTitle}
-                {showAllTitles && ' | '}
-                {showOriginalTitle && originalTitle}
-              </Typography>
-            )}
-          </View>
-
-          <View style={styles.chips}>
-            {movie.releaseDate && (
-              <Chip
-                icon={<IconCalendar />}
-                title={new Date(movie.releaseDate).toLocaleDateString()}
-              />
-            )}
-
-            {movie.voteAverage && (
-              <Chip
-                icon={<IconStar />}
-                title={movie.voteAverage.toFixed(2)}
-                toggleSpoiler={spoilers.hideRate ? toggleSpoiler : undefined}
-                spoiler={!watched && hideInfo && localSpoiler.hideRate}
-              />
-            )}
-
-            {movie.originalLanguage && (
-              <Chip
-                icon={<IconLanguages />}
-                title={movie.originalLanguage}
-              />
-            )}
-
-            {movie.runtime && (
-              <Chip
-                icon={<IconRuntime />}
-                title={runtime(movie.runtime)}
-              />
-            )}
-          </View>
-
+      <Sheet
+        fullscreen={Platform.OS === 'android'}
+        footer={
           <Button
-            variant={watched ? 'container' : 'accent'}
+            variant={watched ? 'container' : 'brand'}
             title={watched ? t('movie:unwatch') : t('movie:watch')}
             icon={watched ? <TinyX /> : <TinyPlus />}
             onPress={() => (!isAuthenticated ? navigation.navigate('auth') : watched ? setUnwatchModal(true) : watchMovie())}
@@ -220,75 +147,156 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
             }}
             tooltip={Platform.OS === 'ios' ? t('movie:hold_to_choose_date') : undefined}
           />
-        </View>
-
-        <View style={styles.content}>
-          <Section title={t('movie:nominations')}>
-            <Caroussel
-              data={movie.nominations.map((nomination) => ({
-                title: nomination.categoryName,
-                variant: nomination.winner ? ('brand' as const) : ('container' as const),
-                icon: nomination.winner ? <IconOscar filled /> : undefined,
-                onPress: () => navigation.navigate('category', { categoryId: nomination.categoryId }),
-              }))}
-              item={Tag}
-            />
-          </Section>
-
-          <Section title={t('movie:country')}>
-            <Caroussel
-              data={movie.originCountry?.map((country) => ({
-                title: country.name,
-                icon: (
-                  <SvgUri
-                    style={styles.flag}
-                    uri={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
-                    width={20}
-                    height={20}
-                  />
-                ),
-              }))}
-              item={Chip}
-            />
-          </Section>
-
-          <Section title={t('movie:friends')}>
-            <Caroussel<SmallCardProps>
-              empty={t('movie:friends_empty')}
-              item={SmallCard}
-              data={movie.friends.map((friend) => ({
-                _id: friend._id,
-                title: friend.name?.split(' ')[0],
-                description: friend.username,
-                image: friend.imageURL,
-                squared: true,
-              }))}
-            />
-          </Section>
-
-          {/* <Typography>{t('movie:streaming')}</Typography>
-          <Typography>{t('movie:cast')}</Typography> */}
-          {movie.plot && (
-            <>
-              <Typography>{t('movie:plot')}</Typography>
-              <Paragraph
-                text={movie.plot}
-                toggleSpoiler={spoilers.hidePlot ? toggleSpoiler : undefined}
-                spoiler={!watched && hideInfo && localSpoiler.hidePlot}
+        }
+      >
+        <ScrollView>
+          <View style={styles.main}>
+            <View style={styles.posterContainer}>
+              <Button placeholder />
+              <Poster
+                source={{ uri: `https://image.tmdb.org/t/p/w500${movie.posterPath}` }}
+                toggleSpoiler={spoilers.hidePoster ? toggleSpoiler : undefined}
+                spoiler={!watched && hideInfo && localSpoiler.hidePoster}
               />
-            </>
-          )}
-        </View>
 
-        <View style={styles.footer}>
-          <Button
-            layout={LinearTransition}
-            onPress={() => Linking.openURL(`https://www.imdb.com/title/${movie.imdbId}`)}
-            title={t('movie:imdb')}
-            icon={<IconIMDB />}
-          />
-        </View>
-      </ScrollView>
+              <Button
+                placeholder={!!watched || (!spoilers.hidePlot && !spoilers.hideRate && !spoilers.hidePoster && !spoilers.hideCast)}
+                icon={hideInfo ? <IconEyeOpen /> : <IconEyeClosed />}
+                onPress={() => setHideInfo((prev) => !prev)}
+              />
+            </View>
+
+            <View>
+              <Typography
+                center
+                display
+              >
+                {translatedTitle}
+              </Typography>
+              {(showAcademyTitle || showOriginalTitle) && (
+                <Typography
+                  center
+                  legend
+                >
+                  {showAcademyTitle && academyTitle}
+                  {showAllTitles && ' | '}
+                  {showOriginalTitle && originalTitle}
+                </Typography>
+              )}
+            </View>
+
+            <Row
+              wrap
+              center
+            >
+              {movie.releaseDate && (
+                <Badge
+                  icon={<IconCalendar />}
+                  title={new Date(movie.releaseDate).toLocaleDateString()}
+                />
+              )}
+
+              {movie.voteAverage && (
+                <Badge
+                  icon={<IconStar />}
+                  title={movie.voteAverage.toFixed(2)}
+                  toggleSpoiler={spoilers.hideRate ? toggleSpoiler : undefined}
+                  spoiler={!watched && hideInfo && localSpoiler.hideRate}
+                />
+              )}
+
+              {movie.originalLanguage && (
+                <Badge
+                  icon={<IconLanguages />}
+                  title={movie.originalLanguage}
+                />
+              )}
+
+              {movie.runtime && (
+                <Badge
+                  icon={<IconRuntime />}
+                  title={runtime(movie.runtime)}
+                />
+              )}
+            </Row>
+          </View>
+
+          <View style={styles.content}>
+            <Section title={t('movie:nominations')}>
+              <Caroussel
+                data={movie.nominations}
+                render={(nomination) => (
+                  <Tag
+                    title={nomination.categoryName}
+                    variant={nomination.winner ? ('brand' as const) : ('container' as const)}
+                    icon={nomination.winner ? <IconOscar filled /> : undefined}
+                    onPress={() => navigation.navigate('category', { categoryId: nomination.categoryId })}
+                  />
+                )}
+              />
+            </Section>
+
+            <Section title={t('movie:friends')}>
+              <Caroussel
+                data={movie.friends}
+                empty={t('movie:friends_empty')}
+                render={(friend) => (
+                  <Chip
+                    title={friend.name}
+                    image={friend.imageURL ?? ''}
+                  />
+                )}
+              />
+            </Section>
+
+            <Section title={t('movie:providers')}>
+              <Caroussel
+                data={movie.providers ?? []}
+                group="type"
+                empty={t('movie:provider_empty')}
+                render={(provider) => (
+                  <Chip
+                    title={provider.provider_name}
+                    image={`https://media.themoviedb.org/t/p/original/${provider.logo_path}`}
+                  />
+                )}
+              />
+            </Section>
+
+            <Section title={t('movie:country')}>
+              <Caroussel
+                data={movie.originCountry}
+                render={(country) => (
+                  <Chip
+                    title={country.name}
+                    image={`https://hatscripts.github.io/circle-flags/flags/${country.code.toLowerCase()}.svg`}
+                  />
+                )}
+              />
+            </Section>
+
+            {movie.plot && (
+              <>
+                <Typography>{t('movie:plot')}</Typography>
+                <Paragraph
+                  text={movie.plot}
+                  toggleSpoiler={spoilers.hidePlot ? toggleSpoiler : undefined}
+                  spoiler={!watched && hideInfo && localSpoiler.hidePlot}
+                />
+              </>
+            )}
+          </View>
+
+          <View style={styles.footer}>
+            <Button
+              layout={LinearTransition}
+              onPress={() => Linking.openURL(`https://www.imdb.com/title/${movie.imdbId}`)}
+              title={t('movie:imdb')}
+              icon={<IconIMDB />}
+            />
+          </View>
+        </ScrollView>
+      </Sheet>
 
       <Dropdown
         visible={calendarModal}
@@ -318,6 +326,7 @@ const Movie: TabType<'movie'> = ({ navigation, route }) => {
           />
         </Row>
       </Dropdown>
+
       <Modal
         setVisible={setUnwatchModal}
         visible={unwatchModal}
