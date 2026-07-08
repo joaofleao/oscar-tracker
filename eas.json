@@ -12,24 +12,40 @@
         "simulator": true
       },
       "env": {
-        "APP_VARIANT": "development"
+        "APP_VARIANT": "development",
+        "APP_NAME": "Academy Dev",
+        "IOS_BUNDLE_IDENTIFIER": "com.joaofleao.oscar-tracker.dev",
+        "ANDROID_PACKAGE": "com.joaofleao.oscar_tracker.dev"
       }
     },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "APP_VARIANT": "development"
+        "APP_VARIANT": "development",
+        "APP_NAME": "Academy Dev",
+        "IOS_BUNDLE_IDENTIFIER": "com.joaofleao.oscar-tracker.dev",
+        "ANDROID_PACKAGE": "com.joaofleao.oscar_tracker.dev"
       }
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "APP_NAME": "Academy Tracker",
+        "IOS_BUNDLE_IDENTIFIER": "com.joaofleao.oscar-tracker",
+        "ANDROID_PACKAGE": "com.joaofleao.oscar_tracker"
       }
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "env": {
+        "APP_NAME": "Academy Tracker",
+        "IOS_BUNDLE_IDENTIFIER": "com.joaofleao.oscar-tracker",
+        "ANDROID_PACKAGE": "com.joaofleao.oscar_tracker"
+      }
     }
   },
   "submit": {

@@ -162,3 +162,54 @@ const semantics = {
 
 export { semantics }
 export type SemanticsType = typeof semantics
+
+const semantics2 = {
+  base: {
+    background: {
+      default: color(primitives.neutral[0], 1),
+      pressed: color(primitives.neutral[10], 1),
+      tint: color(primitives.neutral[0], 0.6),
+      darken: color(primitives.neutral[0], 0.8),
+      gradient: [hslaToRGBa(color(primitives.neutral[0], 1)), hslaToRGBa(color(primitives.neutral[0], 0.6)), hslaToRGBa(color(primitives.neutral[0], 0.2)), hslaToRGBa(color(primitives.neutral[0], 0.0))],
+    },
+    foreground: {
+      default: color(primitives.neutral[95], 1),
+      light: color(primitives.neutral[95], 0.5),
+    },
+    stroke: {
+      default: color(primitives.neutral[15], 1),
+      gradient: [hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.brand[20], 1)), hslaToRGBa(color(primitives.brand[20], 1))],
+    },
+  },
+
+  container: {
+    default: {
+      background: {
+        default: color(primitives.neutral[5], 1),
+        pressed: color(primitives.neutral[15], 1),
+      },
+      foreground: {
+        default: color(primitives.neutral[95], 1),
+        light: color(primitives.neutral[70], 1),
+      },
+      stroke: {
+        solid: color(primitives.neutral[70], 1),
+        gradient: [hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.brand[20], 1)), hslaToRGBa(color(primitives.brand[20], 1))],
+      },
+    },
+    accent: {
+      background: {
+        default: color(primitives.neutral[5], 1),
+        pressed: color(primitives.neutral[15], 1),
+      },
+      foreground: {
+        default: color(primitives.neutral[95], 1),
+        light: color(primitives.neutral[70], 1),
+      },
+      stroke: {
+        solid: color(primitives.neutral[70], 1),
+        gradient: [hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.neutral[15], 1)), hslaToRGBa(color(primitives.brand[20], 1)), hslaToRGBa(color(primitives.brand[20], 1))],
+      },
+    },
+  },
+}
