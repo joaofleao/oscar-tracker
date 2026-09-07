@@ -11,7 +11,7 @@
     "lint": "eslint . --ext .ts,.tsx --max-warnings 0"
   },
   "dependencies": {
-    "@auth/core": "^0.37.0",
+    "@auth/core": "^0.41.3",
     "@convex-dev/auth": "^0.0.88",
     "@react-native-community/datetimepicker": "8.6.0",
     "@react-navigation/bottom-tabs": "^7.8.8",
