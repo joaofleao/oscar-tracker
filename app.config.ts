@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     name: APP_NAME,
     slug: 'oscar-tracker',
     scheme: 'oscar-tracker',
-    version: '5.2',
+    version: '5.3',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
