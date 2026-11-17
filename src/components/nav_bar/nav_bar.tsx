@@ -32,7 +32,7 @@ const NavBar = ({ tabs, navigation, state }: NavBarProps): React.ReactElement =>
     if (latest === undefined) return
     const ver = storage.getString('version')
 
-    if (ver === undefined) {
+    if (ver === undefined || ver !== packageJson.version) {
       storage.set('version', packageJson.version)
       return
     }
