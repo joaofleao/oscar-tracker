@@ -1,25 +1,29 @@
 import { ConfigContext, ExpoConfig } from 'expo/config'
 
-const IS_DEV = process.env.APP_VARIANT === 'development'
-const ENABLE_IOS_SHARE_EXTENSION = process.env.IOS_SHARE_EXTENSION === 'true'
+const APP_NAME = process.env.APP_NAME || 'Academy Tracker'
+const IOS_BUNDLE_IDENTIFIER = process.env.IOS_BUNDLE_IDENTIFIER || 'com.joaofleao.oscar-tracker'
+const ANDROID_PACKAGE = process.env.ANDROID_PACKAGE || 'com.joaofleao.oscar_tracker'
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
-    name: IS_DEV ? 'Academy Dev' : process.env.APP_NAME || 'Academy Tracker',
-    slug: process.env.APP_SLUG || 'oscar-tracker',
-    scheme: process.env.APP_SLUG || 'oscar-tracker',
+    name: APP_NAME,
+    slug: 'oscar-tracker',
+    scheme: 'oscar-tracker',
     version: '5.2',
     orientation: 'portrait',
     icon: './src/assets/app/icon.png',
     plugins: [
-      ['expo-sharing'],
+      'expo-sharing',
       '@react-native-community/datetimepicker',
       'expo-font',
-      'expo-apple-authentication',
-      'expo-web-browser',
       'expo-secure-store',
-      ['expo-image-picker', { photosPermission: 'The app accesses your photos to let you share them with your friends.' }],
+      [
+        'expo-image-picker',
+        {
+          photosPermission: 'The app accesses your photos to let you share them with your friends.',
+        },
+      ],
       [
         'expo-splash-screen',
         {
@@ -37,7 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       usesAppleSignIn: true,
       supportsTablet: true,
-      bundleIdentifier: IS_DEV ? 'com.joaofleao.oscar-tracker.dev' : 'com.joaofleao.oscar-tracker',
+      bundleIdentifier: IOS_BUNDLE_IDENTIFIER,
 
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
@@ -57,7 +61,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: './src/assets/app/adaptive-icon.png',
         backgroundColor: '#0D0D0D',
       },
-      package: IS_DEV ? 'com.joaofleao.oscar_tracker.dev' : 'com.joaofleao.oscar_tracker',
+      package: ANDROID_PACKAGE,
     },
     web: {
       favicon: './src/assets/app/favicon.png',

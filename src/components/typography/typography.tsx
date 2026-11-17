@@ -1,3 +1,4 @@
+import React from 'react'
 import { TextStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 
